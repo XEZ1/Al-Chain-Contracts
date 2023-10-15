@@ -1,58 +1,28 @@
 import React from 'react';
 import { ImageBackground, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-const LoginScreen = () => {
-    return (
-        <ImageBackground
-            source={require('../../assets/Login.png')}
-            style={styles.backgroundImage}
-            resizeMode="cover"
-        >
-            <View style={styles.container}>
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.button}>
-                        <Text style={styles.buttonText}>Login</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button}>
-                        <Text style={styles.buttonText}>Sign Up</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button}>
-                        <Text style={styles.buttonText}>About Us</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        </ImageBackground>
-    );
-}
+const loginHandler = async () => {
+    const [user, setUser] = useContext(userContext);
 
-const styles = StyleSheet.create({
-    backgroundImage: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    buttonContainer: {
-        width: 250, // Increase the width for better button spacing
-    },
-    button: {
-        height: 44,
-        width: '100%', // Use 100% width to make buttons fill the container
-        backgroundColor: 'rgba(1, 193, 219, 0.8)', // Semi-transparent background color
-        marginBottom: 16,
-        borderRadius: 10, // Rounded corners
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    buttonText: {
-        color: 'rgb(57, 63, 67)',
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-});
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
 
-export default LoginScreen;
+    const [errors, setErrors] = useState({});
+
+    var response = await login(username, password, user, setUser);
+    if (response.status == "Error") {
+        Alert.alert("Error", response.body["message"]);
+    } else if (response.status == 400 && response.body) {
+        setErrors(response.body);
+
+        if (response.body["non_field_errors"]) {
+            Alert.alert("Error", "Login Error");
+        }
+    } else {
+        console.log("Login Successful")
+        await sendLogInNotification();
+    }
+
+    
+};
+
