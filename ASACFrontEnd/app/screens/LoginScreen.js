@@ -1,28 +1,12 @@
 import React from 'react';
-import { ImageBackground, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 
-const loginHandler = async () => {
-    const [user, setUser] = useContext(userContext);
+const LoginScreen = () => {
+    return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text>Login Screen</Text>
+        </View>
+    );
+}
 
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
-
-    const [errors, setErrors] = useState({});
-
-    var response = await login(username, password, user, setUser);
-    if (response.status == "Error") {
-        Alert.alert("Error", response.body["message"]);
-    } else if (response.status == 400 && response.body) {
-        setErrors(response.body);
-
-        if (response.body["non_field_errors"]) {
-            Alert.alert("Error", "Login Error");
-        }
-    } else {
-        console.log("Login Successful")
-        await sendLogInNotification();
-    }
-
-    
-};
-
+export default LoginScreen;
