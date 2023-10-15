@@ -7,12 +7,16 @@ from rest_framework import generics, permissions
 
 # Create your views here.
 # Token validation for the user logged in.
+# @api_view(['GET'])
+# def validate_token(request):
+#     user = User.objects.get(username=request.user.username)
+#     if user:
+#         return Response({'token_valid': True})
+#     return Response({'token_valid': False})
+
 @api_view(['GET'])
 def validate_token(request):
-    user = User.objects.get(username=request.user.username)
-    if user:
-        return Response({'token_valid': True})
-    return Response({'token_valid': False})
+    return Response({'token_valid': True})
 
 
 class SignUp(generics.CreateAPIView):
