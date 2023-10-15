@@ -1,7 +1,7 @@
 import React from 'react';
 import { ImageBackground, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-const PreLoginScreen = () => {
+const PreLoginScreen = ({ navigation }) => {
     return (
         <ImageBackground
             source={require('../../assets/PreLoginScreenBackground.png')}
@@ -10,7 +10,7 @@ const PreLoginScreen = () => {
         >
             <View style={styles.container}>
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity style={styles.button} onPress={ () => navigation.navigate('Login')}>
                         <Text style={styles.buttonText}>Login</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button}>

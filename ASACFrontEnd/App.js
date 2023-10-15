@@ -2,6 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import PreLoginScreen from './app/screens/PreLoginScreen';
+import LoginScreen from './app/screens/LoginScreen';
 
 const Stack = createStackNavigator();
 
@@ -9,9 +10,15 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="PreLogin">
-        <Stack.Screen name="PreLogin" component={PreLoginScreen} options={{
-            headerShown: false, // Hide the header bar
-          }}/>
+        <Stack.Screen
+          name="PreLoginScreen"
+          component={PreLoginScreen}
+          options={{ headerShown: false }} />
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
         {/* Add more screens/routes as needed */}
       </Stack.Navigator>
     </NavigationContainer>
