@@ -1,28 +1,25 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import SharedStyles from '../styles/SharedStyles';
+import { BACKEND_URL } from '@env';
+import { api_url, login } from "../../authentication";
 
 const SignUpScreen = ({ navigation }) => {
-  const [username, setUsername] = useState();
-  const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [passwordConfirmation, setPasswordConfirmation] = useState();
+  const [username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+
+  const [errors, setErrors] = useState({});
 
   const handleSignUp = async () => {
-    // Your logic to handle sign up using your backend goes here.
-    // For demonstration purposes, you can use the following lines.
-    if (password !== passwordConfirmation) {
-      Alert.alert('Error', 'Passwords do not match');
-      return;
-    }
-
     try {
-      const response = await fetch(`${BACKEND_URL}/sign_up/`, {
+      const res = await fetch(`${BACKEND_URL}/sign_up/`, {
         method: 'POST',
         headers: {
-          Accept: "application/json",
+          'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -30,26 +27,31 @@ const SignUpScreen = ({ navigation }) => {
           last_name: lastName,
           username: username,
           email: email,
-          new_password: password,
+          password: password,
           password_confirmation: passwordConfirmation,
         }),
       });
 
-      const data = await response.json();
+      const data = await res.json();
 
-      if (response.ok) {
-        // Successfully signed up
-        // Navigate or do something
-      } else {
-        Alert.alert('Sign Up Failed', data.message || 'An error occurred');
+      if (res.status === 400) {
+        setErrors(data);
+        Alert.alert('Error', 'Please fix the errors');
+      } else if (res.status === 201) {
+        Alert.alert('Success', 'Account created successfully');
+        // Your additional logic here
       }
     } catch (error) {
-      Alert.alert('Sign Up Failed', 'An error occurred');
+      console.error('Error:', error);
     }
   };
 
   return (
     <View style={SharedStyles.container}>
+      {errors && Object.keys(errors).map((key, index) => (
+        <Text key={index} style={{color: 'red'}}>{`${key}: ${errors[key]}`}</Text>
+      ))}
+      
       <TextInput
         placeholder="Username"
         style={SharedStyles.input}

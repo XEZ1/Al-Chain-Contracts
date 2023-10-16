@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { ImageBackground, View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import SharedStyles from '../styles/SharedStyles';
+import { BACKEND_URL } from '@env' 
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
-    // Your logic to handle login using your backend goes here.
-    // For demonstration purposes, you can use the following lines.
+    console.log('handleLogin called'); // Debugging line to confirm the function is called
+  
     try {
-      const response = await fetch(`${BACKEND_URL}/login`, {
+      console.log('Trying to fetch:', `${BACKEND_URL}/login/`); // Output the URL you're trying to hit
+  
+      const response = await fetch(`${BACKEND_URL}/login/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -20,20 +23,23 @@ const LoginScreen = ({ navigation }) => {
           password,
         }),
       });
-
+  
+      console.log('Fetch called'); // This will log if fetch is called
       const data = await response.json();
-
+      console.log('Response:', data); // Output the received data
+  
       if (response.ok) {
         // Successfully logged in
-        // Navigate or do something
       } else {
         Alert.alert('Login Failed', data.message || 'An error occurred');
       }
     } catch (error) {
+      console.log('Error:', error); // This will output any caught errors
       Alert.alert('Login Failed', 'An error occurred');
     }
   };
-
+  
+  
   return (
     <ImageBackground
       //source={require('../../assets/PreLoginScreenBackground.png')}
