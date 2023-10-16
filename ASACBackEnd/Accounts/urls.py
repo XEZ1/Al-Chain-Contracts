@@ -1,9 +1,8 @@
 from django.urls import path
-from .views import SignUp, validate_token
-from rest_framework.authtoken.views import obtain_auth_token
+from .views import ValidateTokenView, SignUpView, LoginView
 
 urlpatterns = [
-    path('sign_up/', SignUp.as_view(), name='sign_up'),
-    path('login/', obtain_auth_token, name='login'),
-    path('validate_token', validate_token, name='validate_token'),
+    path('validate_token/', ValidateTokenView.as_view(), name='validate_token'),
+    path('sign_up/', SignUpView.as_view(), name='sign_up'),
+    path('login/', LoginView.as_view(), name='login'),
 ]
