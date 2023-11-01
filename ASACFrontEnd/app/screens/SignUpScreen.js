@@ -16,7 +16,7 @@ const SignUpScreen = ({ navigation }) => {
 
   const handleSignUp = async () => {
     try {
-      const res = await fetch(`${BACKEND_URL}/sign_up/`, {
+      const response = await fetch(`${BACKEND_URL}/sign_up/`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -32,14 +32,14 @@ const SignUpScreen = ({ navigation }) => {
         }),
       });
 
-      const data = await res.json();
+      const data = await response.json();
 
-      if (res.status === 400) {
+      if (response.status === 400) {
         setErrors(data);
         Alert.alert('Error', 'Please fix the errors');
-      } else if (res.status === 201) {
+      } else if (response.status === 201) {
         Alert.alert('Success', 'Account created successfully');
-        // Your additional logic here
+        navigation.navigate('Login');
       }
     } catch (error) {
       console.error('Error:', error);
