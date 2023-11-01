@@ -2,17 +2,15 @@ import React, { useState } from 'react';
 import { ImageBackground, View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import SharedStyles from '../styles/SharedStyles';
 import { BACKEND_URL } from '@env' 
+import * as SecureStore from 'expo-secure-store';
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
-    console.log('handleLogin called'); // Debugging line to confirm the function is called
   
-    try {
-      console.log('Trying to fetch:', `${BACKEND_URL}/login/`); // Output the URL you're trying to hit
-  
+    try {  
       const response = await fetch(`${BACKEND_URL}/login/`, {
         method: 'POST',
         headers: {
@@ -24,14 +22,16 @@ const LoginScreen = ({ navigation }) => {
         }),
       });
   
-      console.log('Fetch called'); // This will log if fetch is called
+      console.log('Fetch called'); // log the fetch hook
       const data = await response.json();
       console.log('Response:', data); // Output the received data
   
       if (response.ok) {
-        // Successfully logged in
+        const token = data.token;
+        await SecureStore.setItemAsync('authToken', token);
+        navigation.navigate('Main');
       } else {
-        Alert.alert('Login Failed', data.message || 'An error occurred');
+        Alert.alert('Login Failed', data.error || 'An error occurred');
       }
     } catch (error) {
       console.log('Error:', error); // This will output any caught errors
