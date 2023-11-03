@@ -1,24 +1,19 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, Switch, Button, StyleSheet } from 'react-native';
+import { View, Text, Switch, Button } from 'react-native';
 import { AuthContext } from '../../components/Authentication';
-import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
+import getStyles from '../../styles/SharedStyles';
 
 const SettingsScreen = ({ navigation }) => {
-  const { theme } = useContext(ThemeContext);
-  const styles = getStyles(theme);
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  const styles = getStyles(theme);  // Assuming your theme context provides a styles object
 
-  // This state would actually come from some global state/context or persistent storage
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-  
   const { logout } = useContext(AuthContext);
 
-  const toggleDarkMode = () => {
-    // Save preference to state or persistent storage
-    setIsDarkMode(previousState => !previousState);
-    // TODO: Implement the function to save this preference
-    // savePreference('darkMode', !isDarkMode);
+  // Handle theme change
+  const handleToggleTheme = () => {
+    toggleTheme(); // Assuming toggleTheme switches between light and dark
   };
 
   const toggleNotifications = () => {
@@ -28,23 +23,21 @@ const SettingsScreen = ({ navigation }) => {
   };
 
   const handleLogout = async () => {
-    // Perform the logout
     await logout();
-    // Navigate to login or any other screen if needed
-    // navigation.replace('Login');
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Settings</Text>
-      
+
       <View style={styles.settingItem}>
         <Text style={styles.settingText}>Dark Mode</Text>
         <Switch
           trackColor={{ false: "#767577", true: "#81b0ff" }}
-          thumbColor={isDarkMode ? "#f5dd4b" : "#f4f3f4"}
-          onValueChange={toggleDarkMode}
-          value={isDarkMode}
+          thumbColor={theme.isDark ? "#f5dd4b" : "#f4f3f4"}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={handleToggleTheme}
+          value={theme.isDark}
         />
       </View>
 
@@ -53,6 +46,7 @@ const SettingsScreen = ({ navigation }) => {
         <Switch
           trackColor={{ false: "#767577", true: "#81b0ff" }}
           thumbColor={notificationsEnabled ? "#f5dd4b" : "#f4f3f4"}
+          ios_backgroundColor="#3e3e3e"
           onValueChange={toggleNotifications}
           value={notificationsEnabled}
         />
@@ -66,29 +60,5 @@ const SettingsScreen = ({ navigation }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  settingItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    marginBottom: 10,
-  },
-  settingText: {
-    fontSize: 18,
-  }
-});
 
 export default SettingsScreen;
