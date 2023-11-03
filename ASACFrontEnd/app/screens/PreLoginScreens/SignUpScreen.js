@@ -1,12 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
-import * as SecureStore from 'expo-secure-store';
-import { AuthContext } from '../../components/authentication';
-import SharedStyles from '../../styles/SharedStyles';
+import { AuthContext } from '../../components/Authentication';
+import getStyles from '../../styles/SharedStyles'; 
+import { ThemeContext } from '../../components/Theme';
 import { BACKEND_URL } from '@env';
 
 const SignUpScreen = ({ navigation }) => {
-    const { setIsLoggedIn, handleLogin } = useContext(AuthContext);
+    const { handleLogin } = useContext(AuthContext);
+    const { theme } = useContext(ThemeContext);
+    const styles = getStyles(theme);
 
     const [username, setUsername] = useState('');
     const [firstName, setFirstName] = useState('');
@@ -50,45 +52,45 @@ const SignUpScreen = ({ navigation }) => {
     };
 
     return (
-        <View style={SharedStyles.container}>
+        <View style={styles.container}>
             {errors && Object.keys(errors).map((key, index) => (
                 <Text key={index} style={{ color: 'red' }}>{`${key}: ${errors[key]}`}</Text>
             ))}
 
             <TextInput
                 placeholder="Username"
-                style={SharedStyles.input}
+                style={styles.input}
                 onChangeText={setUsername}
             />
             <TextInput
                 placeholder="First Name"
-                style={SharedStyles.input}
+                style={styles.input}
                 onChangeText={setFirstName}
             />
             <TextInput
                 placeholder="Last Name"
-                style={SharedStyles.input}
+                style={styles.input}
                 onChangeText={setLastName}
             />
             <TextInput
                 placeholder="Email"
-                style={SharedStyles.input}
+                style={styles.input}
                 onChangeText={setEmail}
             />
             <TextInput
                 placeholder="Password"
                 secureTextEntry
-                style={SharedStyles.input}
+                style={styles.input}
                 onChangeText={setPassword}
             />
             <TextInput
                 placeholder="Confirm Password"
                 secureTextEntry
-                style={SharedStyles.input}
+                style={styles.input}
                 onChangeText={setPasswordConfirmation}
             />
-            <TouchableOpacity style={SharedStyles.button} onPress={handleSignUp}>
-                <Text style={SharedStyles.buttonText}>Sign Up</Text>
+            <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+                <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
         </View>
     );

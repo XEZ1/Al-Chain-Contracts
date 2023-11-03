@@ -1,12 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { ImageBackground, View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
-import SharedStyles from '../../styles/SharedStyles';
-import { AuthContext } from '../../components/authentication';
+import { AuthContext } from '../../components/Authentication';
+import getStyles from '../../styles/SharedStyles';
+import { ThemeContext } from '../../components/Theme';
 
 
 const LoginScreen = ({ navigation }) => {
-    //const { setIsLoggedIn } = useContext(AuthContext);
     const { handleLogin } = useContext(AuthContext);
+    const { theme } = useContext(ThemeContext);
+    const styles = getStyles(theme);
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -14,23 +16,23 @@ const LoginScreen = ({ navigation }) => {
     return (
         <ImageBackground
             //source={require('../../assets/PreLoginScreenBackground.png')}
-            style={SharedStyles.backgroundImage}
+            style={styles.backgroundImage}
             resizeMode="cover"
         >
-            <View style={SharedStyles.container}>
+            <View style={styles.container}>
                 <TextInput
                     placeholder="Username"
-                    style={SharedStyles.input}
+                    style={styles.input}
                     onChangeText={setUsername}
                 />
                 <TextInput
                     placeholder="Password"
                     secureTextEntry
-                    style={SharedStyles.input}
+                    style={styles.input}
                     onChangeText={setPassword}
                 />
-                <TouchableOpacity style={SharedStyles.button} onPress={() => handleLogin(username, password)}>
-                    <Text style={SharedStyles.buttonText}>Login</Text>
+                <TouchableOpacity style={styles.button} onPress={() => handleLogin(username, password)}>
+                    <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
             </View>
         </ImageBackground>

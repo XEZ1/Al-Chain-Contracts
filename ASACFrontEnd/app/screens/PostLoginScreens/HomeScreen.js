@@ -1,19 +1,23 @@
 import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
-import SharedStyles from '../../styles/SharedStyles';
-import { AuthContext, logout } from '../../components/authentication';
+import { AuthContext, logout } from '../../components/Authentication';
+import getStyles from '../../styles/SharedStyles';
+import { ThemeContext } from '../../components/Theme';
 
 const HomeScreen = ({ navigation }) => {
     const { setIsLoggedIn } = useContext(AuthContext);
 
+    const { theme } = useContext(ThemeContext);
+    const styles = getStyles(theme);
+
     return (
-        <View style={SharedStyles.container}>
-            <Text style={SharedStyles.title}>Welcome to the Main Screen!</Text>
+        <View style={styles.container}>
+            <Text style={styles.title}>Welcome to the Main Screen!</Text>
             <TouchableOpacity
-                style={SharedStyles.button}
+                style={styles.button}
                 onPress={() => { logout(); setIsLoggedIn(false) }}
             >
-                <Text style={SharedStyles.buttonText}>Log Out</Text>
+                <Text style={styles.buttonText}>Log Out</Text>
             </TouchableOpacity>
         </View>
     );
@@ -21,19 +25,19 @@ const HomeScreen = ({ navigation }) => {
 
 // Other screens can be defined here
 const ScreenTwo = () => (
-    <View style={SharedStyles.container}>
+    <View style={styles.container}>
         <Text>Screen Two</Text>
     </View>
 );
 
 const ScreenThree = () => (
-    <View style={SharedStyles.container}>
+    <View style={styles.container}>
         <Text>Screen Three</Text>
     </View>
 );
 
 const ScreenFour = () => (
-    <View style={SharedStyles.container}>
+    <View style={styles.container}>
         <Text>Screen Four</Text>
     </View>
 );
