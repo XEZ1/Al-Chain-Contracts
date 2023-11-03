@@ -1,8 +1,13 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, Switch, Button, StyleSheet } from 'react-native';
-import { AuthContext } from '../../components/authentication';
+import { AuthContext } from '../../components/Authentication';
+import getStyles from '../../styles/SharedStyles';
+import { ThemeContext } from '../../components/Theme';
 
 const SettingsScreen = ({ navigation }) => {
+  const { theme } = useContext(ThemeContext);
+  const styles = getStyles(theme);
+
   // This state would actually come from some global state/context or persistent storage
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);

@@ -1,24 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
-import SharedStyles from '../../styles/SharedStyles';
+import getStyles from '../../styles/SharedStyles';
+import { ThemeContext } from '../../components/Theme';
 
 const PreLoginScreen = ({ navigation }) => {
+    const { theme } = useContext(ThemeContext);
+    const styles = getStyles(theme);
+
     return (
         <ImageBackground
             source={require('../../../assets/PreLoginScreenBackground.png')}
-            style={SharedStyles.backgroundImage}
+            style={styles.backgroundImage}
             resizeMode="cover"
         >
-            <View style={SharedStyles.container}>
-                <View style={SharedStyles.buttonContainer}>
-                    <TouchableOpacity style={SharedStyles.button} onPress={() => navigation.navigate('Login')}>
-                        <Text style={SharedStyles.buttonText}>Login</Text>
+            <View style={styles.container}>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
+                        <Text style={styles.buttonText}>Login</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={SharedStyles.button} onPress={() => navigation.navigate('SignUp')}>
-                        <Text style={SharedStyles.buttonText}>Sign Up</Text>
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SignUp')}>
+                        <Text style={styles.buttonText}>Sign Up</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={SharedStyles.button}>
-                        <Text style={SharedStyles.buttonText}>About Us</Text>
+                    <TouchableOpacity style={styles.button}>
+                        <Text style={styles.buttonText}>About Us</Text>
                     </TouchableOpacity>
                 </View>
             </View>
