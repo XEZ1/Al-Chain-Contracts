@@ -21,8 +21,10 @@ export const ThemeProvider = ({ children }) => {
         await SecureStore.setItemAsync('theme', newTheme);
     };
 
+    const isDarkMode = theme === 'dark';
+
     return (
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+        <ThemeContext.Provider value={{ theme, toggleTheme, isDarkMode }}>
             {children}
         </ThemeContext.Provider>
     );
