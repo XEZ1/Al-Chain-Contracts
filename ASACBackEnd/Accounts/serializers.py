@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, PushToken, Notification
 from django.core.validators import RegexValidator
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
@@ -12,12 +12,11 @@ class SignUpSerialiser(serializers.ModelSerializer):
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password', 'password_confirmation']
 
-
     email = serializers.EmailField(
         required=True,
         validators=[UniqueValidator(
             queryset=User.objects.all()
-            )
+        )
         ]
     )
 
@@ -71,3 +70,25 @@ class UserSerialiser(serializers.ModelSerializer):
         fields = ['username', 'first_name', 'last_name', 'email']
 
 
+class PushTokenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PushToken
+        fields = ('token', 'created_at')
+        read_only_fields = ('created_at',)  # 'created_at' should not be editable
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        token, created = PushToken.objects.update_or_create(user=user, defaults=validated_data)
+        return token
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = ('recipient', 'message', 'timestamp', 'status')
+        read_only_fields = ('timestamp', 'status')
+
+    def to_representation(self, instance):
+        """The way that recipient field is displayed."""
+        self.fields['recipient'] = UserSerialiser(read_only=True)
+        return super(NotificationSerializer, self).to_representation(instance)
