@@ -1,6 +1,6 @@
 // notifications.js
 import * as Notifications from 'expo-notifications';
-import { useEffect, useContext, useState, useCallback } from 'react';
+import { useEffect, useContext } from 'react';
 import * as Device from 'expo-device';
 import { BACKEND_URL } from '@env';
 import * as SecureStore from 'expo-secure-store';
@@ -15,8 +15,7 @@ Notifications.setNotificationHandler({
     }),
 });
 
-export async function registerForPushNotificationsAsync(isLoggedIn) {
-    let token;
+async function getPushToken() {
     const { status: existingStatus } = await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
 
@@ -26,17 +25,43 @@ export async function registerForPushNotificationsAsync(isLoggedIn) {
     }
 
     if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!');
-        return;
+        alert('Failed to get push token for notifications!');
+        return null;
     }
 
-    token = (await Notifications.getExpoPushTokenAsync()).data;
+    return (await Notifications.getExpoPushTokenAsync()).data;
+}
 
-    if (Platform.OS === 'android') {
+async function saveOrDeleteToken(method, token = null) {
+    const authToken = await SecureStore.getItemAsync('authToken');
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${authToken}`,
+    };
+
+    const body = method === 'POST' ? JSON.stringify({ token }) : undefined;
+
+    const response = await fetch(`${BACKEND_URL}/push_token/`, {
+        method,
+        headers,
+        body,
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`Error during push token ${method === 'POST' ? 'submission' : 'deletion'}:`, errorText);
+    }
+}
+
+export async function registerForPushNotifications() {
+    const token = await getPushToken();
+    if (!token) return;
+
+    if (Device.OS === 'android') {
         Notifications.setNotificationChannelAsync('default', {
             name: 'default',
             importance: Notifications.AndroidImportance.MAX,
-            vibrationPattern: [0, 250, 250, 250]
+            vibrationPattern: [0, 250, 250, 250],
         });
     }
 
@@ -44,47 +69,14 @@ export async function registerForPushNotificationsAsync(isLoggedIn) {
 }
 
 export async function savePushToken(token, isLoggedIn) {
-    console.log('reached')
-    if (!isLoggedIn) {
-        return;
-    }
-
-    const response = await fetch(`${BACKEND_URL}/push_token/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Token ${await SecureStore.getItemAsync('authToken')}`,
-        },
-        body: JSON.stringify({ token }),
-    });
-
-    if (!response.ok) {
-        // Handle errors here
-        const errorText = await response.text();
-        console.error('Error submitting push token to backend:', errorText);
+    if (isLoggedIn) {
+        await saveOrDeleteToken('POST', token);
     }
 }
 
 export async function deletePushToken(isLoggedIn) {
-    if (!isLoggedIn) {
-        return;
-    }
-
-    const authToken = await SecureStore.getItemAsync('authToken');
-    const response = await fetch(`${BACKEND_URL}/push_token/`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Token ${authToken}`,
-        },
-    });
-
-    if (!response.ok) {
-        // Handle errors here
-        const errorText = await response.text();
-        console.error('Error deleting push token from backend:', errorText);
-    } else {
-        console.log('Push token deleted successfully.');
+    if (isLoggedIn) {
+        await saveOrDeleteToken('DELETE');
     }
 }
 
@@ -131,53 +123,36 @@ export function handleIncomingNotification() {
     });
 }
 
+export async function getNotificationStatus() {
+    const { status } = await Notifications.getPermissionsAsync();
+    return status === 'granted';
+}
+
+
 export function useNotification() {
     const { isLoggedIn } = useContext(AuthContext);
 
     useEffect(() => {
+        if (!Device.isDevice) {
+            console.warn("Must use physical device for Push Notifications");
+            return;
+        }
+
         async function setupNotifications() {
-            if (!Device.isDevice) {
-                console.warn("Must use physical device for Push Notifications");
-                return;
+            const token = await registerForPushNotifications();
+            if (token) {
+                console.log('Notification Token:', token);
+                await savePushToken(token, isLoggedIn);
             }
 
-            let statusObj;
-
-            // Only iOS needs to ask for permission explicitly.
-            if (Device.osName === 'iOS') {
-                statusObj = await Notifications.requestPermissionsAsync({
-                    ios: {
-                        allowAlert: true,
-                        allowBadge: true,
-                        allowSound: true,
-                    },
-                });
-            } else {
-                statusObj = await Notifications.getPermissionsAsync(); // For Android, we check the current permissions status without prompting the user.
-            }
-
-            if (statusObj.status !== 'granted') {
-                console.warn("Failed to get push token for push notification!");
-                return;
-            }
-
-            const token = (await Notifications.getExpoPushTokenAsync()).data;
-            console.log('Notification Token:', token);
-
-            // Save the token to the backend
-            await savePushToken(token, isLoggedIn);
-
-            // Listen for incoming notifications
             const notificationSubscription = Notifications.addNotificationReceivedListener(notification => {
                 console.log('Notification Received:', notification);
             });
 
-            // Listen for responses to notifications
             const responseSubscription = Notifications.addNotificationResponseReceivedListener(response => {
                 console.log('Notification Clicked:', response);
             });
 
-            // Clear subscriptions on unmount
             return () => {
                 Notifications.removeNotificationSubscription(notificationSubscription);
                 Notifications.removeNotificationSubscription(responseSubscription);
@@ -185,5 +160,5 @@ export function useNotification() {
         }
 
         setupNotifications();
-    }, []);
+    }, [isLoggedIn]);
 }
