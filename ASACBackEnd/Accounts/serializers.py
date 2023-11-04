@@ -70,7 +70,7 @@ class UserSerialiser(serializers.ModelSerializer):
         fields = ['username', 'first_name', 'last_name', 'email']
 
 
-class PushTokenSerializer(serializers.ModelSerializer):
+class PushTokenSerialiser(serializers.ModelSerializer):
     class Meta:
         model = PushToken
         fields = ('token', 'created_at')
@@ -82,7 +82,7 @@ class PushTokenSerializer(serializers.ModelSerializer):
         return token
 
 
-class NotificationSerializer(serializers.ModelSerializer):
+class NotificationSerialiser(serializers.ModelSerializer):
     class Meta:
         model = Notification
         fields = ('recipient', 'message', 'timestamp', 'status')
@@ -91,4 +91,4 @@ class NotificationSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         """The way that recipient field is displayed."""
         self.fields['recipient'] = UserSerialiser(read_only=True)
-        return super(NotificationSerializer, self).to_representation(instance)
+        return super(NotificationSerialiser, self).to_representation(instance)

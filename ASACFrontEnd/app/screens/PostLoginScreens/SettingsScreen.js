@@ -3,14 +3,15 @@ import { View, Text, Switch, TouchableOpacity } from 'react-native';
 import { AuthContext, logout } from '../../components/Authentication';
 import { ThemeContext } from '../../components/Theme';
 import getStyles from '../../styles/SharedStyles';
-import { registerForPushNotificationsAsync, unregisterForPushNotificationsAsync } from '../../components/Notifications';
+import { deletePushToken, savePushToken } from '../../components/Notifications';
+import * as Notifications from 'expo-notifications';
 
 const SettingsScreen = ({ navigation }) => {
+    const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
     const styles = getStyles(theme);  // Assuming your theme context provides a styles object
 
     const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-    const { setIsLoggedIn } = useContext(AuthContext);
 
     // Handle theme change
     const handleToggleTheme = () => {
@@ -18,14 +19,14 @@ const SettingsScreen = ({ navigation }) => {
     };
 
     const toggleNotifications = async () => {
-        setNotificationsEnabled(previousState => !previousState);
         if (!notificationsEnabled) {
             // If notifications are currently off, register for notifications
-            await registerForPushNotificationsAsync();
+            await savePushToken((await Notifications.getExpoPushTokenAsync()).data, isLoggedIn);
         } else {
             // If notifications are currently on, unregister notifications
-            await unregisterForPushNotificationsAsync();
+            await deletePushToken(isLoggedIn);
         }
+        setNotificationsEnabled(!notificationsEnabled);
     };
 
     const handleLogout = async () => {

@@ -2,11 +2,11 @@ from rest_framework import generics, status, views
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
-from .serializers import SignUpSerialiser, UserSerialiser
-from Accounts.models import User
+from .serializers import SignUpSerialiser, UserSerialiser, PushTokenSerialiser, NotificationSerialiser
+from Accounts.models import User, PushToken, Notification
 
 
 
@@ -48,12 +48,48 @@ class SignUpView(generics.CreateAPIView):
     queryset = User.objects.all()
 
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def register_push_token(request):
-    token = request.data.get('token')
-    if token:
-        PushToken.objects.update_or_create(user=request.user, defaults={'token': token})
-        return Response({'message': 'Token registered successfully'}, status=status.HTTP_200_OK)
-    return Response({'error': 'No token provided'}, status=status.HTTP_400_BAD_REQUEST)
+class PushTokenView(views.APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serialiser = PushTokenSerialiser(data=request.data, context={'request': request})
+        if serialiser.is_valid():
+            serialiser.save()
+            return Response(serialiser.data, status=status.HTTP_201_CREATED)
+        return Response(serialiser.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request):
+        try:
+            push_token = PushToken.objects.get(user=request.user)
+            push_token.delete()
+            return Response({"message": "Push token deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        except PushToken.DoesNotExist:
+            return Response({"error": "Push token not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    def get(self, request):
+        push_token = PushToken.objects.filter(user=request.user).first()
+        if push_token:
+            serialiser = PushTokenSerialiser(push_token)
+            return Response(serialiser.data)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+class NotificationView(views.APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        notifications = Notification.objects.filter(recipient=request.user)
+        serialiser = NotificationSerialiser(notifications, many=True)
+        return Response(serialiser.data)
+
+    def post(self, request):
+        data = request.data.copy()
+        data['recipient'] = request.user.id  # Assuming the notification is for the user making the request
+        serialiser = NotificationSerialiser(data=data)
+        if serialiser.is_valid():
+            serialiser.save()
+            return Response(serialiser.data, status=status.HTTP_201_CREATED)
+        return Response(serialiser.errors, status=status.HTTP_400_BAD_REQUEST)
 
