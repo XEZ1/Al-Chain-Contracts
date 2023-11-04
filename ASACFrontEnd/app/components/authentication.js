@@ -3,9 +3,7 @@ import { BACKEND_URL } from '@env';
 import React, { useState, useEffect, createContext } from 'react';
 
 
-export const api_url = BACKEND_URL
 export const AuthContext = createContext();
-
 
 export const validateToken = async () => {
     try {

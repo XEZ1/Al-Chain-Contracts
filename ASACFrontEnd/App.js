@@ -6,12 +6,17 @@ import { ThemeProvider } from './app/components/Theme';
 import { useNotification } from './app/components/Notifications';
 
 
-const App = () => {
+const NotificationWrapper = () => {
     useNotification();
+    return null; // Render nothing, or some notification UI if you have
+};
+
+const App = () => {
     return (
         <AuthProvider>
             <ThemeProvider>
                 <NavigationContainer>
+                    <NotificationWrapper />
                     <AppNavigator />
                 </NavigationContainer>
             </ThemeProvider>
