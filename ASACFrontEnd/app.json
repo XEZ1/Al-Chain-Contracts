@@ -1,30 +1,41 @@
 {
-    "expo": {
-        "name": "ASACFrontEnd",
-        "slug": "ASACFrontEnd",
-        "version": "1.0.0",
-        "orientation": "portrait",
-        "icon": "./assets/Logo.png",
-        "userInterfaceStyle": "light",
-        "splash": {
-            "image": "./assets/Logo.png",
-            "resizeMode": "contain",
-            "backgroundColor": "#ffffff"
-        },
-        "assetBundlePatterns": [
-            "**/*"
-        ],
-        "ios": {
-            "supportsTablet": true
-        },
-        "android": {
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/Logo.png",
-                "backgroundColor": "#ffffff"
-            }
-        },
-        "web": {
-            "favicon": "./assets/Logo.png"
-        }
+  "expo": {
+    "name": "ASACFrontEnd",
+    "slug": "ASACFrontEnd",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/Logo.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/Logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/Logo.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/Logo.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "032f6af8-bb36-47b5-80a0-f6f070705b75"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/032f6af8-bb36-47b5-80a0-f6f070705b75"
     }
+  }
 }

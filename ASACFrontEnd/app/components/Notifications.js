@@ -1,6 +1,5 @@
 // notifications.js
 import * as Notifications from 'expo-notifications';
-import * as Permissions from 'expo-permissions';
 import { useEffect } from 'react';
 import * as Device from 'expo-device';
 
@@ -14,11 +13,11 @@ Notifications.setNotificationHandler({
 
 export async function registerForPushNotificationsAsync() {
     let token;
-    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
 
     if (existingStatus !== 'granted') {
-        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+        const { status } = await Notifications.requestPermissionsAsync();
         finalStatus = status;
     }
 
@@ -39,6 +38,11 @@ export async function registerForPushNotificationsAsync() {
 
     return token;
 }
+
+export async function unregisterForPushNotificationsAsync() {
+    await Notifications.setExpoPushTokenAsync(''); // Invalidate the token
+}
+
 
 export async function sendPushNotification(expoPushToken, title, body) {
     const message = {
@@ -91,23 +95,28 @@ export function useNotification() {
                 return;
             }
 
-            const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-            let finalStatus = existingStatus;
+            let statusObj;
 
-            if (existingStatus !== 'granted') {
-                const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-                finalStatus = status;
+            // Only iOS needs to ask for permission explicitly.
+            if (Device.osName === 'iOS') {
+                statusObj = await Notifications.requestPermissionsAsync({
+                    ios: {
+                        allowAlert: true,
+                        allowBadge: true,
+                        allowSound: true,
+                    },
+                });
+            } else {
+                statusObj = await Notifications.getPermissionsAsync(); // For Android, we check the current permissions status without prompting the user.
             }
 
-            if (finalStatus !== 'granted') {
+            if (statusObj.status !== 'granted') {
                 console.warn("Failed to get push token for push notification!");
                 return;
             }
 
             const token = (await Notifications.getExpoPushTokenAsync()).data;
             console.log('Notification Token:', token);
-
-            // This is where we would register the token with our backend server
 
             // Listen for incoming notifications
             const notificationSubscription = Notifications.addNotificationReceivedListener(notification => {
@@ -129,4 +138,3 @@ export function useNotification() {
         setupNotifications();
     }, []);
 }
-
