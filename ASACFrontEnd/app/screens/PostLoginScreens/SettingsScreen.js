@@ -3,19 +3,17 @@ import { View, Text, Switch, TouchableOpacity } from 'react-native';
 import { AuthContext, logout } from '../../components/Authentication';
 import { ThemeContext } from '../../components/Theme';
 import getStyles from '../../styles/SharedStyles';
-import { deletePushToken, savePushToken } from '../../components/Notifications';
+import { getNotificationStatus,  deletePushToken, savePushToken } from '../../components/Notifications';
 import * as Notifications from 'expo-notifications';
 
 const SettingsScreen = ({ navigation }) => {
     const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
-    const styles = getStyles(theme);  // Assuming your theme context provides a styles object
-
+    const styles = getStyles(theme);  
     const [notificationsEnabled, setNotificationsEnabled] = useState(true);
 
-    // Handle theme change
     const handleToggleTheme = () => {
-        toggleTheme(); // Assuming toggleTheme switches between light and dark
+        toggleTheme(); 
     };
 
     const toggleNotifications = async () => {
