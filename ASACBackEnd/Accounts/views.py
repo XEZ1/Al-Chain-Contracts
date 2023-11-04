@@ -9,6 +9,8 @@ from .serializers import SignUpSerialiser, UserSerialiser
 from Accounts.models import User
 
 
+
+
 class ValidateTokenView(views.APIView):
     authentication_classes = [TokenAuthentication]
 
@@ -44,3 +46,14 @@ class SignUpView(generics.CreateAPIView):
     permission_classes = [AllowAny]
     serializer_class = SignUpSerialiser
     queryset = User.objects.all()
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def register_push_token(request):
+    token = request.data.get('token')
+    if token:
+        PushToken.objects.update_or_create(user=request.user, defaults={'token': token})
+        return Response({'message': 'Token registered successfully'}, status=status.HTTP_200_OK)
+    return Response({'error': 'No token provided'}, status=status.HTTP_400_BAD_REQUEST)
+
