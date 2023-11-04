@@ -31,3 +31,22 @@ class User(AbstractUser):
     paying_user = models.BooleanField(
         default=False
     )
+
+
+class PushToken(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    token = models.CharField(max_length=200, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.token}"
+
+
+class Notification(models.Model):
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, default='sent')  # sent, delivered, failed
+
+    def __str__(self):
+        return f"Notification for {self.recipient.username} at {self.timestamp}"

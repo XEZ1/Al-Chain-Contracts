@@ -3,6 +3,7 @@ import { View, Text, Switch, TouchableOpacity } from 'react-native';
 import { AuthContext, logout } from '../../components/Authentication';
 import { ThemeContext } from '../../components/Theme';
 import getStyles from '../../styles/SharedStyles';
+import { registerForPushNotificationsAsync, unregisterForPushNotificationsAsync } from '../../components/Notifications';
 
 const SettingsScreen = ({ navigation }) => {
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
@@ -16,10 +17,15 @@ const SettingsScreen = ({ navigation }) => {
         toggleTheme(); // Assuming toggleTheme switches between light and dark
     };
 
-    const toggleNotifications = () => {
+    const toggleNotifications = async () => {
         setNotificationsEnabled(previousState => !previousState);
-        // TODO: Implement the function to save this notification setting
-        // savePreference('notifications', !notificationsEnabled);
+        if (!notificationsEnabled) {
+            // If notifications are currently off, register for notifications
+            await registerForPushNotificationsAsync();
+        } else {
+            // If notifications are currently on, unregister notifications
+            await unregisterForPushNotificationsAsync();
+        }
     };
 
     const handleLogout = async () => {
@@ -34,7 +40,7 @@ const SettingsScreen = ({ navigation }) => {
                 <Text style={styles.settingText}>Dark Mode</Text>
                 <Switch
                     trackColor={{ false: "#767577", true: "#81b0ff" }}
-                    thumbColor={theme.isDark ? "#f5dd4b" : "#f4f3f4"}
+                    thumbColor={theme.isDark ? "#f4f3f4" : "#f4f3f4"}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={handleToggleTheme}
                     value={isDarkMode}
@@ -45,7 +51,7 @@ const SettingsScreen = ({ navigation }) => {
                 <Text style={styles.settingText}>Notifications</Text>
                 <Switch
                     trackColor={{ false: "#767577", true: "#81b0ff" }}
-                    thumbColor={notificationsEnabled ? "#f5dd4b" : "#f4f3f4"}
+                    thumbColor={notificationsEnabled ? "#f4f3f4" : "#f4f3f4"}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleNotifications}
                     value={notificationsEnabled}
