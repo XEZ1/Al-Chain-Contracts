@@ -143,12 +143,23 @@ const getStyles = (theme = 'light') => {
             justifyContent: 'center',
             alignItems: 'center',
             marginBottom: 20,
-          },
-          dropZoneText: {
+        },
+        dropZoneText: {
             textAlign: 'center',
             color: '#007bff',
             fontSize: 16,
-          },
+        },
+        // Add this to your getStyles function
+        sendButton: {
+            backgroundColor: themeStyles[theme].backgroundColor,
+            borderRadius: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingHorizontal: 20,
+            // Define a fixed width or use padding to determine the size of the button
+            paddingVertical: 10, // Optional, adjust the vertical padding if needed
+        },
+
     });
 };
 

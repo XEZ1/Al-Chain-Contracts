@@ -5,6 +5,8 @@ import { ThemeContext } from '../../components/Theme';
 
 // DropZone Component (as provided in the second snippet)
 const DropZone = ({ onFileSelected }) => {
+  const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
+  
   const handleFileSelect = () => {
     // Dummy data for selected file
     onFileSelected({ name: 'ContractCode.sol' });
@@ -16,7 +18,7 @@ const DropZone = ({ onFileSelected }) => {
 
   return (
     <TouchableOpacity style={styles.dropZone} onPress={handleFileSelect}>
-      <Text style={styles.buttonText} placeholderTextColor={styles.input.color}>Tap to select a .sol file</Text>
+      <Text style={styles.buttonText} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}>Tap to select a .sol file</Text>
     </TouchableOpacity>
   );
 };
@@ -38,8 +40,8 @@ const HomeScreen = ( navigation ) => {
         {/* Contract Creation Section */}
         <View style={styles.card}>
           <Text style={styles.cardHeader}>Create a New Contract</Text>
-          <TextInput style={styles.input} placeholderTextColor={styles.input.color} placeholder="Enter Contract Name" />
-          <TextInput style={styles.input} placeholderTextColor={styles.input.color} placeholder="Set Initial Supply" keyboardType="numeric" />
+          <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Enter Contract Name" />
+          <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set Initial Supply" keyboardType="numeric" />
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>Create Contract</Text>
           </TouchableOpacity>
@@ -71,7 +73,7 @@ const HomeScreen = ( navigation ) => {
         {/* Contract Deployment Section */}
         <View style={styles.card}>
           <Text style={styles.cardHeader}>Deploy Your Contract</Text>
-          <TextInput style={styles.input} placeholderTextColor={styles.input.color} placeholder="Enter Network (e.g., Ethereum, Binance Smart Chain)" />
+          <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Enter Network (e.g., Ethereum, Binance Smart Chain)" />
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>Deploy Contract</Text>
           </TouchableOpacity>
