@@ -1,6 +1,6 @@
 // notifications.js
 import * as Notifications from 'expo-notifications';
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import * as Device from 'expo-device';
 import { BACKEND_URL } from '@env';
 import * as SecureStore from 'expo-secure-store';
@@ -131,6 +131,7 @@ export async function getNotificationStatus() {
 
 export function useNotification() {
     const { isLoggedIn } = useContext(AuthContext);
+    const [notification, setNotification] = useState(null); // State to hold the latest notification
 
     useEffect(() => {
         if (!Device.isDevice) {
@@ -161,4 +162,22 @@ export function useNotification() {
 
         setupNotifications();
     }, [isLoggedIn]);
+
+    const renderNotification = () => {
+        if (!notification) return null;
+
+        // Extract the title and body from the notification
+        const { title, body } = notification.request.content;
+
+        // Your custom UI component or logic to display the notification
+        // Here you'd return JSX to render or call a method to show a modal, toast, etc.
+        return (
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, backgroundColor: 'lightblue', padding: '10px', textAlign: 'center' }}>
+                <strong>{title}</strong> - {body}
+            </div>
+        );
+    };
+
+    // Return both the notification state and the render function from the hook
+    return { notification, renderNotification };
 }
