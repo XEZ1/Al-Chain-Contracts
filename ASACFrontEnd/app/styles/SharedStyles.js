@@ -40,6 +40,11 @@ const getStyles = (theme = 'light') => {
             padding: 20,
             backgroundColor: themeStyles[theme].containerBackground, // Set background color based on theme
         },
+        containerWithoutBackground: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
         input: {
             height: 44,
             width: '100%', // Make input stretch to full container width
@@ -51,6 +56,17 @@ const getStyles = (theme = 'light') => {
             paddingLeft: 12,
             color: themeStyles[theme].textColor, // Set text color based on theme for input text
         },
+        inputPreLogin: {
+            height: 50,
+            width: '71%', // Make input stretch to full container width
+            backgroundColor: themeStyles[theme].inputBackground,
+            borderColor: themeStyles[theme].borderColor,
+            borderWidth: 1,
+            borderRadius: 10,
+            marginBottom: 16,
+            paddingLeft: 13,
+            color: themeStyles[theme].textColor, // Set text color based on theme for input text
+        },
         button: {
             height: 44,
             width: '100%',
@@ -60,7 +76,22 @@ const getStyles = (theme = 'light') => {
             justifyContent: 'center',
             alignItems: 'center',
         },
+        buttonPreLogin: {
+            height: 50,
+            width: 250,
+            backgroundColor: themeStyles[theme].backgroundColor,
+            marginBottom: 10,
+            borderRadius: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 1,
+        },
         buttonText: {
+            color: themeStyles[theme].textColor,
+            fontSize: 16,
+            fontWeight: 'bold',
+        },
+        buttonTextPreLogin: {
             color: themeStyles[theme].textColor,
             fontSize: 16,
             fontWeight: 'bold',
@@ -149,7 +180,6 @@ const getStyles = (theme = 'light') => {
             color: '#007bff',
             fontSize: 16,
         },
-        // Add this to your getStyles function
         sendButton: {
             backgroundColor: themeStyles[theme].backgroundColor,
             borderRadius: 10,

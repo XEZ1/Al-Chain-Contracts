@@ -13,16 +13,16 @@ const PreLoginScreen = ({ navigation }) => {
             style={styles.backgroundImage}
             resizeMode="cover"
         >
-            <View style={styles.container}>
+            <View style={styles.containerWithoutBackground}>
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
-                        <Text style={styles.buttonText}>Login</Text>
+                    <TouchableOpacity style={styles.buttonPreLogin} onPress={() => navigation.navigate('Login')}>
+                        <Text style={styles.buttonTextPreLogin}>Login</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SignUp')}>
-                        <Text style={styles.buttonText}>Sign Up</Text>
+                    <TouchableOpacity style={styles.buttonPreLogin} onPress={() => navigation.navigate('SignUp')}>
+                        <Text style={styles.buttonTextPreLogin}>Sign Up</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button}>
-                        <Text style={styles.buttonText}>About Us</Text>
+                    <TouchableOpacity style={styles.buttonPreLogin}>
+                        <Text style={styles.buttonTextPreLogin}>About Us</Text>
                     </TouchableOpacity>
                 </View>
             </View>

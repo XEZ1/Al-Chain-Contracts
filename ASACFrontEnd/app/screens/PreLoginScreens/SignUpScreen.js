@@ -59,37 +59,43 @@ const SignUpScreen = ({ navigation }) => {
 
             <TextInput
                 placeholder="Username"
-                style={styles.input}
+                style={styles.inputPreLogin}
+                placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                 onChangeText={setUsername}
             />
             <TextInput
                 placeholder="First Name"
-                style={styles.input}
+                style={styles.inputPreLogin}
+                placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                 onChangeText={setFirstName}
             />
             <TextInput
                 placeholder="Last Name"
-                style={styles.input}
+                style={styles.inputPreLogin}
+                placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                 onChangeText={setLastName}
             />
             <TextInput
                 placeholder="Email"
-                style={styles.input}
+                style={styles.inputPreLogin}
+                placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                 onChangeText={setEmail}
             />
             <TextInput
                 placeholder="Password"
                 secureTextEntry
-                style={styles.input}
+                style={styles.inputPreLogin}
+                placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                 onChangeText={setPassword}
             />
             <TextInput
                 placeholder="Confirm Password"
                 secureTextEntry
-                style={styles.input}
+                style={styles.inputPreLogin}
+                placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                 onChangeText={setPasswordConfirmation}
             />
-            <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+            <TouchableOpacity style={styles.buttonPreLogin} onPress={handleSignUp}>
                 <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
         </View>

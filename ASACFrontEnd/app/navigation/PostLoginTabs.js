@@ -28,7 +28,6 @@ const PostLoginTabs = () => {
             } else if (route.name === 'Support') {
                 iconName = focused ? 'help-circle' : 'help-circle-outline'; // Use appropriate icon names
             }
-            console.log("Icon name: ", iconName);
             // Define icons for other tabs similarly...
 
             // You can return any component that you like here!
