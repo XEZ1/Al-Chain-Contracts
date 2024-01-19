@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons'; // If you're using Expo or you can use any other icon library
 import HomeScreen from '../screens/PostLoginScreens/HomeScreen';
@@ -23,30 +24,19 @@ const PostLoginTabs = () => {
                 iconName = focused ? 'home' : 'home-outline';
             } else if (route.name === 'Settings') {
                 iconName = focused ? 'settings' : 'settings-outline';
-            } else if (route.name === 'Forum') { // Ensure the route.name matches the name provided in Tab.Screen
-                iconName = focused ? 'chatbubbles' : 'chatbubbles-outline'; // Use appropriate icon names
+            } else if (route.name === 'Forum') { 
+                iconName = focused ? 'chatbubbles' : 'chatbubbles-outline'; 
             } else if (route.name === 'Support') {
-                iconName = focused ? 'help-circle' : 'help-circle-outline'; // Use appropriate icon names
+                iconName = focused ? 'help-circle' : 'help-circle-outline'; 
             }
-            // Define icons for other tabs similarly...
-
-            // You can return any component that you like here!
-            return <Ionicons name={iconName} size={size} color={color} />;
+            
+            return (
+                <Ionicons name={iconName} size={size} color={color}  />
+            );
         },
-        tabBarActiveTintColor: styles.tabBar.activeTintColor,
-        tabBarInactiveTintColor: styles.tabBar.inactiveTintColor,
-        tabBarStyle: [
-          {
-            backgroundColor: styles.tabBar.backgroundColor,
-            borderTopColor: styles.tabBar.borderColor,
-          },
-          null, // This is where you could put other styling as needed
-        ],
-        tabBarLabelStyle: {
-            fontSize: 12,
-        },
+        tabBarStyle: styles.tabBar,
+        tabBarLabelStyle: styles.tabBarLabel,
         headerShown: false,
-        // Add other screenOptions as needed
     });
 
     return (

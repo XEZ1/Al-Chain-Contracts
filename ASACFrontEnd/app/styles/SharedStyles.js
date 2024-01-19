@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 const getStyles = (theme = 'light') => {
     const themeStyles = {
         light: {
-            backgroundColor: 'rgba(1, 193, 219, 0.8)', // Light blue for buttons
+            backgroundColor: 'rgba(1, 193, 219, 1)', // Light blue for buttons
             textColor: 'rgb(57, 63, 67)', // Dark text color
             inputBackground: 'white', // White input background
             borderColor: 'rgba(0, 0, 0, 0.5)', // Border color
@@ -11,7 +11,7 @@ const getStyles = (theme = 'light') => {
             cardBackground: 'white', // White background for cards
         },
         dark: {
-            backgroundColor: 'rgba(1, 193, 219, 0.8)', // Maintain light blue for buttons
+            backgroundColor: 'rgba(1, 193, 219, 1)', // Maintain light blue for buttons
             textColor: 'rgb(255, 255, 255)', // White text
             inputBackground: 'rgb(28, 28, 30)', // Dark grey (almost black) for inputs
             borderColor: 'rgba(255, 255, 255, 0.5)', // White borders
@@ -24,8 +24,25 @@ const getStyles = (theme = 'light') => {
         tabBar: {
             activeTintColor: theme === 'dark' ? 'white' : 'black', // Icons and labels in the active tab
             inactiveTintColor: theme === 'dark' ? 'grey' : 'darkgrey', // Icons and labels in the inactive tabs
-            backgroundColor: theme === 'dark' ? 'black' : 'white', // Tab bar background
+            backgroundColor: 'rgba(1, 193, 219, 1)', // Light 
+            //backgroundColor: theme === 'dark' ? 'black' : 'white', // Tab bar background
             borderColor: theme === 'dark' ? 'black' : 'white', // Border color or set to 'transparent' to hide
+            position: 'absolute', // Position it absolutely
+            bottom: 20, // Align to the bottom of the screen
+            left: 20, // Spacing from the left
+            right: 20, // Spacing from the right
+            borderRadius: 30, // Rounded corners
+            height: 60, // Set a fixed height
+            paddingVertical: 10, //for the space between the icons and the labels
+            paddingBottom: 12, // for the padding of the labels
+            borderTopWidth: 0, // Remove the top border
+            shadowColor: '#000', // Shadow for iOS
+            shadowOffset: { width: 0, height: 10 },
+            shadowOpacity: 0.1,
+            shadowRadius: 10,
+        },
+        tabBarLabel: {
+            fontSize: 11,
         },
         backgroundImage: {
             flex: 1,
@@ -189,7 +206,7 @@ const getStyles = (theme = 'light') => {
             // Define a fixed width or use padding to determine the size of the button
             paddingVertical: 10, // Optional, adjust the vertical padding if needed
         },
-
+        
     });
 };
 
