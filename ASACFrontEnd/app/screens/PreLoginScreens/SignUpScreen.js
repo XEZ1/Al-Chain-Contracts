@@ -52,7 +52,10 @@ const SignUpScreen = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView 
+            style={styles.container} 
+            behavior="padding"
+        >
             {errors && Object.keys(errors).map((key, index) => (
                 <Text key={index} style={{ color: 'red' }}>{`${key}: ${errors[key]}`}</Text>
             ))}
@@ -98,7 +101,7 @@ const SignUpScreen = ({ navigation }) => {
             <TouchableOpacity style={styles.buttonPreLogin} onPress={handleSignUp}>
                 <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
-        </View>
+        </KeyboardAvoidingView>
     );
 };
 
