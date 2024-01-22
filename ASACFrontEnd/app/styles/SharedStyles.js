@@ -172,6 +172,7 @@ const getStyles = (theme = 'light') => {
         },
         scrollView: {
             backgroundColor: themeStyles[theme].containerBackground, // Use theme background for scroll view
+            marginBottom: 90,
         },
         header: {
             fontSize: 28,
