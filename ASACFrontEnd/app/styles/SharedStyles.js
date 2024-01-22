@@ -148,16 +148,17 @@ const getStyles = (theme = 'light') => {
             fontSize: 16,
         },
         card: {
-            width: '100%', // Cards should fill the width
+            width: '97%', // Cards should fill the width
             backgroundColor: themeStyles[theme].cardBackground, // Use theme background for card
-            borderRadius: 10,
-            padding: 20,
-            marginBottom: 20,
+            borderRadius: '10%',
+            padding: '6%',
+            marginBottom: '6%',
             shadowColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : '#000', // Adjust shadow color based on theme
             shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.25,
-            shadowRadius: 3.84,
-            elevation: 5,
+            shadowOpacity: '0.4%',
+            shadowRadius: '4%',
+            elevation: '1%',
+            margin: '1%'
         },
         cardHeader: {
             fontSize: 18,
