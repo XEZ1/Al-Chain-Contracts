@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native';
 import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
 
@@ -34,7 +34,10 @@ const HomeScreen = (navigation) => {
     const styles = getStyles(theme);
     return (
         <ScrollView style={styles.scrollView}>
-            <View style={styles.container}>
+            <KeyboardAvoidingView 
+            style={styles.container} 
+            behavior="padding"
+            >
                 <Text style={styles.header}>Smart Contract Toolkit</Text>
 
                 {/* Contract Creation Section */}
@@ -103,7 +106,7 @@ const HomeScreen = (navigation) => {
                 <View style={styles.footer}>
                     <Text style={styles.footerText}>All rights reserved © Smart Contract Toolkit</Text>
                 </View>
-            </View>
+            </KeyboardAvoidingView>
         </ScrollView>
     );
 };
