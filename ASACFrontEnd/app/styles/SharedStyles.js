@@ -28,18 +28,18 @@ const getStyles = (theme = 'light') => {
             //backgroundColor: theme === 'dark' ? 'black' : 'white', // Tab bar background
             borderColor: theme === 'dark' ? 'black' : 'white', // Border color or set to 'transparent' to hide
             position: 'absolute', // Position it absolutely
-            bottom: 20, // Align to the bottom of the screen
-            left: 20, // Spacing from the left
-            right: 20, // Spacing from the right
-            borderRadius: 30, // Rounded corners
-            height: 60, // Set a fixed height
-            paddingVertical: 10, //for the space between the icons and the labels
-            paddingBottom: 12, // for the padding of the labels
-            borderTopWidth: 0, // Remove the top border
+            bottom: '2.5%', // Align to the bottom of the screen
+            left: '5%', // Spacing from the left
+            right: '5%', // Spacing from the right
+            borderRadius: '30%', // Rounded corners
+            height: '7%', // Set a fixed height
+            paddingVertical: '2%', //for the space between the icons and the labels
+            paddingBottom: '2.5%', // for the padding of the labels
+            borderTopWidth: '0%', // Remove the top border
             shadowColor: '#000', // Shadow for iOS
-            shadowOffset: { width: 0, height: 10 },
-            shadowOpacity: 0.1,
-            shadowRadius: 10,
+            shadowOffset: { width: '0%', height: '1%' },
+            shadowOpacity: '0.4%',
+            shadowRadius: '20%',
         },
         tabBarLabel: {
             fontSize: 11,
@@ -53,10 +53,10 @@ const getStyles = (theme = 'light') => {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            paddingTop: 50,
-            padding: 20,
+            paddingTop: '16%',
+            padding: '5%',
             backgroundColor: themeStyles[theme].containerBackground, // Set background color based on theme
-            paddingBottom: 80,
+            paddingBottom: '20%',
         },
         containerWithoutBackground: {
             flex: 1,
@@ -148,7 +148,7 @@ const getStyles = (theme = 'light') => {
             fontSize: 16,
         },
         card: {
-            width: '97%', // Cards should fill the width
+            width: '96%', // Cards should fill the width
             backgroundColor: themeStyles[theme].cardBackground, // Use theme background for card
             borderRadius: '10%',
             padding: '6%',
@@ -158,7 +158,10 @@ const getStyles = (theme = 'light') => {
             shadowOpacity: '0.4%',
             shadowRadius: '4%',
             elevation: '1%',
-            margin: '1%'
+            margin: '1%',
+            marginTop: '2%',
+            marginLeft: '2%',
+            marginLeft: '2%'
         },
         cardHeader: {
             fontSize: 18,
