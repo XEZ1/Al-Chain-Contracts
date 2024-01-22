@@ -21,6 +21,25 @@ const getStyles = (theme = 'light') => {
     };
 
     return StyleSheet.create({
+        container: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingTop: '16%',
+            padding: '5%',
+            backgroundColor: themeStyles[theme].containerBackground, // Set background color based on theme
+            paddingBottom: '20%',
+        },
+        containerWithoutBackground: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        backgroundImage: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
         tabBar: {
             activeTintColor: theme === 'dark' ? 'white' : 'black', // Icons and labels in the active tab
             inactiveTintColor: theme === 'dark' ? 'grey' : 'darkgrey', // Icons and labels in the inactive tabs
@@ -43,25 +62,6 @@ const getStyles = (theme = 'light') => {
         },
         tabBarLabel: {
             fontSize: 11,
-        },
-        backgroundImage: {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-        },
-        container: {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingTop: '16%',
-            padding: '5%',
-            backgroundColor: themeStyles[theme].containerBackground, // Set background color based on theme
-            paddingBottom: '20%',
-        },
-        containerWithoutBackground: {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
         },
         input: {
             height: 44,

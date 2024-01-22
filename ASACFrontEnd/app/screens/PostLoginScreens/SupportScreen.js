@@ -63,7 +63,7 @@ const SupportScreen = ({ navigation }) => {
                             flex: 1,
                             marginRight: 10,
                             marginTop: 16,
-                            height: 50, // Align height with button
+                            height: 50, 
                         }
                     ]}
                     multiline
