@@ -68,7 +68,7 @@ const SupportScreen = ({ navigation }) => {
                     ]}
                     multiline
                 />
-                <TouchableOpacity onPress={handleSendMessage} style={[styles.sendButton, { height: 50, paddingHorizontal: 20 }]}>
+                <TouchableOpacity onPress={handleSendMessage} style={[styles.sendButton]}>
                     <Text style={styles.buttonText}>Send</Text>
                 </TouchableOpacity>
             </View>

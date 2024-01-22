@@ -70,8 +70,8 @@ const getStyles = (theme = 'light') => {
             borderColor: themeStyles[theme].borderColor,
             borderWidth: 1,
             borderRadius: 10,
-            marginBottom: 16,
-            paddingLeft: 12,
+            marginBottom: '5.5%',
+            paddingLeft: '4%',
             color: themeStyles[theme].textColor, // Set text color based on theme for input text
         },
         inputPreLogin: {
@@ -81,15 +81,15 @@ const getStyles = (theme = 'light') => {
             borderColor: themeStyles[theme].borderColor,
             borderWidth: 1,
             borderRadius: 10,
-            marginBottom: 16,
-            paddingLeft: 13,
+            marginBottom: '4.5%',
+            paddingLeft: '4%',
             color: themeStyles[theme].textColor, // Set text color based on theme for input text
         },
         button: {
             height: 44,
             width: '100%',
             backgroundColor: themeStyles[theme].backgroundColor,
-            marginBottom: 16,
+            marginBottom: '5.7%',        
             borderRadius: 10,
             justifyContent: 'center',
             alignItems: 'center',
@@ -98,11 +98,11 @@ const getStyles = (theme = 'light') => {
             height: 50,
             width: 250,
             backgroundColor: themeStyles[theme].backgroundColor,
-            marginBottom: 10,
+            marginBottom: '3%',
             borderRadius: 10,
             justifyContent: 'center',
             alignItems: 'center',
-            marginTop: 1,
+            marginTop: '0.5%',
         },
         buttonText: {
             color: themeStyles[theme].textColor,
@@ -117,7 +117,7 @@ const getStyles = (theme = 'light') => {
         title: {
             fontSize: 22,
             fontWeight: 'bold',
-            marginBottom: 20,
+            marginBottom: '6%',
             color: themeStyles[theme].textColor, // Use theme color for text
             textAlign: 'center', // Center the title text
         },
@@ -126,7 +126,7 @@ const getStyles = (theme = 'light') => {
             justifyContent: 'space-between',
             alignItems: 'center',
             width: '100%',
-            marginBottom: 10,
+            marginBottom: '3%',
         },
         settingText: {
             fontSize: 18,
@@ -195,7 +195,7 @@ const getStyles = (theme = 'light') => {
             borderStyle: 'dashed',
             justifyContent: 'center',
             alignItems: 'center',
-            marginBottom: 20,
+            marginBottom: '5%',
         },
         dropZoneText: {
             textAlign: 'center',
@@ -207,9 +207,10 @@ const getStyles = (theme = 'light') => {
             borderRadius: 10,
             justifyContent: 'center',
             alignItems: 'center',
-            paddingHorizontal: 20,
+            paddingHorizontal: '5%',
             // Define a fixed width or use padding to determine the size of the button
             paddingVertical: 10, // Optional, adjust the vertical padding if needed
+            height: 50,
         },
         
     });
