@@ -25,7 +25,8 @@ const getStyles = (theme = 'light') => {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            paddingTop: '16%',
+            //paddingTop: '16%',
+            paddingTop: '4%',
             padding: '5%',
             backgroundColor: themeStyles[theme].containerBackground, // Set background color based on theme
             paddingBottom: '20%',
