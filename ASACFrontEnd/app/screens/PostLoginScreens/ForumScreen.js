@@ -46,7 +46,7 @@ const ForumScreen = ({ navigation }) => {
                 data={forumPosts}
                 renderItem={renderPost}
                 keyExtractor={item => item.id}
-                style={{ width: '100%' }}
+                style={{ flex: 1 }}
             />
 
             {/* Fixed Footer with quick action button */}
