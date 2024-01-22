@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { ImageBackground, View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { ImageBackground, View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { AuthContext } from '../../components/Authentication';
 import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
@@ -14,7 +14,10 @@ const LoginScreen = ({ navigation }) => {
     const [password, setPassword] = useState('');
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView 
+            style={styles.container} 
+            behavior="padding"
+        >
             <TextInput
                 placeholder="Username"
                 style={styles.inputPreLogin}
@@ -31,8 +34,7 @@ const LoginScreen = ({ navigation }) => {
             <TouchableOpacity style={styles.buttonPreLogin} onPress={() => handleLogin(username, password)}>
                 <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
-        </View>
-
+        </KeyboardAvoidingView>
     );
 };
 
