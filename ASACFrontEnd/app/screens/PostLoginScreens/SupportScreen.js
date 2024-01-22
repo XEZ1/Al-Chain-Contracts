@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native';
 import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
 
@@ -24,7 +24,10 @@ const SupportScreen = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView 
+            style={styles.container} 
+            behavior="padding"
+        >
             <Text style={styles.header}>Support Chat</Text>
 
             <ScrollView
@@ -51,7 +54,7 @@ const SupportScreen = ({ navigation }) => {
             </ScrollView>
 
             {/* Input area */}
-            <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', paddingBottom: 80 }}>
                 <TextInput
                     value={message}
                     onChangeText={setMessage}
@@ -62,7 +65,7 @@ const SupportScreen = ({ navigation }) => {
                         {
                             flex: 1,
                             marginRight: 10,
-                            marginTop: 16,
+                            marginTop: 18.5,
                             height: 50, 
                         }
                     ]}
@@ -72,7 +75,7 @@ const SupportScreen = ({ navigation }) => {
                     <Text style={styles.buttonText}>Send</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </KeyboardAvoidingView>
     );
 };
 
