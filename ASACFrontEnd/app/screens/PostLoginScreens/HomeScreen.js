@@ -33,7 +33,7 @@ const HomeScreen = (navigation) => {
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
     const styles = getStyles(theme);
     return (
-        <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <View style={{ flex: 1, backgroundColor: theme === 'dark' ? 'black' : 'white' }}>
             <ScrollView style={styles.scrollView}>
                 <KeyboardAvoidingView
                     style={styles.container}
@@ -111,7 +111,7 @@ const HomeScreen = (navigation) => {
             </ScrollView>
 
             {/* Separator Line */}
-            <View style={{ height: 3, backgroundColor: 'rgba(1, 193, 219, 1)', position: 'absolute', bottom: 89, left: 0, right: 0 }} />
+            <View style={{ height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: 90, left: 0, right: 0 }} />
 
         </View>
     );

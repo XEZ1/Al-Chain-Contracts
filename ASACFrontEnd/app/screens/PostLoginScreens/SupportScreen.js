@@ -52,9 +52,9 @@ const SupportScreen = ({ navigation }) => {
                     </View>
                 ))}
             </ScrollView>
-
+                        
             {/* Input area */}
-            <View style={{ flexDirection: 'row', alignItems: 'center', paddingBottom: 80 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', paddingBottom: 85 }}>
                 <TextInput
                     value={message}
                     onChangeText={setMessage}
@@ -75,8 +75,11 @@ const SupportScreen = ({ navigation }) => {
                     <Text style={styles.buttonText}>Send</Text>
                 </TouchableOpacity>
             </View>
+
+            {/* Separator Line */}
+            <View style={{ position: 'absolute', height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: 90, left: 0, right: 0 }} />
         </KeyboardAvoidingView>
-    );
+    )
 };
 
 export default SupportScreen;

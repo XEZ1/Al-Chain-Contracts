@@ -15,7 +15,8 @@ const AppNavigator = () => {
     return (
         <SafeAreaProvider>
             <SafeAreaView edges={['top']} style={{flex: 1, backgroundColor:  theme === 'dark' ? 'black' : 'white'}}>
-                <View style={{ height: 3, backgroundColor: 'rgba(1, 193, 219, 1)' }} />
+                {/* Separator Line */}
+                <View style={{ height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey' }} />
                 <View style={{flex: 1, Bottom: 80}}>
                     {isLoggedIn ? <PostLoginTabs /> : <PreLoginStack />}
                 </View>

@@ -63,6 +63,9 @@ const SettingsScreen = ({ navigation }) => {
             >
                 <Text style={styles.buttonText}>Log Out</Text>
             </TouchableOpacity>
+
+            {/* Separator Line */}
+            <View style={{ position: 'absolute', height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: 90, left: 0, right: 0 }} />
         </View>
     );
 };
