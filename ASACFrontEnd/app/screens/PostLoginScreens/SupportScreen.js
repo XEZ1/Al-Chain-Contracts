@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native';
 import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const SupportScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
@@ -52,7 +53,7 @@ const SupportScreen = ({ navigation }) => {
                     </View>
                 ))}
             </ScrollView>
-                        
+       
             {/* Input area */}
             <View style={{ flexDirection: 'row', alignItems: 'center', paddingBottom: 85 }}>
                 <TextInput
@@ -74,7 +75,7 @@ const SupportScreen = ({ navigation }) => {
                 <TouchableOpacity onPress={handleSendMessage} style={[styles.sendButton]}>
                     <Text style={styles.buttonText}>Send</Text>
                 </TouchableOpacity>
-            </View>
+            </View>  
 
             {/* Separator Line */}
             <View style={{ position: 'absolute', height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: 90, left: 0, right: 0 }} />
