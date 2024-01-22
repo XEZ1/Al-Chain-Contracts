@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, TextInput, FlatList } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, FlatList, KeyboardAvoidingView } from 'react-native';
 import getStyles from '../../styles/SharedStyles'; // Make sure the path to your styles is correct
 import { ThemeContext } from '../../components/Theme';
 
@@ -26,7 +26,10 @@ const ForumScreen = ({ navigation }) => {
     );
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView 
+            style={styles.container} 
+            behavior="padding"
+        >
             <Text style={styles.header}>Community Forum</Text>
 
             {/* Search or Create Post Input */}
@@ -56,7 +59,7 @@ const ForumScreen = ({ navigation }) => {
                     {/* Icon can be added here */}
                 </TouchableOpacity>
             </View>
-        </View>
+        </KeyboardAvoidingView>
     );
 };
 
