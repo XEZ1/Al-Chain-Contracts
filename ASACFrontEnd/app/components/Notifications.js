@@ -15,6 +15,21 @@ Notifications.setNotificationHandler({
     }),
 });
 
+export async function registerForPushNotifications() {
+    const token = await getPushToken();
+    if (!token) return;
+
+    if (Device.OS === 'android') {
+        Notifications.setNotificationChannelAsync('default', {
+            name: 'default',
+            importance: Notifications.AndroidImportance.MAX,
+            vibrationPattern: [0, 250, 250, 250],
+        });
+    }
+
+    return token;
+}
+
 async function getPushToken() {
     const { status: existingStatus } = await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
@@ -32,51 +47,35 @@ async function getPushToken() {
     return (await Notifications.getExpoPushTokenAsync()).data;
 }
 
-async function saveOrDeleteToken(method, token = null) {
+export async function saveNotificationToken(token) {
     const authToken = await SecureStore.getItemAsync('authToken');
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Token ${authToken}`,
-    };
-
-    const body = method === 'POST' ? JSON.stringify({ token }) : undefined;
-
-    const response = await fetch(`${BACKEND_URL}/push_token/`, {
-        method,
-        headers,
-        body,
+    const response = await fetch(`${BACKEND_URL}/notifications/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${authToken}`,
+        },
+        body: JSON.stringify({ token }),
     });
 
     if (!response.ok) {
         const errorText = await response.text();
-        console.error(`Error during push token ${method === 'POST' ? 'submission' : 'deletion'}:`, errorText);
+        console.error('Error saving notification token:', errorText);
     }
 }
 
-export async function registerForPushNotifications() {
-    const token = await getPushToken();
-    if (!token) return;
+export async function deleteNotificationToken() {
+    const authToken = await SecureStore.getItemAsync('authToken');
+    const response = await fetch(`${BACKEND_URL}/notifications/`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Token ${authToken}`,
+        },
+    });
 
-    if (Device.OS === 'android') {
-        Notifications.setNotificationChannelAsync('default', {
-            name: 'default',
-            importance: Notifications.AndroidImportance.MAX,
-            vibrationPattern: [0, 250, 250, 250],
-        });
-    }
-
-    return token;
-}
-
-export async function savePushToken(token, isLoggedIn) {
-    if (isLoggedIn) {
-        await saveOrDeleteToken('POST', token);
-    }
-}
-
-export async function deletePushToken(isLoggedIn) {
-    if (isLoggedIn) {
-        await saveOrDeleteToken('DELETE');
+    if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error deleting notification token:', errorText);
     }
 }
 

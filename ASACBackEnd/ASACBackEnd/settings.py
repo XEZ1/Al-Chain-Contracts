@@ -9,8 +9,16 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import firebase_admin
+from firebase_admin import credentials
 from pathlib import Path
+
+# Path to your service account key file
+FIREBASE_SERVICE_ACCOUNT_KEY = r'../key.json'
+
+# Initialize Firebase Admin
+cred = credentials.Certificate(FIREBASE_SERVICE_ACCOUNT_KEY)
+firebase_admin.initialize_app(cred)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

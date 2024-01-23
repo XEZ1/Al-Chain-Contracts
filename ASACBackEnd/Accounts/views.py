@@ -93,3 +93,10 @@ class NotificationView(views.APIView):
             return Response(serialiser.data, status=status.HTTP_201_CREATED)
         return Response(serialiser.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def delete(self, request):
+        try:
+            push_token = PushToken.objects.get(user=request.user)
+            push_token.delete()
+            return Response({"message": "Push token deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        except PushToken.DoesNotExist:
+            return Response({"error": "Push token not found"}, status=status.HTTP_404_NOT_FOUND)
