@@ -33,7 +33,7 @@ const HomeScreen = (navigation) => {
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
     const styles = getStyles(theme);
     return (
-        <View style={{ flex: 1, backgroundColor: theme === 'dark' ? 'black' : 'white' }}>
+        <View style={{ flex: 1, backgroundColor: theme === 'dark' ? '#1A1A1A' : 'white' }}>
             <ScrollView style={styles.scrollView}>
                 <KeyboardAvoidingView
                     style={styles.container}

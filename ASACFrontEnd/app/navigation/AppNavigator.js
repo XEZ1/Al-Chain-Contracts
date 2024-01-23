@@ -14,7 +14,7 @@ const AppNavigator = () => {
     
     return (
         <SafeAreaProvider>
-            <SafeAreaView edges={['top']} style={{flex: 1, backgroundColor:  theme === 'dark' ? 'black' : 'white'}}>
+            <SafeAreaView edges={['top']} style={{flex: 1, backgroundColor:  theme === 'dark' ? '#1A1A1A' : 'white'}}>
                 {/* Separator Line */}
                 <View style={{ height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey' }} />
                 <View style={{flex: 1, Bottom: 80}}>

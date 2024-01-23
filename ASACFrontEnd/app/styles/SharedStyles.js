@@ -16,6 +16,7 @@ const getStyles = (theme = 'light') => {
             inputBackground: 'rgb(28, 28, 30)', // Dark grey (almost black) for inputs
             borderColor: 'rgba(255, 255, 255, 0.5)', // White borders
             containerBackground: 'rgb(0, 0, 0)', // Black background for containers
+            containerBackground: '#1A1A1A',
             cardBackground: 'rgb(50, 50, 52)', // Slightly lighter black for cards
         },
     };
@@ -56,9 +57,9 @@ const getStyles = (theme = 'light') => {
             paddingVertical: '2%', //for the space between the icons and the labels
             paddingBottom: '2.5%', // for the padding of the labels
             borderTopWidth: '0%', // Remove the top border
-            shadowColor: '#000', // Shadow for iOS
+            shadowColor: theme === 'dark' ? '#3A3A3A' : '#000', // Shadow for iOS
             shadowOffset: { width: '0%', height: '1%' },
-            shadowOpacity: '0.4%',
+            shadowOpacity: theme === 'dark' ? '0.8%' : '0.4%',
             shadowRadius: '20%',
         },
         tabBarLabel: {
@@ -154,9 +155,9 @@ const getStyles = (theme = 'light') => {
             borderRadius: '10%',
             padding: '6%',
             marginBottom: '6%',
-            shadowColor: theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : '#000', // Adjust shadow color based on theme
+            shadowColor:  theme === 'dark' ? '#3A3A3A' : '#000', // Adjust shadow color based on theme
             shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: '0.4%',
+            shadowOpacity: theme === 'dark' ? '0.8%' : '0.4%',
             shadowRadius: '4%',
             elevation: '1%',
             margin: '1%',
