@@ -137,6 +137,9 @@ ENV
 env.bak
 venv.bak
 
+# Notifications Private Keys
+key.json
+
 # Spyder project settings
 .spyderproject
 .spyproject

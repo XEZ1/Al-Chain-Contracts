@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, Switch, TouchableOpacity } from 'react-native';
 import { AuthContext, logout } from '../../components/Authentication';
 import { ThemeContext } from '../../components/Theme';
@@ -10,7 +10,16 @@ const SettingsScreen = ({ navigation }) => {
     const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
     const styles = getStyles(theme);  
-    const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+    const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+
+    useEffect(() => {
+        const getNotificationState = async () => {
+            const state = await SecureStore.getItemAsync('notificationsEnabled');
+            setNotificationsEnabled(state === 'true');
+        };
+
+        getNotificationState();
+    }, []);
 
     const handleToggleTheme = () => {
         toggleTheme(); 
