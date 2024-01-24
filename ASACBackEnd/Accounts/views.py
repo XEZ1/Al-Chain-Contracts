@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
-from .serializers import SignUpSerialiser, UserSerialiser, PushTokenSerialiser, NotificationSerialiser
-from Accounts.models import User, PushToken, Notification
+from .serializers import SignUpSerialiser, UserSerialiser, PushTokenSerialiser
+from Accounts.models import User, PushToken
 
 
 

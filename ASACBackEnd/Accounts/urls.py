@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ValidateTokenView, SignUpView, LoginView, NotificationView, PushTokenView
+from .views import ValidateTokenView, SignUpView, LoginView, PushTokenView
 
 urlpatterns = [
     path('push_token/', PushTokenView.as_view(), name='push_token'),
