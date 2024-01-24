@@ -13,13 +13,6 @@ import firebase_admin
 from firebase_admin import credentials
 from pathlib import Path
 
-# Path to your service account key file
-FIREBASE_SERVICE_ACCOUNT_KEY = r'../key.json'
-
-# Initialize Firebase Admin
-cred = credentials.Certificate(FIREBASE_SERVICE_ACCOUNT_KEY)
-firebase_admin.initialize_app(cred)
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -35,6 +28,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['192.168.0.18', '192.168.0.14', 'ffc1-193-61-207-172.ngrok-free.app']
 
+###
+# Path to your service account key file
+FIREBASE_SERVICE_ACCOUNT_KEY = BASE_DIR / 'ASACBackEnd/key.json'
+
+# Initialize Firebase Admin
+cred = credentials.Certificate(FIREBASE_SERVICE_ACCOUNT_KEY)
+firebase_admin.initialize_app(cred)
+###
 
 # Application definition
 
