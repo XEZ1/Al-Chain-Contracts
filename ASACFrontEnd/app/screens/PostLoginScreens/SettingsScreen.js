@@ -3,7 +3,7 @@ import { View, Text, Switch, TouchableOpacity } from 'react-native';
 import { AuthContext, logout } from '../../components/Authentication';
 import { ThemeContext } from '../../components/Theme';
 import getStyles from '../../styles/SharedStyles';
-import { getNotificationStatus,  deletePushToken, savePushToken } from '../../components/Notifications';
+import { deletePushToken, savePushToken } from '../../components/Notifications';
 import * as Notifications from 'expo-notifications';
 
 const SettingsScreen = ({ navigation }) => {
@@ -17,7 +17,17 @@ const SettingsScreen = ({ navigation }) => {
     };
 
     const toggleNotifications = async () => {
-        ...
+        const newStatus = !notificationsEnabled;
+        setNotificationsEnabled(newStatus);
+
+        if (newStatus) {
+            // Enable notifications
+            const token = await Notifications.getExpoPushTokenAsync();
+            savePushToken(token);  // Save the token to your backend or service
+        } else {
+            // Disable notifications
+            deletePushToken();  // Remove the token from your backend or service
+        }
     };
 
     const handleLogout = async () => {

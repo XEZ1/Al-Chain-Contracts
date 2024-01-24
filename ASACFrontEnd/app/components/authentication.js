@@ -1,6 +1,7 @@
 import * as SecureStore from 'expo-secure-store';
 import { BACKEND_URL } from '@env';
 import React, { useState, useEffect, createContext } from 'react';
+import { connectToNotifications } from './Notifications';
 
 
 export const AuthContext = createContext();
@@ -77,6 +78,7 @@ export const AuthProvider = ({ children }) => {
         const result = await login(username, password);
         if (result.success) {
             setIsLoggedIn(true);
+            connectToNotifications(`ws://${BACKEND_URL}/notifications`);
         } else {
             // Handle error scenario, possibly set an error state or alert the user
             console.error(result.error);
