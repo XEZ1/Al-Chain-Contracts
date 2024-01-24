@@ -12,9 +12,16 @@ from django.core.asgi import get_asgi_application
 from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
+import Notifications
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ASACBackEnd.settings')
 
-application = get_asgi_application({
+application = ProtocolTypeRouter({
     "http": get_asgi_application(),
+    "websocket": AuthMiddlewareStack(
+        URLRouter(
+            Notifications.routing.websocket_urlpatterns  # Use your app's routing
+        )
+    ),
 })
+
