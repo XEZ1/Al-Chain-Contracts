@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import firebase_admin
 from firebase_admin import credentials
 from pathlib import Path
+import channels
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -49,6 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Accounts',
+    'Channels',
+    'Notifications',
 ]
 
 MIDDLEWARE = [
@@ -81,6 +84,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ASACBackEnd.wsgi.application'
 
+ASGI_APPLICATION = 'ASACBackEnd.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases

@@ -42,11 +42,3 @@ class PushToken(models.Model):
         return f"{self.user.username} - {self.token}"
 
 
-class Notification(models.Model):
-    recipient = models.ForeignKey(User, on_delete=models.CASCADE)
-    message = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=20, default='sent')  # sent, delivered, failed
-
-    def __str__(self):
-        return f"Notification for {self.recipient.username} at {self.timestamp}"

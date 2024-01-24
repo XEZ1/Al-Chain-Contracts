@@ -75,28 +75,3 @@ class PushTokenView(views.APIView):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-class NotificationView(views.APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        notifications = Notification.objects.filter(recipient=request.user)
-        serialiser = NotificationSerialiser(notifications, many=True)
-        return Response(serialiser.data)
-
-    def post(self, request):
-        data = request.data.copy()
-        data['recipient'] = request.user.id  # Assuming the notification is for the user making the request
-        serialiser = NotificationSerialiser(data=data)
-        if serialiser.is_valid():
-            serialiser.save()
-            return Response(serialiser.data, status=status.HTTP_201_CREATED)
-        return Response(serialiser.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request):
-        try:
-            push_token = PushToken.objects.get(user=request.user)
-            push_token.delete()
-            return Response({"message": "Push token deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
-        except PushToken.DoesNotExist:
-            return Response({"error": "Push token not found"}, status=status.HTTP_404_NOT_FOUND)
