@@ -1,19 +1,22 @@
-from django.shortcuts import render
-from django.http import JsonResponse
 from .models import PushToken
-from django.views.decorators.http import require_POST
+from rest_framework import status, views
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
+class SaveTokenView(views.APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
-@require_POST
-def save_token(request):
-    token = request.POST.get('token')
-    user = request.user  # Assuming the user is authenticated
-    PushToken.objects.update_or_create(user=user, defaults={'token': token})
-    return JsonResponse({'status': 'success'})
+    def post(self, request):
+        token = request.data.get('token')
+        PushToken.objects.update_or_create(user=request.user, defaults={'token': token})
+        return Response({'status': 'success'}, status=status.HTTP_200_OK)
 
+class DeleteTokenView(views.APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
-@require_POST
-def delete_token(request):
-    user = request.user  # Assuming the user is authenticated
-    PushToken.objects.filter(user=user).delete()
-    return JsonResponse({'status': 'success'})
+    def post(self, request):
+        PushToken.objects.filter(user=request.user).delete()
+        return Response({'status': 'success'}, status=status.HTTP_200_OK)
