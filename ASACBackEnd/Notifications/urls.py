@@ -1,7 +1,8 @@
 from django.urls import path
-from . import views
+from .views import SaveTokenView, DeleteTokenView
+
 
 urlpatterns = [
-    path('save-token/', views.save_token, name='save-token'),
-    path('delete-token/', views.delete_token, name='delete-token'),
+    path('save-token/', SaveTokenView.as_view(), name='save-token'),
+    path('delete-token/', DeleteTokenView.as_view(), name='delete-token'),
 ]
