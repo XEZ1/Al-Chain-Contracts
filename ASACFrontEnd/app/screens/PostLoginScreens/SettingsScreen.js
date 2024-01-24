@@ -12,28 +12,12 @@ const SettingsScreen = ({ navigation }) => {
     const styles = getStyles(theme);  
     const [notificationsEnabled, setNotificationsEnabled] = useState(false);
 
-    useEffect(() => {
-        const getNotificationState = async () => {
-            const state = await SecureStore.getItemAsync('notificationsEnabled');
-            setNotificationsEnabled(state === 'true');
-        };
-
-        getNotificationState();
-    }, []);
-
     const handleToggleTheme = () => {
         toggleTheme(); 
     };
 
     const toggleNotifications = async () => {
-        if (!notificationsEnabled) {
-            // If notifications are currently off, register for notifications
-            await savePushToken((await Notifications.getExpoPushTokenAsync()).data, isLoggedIn);
-        } else {
-            // If notifications are currently on, unregister notifications
-            await deletePushToken(isLoggedIn);
-        }
-        setNotificationsEnabled(!notificationsEnabled);
+        ...
     };
 
     const handleLogout = async () => {
