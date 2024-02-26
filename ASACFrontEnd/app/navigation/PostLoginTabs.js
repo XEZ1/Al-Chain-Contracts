@@ -8,6 +8,8 @@ import ForumScreen from '../screens/PostLoginScreens/ForumScreen';
 import SupportScreen from '../screens/PostLoginScreens/SupportScreen';
 import { ThemeContext } from '../components/Theme';
 import getStyles from '../styles/SharedStyles';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { StatusBar } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,14 +26,14 @@ const PostLoginTabs = () => {
                 iconName = focused ? 'home' : 'home-outline';
             } else if (route.name === 'Settings') {
                 iconName = focused ? 'settings' : 'settings-outline';
-            } else if (route.name === 'Forum') { 
-                iconName = focused ? 'chatbubbles' : 'chatbubbles-outline'; 
+            } else if (route.name === 'Forum') {
+                iconName = focused ? 'chatbubbles' : 'chatbubbles-outline';
             } else if (route.name === 'Support') {
-                iconName = focused ? 'help-circle' : 'help-circle-outline'; 
+                iconName = focused ? 'help-circle' : 'help-circle-outline';
             }
-            
+
             return (
-                <Ionicons name={iconName} size={size} color={color}  />
+                <Ionicons name={iconName} size={size} color={color} />
             );
         },
         tabBarStyle: styles.tabBar,
@@ -40,12 +42,21 @@ const PostLoginTabs = () => {
     });
 
     return (
-        <Tab.Navigator screenOptions={screenOptions}>
-            <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="Forum" component={ForumScreen} />
-            <Tab.Screen name="Support" component={SupportScreen} />
-            <Tab.Screen name="Settings" component={SettingsScreen} />
-        </Tab.Navigator>
+        <SafeAreaProvider>
+            <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: theme === 'dark' ? '#1A1A1A' : 'white' }}>
+                <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
+                {/* Separator Line */}
+                <View style={{ height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey' }} />
+                <View style={{ flex: 1, Bottom: 80 }}>
+                    <Tab.Navigator screenOptions={screenOptions}>
+                        <Tab.Screen name="Home" component={HomeScreen} />
+                        <Tab.Screen name="Forum" component={ForumScreen} />
+                        <Tab.Screen name="Support" component={SupportScreen} />
+                        <Tab.Screen name="Settings" component={SettingsScreen} />
+                    </Tab.Navigator>
+                </View>
+            </SafeAreaView>
+        </SafeAreaProvider>
     );
 };
 

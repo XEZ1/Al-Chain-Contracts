@@ -4,7 +4,6 @@ import PostLoginTabs from './PostLoginTabs';
 import { useContext } from 'react';
 import { AuthContext } from '../components/Authentication';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { View, StatusBar } from 'react-native';
 import { ThemeContext } from '../components/Theme';
 
 
@@ -14,14 +13,7 @@ const AppNavigator = () => {
     
     return (
         <SafeAreaProvider>
-            <SafeAreaView edges={['top']} style={{flex: 1, backgroundColor:  theme === 'dark' ? '#1A1A1A' : 'white'}}>
-                <StatusBar barStyle = {theme === 'dark' ? 'light-content' : 'dark-content'}/>
-                {/* Separator Line */}
-                <View style={{ height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey' }} />
-                <View style={{flex: 1, Bottom: 80}}>
-                    {isLoggedIn ? <PostLoginTabs /> : <PreLoginStack />}
-                </View>
-            </SafeAreaView>
+            {isLoggedIn ? <PostLoginTabs /> : <PreLoginStack />}
         </SafeAreaProvider>
         );
 };

@@ -27,3 +27,22 @@ class NotificationConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'message': message
         }))
+
+
+
+
+
+
+# Delete this tetsing funcionailty later
+from channels.generic.websocket import AsyncJsonWebsocketConsumer
+
+class TestConsumer(AsyncJsonWebsocketConsumer):
+    async def connect(self):
+        await self.channel_layer.group_add("test_group", self.channel_name)
+        await self.accept()
+
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_discard("test_group", self.channel_name)
+
+    async def send_notification(self, event):
+        await self.send_json(event)

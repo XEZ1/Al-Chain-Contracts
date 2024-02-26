@@ -20,3 +20,21 @@ class DeleteTokenView(views.APIView):
     def post(self, request):
         PushToken.objects.filter(user=request.user).delete()
         return Response({'status': 'success'}, status=status.HTTP_200_OK)
+
+
+
+
+# Delete the test functionality later on
+from channels.layers import get_channel_layer
+from django.http import JsonResponse
+from asgiref.sync import async_to_sync
+def test_notification(request):
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        "test_group",
+        {
+            "type": "send_notification",
+            "message": "Test message from Django"
+        }
+    )
+    return JsonResponse({"status": "Notification sent"})
