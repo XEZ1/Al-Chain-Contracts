@@ -27,7 +27,7 @@ const handleIncomingMessage = (message) => {
     Notifications.scheduleNotificationAsync({
         content: {
             title: "New Notification", 
-            body: message.content, // Assuming message has a 'content' field
+            body: message.content, 
         },
         trigger: null, // Immediately show the notification
     });
@@ -73,8 +73,14 @@ export const deletePushToken = async () => {
     }
 };
 
+export const requestNotificationPermission = async () => {
+    const { status } = await Notifications.requestPermissionsAsync();
+    return status === 'granted';
+};
+
 export default {
     connectToNotifications,
     savePushToken,
     deletePushToken,
+    requestNotificationPermission,
 };
