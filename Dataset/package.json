@@ -1,0 +1,14 @@
+{
+  "name": "dataset",
+  "version": "1.0.0",
+  "description": "Dataset for training a model to convert legal employment contracts to smart contracts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ezzat Alsalibi",
+  "license": "MIT",
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.1"
+  }
+}
