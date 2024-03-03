@@ -756,6 +756,10 @@ out
 .cproject
 .settings
 
+# expo files
+.expo/
+
+
 # Mobile Tools for Java (J2ME)
 
 # Package Files #

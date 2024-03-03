@@ -2,15 +2,27 @@ import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native';
 import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
+import DocumentPicker from 'react-native-document-picker';
 
 // DropZone Component (as provided in the second snippet)
 const DropZone = ({ onFileSelected }) => {
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
 
-    const handleFileSelect = () => {
-        // Dummy data for selected file
-        onFileSelected({ name: 'ContractCode.sol' });
-        Alert.alert('File Selected', 'You have selected a file.');
+    const handleFileSelect = async () => {
+        try {
+            const res = await DocumentPicker.pick({
+                type: [DocumentPicker.types.pdf, DocumentPicker.types.docx],
+            });
+            console.log(res);
+            onFileSelected(res); // You might want to adjust this part to handle the file reading and parsing
+        } catch (err) {
+            if (DocumentPicker.isCancel(err)) {
+                Alert.alert('Canceled', 'User canceled the picker');
+            } else {
+                Alert.alert('Error', 'Unknown error: ' + err);
+                throw err;
+            }
+        }
     };
 
     // Retrieve styles from the theme context or define them here
@@ -18,7 +30,7 @@ const DropZone = ({ onFileSelected }) => {
 
     return (
         <TouchableOpacity style={styles.dropZone} onPress={handleFileSelect}>
-            <Text style={styles.buttonText} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}>Tap to select a .sol file</Text>
+            <Text style={styles.buttonText} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}>Tap to select a .docx / .pdf file</Text>
         </TouchableOpacity>
     );
 };
@@ -43,21 +55,19 @@ const HomeScreen = (navigation) => {
 
                     {/* Contract Creation Section */}
                     <View style={styles.card}>
-                        <Text style={styles.cardHeader}>Create a New Contract</Text>
-                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Enter Contract Name" />
-                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set Initial Supply" keyboardType="numeric" />
-                        <TouchableOpacity style={styles.button}>
-                            <Text style={styles.buttonText}>Create Contract</Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    {/* File Upload Section */}
-                    <View style={styles.card}>
-                        <Text style={styles.cardHeader}>Upload Contract Code</Text>
+                        
+                        <Text style={styles.cardHeader}>Upload an Employment Contract</Text>
                         <DropZone onFileSelected={handleFileSelect} />
                         {selectedFile && (
                             <Text style={styles.fileName}>File: {selectedFile.name}</Text>
                         )}
+                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Enter Contract Name" />
+                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set Employer's USDC Address" />
+                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set AuthApp's Address" />
+                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set USDC's Token Contract Interface" />
+                        <TouchableOpacity style={styles.button}>
+                            <Text style={styles.buttonText}>Create Contract</Text>
+                        </TouchableOpacity>
                     </View>
 
                     {/* Contract Templates Section */}
