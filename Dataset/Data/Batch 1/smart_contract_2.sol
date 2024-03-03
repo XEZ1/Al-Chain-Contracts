@@ -6,21 +6,26 @@ import "node_modules/@openzeppelin/contracts/utils/ReentrancyGuard.sol"; // Prev
 
 contract EmploymentContract is ReentrancyGuard {
     address public employer;
-    address public employee;
+    address public employee = 0xf977814e90da44bfa03b6295a0616a897441acec;
     address private authorizedApp; // Address of the authorized app to update metrics
-    uint256 public salary; // Monthly salary amount in USDC
+    uint256 public salary = 5416; // Monthly salary amount in USDC
     IERC20 private usdcToken; // USDC token contract interface
-    uint256 public startDate;
-    uint256 public terminationDate;
+    uint256 public startDate = 1711084800; // March 15, 2024, in UNIX timestamp
+    uint256 public terminationDate = 1742620800; // March 14, 2025, in UNIX timestamp
     uint256 public lastSalaryPaidDate; // Tracks last salary payment date
-    uint256 public performanceScore; // Performance score, updated by the authorized app
+    uint256 public performanceScore = 0; // Performance score, updated by the authorized app
+    uint256 public performanceThreshold = 0;
     bool public isEmployed = true; // Employment status
-
+    string public salaryType = 'monthly'; // How often a salary payment to be initiated
+    
     event SalaryUpdated(uint256 newSalary);
     event BonusPaid(uint256 bonusAmount);
     event EmploymentTerminated(string message);
     event DisputeResolved(string message);
     event SalaryPaid(uint256 amount);
+    event PerformanceScoreUpdated(uint256 score);
+    event PerformanceThresholdUpdated(uint256 threshold);
+    event TerminationDateUpdated(uint256 newTerminationDate);
 
     modifier onlyAuthorizedApp() {
         require(msg.sender == authorizedApp, "Caller is not the authorized app");
@@ -28,21 +33,13 @@ contract EmploymentContract is ReentrancyGuard {
     }
 
     constructor(
-        address _employee,
         address _authorizedApp,
-        uint256 _salary,
-        address _usdcTokenAddress,
-        uint256 _startDate,
-        uint256 _terminationDate
+        address _usdcTokenAddress
     ) {
         employer = msg.sender; // The address deploying the contract is the employer
-        employee = _employee;
         authorizedApp = _authorizedApp;
-        salary = _salary;
         usdcToken = IERC20(_usdcTokenAddress);
-        startDate = _startDate;
-        terminationDate = _terminationDate;
-        lastSalaryPaidDate = _startDate; // Initialize with start date
+        lastSalaryPaidDate = startDate; // Initialize with start date
     }
 
     // Function to deposit USDC into the contract for salary payments
@@ -69,7 +66,8 @@ contract EmploymentContract is ReentrancyGuard {
         require(isEmployed, "Employment has ended");
         require(block.timestamp >= lastSalaryPaidDate + 30 days, "Salary already paid for this month");
         require(usdcToken.balanceOf(address(this)) >= salary, "Insufficient funds in contract");
-
+        require(performanceScore >= performanceThreshold, "Performance score does not meet the required threshold. Employee is underperforming");
+        
         lastSalaryPaidDate += 30 days; // Update last salary paid date to current month
         usdcToken.transfer(employee, salary);
         emit SalaryPaid(salary);
@@ -78,12 +76,19 @@ contract EmploymentContract is ReentrancyGuard {
     // Update performance score
     function updatePerformanceScore(uint256 _newScore) external onlyAuthorizedApp {
         performanceScore = _newScore;
+        emit PerformanceScoreUpdated(_newScore);
+    }
+
+    function updatePerformanceThreshold(uint256 _threshold) external onlyAuthorizedApp {
+        performanceThreshold = _threshold;
+        emit PerformanceThresholdUpdated(_threshold);
     }
 
     // Extend employment termination date
     function extendTerminationDate(uint256 _newTerminationDate) external onlyAuthorizedApp {
         require(_newTerminationDate > terminationDate, "New date must be after current termination date");
         terminationDate = _newTerminationDate;
+        emit TerminationDateUpdated(_newTerminationDate);
     }
 
     // Update salary
