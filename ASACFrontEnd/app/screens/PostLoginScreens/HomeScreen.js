@@ -1,49 +1,87 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
 import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
-import DocumentPicker from 'react-native-document-picker';
+import * as DocumentPicker from 'expo-document-picker';
+
 
 // DropZone Component (as provided in the second snippet)
 const DropZone = ({ onFileSelected }) => {
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
+    const styles = getStyles();
 
     const handleFileSelect = async () => {
         try {
-            const res = await DocumentPicker.pick({
-                type: [DocumentPicker.types.pdf, DocumentPicker.types.docx],
+            const result = await DocumentPicker.getDocumentAsync({
+                type: ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'], // ["*/*"] to accept all types
+                copyToCacheDirectory: true,
+                multiple: false
             });
-            console.log(res);
-            onFileSelected(res); // You might want to adjust this part to handle the file reading and parsing
-        } catch (err) {
-            if (DocumentPicker.isCancel(err)) {
-                Alert.alert('Canceled', 'User canceled the picker');
+
+            if (result.type === 'success') {
+                onFileSelected(result);
             } else {
-                Alert.alert('Error', 'Unknown error: ' + err);
-                throw err;
+                console.log(result)
+                Alert.alert("Cancelled", "File selection was cancelled.");
             }
+        } catch (error) {
+            consoler.error(error);
+            Alert.alert("Error", "An error occurred during file selection.");
         }
     };
 
-    // Retrieve styles from the theme context or define them here
-    const styles = getStyles(); // This needs to be adjusted to your actual implementation
-
     return (
         <TouchableOpacity style={styles.dropZone} onPress={handleFileSelect}>
-            <Text style={styles.buttonText} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}>Tap to select a .docx / .pdf file</Text>
+            <Text style={styles.buttonText} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}>Tap to select a .docx / .pdf / .txt file</Text>
         </TouchableOpacity>
     );
 };
 
 const HomeScreen = (navigation) => {
-    const [selectedFile, setSelectedFile] = useState(null);
-
-    const handleFileSelect = (file) => {
-        setSelectedFile(file);
-    };
-
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
     const styles = getStyles(theme);
+
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    const [contractName, setContractName] = useState('');
+    const [employerAddress, setEmployerAddress] = useState('');
+    const [authAppAddress, setAuthAppAddress] = useState('');
+    const [tokenContractInterface, setTokenContractInterface] = useState('');
+
+    const uploadContractData = async () => {
+        if (!selectedFile) {
+            Alert.alert("Error", "Please select a file before creating a contract.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', {
+            uri: selectedFile.uri,
+            type: selectedFile.mimeType,
+            name: selectedFile.name,
+        });
+
+        formData.append('contractName', contractName);
+        formData.append('employerAddress', employerAddress);
+        formData.append('authAppAddress', authAppAddress);
+        formData.append('tokenContractInterface', tokenContractInterface);
+
+        try {
+            const response = await fetch('YOUR_BACKEND_ENDPOINT', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                body: formData,
+            });
+
+            const responseJson = await response.json();
+            Alert.alert("Success", "Contract data uploaded successfully.");
+        } catch (error) {
+            Alert.alert("Upload Error", "An error occurred while uploading contract data.");
+        }
+    };
+
     return (
         <View style={{ flex: 1, backgroundColor: theme === 'dark' ? '#1A1A1A' : 'white' }}>
             <ScrollView style={styles.scrollView}>
@@ -55,17 +93,16 @@ const HomeScreen = (navigation) => {
 
                     {/* Contract Creation Section */}
                     <View style={styles.card}>
-                        
                         <Text style={styles.cardHeader}>Upload an Employment Contract</Text>
-                        <DropZone onFileSelected={handleFileSelect} />
+                        <DropZone onFileSelected={setSelectedFile} />
                         {selectedFile && (
                             <Text style={styles.fileName}>File: {selectedFile.name}</Text>
                         )}
-                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Enter Contract Name" />
-                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set Employer's USDC Address" />
-                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set AuthApp's Address" />
-                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set USDC's Token Contract Interface" />
-                        <TouchableOpacity style={styles.button}>
+                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Enter Contract Name" value={contractName} onChangeText={setContractName} />
+                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set Employer's USDC Address" value={employerAddress} onChangeText={setEmployerAddress} />
+                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set AuthApp's Address" value={authAppAddress} onChangeText={setAuthAppAddress} />
+                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set USDC's Token Contract Interface" value={tokenContractInterface} onChangeText={setTokenContractInterface} />
+                        <TouchableOpacity style={styles.button} onPress={uploadContractData}>
                             <Text style={styles.buttonText}>Create Contract</Text>
                         </TouchableOpacity>
                     </View>
