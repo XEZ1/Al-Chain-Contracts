@@ -1,0 +1,2 @@
+#export OPEN_API_KEY = "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"
+
