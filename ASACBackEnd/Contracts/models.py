@@ -2,6 +2,7 @@ from django.db import models
 
 from django.db import models
 
+
 class SmartContract(models.Model):
     SALARY_TYPE_CHOICES = [
         ('monthly', 'Monthly'),
@@ -24,4 +25,3 @@ class SmartContract(models.Model):
 
     def __str__(self):
         return f"Smart Contract {self.id} - {self.employer_usdc_address} to {self.employee_usdc_address}"
-
