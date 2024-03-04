@@ -221,10 +221,14 @@ const getStyles = (theme = 'light') => {
             justifyContent: 'center',
             marginTop: 10,
         },
-          fileName: {
+        fileName: {
             marginLeft: 10,
             fontSize: 16,
-            color: theme === 'dark' ? 'white' : 'black', // Adjust based on your theme context
+            color: theme === 'dark' ? 'white' : 'black', 
+        },
+        newButton: {
+            fontSize: 16,
+            fontWeight: 'bold',
         },
     });
 };
