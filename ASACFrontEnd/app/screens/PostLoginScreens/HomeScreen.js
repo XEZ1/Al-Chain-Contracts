@@ -3,7 +3,6 @@ import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingVi
 import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
 import * as DocumentPicker from 'expo-document-picker';
-//import debounce from 'lodash/debounce';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -21,11 +20,9 @@ const DropZone = ({ onFileSelected, selectedFile }) => {
                 copyToCacheDirectory: true,
                 multiple: false
             });
-            console.log(result.assets[0].mimeType == 'application/pdf' || result.assets[0].mimeType == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
             if (result.assets[0].mimeType == 'application/pdf' || result.assets[0].mimeType == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
                 LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-                onFileSelected({ name: result.name, uri: result.uri });
-                //onFileSelected(result);
+                onFileSelected(result);
             } else {
                 console.log(result)
                 Alert.alert("Cancelled", "File selection was cancelled.");
@@ -35,16 +32,16 @@ const DropZone = ({ onFileSelected, selectedFile }) => {
             Alert.alert("Error", "An error occurred during file selection.");
         }
     };
-
+    
     return (
         <TouchableOpacity style={styles.dropZone} onPress={handleFileSelect}>
             {selectedFile ? (
                 <>
                     <MaterialCommunityIcons name="file-document-outline" size={100} color="black" />
-                    <Text style={styles.buttonText}>{selectedFile.name}</Text>
+                    <Text style={styles.buttonText}>{selectedFile.assets[0].name}</Text>
                 </>
             ) : (
-                <Text style={styles.buttonText}>Tap to select a .docx / .pdf / .txt file</Text>
+                <Text style={[styles.newButton, { color: theme === 'dark' ? 'grey' : 'darkgrey'}]}>Tap to select a .docx / .pdf / .txt file</Text>
             )}
         </TouchableOpacity>
     );
@@ -60,11 +57,6 @@ const HomeScreen = (navigation) => {
     const [employerAddress, setEmployerAddress] = useState('');
     const [authAppAddress, setAuthAppAddress] = useState('');
     const [tokenContractInterface, setTokenContractInterface] = useState('');
-
-    //const debouncedSetContractName = useCallback(debounce(setContractName, 500), []);
-    //const debouncedSetEmployerAddress = useCallback(debounce(setEmployerAddress, 500), []);
-    //const debouncedSetAuthAppAddress = useCallback(debounce(setAuthAppAddress, 500), []);
-    //const debouncedSetTokenContractInterface = useCallback(debounce(setTokenContractInterface, 500), []);
 
     const uploadContractData = async () => {
         if (!selectedFile) {
