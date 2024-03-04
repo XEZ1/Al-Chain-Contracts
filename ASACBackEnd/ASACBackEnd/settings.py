@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'channels',
     'Accounts',
     'Notifications',
+    'Contracts',
 ]
 
 MIDDLEWARE = [
