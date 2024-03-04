@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useCallback } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
 import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
 import * as DocumentPicker from 'expo-document-picker';
+//import debounce from 'lodash/debounce';
 
 
 // DropZone Component (as provided in the second snippet)
@@ -13,19 +14,19 @@ const DropZone = ({ onFileSelected }) => {
     const handleFileSelect = async () => {
         try {
             const result = await DocumentPicker.getDocumentAsync({
-                type: ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'], // ["*/*"] to accept all types
+                type: ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'], //, 'text/plain'], // ["*/*"] to accept all types
                 copyToCacheDirectory: true,
                 multiple: false
             });
-
-            if (result.type === 'success') {
+            console.log(result.assets[0].mimeType == 'application/pdf' || result.assets[0].mimeType == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+            if (result.assets[0].mimeType == 'application/pdf' || result.assets[0].mimeType == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
                 onFileSelected(result);
             } else {
                 console.log(result)
                 Alert.alert("Cancelled", "File selection was cancelled.");
             }
         } catch (error) {
-            consoler.error(error);
+            console.error(error);
             Alert.alert("Error", "An error occurred during file selection.");
         }
     };
@@ -48,6 +49,11 @@ const HomeScreen = (navigation) => {
     const [authAppAddress, setAuthAppAddress] = useState('');
     const [tokenContractInterface, setTokenContractInterface] = useState('');
 
+    //const debouncedSetContractName = useCallback(debounce(setContractName, 500), []);
+    //const debouncedSetEmployerAddress = useCallback(debounce(setEmployerAddress, 500), []);
+    //const debouncedSetAuthAppAddress = useCallback(debounce(setAuthAppAddress, 500), []);
+    //const debouncedSetTokenContractInterface = useCallback(debounce(setTokenContractInterface, 500), []);
+
     const uploadContractData = async () => {
         if (!selectedFile) {
             Alert.alert("Error", "Please select a file before creating a contract.");
@@ -67,7 +73,7 @@ const HomeScreen = (navigation) => {
         formData.append('tokenContractInterface', tokenContractInterface);
 
         try {
-            const response = await fetch('YOUR_BACKEND_ENDPOINT', {
+            const response = await fetch(`${BACKEND_URL}/generate-contract/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'multipart/form-data',

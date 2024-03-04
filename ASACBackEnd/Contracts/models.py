@@ -3,7 +3,7 @@ from Accounts.models import User
 
 
 class EmploymentContract(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='smart_contracts')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='legal_employment_contracts')
     contract_name = models.CharField(max_length=255)
     employer_address = models.CharField(max_length=42)
     auth_app_address = models.CharField(max_length=42)
