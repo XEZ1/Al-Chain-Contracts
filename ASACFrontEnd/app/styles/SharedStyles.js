@@ -215,7 +215,17 @@ const getStyles = (theme = 'light') => {
             paddingVertical: 10, // Optional, adjust the vertical padding if needed
             height: 50,
         },
-        
+        fileInfo: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginTop: 10,
+        },
+          fileName: {
+            marginLeft: 10,
+            fontSize: 16,
+            color: theme === 'dark' ? 'white' : 'black', // Adjust based on your theme context
+        },
     });
 };
 

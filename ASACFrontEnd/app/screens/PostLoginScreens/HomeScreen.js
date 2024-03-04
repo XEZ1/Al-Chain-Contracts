@@ -1,13 +1,16 @@
 import React, { useContext, useState, useCallback } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert, LayoutAnimation, Platform, UIManager } from 'react-native';
 import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
 import * as DocumentPicker from 'expo-document-picker';
 //import debounce from 'lodash/debounce';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
-// DropZone Component (as provided in the second snippet)
-const DropZone = ({ onFileSelected }) => {
+const DropZone = ({ onFileSelected, selectedFile }) => {
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
     const styles = getStyles();
 
@@ -20,7 +23,9 @@ const DropZone = ({ onFileSelected }) => {
             });
             console.log(result.assets[0].mimeType == 'application/pdf' || result.assets[0].mimeType == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
             if (result.assets[0].mimeType == 'application/pdf' || result.assets[0].mimeType == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-                onFileSelected(result);
+                LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                onFileSelected({ name: result.name, uri: result.uri });
+                //onFileSelected(result);
             } else {
                 console.log(result)
                 Alert.alert("Cancelled", "File selection was cancelled.");
@@ -33,7 +38,14 @@ const DropZone = ({ onFileSelected }) => {
 
     return (
         <TouchableOpacity style={styles.dropZone} onPress={handleFileSelect}>
-            <Text style={styles.buttonText} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}>Tap to select a .docx / .pdf / .txt file</Text>
+            {selectedFile ? (
+                <>
+                    <MaterialCommunityIcons name="file-document-outline" size={100} color="black" />
+                    <Text style={styles.buttonText}>{selectedFile.name}</Text>
+                </>
+            ) : (
+                <Text style={styles.buttonText}>Tap to select a .docx / .pdf / .txt file</Text>
+            )}
         </TouchableOpacity>
     );
 };
@@ -100,7 +112,7 @@ const HomeScreen = (navigation) => {
                     {/* Contract Creation Section */}
                     <View style={styles.card}>
                         <Text style={styles.cardHeader}>Upload an Employment Contract</Text>
-                        <DropZone onFileSelected={setSelectedFile} />
+                        <DropZone onFileSelected={setSelectedFile} selectedFile={selectedFile} />
                         {selectedFile && (
                             <Text style={styles.fileName}>File: {selectedFile.name}</Text>
                         )}
