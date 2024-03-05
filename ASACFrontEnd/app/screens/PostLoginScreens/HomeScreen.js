@@ -97,7 +97,6 @@ const HomeScreen = (navigation) => {
             <ScrollView style={styles.scrollView}>
                 <KeyboardAvoidingView
                     style={styles.container}
-                    behavior="padding"
                 >
                     <Text style={styles.header}>Smart Contract Toolkit</Text>
 
@@ -105,9 +104,6 @@ const HomeScreen = (navigation) => {
                     <View style={styles.card}>
                         <Text style={styles.cardHeader}>Upload an Employment Contract</Text>
                         <DropZone onFileSelected={setSelectedFile} selectedFile={selectedFile} />
-                        {selectedFile && (
-                            <Text style={styles.fileName}>File: {selectedFile.name}</Text>
-                        )}
                         <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Enter Contract Name" value={contractName} onChangeText={setContractName} />
                         <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set Employer's USDC Address" value={employerAddress} onChangeText={setEmployerAddress} />
                         <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set AuthApp's Address" value={authAppAddress} onChangeText={setAuthAppAddress} />
