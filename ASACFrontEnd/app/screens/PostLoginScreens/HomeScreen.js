@@ -59,6 +59,8 @@ const HomeScreen = (navigation) => {
     const [authAppAddress, setAuthAppAddress] = useState('');
     const [tokenContractInterface, setTokenContractInterface] = useState('');
 
+    const [savedContracts, setSavedContracts] = useState([]);
+
     const uploadContractData = async () => {
         if (!selectedFile) {
             Alert.alert("Error", "Please select a file before creating a contract.");
@@ -104,12 +106,24 @@ const HomeScreen = (navigation) => {
         try {
             const filePath = FileSystem.documentDirectory + fileName + '.sol';
             await FileSystem.writeAsStringAsync(filePath, solidityCode, { encoding: FileSystem.EncodingType.UTF8 });
-            console.log('Solidity file saved at:', filePath);
-            Alert.alert("Success", `Contract saved as ${fileName}.sol`);
+            setSavedContracts(prevContracts => [...prevContracts, fileName]);
+
+            Alert.alert("Success", `Contract saved as ${fileName}.sol to ${filePath}`);
             // Optionally, if you want to open the file or share it, you can use the filePath.
         } catch (error) {
             console.error("Error saving Solidity file:", error);
             Alert.alert("Error", "Failed to save the contract file.");
+        }
+    };
+
+    const openContract = async (contractName) => {
+        try {
+            const filePath = `${FileSystem.documentDirectory}${contractName}.sol`;
+            const content = await FileSystem.readAsStringAsync(filePath);
+            Alert.alert(contractName, content); // Simple example; consider a more robust display method
+        } catch (error) {
+            Alert.alert("Error", "Could not open the contract.");
+            console.error(error);
         }
     };
 
@@ -160,7 +174,19 @@ const HomeScreen = (navigation) => {
                     {/* User's Contracts Section */}
                     <View style={styles.card}>
                         <Text style={styles.cardHeader}>My Contracts</Text>
-                        {/* This would be a list component that lists the contracts the user has created */}
+                        {savedContracts.length > 0 ? (
+                            savedContracts.map((contractName, index) => (
+                                <TouchableOpacity
+                                    key={index}
+                                    style={[styles.dropZone, styles.contractItem]} // Reuse dropZone style for similarity
+                                    onPress={() => openContract(contractName)}>
+                                    <MaterialCommunityIcons name="file-document-outline" size={50} color="black" />
+                                    <Text style={styles.buttonText}>{contractName}.sol</Text>
+                                </TouchableOpacity>
+                            ))
+                        ) : (
+                            <Text style={styles.noContractsText}>No contracts saved.</Text>
+                        )}
                     </View>
 
                     {/* Additional Features */}
