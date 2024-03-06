@@ -87,6 +87,7 @@ export const useContractHandling = () => {
     };
 
     const openContract = async (contractName) => {
+        console.log(contractName);
         try {
             const filePath = `${FileSystem.documentDirectory}${contractName}.sol`;
             // Check if the sharing is available
@@ -94,7 +95,7 @@ export const useContractHandling = () => {
                 Alert.alert("Error", "Sharing not available on this device");
                 return;
             }
-    
+
             await Sharing.shareAsync(filePath);
         } catch (error) {
             Alert.alert("Error", "Could not share the contract file.");
@@ -125,7 +126,7 @@ export const useContractHandling = () => {
     const syncContracts = async (contracts) => {
         const documentDirectory = FileSystem.documentDirectory;
         const localFiles = await FileSystem.readDirectoryAsync(documentDirectory);
-    
+
         const downloadPromises = contracts.map(async (contract) => {
             const localFilePath = `${documentDirectory}${contract.name}.sol`;
             console.log
@@ -134,16 +135,16 @@ export const useContractHandling = () => {
                 console.log(`Downloading and saving ${contract.contract_name}...`);
                 saveSolidityFile(contract.code, contract.contract_name);
             } else {
-                console.log("Everything has already been locally saved")
+                //console.log("Everything has already been locally saved")
             }
             return { ...contract, localFilePath };
         });
-    
+
         const updatedContracts = await Promise.all(downloadPromises);
-        //setSavedContracts(updatedContracts);
+        setSavedContracts(updatedContracts);
     };
-    
-    
+
+
 
     return {
         selectedFile,
