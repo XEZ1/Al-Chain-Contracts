@@ -1,5 +1,5 @@
 import React, { useContext, useState, useCallback } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert, LayoutAnimation, Platform, UIManager } from 'react-native';
+import { Modal, View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert, LayoutAnimation, Platform, UIManager } from 'react-native';
 import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
 import * as DocumentPicker from 'expo-document-picker';
@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { BACKEND_URL } from '@env';
 import * as SecureStore from 'expo-secure-store';
 import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -119,13 +120,20 @@ const HomeScreen = (navigation) => {
     const openContract = async (contractName) => {
         try {
             const filePath = `${FileSystem.documentDirectory}${contractName}.sol`;
-            const content = await FileSystem.readAsStringAsync(filePath);
-            Alert.alert(contractName, content); // Simple example; consider a more robust display method
+            // Check if the sharing is available
+            if (!(await Sharing.isAvailableAsync())) {
+                Alert.alert("Error", "Sharing not available on this device");
+                return;
+            }
+    
+            await Sharing.shareAsync(filePath);
         } catch (error) {
-            Alert.alert("Error", "Could not open the contract.");
+            Alert.alert("Error", "Could not share the contract file.");
             console.error(error);
         }
     };
+
+    
 
     return (
         <View style={{ flex: 1, backgroundColor: theme === 'dark' ? '#1A1A1A' : 'white' }}>
@@ -173,20 +181,21 @@ const HomeScreen = (navigation) => {
 
                     {/* User's Contracts Section */}
                     <View style={styles.card}>
-                        <Text style={styles.cardHeader}>My Contracts</Text>
-                        {savedContracts.length > 0 ? (
-                            savedContracts.map((contractName, index) => (
-                                <TouchableOpacity
-                                    key={index}
-                                    style={[styles.dropZone, styles.contractItem]} // Reuse dropZone style for similarity
-                                    onPress={() => openContract(contractName)}>
-                                    <MaterialCommunityIcons name="file-document-outline" size={50} color="black" />
-                                    <Text style={styles.buttonText}>{contractName}.sol</Text>
-                                </TouchableOpacity>
-                            ))
-                        ) : (
-                            <Text style={styles.noContractsText}>No contracts saved.</Text>
-                        )}
+                        <ScrollView>
+                            {/* User's Contracts Section */}
+                                <Text style={styles.cardHeader}>My Contracts</Text>
+                                {savedContracts.map((contractName, index) => (
+                                    <TouchableOpacity
+                                        key={index}
+                                        style={styles.dropZone}
+                                        onPress={() => openContract(contractName)}>
+                                        <MaterialCommunityIcons name="file-document-outline" size={100} color="black" />
+                                        <Text style={styles.buttonText}>{contractName}.sol</Text>
+                                    </TouchableOpacity>
+                                ))}
+                        </ScrollView>
+
+                        
                     </View>
 
                     {/* Additional Features */}
