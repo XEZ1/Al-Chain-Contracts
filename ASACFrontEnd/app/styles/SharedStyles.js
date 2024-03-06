@@ -226,23 +226,9 @@ const getStyles = (theme = 'light') => {
             fontSize: 16,
             color: theme === 'dark' ? 'white' : 'black', 
         },
-        newButton: {
+        dropZoneText: {
             fontSize: 16,
             fontWeight: 'bold',
-        },
-        contractItem: {
-            padding: 10,
-            borderBottomWidth: 1,
-            borderBottomColor: '#ccc',
-        },
-        contractItemText: {
-            fontSize: 16,
-        },
-        noContractsText: {
-            fontSize: 16,
-            color: 'grey',
-            textAlign: 'center',
-            padding: 20,
         },
     });
 };

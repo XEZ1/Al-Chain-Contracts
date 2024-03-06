@@ -21,7 +21,7 @@ const DropZone = ({ handleFileSelectDropZone, onFileSelected, selectedFile }) =>
                     <Text style={styles.buttonText}>{selectedFile.assets[0].name}</Text>
                 </>
             ) : (
-                <Text style={[styles.newButton, { color: theme === 'dark' ? 'grey' : 'darkgrey' }]}>Tap to select a .docx / .pdf / .txt file</Text>
+                <Text style={[styles.dropZoneText, { color: theme === 'dark' ? 'grey' : 'darkgrey' }]}>Tap to select a .docx / .pdf / .txt file</Text>
             )}
         </TouchableOpacity>
     );
