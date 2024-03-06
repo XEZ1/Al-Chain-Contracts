@@ -18,13 +18,8 @@ from django.core.files.base import ContentFile
 load_dotenv()
 
 
-class ContractView(APIView):
+class GenerateContractView(APIView):
     parser_classes = (MultiPartParser, FormParser)
-
-    def get(self, request, *args, **kwargs):
-        user_contracts = SmartContract.objects.filter(user=request.user)
-        serializer = SmartContractSerialiser(user_contracts, many=True)
-        return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
         data = request.data.copy()
@@ -92,3 +87,11 @@ class ContractView(APIView):
         )
         content = chat_completion.choices[0].message.content
         return content
+
+
+class FetchContractsView(APIView):
+
+    def get(self, request, *args, **kwargs):
+        user_contracts = SmartContract.objects.filter(user=request.user)
+        serializer = SmartContractSerialiser(user_contracts, many=True)
+        return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
