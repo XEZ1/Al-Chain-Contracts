@@ -1,0 +1,126 @@
+import React, { useState, useContext } from 'react';
+import { Alert, LayoutAnimation } from 'react-native';
+import * as DocumentPicker from 'expo-document-picker';
+import * as SecureStore from 'expo-secure-store';
+import * as FileSystem from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
+import { ThemeContext } from '../../components/Theme'; // Adjust this import path to match your project structure
+import { BACKEND_URL } from '@env';
+
+export const useContractHandling = () => {
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [contractName, setContractName] = useState('');
+    const [employerAddress, setEmployerAddress] = useState('');
+    const [authAppAddress, setAuthAppAddress] = useState('');
+    const [tokenContractInterface, setTokenContractInterface] = useState('');
+    const [savedContracts, setSavedContracts] = useState([]);
+
+    const { theme } = useContext(ThemeContext);
+
+    const handleFileSelectDropZone = async () => {
+        try {
+            const result = await DocumentPicker.getDocumentAsync({
+                type: ['text/plain'], // ["*/*"] for accepting all types
+                copyToCacheDirectory: true,
+                multiple: false
+            });
+            if (result.assets[0].mimeType == 'text/plain') {
+                LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                onFileSelected(result);
+            } else {
+                Alert.alert("Cancelled", "File selection was cancelled.");
+            }
+        } catch (error) {
+            Alert.alert("Error", "An error occurred during file selection.");
+        }
+    };
+
+    const uploadContractData = async () => {
+        if (!selectedFile) {
+            Alert.alert("Error", "Please select a file before creating a contract.");
+            return;
+        }
+
+        const formData = new FormData();
+
+        const fileContent = await FileSystem.readAsStringAsync(selectedFile.assets[0].uri, { encoding: FileSystem.EncodingType.UTF8 });
+        formData.append('contract_content', fileContent);
+
+        formData.append('contract_name', contractName);
+        formData.append('employer_address', employerAddress);
+        formData.append('auth_app_address', authAppAddress);
+        formData.append('token_contract_interface', tokenContractInterface);
+
+        try {
+            const token = await SecureStore.getItemAsync('authToken');
+
+            const response = await fetch(`${BACKEND_URL}/contracts/generate-contract/`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Token ${token}`,
+                },
+                body: formData,
+            });
+            const responseJson = await response.json();
+            //console.log(responseJson);
+            console.log(responseJson.solidity_code);
+            saveSolidityFile(responseJson.solidity_code, contractName);
+            Alert.alert("Success", "Contract data uploaded successfully.");
+        } catch (error) {
+            Alert.alert("Upload Error", "An error occurred while uploading contract data.");
+            console.error(error);
+        }
+    };
+
+    const saveSolidityFile = async (solidityCode, fileName) => {
+        const fileInfo = await FileSystem.getInfoAsync(FileSystem.documentDirectory + fileName + '.sol');
+        if (fileInfo.exists) {
+            console.log(`${fileName}.sol already exists. Overwriting...`);
+        }
+        try {
+            const filePath = FileSystem.documentDirectory + fileName + '.sol';
+            await FileSystem.writeAsStringAsync(filePath, solidityCode, { encoding: FileSystem.EncodingType.UTF8 });
+            setSavedContracts(prevContracts => [...prevContracts, fileName]);
+
+            Alert.alert("Success", `Contract saved as ${fileName}.sol to ${filePath}`);
+            // Optionally, if you want to open the file or share it, you can use the filePath.
+        } catch (error) {
+            console.error("Error saving Solidity file:", error);
+            Alert.alert("Error", "Failed to save the contract file.");
+        }
+    };
+
+    const openContract = async (contractName) => {
+        try {
+            const filePath = `${FileSystem.documentDirectory}${contractName}.sol`;
+            // Check if the sharing is available
+            if (!(await Sharing.isAvailableAsync())) {
+                Alert.alert("Error", "Sharing not available on this device");
+                return;
+            }
+    
+            await Sharing.shareAsync(filePath);
+        } catch (error) {
+            Alert.alert("Error", "Could not share the contract file.");
+            console.error(error);
+        }
+    };
+
+    return {
+        theme,
+        selectedFile,
+        setSelectedFile,
+        contractName,
+        setContractName,
+        employerAddress,
+        setEmployerAddress,
+        authAppAddress,
+        setAuthAppAddress,
+        tokenContractInterface,
+        setTokenContractInterface,
+        savedContracts,
+        handleFileSelect,
+        uploadContractData,
+        openContract,
+    };
+};
