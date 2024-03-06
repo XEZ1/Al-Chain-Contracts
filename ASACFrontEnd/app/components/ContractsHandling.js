@@ -112,6 +112,9 @@ export const useContractHandling = () => {
                 },
             });
             const contracts = await response.json();
+            // contracts.forEach(contract => {
+            //     console.log(contract.contract_name);
+            // });
             await syncContracts(contracts);
         } catch (error) {
             console.error("Error fetching contracts:", error);
@@ -125,17 +128,19 @@ export const useContractHandling = () => {
     
         const downloadPromises = contracts.map(async (contract) => {
             const localFilePath = `${documentDirectory}${contract.name}.sol`;
-            if (!localFiles.includes(`${contract.name}.sol`)) {
+            console.log
+            if (!localFiles.includes(`${contract.contract_name}.sol`)) {
                 // Download and save file if it does not exist locally
-                console.log(`Downloading and saving ${contract.name}...`);
-                const content = await (await fetch(contract.url)).text();
-                await FileSystem.writeAsStringAsync(localFilePath, content, { encoding: FileSystem.EncodingType.UTF8 });
+                console.log(`Downloading and saving ${contract.contract_name}...`);
+                saveSolidityFile(contract.code, contract.contract_name);
+            } else {
+                console.log("Everything has already been locally saved")
             }
             return { ...contract, localFilePath };
         });
     
         const updatedContracts = await Promise.all(downloadPromises);
-        setSavedContracts(updatedContracts);
+        //setSavedContracts(updatedContracts);
     };
     
     
@@ -156,6 +161,6 @@ export const useContractHandling = () => {
         uploadContractData,
         openContract,
         fetchAndSyncContracts,
-        
+
     };
 };
