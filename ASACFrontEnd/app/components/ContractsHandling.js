@@ -61,13 +61,10 @@ export const useContractHandling = () => {
                 body: formData,
             });
             const responseJson = await response.json();
-            //console.log(responseJson);
-            console.log(responseJson.solidity_code);
             saveSolidityFile(responseJson.solidity_code, contractName);
             Alert.alert("Success", "Contract data uploaded successfully.");
         } catch (error) {
             Alert.alert("Upload Error", "An error occurred while uploading contract data.");
-            console.error(error);
         }
     };
 
@@ -105,6 +102,44 @@ export const useContractHandling = () => {
         }
     };
 
+    const fetchAndSyncContracts = async () => {
+        try {
+            const token = await SecureStore.getItemAsync('authToken');
+            const response = await fetch(`${BACKEND_URL}/contracts/get-user-contracts/`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Token ${token}`,
+                },
+            });
+            const contracts = await response.json();
+            await syncContracts(contracts);
+        } catch (error) {
+            console.error("Error fetching contracts:", error);
+            Alert.alert("Error", "Failed to fetch contracts.");
+        }
+    };
+
+    const syncContracts = async (contracts) => {
+        const documentDirectory = FileSystem.documentDirectory;
+        const localFiles = await FileSystem.readDirectoryAsync(documentDirectory);
+    
+        const downloadPromises = contracts.map(async (contract) => {
+            const localFilePath = `${documentDirectory}${contract.name}.sol`;
+            if (!localFiles.includes(`${contract.name}.sol`)) {
+                // Download and save file if it does not exist locally
+                console.log(`Downloading and saving ${contract.name}...`);
+                const content = await (await fetch(contract.url)).text();
+                await FileSystem.writeAsStringAsync(localFilePath, content, { encoding: FileSystem.EncodingType.UTF8 });
+            }
+            return { ...contract, localFilePath };
+        });
+    
+        const updatedContracts = await Promise.all(downloadPromises);
+        setSavedContracts(updatedContracts);
+    };
+    
+    
+
     return {
         selectedFile,
         setSelectedFile,
@@ -120,5 +155,7 @@ export const useContractHandling = () => {
         handleFileSelectDropZone,
         uploadContractData,
         openContract,
+        fetchAndSyncContracts,
+        
     };
 };
