@@ -4,7 +4,6 @@ import * as DocumentPicker from 'expo-document-picker';
 import * as SecureStore from 'expo-secure-store';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
-import { ThemeContext } from '../../components/Theme'; // Adjust this import path to match your project structure
 import { BACKEND_URL } from '@env';
 
 export const useContractHandling = () => {
@@ -15,9 +14,8 @@ export const useContractHandling = () => {
     const [tokenContractInterface, setTokenContractInterface] = useState('');
     const [savedContracts, setSavedContracts] = useState([]);
 
-    const { theme } = useContext(ThemeContext);
 
-    const handleFileSelectDropZone = async () => {
+    const handleFileSelectDropZone = async (onFileSelected) => {
         try {
             const result = await DocumentPicker.getDocumentAsync({
                 type: ['text/plain'], // ["*/*"] for accepting all types
@@ -31,6 +29,7 @@ export const useContractHandling = () => {
                 Alert.alert("Cancelled", "File selection was cancelled.");
             }
         } catch (error) {
+            console.log(error);
             Alert.alert("Error", "An error occurred during file selection.");
         }
     };
@@ -107,7 +106,6 @@ export const useContractHandling = () => {
     };
 
     return {
-        theme,
         selectedFile,
         setSelectedFile,
         contractName,
@@ -119,7 +117,7 @@ export const useContractHandling = () => {
         tokenContractInterface,
         setTokenContractInterface,
         savedContracts,
-        handleFileSelect,
+        handleFileSelectDropZone,
         uploadContractData,
         openContract,
     };
