@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert, LayoutAnimation, Platform, UIManager } from 'react-native';
 import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
@@ -46,7 +46,12 @@ const HomeScreen = (navigation) => {
         handleFileSelectDropZone,
         uploadContractData,
         openContract,
+        fetchAndSyncContracts,
     } = useContractHandling(); 
+
+    useEffect(() => {
+        fetchAndSyncContracts();
+    }, []);
 
     return (
         <View style={{ flex: 1, backgroundColor: theme === 'dark' ? '#1A1A1A' : 'white' }}>

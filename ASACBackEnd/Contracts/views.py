@@ -25,7 +25,6 @@ class ContractView(APIView):
         data = request.data.copy()
         data['user'] = request.user.id
 
-
         serializer = EmploymentContractSerialiser(data=data)
         if serializer.is_valid():
             employment_contract = serializer.save(user=request.user)
