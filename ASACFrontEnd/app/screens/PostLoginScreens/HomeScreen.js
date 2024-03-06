@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Alert, LayoutAnimation, Platform, UIManager } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Animated, LayoutAnimation, StyleSheet, Platform, UIManager } from 'react-native';
 import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -22,6 +22,33 @@ const DropZone = ({ handleFileSelectDropZone, onFileSelected, selectedFile }) =>
                 </>
             ) : (
                 <Text style={[styles.dropZoneText, { color: theme === 'dark' ? 'grey' : 'darkgrey' }]}>Tap to select a .docx / .pdf / .txt file</Text>
+            )}
+        </TouchableOpacity>
+    );
+};
+
+const ContractItem = ({ contract, openContract, theme }) => {
+    const [expanded, setExpanded] = useState(false);
+    const styles = getStyles(theme);
+
+    const toggleExpand = () => {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+        setExpanded(!expanded);
+    };
+
+    return (
+        <TouchableOpacity onPress={toggleExpand} style={[styles.contractItem1, { borderColor: theme === 'dark' ? '#303030' : '#ccc' }]}>
+            <View style={styles.contractHeader}>
+                <Text style={{ color: theme === 'dark' ? 'white' : 'black' }}>{contract.contract_name}.sol</Text>
+                <MaterialCommunityIcons name={expanded ? "chevron-up" : "chevron-down"} size={24} color={theme === 'dark' ? 'white' : 'black'} />
+            </View>
+            {expanded && (
+                <View style={styles.expandedSection}>
+                    <TouchableOpacity onPress={() => openContract(contract.contract_name)} style={styles.smartContractButton}>
+                        <MaterialCommunityIcons name="file-document-outline" size={24} color={theme === 'dark' ? 'white' : 'black'} />
+                        <Text style={{ color: theme === 'dark' ? 'white' : 'black', marginLeft: 5 }}>Access Contract</Text>
+                    </TouchableOpacity>
+                </View>
             )}
         </TouchableOpacity>
     );
@@ -98,9 +125,9 @@ const HomeScreen = (navigation) => {
                     </View>
 
                     {/* User's Contracts Section */}
-                    <View style={styles.card}>
+                    {/* Option 1 */}
+                    {/* <View style={styles.card}>
                         <ScrollView>
-                            {/* User's Contracts Section */}
                             <Text style={styles.cardHeader}>My Contracts</Text>
                             {savedContracts.map((contract, index) => (
                                 <TouchableOpacity
@@ -112,6 +139,32 @@ const HomeScreen = (navigation) => {
                                 </TouchableOpacity>
                             ))}
                         </ScrollView>
+                    </View> */}
+
+                    {/* Option 2 */}
+                    {/*<View style={styles.card}>
+                        <ScrollView>
+                            <Text style={styles.cardHeader}>My Contracts</Text>
+                            {savedContracts.map((contract, index) => (
+                                <View key={index} style={styles.contractItem}>
+                                    <Text style={styles.contractText}>{contract.contract_name}.sol</Text>
+                                    <TouchableOpacity
+                                        style={styles.contractActionButton}
+                                        onPress={() => openContract(contract.contract_name)}
+                                    >
+                                        <MaterialCommunityIcons name="eye-outline" size={24} color={theme === 'dark' ? 'white' : 'black'} />
+                                    </TouchableOpacity>
+                                </View>
+                            ))}
+                        </ScrollView>
+                    </View>*/}
+
+                    {/* Option 3 */}
+                    <View style={styles.card}>
+                        <Text style={styles.cardHeader}>My Contracts</Text>
+                        {savedContracts.map((contract, index) => (
+                            <ContractItem key={index} contract={contract} openContract={openContract} theme={theme} />
+                        ))}
                     </View>
 
                     {/* Additional Features */}

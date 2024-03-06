@@ -230,6 +230,75 @@ const getStyles = (theme = 'light') => {
             fontSize: 16,
             fontWeight: 'bold',
         },
+        contractItem: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingVertical: 8,
+            borderBottomWidth: 1,
+            borderBottomColor: theme === 'dark' ? '#3A3C43' : '#E2E2E2',
+        },
+        contractText: {
+            fontSize: 16,
+            color: theme === 'dark' ? 'white' : 'black',
+        },
+        contractHeader: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+        },
+        expandedSection: {
+            paddingTop: 10,
+        },
+        containerForContracts: {
+            flex: 1,
+        },
+        contractItem1: {
+            marginBottom: 10,
+            paddingHorizontal: 10,
+            paddingTop: 10,
+            paddingBottom: 5,
+            backgroundColor: themeStyles[theme].backgroundColor,
+            borderRadius: 5,
+            borderWidth: 1,
+            borderColor: '#ddd',
+        },
+        contractItem: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingVertical: 10,
+            paddingHorizontal: 16,
+            backgroundColor: themeStyles[theme].cardBackground,
+            borderRadius: 8,
+            borderWidth: 1,
+            borderColor: themeStyles[theme].borderColor,
+            marginBottom: 8,
+        },
+        contractHeader: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+        },
+        contractText: {
+            fontSize: 16,
+            fontWeight: 'bold',
+        },
+        expandedSection: {
+            marginTop: 10,
+        },
+        detailsText: {
+            fontSize: 14,
+        },
+        smartContractButton: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 10,
+            marginTop: 10,
+            borderRadius: 5,
+            backgroundColor: theme === 'dark' ? '#2D2D2D' : '#EFEFEF', // Example background colors, adjust as needed
+        },
     });
 };
 
