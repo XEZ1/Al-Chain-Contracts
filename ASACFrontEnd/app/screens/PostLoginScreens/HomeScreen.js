@@ -47,7 +47,7 @@ const HomeScreen = (navigation) => {
         uploadContractData,
         openContract,
         fetchAndSyncContracts,
-    } = useContractHandling(); 
+    } = useContractHandling();
 
     useEffect(() => {
         fetchAndSyncContracts();
@@ -101,19 +101,17 @@ const HomeScreen = (navigation) => {
                     <View style={styles.card}>
                         <ScrollView>
                             {/* User's Contracts Section */}
-                                <Text style={styles.cardHeader}>My Contracts</Text>
-                                {savedContracts.map((contractName, index) => (
-                                    <TouchableOpacity
-                                        key={index}
-                                        style={styles.dropZone}
-                                        onPress={() => openContract(contractName)}>
-                                        <MaterialCommunityIcons name="file-document-outline" size={100} color="black" />
-                                        <Text style={styles.buttonText}>{contractName}.sol</Text>
-                                    </TouchableOpacity>
-                                ))}
+                            <Text style={styles.cardHeader}>My Contracts</Text>
+                            {savedContracts.map((contract, index) => (
+                                <TouchableOpacity
+                                    key={index}
+                                    style={styles.dropZone}
+                                    onPress={() => openContract(contract.contract_name)}>
+                                    <MaterialCommunityIcons name="file-document-outline" size={100} color="black" />
+                                    <Text style={styles.buttonText}>{contract.contract_name}.sol</Text>
+                                </TouchableOpacity>
+                            ))}
                         </ScrollView>
-
-                        
                     </View>
 
                     {/* Additional Features */}
