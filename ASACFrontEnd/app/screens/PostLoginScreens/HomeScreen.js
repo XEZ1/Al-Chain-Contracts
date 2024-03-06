@@ -4,6 +4,9 @@ import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
 import * as DocumentPicker from 'expo-document-picker';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { BACKEND_URL } from '@env';
+import * as SecureStore from 'expo-secure-store';
+import * as FileSystem from 'expo-file-system';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -16,11 +19,11 @@ const DropZone = ({ onFileSelected, selectedFile }) => {
     const handleFileSelect = async () => {
         try {
             const result = await DocumentPicker.getDocumentAsync({
-                type: ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'], //, 'text/plain'], // ["*/*"] to accept all types
+                type: ['text/plain'], // ["*/*"] for accepting all types
                 copyToCacheDirectory: true,
                 multiple: false
             });
-            if (result.assets[0].mimeType == 'application/pdf' || result.assets[0].mimeType == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+            if (result.assets[0].mimeType == 'text/plain') {
                 LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
                 onFileSelected(result);
             } else {
@@ -32,7 +35,7 @@ const DropZone = ({ onFileSelected, selectedFile }) => {
             Alert.alert("Error", "An error occurred during file selection.");
         }
     };
-    
+
     return (
         <TouchableOpacity style={styles.dropZone} onPress={handleFileSelect}>
             {selectedFile ? (
@@ -41,7 +44,7 @@ const DropZone = ({ onFileSelected, selectedFile }) => {
                     <Text style={styles.buttonText}>{selectedFile.assets[0].name}</Text>
                 </>
             ) : (
-                <Text style={[styles.newButton, { color: theme === 'dark' ? 'grey' : 'darkgrey'}]}>Tap to select a .docx / .pdf / .txt file</Text>
+                <Text style={[styles.newButton, { color: theme === 'dark' ? 'grey' : 'darkgrey' }]}>Tap to select a .docx / .pdf / .txt file</Text>
             )}
         </TouchableOpacity>
     );
@@ -65,22 +68,27 @@ const HomeScreen = (navigation) => {
         }
 
         const formData = new FormData();
-        formData.append('file', {
-            uri: selectedFile.uri,
-            type: selectedFile.mimeType,
-            name: selectedFile.name,
-        });
 
-        formData.append('contractName', contractName);
-        formData.append('employerAddress', employerAddress);
-        formData.append('authAppAddress', authAppAddress);
-        formData.append('tokenContractInterface', tokenContractInterface);
+        const fileContent = await FileSystem.readAsStringAsync(selectedFile.assets[0].uri, { encoding: FileSystem.EncodingType.UTF8 });
+        console.log(fileContent);
+        formData.append('contract_file', fileContent);
+
+        formData.append('contract_name', contractName);
+        formData.append('employer_address', employerAddress);
+        formData.append('auth_app_address', authAppAddress);
+        formData.append('token_contract_interface', tokenContractInterface);
+
+        const response = await fetch(selectedFile.assets[0].uri);
+        const bolb = response.bolb();
+        formData.append('contract_file', bolb, contractName);
 
         try {
-            const response = await fetch(`${BACKEND_URL}/generate-contract/`, {
+            const token = await SecureStore.getItemAsync('authToken');
+
+            const response = await fetch(`${BACKEND_URL}/contracts/generate-contract/`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Token ${token}`,
                 },
                 body: formData,
             });
@@ -89,6 +97,7 @@ const HomeScreen = (navigation) => {
             Alert.alert("Success", "Contract data uploaded successfully.");
         } catch (error) {
             Alert.alert("Upload Error", "An error occurred while uploading contract data.");
+            console.error(error);
         }
     };
 
