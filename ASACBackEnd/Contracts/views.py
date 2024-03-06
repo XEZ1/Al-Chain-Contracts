@@ -9,6 +9,10 @@ from rest_framework.views import APIView
 from .models import EmploymentContract, SmartContract
 from rest_framework.parsers import MultiPartParser, FormParser
 from .serializers import EmploymentContractSerialiser, SmartContractSerialiser
+import base64
+from django.core.files.base import ContentFile
+
+
 
 # Load environment variables from .env file
 load_dotenv()
@@ -18,8 +22,13 @@ class ContractView(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def post(self, request, *args, **kwargs):
-        serializer = EmploymentContractSerialiser(data=request.data)
+        data = request.data.copy()
+        data['user'] = request.user.id
+
+
+        serializer = EmploymentContractSerialiser(data=data)
         if serializer.is_valid():
+            print(serializer.validated_data)
             employment_contract = serializer.save(user=request.user)
 
             # Extract text from the uploaded file
@@ -39,6 +48,7 @@ class ContractView(APIView):
             # Extend for saving Solidity code to a .sol file
 
             return JsonResponse({"solidity_code": solidity_code}, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def extract_text_from_file(self, contract_file):
