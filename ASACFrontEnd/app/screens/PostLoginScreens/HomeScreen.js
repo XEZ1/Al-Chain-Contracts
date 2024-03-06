@@ -27,11 +27,9 @@ const DropZone = ({ onFileSelected, selectedFile }) => {
                 LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
                 onFileSelected(result);
             } else {
-                console.log(result)
                 Alert.alert("Cancelled", "File selection was cancelled.");
             }
         } catch (error) {
-            console.error(error);
             Alert.alert("Error", "An error occurred during file selection.");
         }
     };
@@ -70,17 +68,12 @@ const HomeScreen = (navigation) => {
         const formData = new FormData();
 
         const fileContent = await FileSystem.readAsStringAsync(selectedFile.assets[0].uri, { encoding: FileSystem.EncodingType.UTF8 });
-        console.log(fileContent);
-        formData.append('contract_file', fileContent);
+        formData.append('contract_content', fileContent);
 
         formData.append('contract_name', contractName);
         formData.append('employer_address', employerAddress);
         formData.append('auth_app_address', authAppAddress);
         formData.append('token_contract_interface', tokenContractInterface);
-
-        const response = await fetch(selectedFile.assets[0].uri);
-        const bolb = response.bolb();
-        formData.append('contract_file', bolb, contractName);
 
         try {
             const token = await SecureStore.getItemAsync('authToken');
@@ -92,12 +85,31 @@ const HomeScreen = (navigation) => {
                 },
                 body: formData,
             });
-
             const responseJson = await response.json();
+            //console.log(responseJson);
+            console.log(responseJson.solidity_code);
+            saveSolidityFile(responseJson.solidity_code, contractName);
             Alert.alert("Success", "Contract data uploaded successfully.");
         } catch (error) {
             Alert.alert("Upload Error", "An error occurred while uploading contract data.");
             console.error(error);
+        }
+    };
+
+    const saveSolidityFile = async (solidityCode, fileName) => {
+        const fileInfo = await FileSystem.getInfoAsync(FileSystem.documentDirectory + fileName + '.sol');
+        if (fileInfo.exists) {
+            console.log(`${fileName}.sol already exists. Overwriting...`);
+        }
+        try {
+            const filePath = FileSystem.documentDirectory + fileName + '.sol';
+            await FileSystem.writeAsStringAsync(filePath, solidityCode, { encoding: FileSystem.EncodingType.UTF8 });
+            console.log('Solidity file saved at:', filePath);
+            Alert.alert("Success", `Contract saved as ${fileName}.sol`);
+            // Optionally, if you want to open the file or share it, you can use the filePath.
+        } catch (error) {
+            console.error("Error saving Solidity file:", error);
+            Alert.alert("Error", "Failed to save the contract file.");
         }
     };
 
