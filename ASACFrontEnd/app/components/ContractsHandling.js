@@ -22,15 +22,16 @@ export const useContractHandling = () => {
                 copyToCacheDirectory: true,
                 multiple: false
             });
-            console.log(result.canceled);
             if (result.canceled) {
+                LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                onFileSelected(null);
                 //Alert.alert("Cancelled", "File selection was cancelled.");
                 return;
             }
             if (result.assets[0].mimeType == 'text/plain') {
                 LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
                 onFileSelected(result);
-            } 
+            }
         } catch (error) {
             console.log(error);
             Alert.alert("Error", "An error occurred during file selection.");
@@ -82,12 +83,9 @@ export const useContractHandling = () => {
             setSavedContracts(prevContracts => [...prevContracts, fileName]);
             Alert.alert("Success", `Contract was generated and saved as ${fileName}.sol to ${filePath}`);
         } catch (error) {
-            if (error instanceof TypeError) { 
-                // Skip
-            } else {
-                console.error("Error saving Solidity file:", error.message);
-                Alert.alert("Error", "Failed to save the contract file.");
-            }
+            console.error("Error saving Solidity file:", error.message);
+            Alert.alert("Error", "Failed to save the contract file.");
+
         }
     };
 
