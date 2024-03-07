@@ -1,7 +1,8 @@
 import * as SecureStore from 'expo-secure-store';
 import { BACKEND_URL } from '@env';
 import React, { useState, useEffect, createContext } from 'react';
-import { connectToNotifications } from './Notifications';
+import { useConnectToNotifications } from './Notifications';
+import { WebSocketProvider } from './Notifications';
 
 
 export const AuthContext = createContext();
@@ -68,11 +69,7 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const checkToken = async () => {
-            const valid = await validateToken()
-            setIsLoggedIn(valid);
-            if (valid) {
-                connectToNotifications(`ws://${BACKEND_URL}/notifications`);
-            }
+            setIsLoggedIn(await validateToken());
         };
 
         checkToken();
@@ -89,7 +86,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, handleLogin }}>
-            {children}
+            {isLoggedIn ? <WebSocketProvider>{children}</WebSocketProvider> : children}
         </AuthContext.Provider>
     );
 };
