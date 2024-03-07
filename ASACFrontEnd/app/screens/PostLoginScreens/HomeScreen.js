@@ -63,7 +63,7 @@ const ContractItem = ({ contract, openContract, theme }) => {
     );
 };
 
-const HomeScreen = (navigation) => {
+const HomeScreen = ({ navigation }) => {
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
     const styles = getStyles(theme);
 
@@ -81,9 +81,12 @@ const HomeScreen = (navigation) => {
         savedContracts,
         handleFileSelectDropZone,
         uploadContractData,
+        openShareContract,
         openContract,
         fetchAndSyncContracts,
-    } = useContractHandling();
+    } = useContractHandling(navigation);
+
+
 
     useEffect(() => {
         fetchAndSyncContracts();
@@ -119,7 +122,7 @@ const HomeScreen = (navigation) => {
                                 <TouchableOpacity
                                     key={index}
                                     style={styles.dropZone}
-                                    onPress={() => openContract(contract.contract_name)}>
+                                    onPress={() => openShareContract(contract.contract_name)}>
                                     <MaterialCommunityIcons name="file-document-outline" size={100} color="black" />
                                     <Text style={styles.buttonText}>{contract.contract_name}.sol</Text>
                                 </TouchableOpacity>
@@ -136,7 +139,7 @@ const HomeScreen = (navigation) => {
                                     <Text style={styles.contractText}>{contract.contract_name}.sol</Text>
                                     <TouchableOpacity
                                         style={styles.contractActionButton}
-                                        onPress={() => openContract(contract.contract_name)}
+                                        onPress={() => openShareContract(contract.contract_name)}
                                     >
                                         <MaterialCommunityIcons name="eye-outline" size={24} color={theme === 'dark' ? 'white' : 'black'} />
                                     </TouchableOpacity>

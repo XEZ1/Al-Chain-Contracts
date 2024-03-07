@@ -1,45 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { View, TextInput, StyleSheet, Alert } from 'react-native';
+import * as FileSystem from 'expo-file-system'; // Ensure you're importing FileSystem
+import getStyles from '../../styles/SharedStyles';
+import { Theme } from '@react-navigation/native';
+import { ThemeContext } from '../../components/Theme';
 
-function EditorScreen({ navigation }) {
-  const { filePath } = navigation.params;
-  const [fileContent, setFileContent] = useState('');
+function EditorScreen({ route, navigation }) { // Destructure 'route' from props
+    const { filePath } = route.params; // Correctly access 'filePath' from 'route.params'
+    const [fileContent, setFileContent] = useState('');
+    const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
+    const styles = getStyles(theme);
 
-  useEffect(() => {
-    // Assuming readSolFileContent is an async function that reads the file content
-    const loadFileContent = async () => {
-      const content = await readSolFileContent(filePath);
-      setFileContent(content);
-    };
+    useEffect(() => {
+        const loadFileContent = async () => {
+            try {
+                const content = await FileSystem.readAsStringAsync(filePath);
+                setFileContent(content);
+            } catch (error) {
+                Alert.alert("Error", "Failed to load the contract content");
+                console.error("Failed to read file content", error);
+            }
+        };
 
-    loadFileContent();
-  }, [filePath]);
+        loadFileContent();
+    }, [filePath]);
 
-  return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.editor}
-        multiline
-        editable
-        value={fileContent}
-        onChangeText={setFileContent} // Allows editing, remove if read-only
-      />
-    </View>
-  );
+    return (
+        <View style={styles.EditorContainer}>
+            <TextInput
+                style={styles.editor}
+                multiline
+                editable
+                value={fileContent}
+                onChangeText={setFileContent} // Allows editing, remove if read-only
+            />
+        </View>
+    );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-  },
-  editor: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: 'gray',
-    padding: 10,
-    textAlignVertical: 'top', // Align text to the top on Android
-  },
-});
 
 export default EditorScreen;

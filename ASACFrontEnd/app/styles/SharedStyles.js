@@ -304,6 +304,17 @@ const getStyles = (theme = 'light') => {
             marginTop: 20, // Add some margin to position it nicely in the card
             fontSize: 16, // Set the font size
         },
+        EditorContainer: {
+            flex: 1,
+            padding: 2,
+        },
+        editor: {
+            flex: 1,
+            borderWidth: 1,
+            borderColor: 'gray',
+            padding: 10,
+            textAlignVertical: 'top', // Align text to the top on Android
+        },
     });
 };
 
