@@ -31,15 +31,29 @@ const ContractItem = ({ contract, openContract, theme }) => {
     const [expanded, setExpanded] = useState(false);
     const styles = getStyles(theme);
     const animationController = useRef(new Animated.Value(0)).current;
+    const isMounted = useRef(true);
+
+    useEffect(() => {
+        return () => {
+            isMounted.current = false;
+            animationController.stopAnimation();
+        };
+    }, []);
 
     const toggleExpand = () => {
+        if (!isMounted.current) return;
+
         setExpanded(!expanded);
 
         Animated.timing(animationController, {
             toValue: expanded ? 0 : 1,
-            duration: 500, 
-            useNativeDriver: false, 
-        }).start();
+            duration: 500,
+            useNativeDriver: false,
+        }).start(() => {
+            if (!isMounted.current) {
+                animationController.stopAnimation(); 
+            }
+        });
     };
 
     const animatedHeight = animationController.interpolate({
