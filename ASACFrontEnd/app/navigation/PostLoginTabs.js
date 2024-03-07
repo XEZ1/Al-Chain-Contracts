@@ -6,6 +6,7 @@ import HomeScreen from '../screens/PostLoginScreens/HomeScreen';
 import SettingsScreen from '../screens/PostLoginScreens/SettingsScreen';
 import ForumScreen from '../screens/PostLoginScreens/ForumScreen';
 import SupportScreen from '../screens/PostLoginScreens/SupportScreen';
+import EditorScreen from '../screens/PostLoginScreens/EditorScreen';
 import { ThemeContext } from '../components/Theme';
 import getStyles from '../styles/SharedStyles';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -53,6 +54,7 @@ const PostLoginTabs = () => {
                         <Tab.Screen name="Forum" component={ForumScreen} />
                         <Tab.Screen name="Support" component={SupportScreen} />
                         <Tab.Screen name="Settings" component={SettingsScreen} />
+                        <Tab.Screen name="Editor" component={EditorScreen} />
                     </Tab.Navigator>
                 </View>
             </SafeAreaView>

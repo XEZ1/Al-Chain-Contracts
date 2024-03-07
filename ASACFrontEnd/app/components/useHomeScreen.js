@@ -147,8 +147,6 @@ export const useContractHandling = () => {
         setSavedContracts(updatedContracts);
     };
 
-
-
     return {
         selectedFile,
         setSelectedFile,
@@ -165,6 +163,5 @@ export const useContractHandling = () => {
         uploadContractData,
         openContract,
         fetchAndSyncContracts,
-
     };
 };
