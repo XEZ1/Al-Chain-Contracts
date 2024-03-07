@@ -215,7 +215,70 @@ const getStyles = (theme = 'light') => {
             paddingVertical: 10, // Optional, adjust the vertical padding if needed
             height: 50,
         },
-        
+        fileInfo: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginTop: 10,
+        },
+        dropZoneText: {
+            fontSize: 16,
+            fontWeight: 'bold',
+        },
+        contractText: {
+            fontSize: 16,
+            color: theme === 'dark' ? 'white' : 'black',
+        },
+        contractHeader: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+        },
+        expandedSection: {
+            paddingTop: 10,
+        },
+        contractItemAnimation: {
+            marginBottom: 10,
+            paddingHorizontal: 10,
+            paddingTop: 10,
+            backgroundColor: themeStyles[theme].backgroundColor,
+            borderRadius: 10,
+            borderColor: '#ddd',
+        },
+        contractHeader: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+        },
+        expandedSection: {
+            marginTop: 10,
+        },
+        smartContractButton: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 10,
+            marginTop: 10,
+            borderRadius: 10,
+            backgroundColor: theme === 'dark' ? '#2D2D2D' : '#EFEFEF', // Example background colors, adjust as needed
+        },
+        noContractsText: {
+            textAlign: 'center',
+            color: themeStyles[theme].textColor,
+            marginTop: 20, // Add some margin to position it nicely in the card
+            fontSize: 16, // Set the font size
+        },
+        EditorContainer: {
+            flex: 1,
+            padding: 2,
+        },
+        editor: {
+            flex: 1,
+            borderWidth: 1,
+            borderColor: 'gray',
+            padding: 10,
+            textAlignVertical: 'top', // Align text to the top on Android
+        },
     });
 };
 

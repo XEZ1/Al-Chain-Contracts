@@ -759,6 +759,8 @@ out
 # expo files
 .expo/
 
+# Additional wunidows grabage
+.%ProgramData%/
 
 # Mobile Tools for Java (J2ME)
 

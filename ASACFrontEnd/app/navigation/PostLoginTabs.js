@@ -2,10 +2,12 @@ import React, { useContext } from 'react';
 import { View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons'; // If you're using Expo or you can use any other icon library
+import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/PostLoginScreens/HomeScreen';
 import SettingsScreen from '../screens/PostLoginScreens/SettingsScreen';
 import ForumScreen from '../screens/PostLoginScreens/ForumScreen';
 import SupportScreen from '../screens/PostLoginScreens/SupportScreen';
+import EditorScreen from '../screens/PostLoginScreens/EditorScreen';
 import { ThemeContext } from '../components/Theme';
 import getStyles from '../styles/SharedStyles';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -16,6 +18,16 @@ const Tab = createBottomTabNavigator();
 const PostLoginTabs = () => {
     const { theme } = useContext(ThemeContext);
     const styles = getStyles(theme);
+    const HomeStack = createStackNavigator();
+
+    function HomeStackScreen() {
+        return (
+            <HomeStack.Navigator screenOptions={{ headerShown: false }}>
+                <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
+                <HomeStack.Screen name="EditorScreen" component={EditorScreen} />
+            </HomeStack.Navigator>
+        );
+    }
 
     // Define screenOptions for icons and tab bar styles if you're using them
     const screenOptions = ({ route }) => ({
@@ -49,7 +61,7 @@ const PostLoginTabs = () => {
                 <View style={{ height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey' }} />
                 <View style={{ flex: 1, Bottom: 80 }}>
                     <Tab.Navigator screenOptions={screenOptions}>
-                        <Tab.Screen name="Home" component={HomeScreen} />
+                        <Tab.Screen name="Home" component={HomeStackScreen} />
                         <Tab.Screen name="Forum" component={ForumScreen} />
                         <Tab.Screen name="Support" component={SupportScreen} />
                         <Tab.Screen name="Settings" component={SettingsScreen} />
