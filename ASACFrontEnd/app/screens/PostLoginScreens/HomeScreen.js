@@ -1,73 +1,142 @@
-import React, { useContext, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native';
+import React, { useContext, useEffect, useState, useRef } from 'react';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Animated, LayoutAnimation, StyleSheet, Platform, UIManager } from 'react-native';
 import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
-import DocumentPicker from 'react-native-document-picker';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useContractHandling } from './useHomeScreen';
 
-// DropZone Component (as provided in the second snippet)
-const DropZone = ({ onFileSelected }) => {
+if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
+const DropZone = ({ handleFileSelectDropZone, onFileSelected, selectedFile }) => {
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
-
-    const handleFileSelect = async () => {
-        try {
-            const res = await DocumentPicker.pick({
-                type: [DocumentPicker.types.pdf, DocumentPicker.types.docx],
-            });
-            console.log(res);
-            onFileSelected(res); // You might want to adjust this part to handle the file reading and parsing
-        } catch (err) {
-            if (DocumentPicker.isCancel(err)) {
-                Alert.alert('Canceled', 'User canceled the picker');
-            } else {
-                Alert.alert('Error', 'Unknown error: ' + err);
-                throw err;
-            }
-        }
-    };
-
-    // Retrieve styles from the theme context or define them here
-    const styles = getStyles(); // This needs to be adjusted to your actual implementation
+    const styles = getStyles();
 
     return (
-        <TouchableOpacity style={styles.dropZone} onPress={handleFileSelect}>
-            <Text style={styles.buttonText} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}>Tap to select a .docx / .pdf file</Text>
+        <TouchableOpacity style={styles.dropZone} onPress={() => handleFileSelectDropZone(onFileSelected)}>
+            {selectedFile ? (
+                <>
+                    <MaterialCommunityIcons name="file-document-outline" size={100} color="black" />
+                    <Text style={styles.buttonText}>{selectedFile.assets[0].name}</Text>
+                </>
+            ) : (
+                <Text style={[styles.dropZoneText, { color: theme === 'dark' ? 'grey' : 'darkgrey' }]}>Tap to select a .docx / .pdf / .txt file</Text>
+            )}
         </TouchableOpacity>
     );
 };
 
-const HomeScreen = (navigation) => {
-    const [selectedFile, setSelectedFile] = useState(null);
+const ContractItem = ({ contract, openContract, theme }) => {
+    const [expanded, setExpanded] = useState(false);
+    const styles = getStyles(theme);
+    const animationController = useRef(new Animated.Value(0)).current;
+    const isMounted = useRef(true);
 
-    const handleFileSelect = (file) => {
-        setSelectedFile(file);
+    useEffect(() => {
+        return () => {
+            isMounted.current = false;
+            animationController.stopAnimation();
+        };
+    }, []);
+
+    const toggleExpand = () => {
+        if (!isMounted.current) return;
+
+        setExpanded(!expanded);
+
+        Animated.timing(animationController, {
+            toValue: expanded ? 0 : 1,
+            duration: 500,
+            useNativeDriver: false,
+        }).start(() => {
+            if (!isMounted.current) {
+                animationController.stopAnimation(); 
+            }
+        });
     };
 
+    const animatedHeight = animationController.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 60],
+    });
+
+    return (
+        <TouchableOpacity onPress={toggleExpand} style={styles.contractItemAnimation}>
+            <View style={styles.contractHeader}>
+                <Text style={{ color: theme === 'dark' ? 'white' : 'black' }}>{contract.contract_name}.sol</Text>
+                <MaterialCommunityIcons name={expanded ? "chevron-up" : "chevron-down"} size={24} color={theme === 'dark' ? 'white' : 'black'} />
+            </View>
+            <Animated.View style={[styles.expandedSection, { height: animatedHeight, overflow: 'hidden' }]}>
+                <TouchableOpacity onPress={() => openContract(contract.contract_name)} style={styles.smartContractButton}>
+                    <MaterialCommunityIcons name="file-document-outline" size={24} color={theme === 'dark' ? 'white' : 'black'} />
+                    <Text style={{ color: theme === 'dark' ? 'white' : 'black', marginLeft: 5 }}>Access Contract</Text>
+                </TouchableOpacity>
+            </Animated.View>
+        </TouchableOpacity>
+    );
+};
+
+const HomeScreen = ({ navigation }) => {
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
     const styles = getStyles(theme);
+
+    const {
+        selectedFile,
+        setSelectedFile,
+        contractName,
+        setContractName,
+        employerAddress,
+        setEmployerAddress,
+        authAppAddress,
+        setAuthAppAddress,
+        tokenContractInterface,
+        setTokenContractInterface,
+        savedContracts,
+        handleFileSelectDropZone,
+        uploadContractData,
+        openShareContract,
+        openContract,
+        fetchAndSyncContracts,
+    } = useContractHandling(navigation);
+
+
+
+    useEffect(() => {
+        fetchAndSyncContracts();
+    }, []);
+
     return (
         <View style={{ flex: 1, backgroundColor: theme === 'dark' ? '#1A1A1A' : 'white' }}>
             <ScrollView style={styles.scrollView}>
                 <KeyboardAvoidingView
                     style={styles.container}
-                    behavior="padding"
                 >
                     <Text style={styles.header}>Smart Contract Toolkit</Text>
 
                     {/* Contract Creation Section */}
                     <View style={styles.card}>
-                        
                         <Text style={styles.cardHeader}>Upload an Employment Contract</Text>
-                        <DropZone onFileSelected={handleFileSelect} />
-                        {selectedFile && (
-                            <Text style={styles.fileName}>File: {selectedFile.name}</Text>
-                        )}
-                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Enter Contract Name" />
-                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set Employer's USDC Address" />
-                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set AuthApp's Address" />
-                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set USDC's Token Contract Interface" />
-                        <TouchableOpacity style={styles.button}>
+                        <DropZone handleFileSelectDropZone={handleFileSelectDropZone} onFileSelected={setSelectedFile} selectedFile={selectedFile} />
+                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Enter Contract Name" value={contractName} onChangeText={setContractName} />
+                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set Employer's USDC Address" value={employerAddress} onChangeText={setEmployerAddress} />
+                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set AuthApp's Address" value={authAppAddress} onChangeText={setAuthAppAddress} />
+                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set USDC's Token Contract Interface" value={tokenContractInterface} onChangeText={setTokenContractInterface} />
+                        <TouchableOpacity style={styles.button} onPress={uploadContractData}>
                             <Text style={styles.buttonText}>Create Contract</Text>
                         </TouchableOpacity>
+                    </View>
+
+                    {/* User's Smart Contracts */}
+                    <View style={styles.card}>
+                        <Text style={styles.cardHeader}>My Smart Contracts</Text>
+                        {savedContracts.length === 0 ? (
+                            <Text style={styles.noContractsText}>No saved contracts yet</Text>
+                        ) : (
+                            savedContracts.map((contract, index) => (
+                                <ContractItem key={index} contract={contract} openContract={openContract} theme={theme} />
+                            ))
+                        )}
                     </View>
 
                     {/* Contract Templates Section */}
@@ -91,12 +160,6 @@ const HomeScreen = (navigation) => {
                         <TouchableOpacity style={styles.button}>
                             <Text style={styles.buttonText}>Deploy Contract</Text>
                         </TouchableOpacity>
-                    </View>
-
-                    {/* User's Contracts Section */}
-                    <View style={styles.card}>
-                        <Text style={styles.cardHeader}>My Contracts</Text>
-                        {/* This would be a list component that lists the contracts the user has created */}
                     </View>
 
                     {/* Additional Features */}
@@ -123,7 +186,7 @@ const HomeScreen = (navigation) => {
             {/* Separator Line */}
             <View style={{ height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: 90, left: 0, right: 0 }} />
 
-        </View>
+        </View >
     );
 };
 

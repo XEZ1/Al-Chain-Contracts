@@ -9,8 +9,6 @@ from .serializers import SignUpSerialiser, UserSerialiser, PushTokenSerialiser
 from Accounts.models import User, PushToken
 
 
-
-
 class ValidateTokenView(views.APIView):
     authentication_classes = [TokenAuthentication]
 
@@ -73,5 +71,3 @@ class PushTokenView(views.APIView):
             serialiser = PushTokenSerialiser(push_token)
             return Response(serialiser.data)
         return Response(status=status.HTTP_404_NOT_FOUND)
-
-
