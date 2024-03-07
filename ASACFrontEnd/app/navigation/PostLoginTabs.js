@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons'; // If you're using Expo or you can use any other icon library
+import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/PostLoginScreens/HomeScreen';
 import SettingsScreen from '../screens/PostLoginScreens/SettingsScreen';
 import ForumScreen from '../screens/PostLoginScreens/ForumScreen';
@@ -17,19 +18,29 @@ const Tab = createBottomTabNavigator();
 const PostLoginTabs = () => {
     const { theme } = useContext(ThemeContext);
     const styles = getStyles(theme);
+    const HomeStack = createStackNavigator();
+
+    function HomeStackScreen() {
+        return (
+            <HomeStack.Navigator screenOptions={{ headerShown: false }}>
+                <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
+                <HomeStack.Screen name="EditorScreen" component={EditorScreen} />
+            </HomeStack.Navigator>
+        );
+    }
 
     // Define screenOptions for icons and tab bar styles if you're using them
-    const screenOptions = ({ route }) => ({
+    const screenOptions = ({ navigation }) => ({
         tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
-            if (route.name === 'Home') {
+            if (navigation.name === 'Home') {
                 iconName = focused ? 'home' : 'home-outline';
-            } else if (route.name === 'Settings') {
+            } else if (navigation.name === 'Settings') {
                 iconName = focused ? 'settings' : 'settings-outline';
-            } else if (route.name === 'Forum') {
+            } else if (navigation.name === 'Forum') {
                 iconName = focused ? 'chatbubbles' : 'chatbubbles-outline';
-            } else if (route.name === 'Support') {
+            } else if (navigation.name === 'Support') {
                 iconName = focused ? 'help-circle' : 'help-circle-outline';
             }
 
@@ -50,11 +61,10 @@ const PostLoginTabs = () => {
                 <View style={{ height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey' }} />
                 <View style={{ flex: 1, Bottom: 80 }}>
                     <Tab.Navigator screenOptions={screenOptions}>
-                        <Tab.Screen name="Home" component={HomeScreen} />
+                        <Tab.Screen name="Home" component={HomeStackScreen} />
                         <Tab.Screen name="Forum" component={ForumScreen} />
                         <Tab.Screen name="Support" component={SupportScreen} />
                         <Tab.Screen name="Settings" component={SettingsScreen} />
-                        <Tab.Screen name="Editor" component={EditorScreen} />
                     </Tab.Navigator>
                 </View>
             </SafeAreaView>

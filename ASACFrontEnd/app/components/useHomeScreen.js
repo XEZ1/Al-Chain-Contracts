@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import { useState } from 'react';
 import { Alert, LayoutAnimation } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as SecureStore from 'expo-secure-store';
@@ -6,7 +6,7 @@ import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { BACKEND_URL } from '@env';
 
-export const useContractHandling = () => {
+export const useContractHandling = (navigation) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [contractName, setContractName] = useState('');
     const [employerAddress, setEmployerAddress] = useState('');
@@ -89,10 +89,11 @@ export const useContractHandling = () => {
         }
     };
 
-    const openContract = async (contractName) => {
+    const openShareContract = async (contractName) => {
         console.log(contractName);
         try {
             const filePath = `${FileSystem.documentDirectory}${contractName}.sol`;
+            console.log(filePath);
             // Check if the sharing is available
             if (!(await Sharing.isAvailableAsync())) {
                 Alert.alert("Error", "Sharing not available on this device");
@@ -102,6 +103,18 @@ export const useContractHandling = () => {
             await Sharing.shareAsync(filePath);
         } catch (error) {
             Alert.alert("Error", "Could not share the contract file.");
+            console.error(error);
+        }
+    };
+
+    const openContract = (contractName) => {
+        console.log(contractName);
+        try {
+            const filePath = `${FileSystem.documentDirectory}${contractName}.sol`;
+            console.log(filePath);
+            navigation.navigate('EditorScreen', { filePath });
+        } catch (error) {
+            Alert.alert("Error", "Could not open the contract file")
             console.error(error);
         }
     };
@@ -161,6 +174,7 @@ export const useContractHandling = () => {
         savedContracts,
         handleFileSelectDropZone,
         uploadContractData,
+        openShareContract,
         openContract,
         fetchAndSyncContracts,
     };
