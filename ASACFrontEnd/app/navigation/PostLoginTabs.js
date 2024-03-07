@@ -30,17 +30,17 @@ const PostLoginTabs = () => {
     }
 
     // Define screenOptions for icons and tab bar styles if you're using them
-    const screenOptions = ({ navigation }) => ({
+    const screenOptions = ({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
-            if (navigation.name === 'Home') {
+            if (route.name === 'Home') {
                 iconName = focused ? 'home' : 'home-outline';
-            } else if (navigation.name === 'Settings') {
+            } else if (route.name === 'Settings') {
                 iconName = focused ? 'settings' : 'settings-outline';
-            } else if (navigation.name === 'Forum') {
+            } else if (route.name === 'Forum') {
                 iconName = focused ? 'chatbubbles' : 'chatbubbles-outline';
-            } else if (navigation.name === 'Support') {
+            } else if (route.name === 'Support') {
                 iconName = focused ? 'help-circle' : 'help-circle-outline';
             }
 
