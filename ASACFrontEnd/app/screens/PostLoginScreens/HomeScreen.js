@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingVi
 import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useContractHandling } from '../../components/useHomeScreen';
+import { useContractHandling } from './useHomeScreen';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -48,7 +48,7 @@ const ContractItem = ({ contract, openContract, theme }) => {
     });
 
     return (
-        <TouchableOpacity onPress={toggleExpand} style={styles.contractItem1}>
+        <TouchableOpacity onPress={toggleExpand} style={styles.contractItemAnimation}>
             <View style={styles.contractHeader}>
                 <Text style={{ color: theme === 'dark' ? 'white' : 'black' }}>{contract.contract_name}.sol</Text>
                 <MaterialCommunityIcons name={expanded ? "chevron-up" : "chevron-down"} size={24} color={theme === 'dark' ? 'white' : 'black'} />
@@ -113,42 +113,7 @@ const HomeScreen = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>
 
-                    {/* User's Contracts Section */}
-                    {/* Option 1 */}
-                    {/* <View style={styles.card}>
-                        <ScrollView>
-                            <Text style={styles.cardHeader}>My Contracts</Text>
-                            {savedContracts.map((contract, index) => (
-                                <TouchableOpacity
-                                    key={index}
-                                    style={styles.dropZone}
-                                    onPress={() => openShareContract(contract.contract_name)}>
-                                    <MaterialCommunityIcons name="file-document-outline" size={100} color="black" />
-                                    <Text style={styles.buttonText}>{contract.contract_name}.sol</Text>
-                                </TouchableOpacity>
-                            ))}
-                        </ScrollView>
-                    </View> */}
-
-                    {/* Option 2 */}
-                    {/*<View style={styles.card}>
-                        <ScrollView>
-                            <Text style={styles.cardHeader}>My Contracts</Text>
-                            {savedContracts.map((contract, index) => (
-                                <View key={index} style={styles.contractItem}>
-                                    <Text style={styles.contractText}>{contract.contract_name}.sol</Text>
-                                    <TouchableOpacity
-                                        style={styles.contractActionButton}
-                                        onPress={() => openShareContract(contract.contract_name)}
-                                    >
-                                        <MaterialCommunityIcons name="eye-outline" size={24} color={theme === 'dark' ? 'white' : 'black'} />
-                                    </TouchableOpacity>
-                                </View>
-                            ))}
-                        </ScrollView>
-                    </View>*/}
-
-                    {/* Option 3 */}
+                    {/* User's Smart Contracts */}
                     <View style={styles.card}>
                         <Text style={styles.cardHeader}>My Smart Contracts</Text>
                         {savedContracts.length === 0 ? (
@@ -159,7 +124,6 @@ const HomeScreen = ({ navigation }) => {
                             ))
                         )}
                     </View>
-
 
                     {/* Contract Templates Section */}
                     <View style={styles.card}>
