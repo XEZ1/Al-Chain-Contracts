@@ -68,7 +68,11 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const checkToken = async () => {
-            setIsLoggedIn(await validateToken());
+            const valid = await validateToken()
+            setIsLoggedIn(valid);
+            if (valid) {
+                connectToNotifications(`ws://${BACKEND_URL}/notifications`);
+            }
         };
 
         checkToken();
@@ -78,9 +82,7 @@ export const AuthProvider = ({ children }) => {
         const result = await login(username, password);
         if (result.success) {
             setIsLoggedIn(true);
-            connectToNotifications(`ws://${BACKEND_URL}/notifications`);
         } else {
-            // Handle error scenario, possibly set an error state or alert the user
             console.error(result.error);
         }
     };
