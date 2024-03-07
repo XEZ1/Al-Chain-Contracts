@@ -13,7 +13,6 @@ import base64
 from django.core.files.base import ContentFile
 
 
-
 # Load environment variables from .env file
 load_dotenv()
 
