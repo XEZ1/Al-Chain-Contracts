@@ -147,7 +147,7 @@ const HomeScreen = (navigation) => {
 
                     {/* Option 3 */}
                     <View style={styles.card}>
-                        <Text style={styles.cardHeader}>My Contracts</Text>
+                        <Text style={styles.cardHeader}>My Smart Contracts</Text>
                         {savedContracts.length === 0 ? (
                             <Text style={styles.noContractsText}>No saved contracts yet</Text>
                         ) : (
