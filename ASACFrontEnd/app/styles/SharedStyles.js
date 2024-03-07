@@ -221,22 +221,9 @@ const getStyles = (theme = 'light') => {
             justifyContent: 'center',
             marginTop: 10,
         },
-        fileName: {
-            marginLeft: 10,
-            fontSize: 16,
-            color: theme === 'dark' ? 'white' : 'black', 
-        },
         dropZoneText: {
             fontSize: 16,
             fontWeight: 'bold',
-        },
-        contractItem: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingVertical: 8,
-            borderBottomWidth: 1,
-            borderBottomColor: theme === 'dark' ? '#3A3C43' : '#E2E2E2',
         },
         contractText: {
             fontSize: 16,
@@ -250,44 +237,21 @@ const getStyles = (theme = 'light') => {
         expandedSection: {
             paddingTop: 10,
         },
-        containerForContracts: {
-            flex: 1,
-        },
-        contractItem1: {
+        contractItemAnimation: {
             marginBottom: 10,
             paddingHorizontal: 10,
             paddingTop: 10,
-            paddingBottom: 5,
             backgroundColor: themeStyles[theme].backgroundColor,
             borderRadius: 10,
             borderColor: '#ddd',
-        },
-        contractItem: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingVertical: 10,
-            paddingHorizontal: 16,
-            backgroundColor: themeStyles[theme].cardBackground,
-            borderRadius: 8,
-            borderWidth: 1,
-            borderColor: themeStyles[theme].borderColor,
-            marginBottom: 8,
         },
         contractHeader: {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
         },
-        contractText: {
-            fontSize: 16,
-            fontWeight: 'bold',
-        },
         expandedSection: {
             marginTop: 10,
-        },
-        detailsText: {
-            fontSize: 14,
         },
         smartContractButton: {
             flexDirection: 'row',
