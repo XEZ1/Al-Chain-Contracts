@@ -259,8 +259,7 @@ const getStyles = (theme = 'light') => {
             paddingTop: 10,
             paddingBottom: 5,
             backgroundColor: themeStyles[theme].backgroundColor,
-            borderRadius: 5,
-            borderWidth: 1,
+            borderRadius: 10,
             borderColor: '#ddd',
         },
         contractItem: {
@@ -296,8 +295,14 @@ const getStyles = (theme = 'light') => {
             justifyContent: 'center',
             padding: 10,
             marginTop: 10,
-            borderRadius: 5,
+            borderRadius: 10,
             backgroundColor: theme === 'dark' ? '#2D2D2D' : '#EFEFEF', // Example background colors, adjust as needed
+        },
+        noContractsText: {
+            textAlign: 'center',
+            color: themeStyles[theme].textColor,
+            marginTop: 20, // Add some margin to position it nicely in the card
+            fontSize: 16, // Set the font size
         },
     });
 };

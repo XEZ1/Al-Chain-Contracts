@@ -45,8 +45,9 @@ const ContractItem = ({ contract, openContract, theme }) => {
             {expanded && (
                 <View style={styles.expandedSection}>
                     <TouchableOpacity onPress={() => openContract(contract.contract_name)} style={styles.smartContractButton}>
-                        <MaterialCommunityIcons name="file-document-outline" size={24} color={theme === 'dark' ? 'white' : 'black'} />
+                        <MaterialCommunityIcons name="file-document-outline" size={24} padding={1} color={theme === 'dark' ? 'white' : 'black'} />
                         <Text style={{ color: theme === 'dark' ? 'white' : 'black', marginLeft: 5 }}>Access Contract</Text>
+                        {/* <MaterialCommunityIcons name="eye-outline" size={24} padding={5} color={theme === 'dark' ? 'white' : 'black'} /> */}
                     </TouchableOpacity>
                 </View>
             )}
@@ -101,29 +102,6 @@ const HomeScreen = (navigation) => {
                         </TouchableOpacity>
                     </View>
 
-                    {/* Contract Templates Section */}
-                    <View style={styles.card}>
-                        <Text style={styles.cardHeader}>Contract Templates</Text>
-                        <TouchableOpacity style={styles.button}>
-                            <Text style={styles.buttonText}>ERC20 Token</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.button}>
-                            <Text style={styles.buttonText}>ERC721 Token</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.button}>
-                            <Text style={styles.buttonText}>Crowdsale</Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    {/* Contract Deployment Section */}
-                    <View style={styles.card}>
-                        <Text style={styles.cardHeader}>Deploy Your Contract</Text>
-                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Enter Network (e.g., Ethereum, Binance Smart Chain)" />
-                        <TouchableOpacity style={styles.button}>
-                            <Text style={styles.buttonText}>Deploy Contract</Text>
-                        </TouchableOpacity>
-                    </View>
-
                     {/* User's Contracts Section */}
                     {/* Option 1 */}
                     {/* <View style={styles.card}>
@@ -162,9 +140,37 @@ const HomeScreen = (navigation) => {
                     {/* Option 3 */}
                     <View style={styles.card}>
                         <Text style={styles.cardHeader}>My Contracts</Text>
-                        {savedContracts.map((contract, index) => (
-                            <ContractItem key={index} contract={contract} openContract={openContract} theme={theme} />
-                        ))}
+                        {savedContracts.length === 0 ? (
+                            <Text style={styles.noContractsText}>No saved contracts yet</Text>
+                        ) : (
+                            savedContracts.map((contract, index) => (
+                                <ContractItem key={index} contract={contract} openContract={openContract} theme={theme} />
+                            ))
+                        )}
+                    </View>
+
+
+                    {/* Contract Templates Section */}
+                    <View style={styles.card}>
+                        <Text style={styles.cardHeader}>Contract Templates</Text>
+                        <TouchableOpacity style={styles.button}>
+                            <Text style={styles.buttonText}>ERC20 Token</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.button}>
+                            <Text style={styles.buttonText}>ERC721 Token</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.button}>
+                            <Text style={styles.buttonText}>Crowdsale</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    {/* Contract Deployment Section */}
+                    <View style={styles.card}>
+                        <Text style={styles.cardHeader}>Deploy Your Contract</Text>
+                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Enter Network (e.g., Ethereum, Binance Smart Chain)" />
+                        <TouchableOpacity style={styles.button}>
+                            <Text style={styles.buttonText}>Deploy Contract</Text>
+                        </TouchableOpacity>
                     </View>
 
                     {/* Additional Features */}
@@ -191,7 +197,7 @@ const HomeScreen = (navigation) => {
             {/* Separator Line */}
             <View style={{ height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: 90, left: 0, right: 0 }} />
 
-        </View>
+        </View >
     );
 };
 

@@ -22,12 +22,15 @@ export const useContractHandling = () => {
                 copyToCacheDirectory: true,
                 multiple: false
             });
+            console.log(result.canceled);
+            if (result.canceled) {
+                //Alert.alert("Cancelled", "File selection was cancelled.");
+                return;
+            }
             if (result.assets[0].mimeType == 'text/plain') {
                 LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
                 onFileSelected(result);
-            } else {
-                Alert.alert("Cancelled", "File selection was cancelled.");
-            }
+            } 
         } catch (error) {
             console.log(error);
             Alert.alert("Error", "An error occurred during file selection.");
@@ -62,7 +65,7 @@ export const useContractHandling = () => {
             });
             const responseJson = await response.json();
             saveSolidityFile(responseJson.solidity_code, contractName);
-            Alert.alert("Success", "Contract data uploaded successfully.");
+            //Alert.alert("Success", "Contract data uploaded successfully.");
         } catch (error) {
             Alert.alert("Upload Error", "An error occurred while uploading contract data.");
         }
@@ -77,12 +80,14 @@ export const useContractHandling = () => {
             const filePath = FileSystem.documentDirectory + fileName + '.sol';
             await FileSystem.writeAsStringAsync(filePath, solidityCode, { encoding: FileSystem.EncodingType.UTF8 });
             setSavedContracts(prevContracts => [...prevContracts, fileName]);
-
-            Alert.alert("Success", `Contract saved as ${fileName}.sol to ${filePath}`);
-            // Optionally, if you want to open the file or share it, you can use the filePath.
+            Alert.alert("Success", `Contract was generated and saved as ${fileName}.sol to ${filePath}`);
         } catch (error) {
-            console.error("Error saving Solidity file:", error);
-            Alert.alert("Error", "Failed to save the contract file.");
+            if (error instanceof TypeError) { 
+                // Skip
+            } else {
+                console.error("Error saving Solidity file:", error.message);
+                Alert.alert("Error", "Failed to save the contract file.");
+            }
         }
     };
 
