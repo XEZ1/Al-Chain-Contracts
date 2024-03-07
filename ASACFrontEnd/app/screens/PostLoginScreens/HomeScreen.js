@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Animated, LayoutAnimation, StyleSheet, Platform, UIManager } from 'react-native';
 import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
@@ -30,27 +30,35 @@ const DropZone = ({ handleFileSelectDropZone, onFileSelected, selectedFile }) =>
 const ContractItem = ({ contract, openContract, theme }) => {
     const [expanded, setExpanded] = useState(false);
     const styles = getStyles(theme);
+    const animationController = useRef(new Animated.Value(0)).current;
 
     const toggleExpand = () => {
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         setExpanded(!expanded);
+
+        Animated.timing(animationController, {
+            toValue: expanded ? 0 : 1,
+            duration: 500, 
+            useNativeDriver: false, 
+        }).start();
     };
 
+    const animatedHeight = animationController.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 60],
+    });
+
     return (
-        <TouchableOpacity onPress={toggleExpand} style={[styles.contractItem1, { borderColor: theme === 'dark' ? '#303030' : '#ccc' }]}>
+        <TouchableOpacity onPress={toggleExpand} style={styles.contractItem1}>
             <View style={styles.contractHeader}>
                 <Text style={{ color: theme === 'dark' ? 'white' : 'black' }}>{contract.contract_name}.sol</Text>
                 <MaterialCommunityIcons name={expanded ? "chevron-up" : "chevron-down"} size={24} color={theme === 'dark' ? 'white' : 'black'} />
             </View>
-            {expanded && (
-                <View style={styles.expandedSection}>
-                    <TouchableOpacity onPress={() => openContract(contract.contract_name)} style={styles.smartContractButton}>
-                        <MaterialCommunityIcons name="file-document-outline" size={24} padding={1} color={theme === 'dark' ? 'white' : 'black'} />
-                        <Text style={{ color: theme === 'dark' ? 'white' : 'black', marginLeft: 5 }}>Access Contract</Text>
-                        {/* <MaterialCommunityIcons name="eye-outline" size={24} padding={5} color={theme === 'dark' ? 'white' : 'black'} /> */}
-                    </TouchableOpacity>
-                </View>
-            )}
+            <Animated.View style={[styles.expandedSection, { height: animatedHeight, overflow: 'hidden' }]}>
+                <TouchableOpacity onPress={() => openContract(contract.contract_name)} style={styles.smartContractButton}>
+                    <MaterialCommunityIcons name="file-document-outline" size={24} color={theme === 'dark' ? 'white' : 'black'} />
+                    <Text style={{ color: theme === 'dark' ? 'white' : 'black', marginLeft: 5 }}>Access Contract</Text>
+                </TouchableOpacity>
+            </Animated.View>
         </TouchableOpacity>
     );
 };
