@@ -32,7 +32,7 @@ export const useWebSocket = (url) => {
 };
 
 export const WebSocketProvider = ({ children }) => {
-    const socket = useWebSocket(`ws://${BACKEND_URL}/notifications`);
+    const socket = useWebSocket(`${BACKEND_URL.replace("https://", "wss://")}/ws/notifications/`);
 
     return (
         <WebSocketContext.Provider value={socket}>
