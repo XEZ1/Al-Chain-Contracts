@@ -5,12 +5,23 @@ import { ThemeContext } from '../../components/Theme';
 import getStyles from '../../styles/SharedStyles';
 import { deletePushToken, savePushToken } from '../../components/Notifications';
 import * as Notifications from 'expo-notifications';
+import * as SecureStore from 'expo-secure-store';
 
 const SettingsScreen = ({ navigation }) => {
     const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
     const styles = getStyles(theme);
     const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+
+    useEffect(() => {
+        // Check if the notification token exists in SecureStore
+        const checkNotificationToken = async () => {
+            const token = await SecureStore.getItemAsync('notificationToken');
+            setNotificationsEnabled(!!token); 
+        };
+
+        checkNotificationToken();
+    }, []);
 
     const handleToggleTheme = () => {
         toggleTheme();
@@ -22,23 +33,16 @@ const SettingsScreen = ({ navigation }) => {
         setNotificationsEnabled(newStatus);
 
         if (newStatus) {
-            // Enable notifications
-            //const permissionResponse = await Notifications.requestPermissionsAsync();
-            //if (permissionResponse.status !== 'granted') {
-            //    console.log('Permission to send notifications was denied');
-            //    return;
-            //}
             const token = await Notifications.getExpoPushTokenAsync();
-            savePushToken(token);  // Save the token to your backend or service
-            // scheduleLocalNotification()
+            savePushToken(token);
         } else {
-            // Disable notifications
-            deletePushToken();  // Remove the token from your backend or service
+            deletePushToken();
         }
     };
 
     const handleLogout = async () => {
         await logout();
+        setIsLoggedIn(false);
     };
 
     return (

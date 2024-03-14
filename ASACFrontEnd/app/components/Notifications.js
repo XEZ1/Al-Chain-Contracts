@@ -48,7 +48,6 @@ export const savePushToken = async () => {
         const authToken = await SecureStore.getItemAsync('authToken');
         const tokenResponse = await Notifications.getExpoPushTokenAsync();
         const token = tokenResponse.data;
-
         await fetch(`${BACKEND_URL}/notifications/save-token/`, {
             method: 'POST',
             headers: {
@@ -57,7 +56,8 @@ export const savePushToken = async () => {
             },
             body: JSON.stringify({ token }),
         });
-        console.log(token);
+        
+        await SecureStore.setItemAsync('notificationToken', token);
         console.log('Push token saved');
     } catch (error) {
         console.error('Error saving push token:', error);
@@ -74,6 +74,8 @@ export const deletePushToken = async () => {
                 'Authorization': `Token ${authToken}`,
             },
         });
+
+        await SecureStore.deleteItemAsync('notificationToken');
         console.log('Push token deleted');
     } catch (error) {
         console.error('Error deleting push token:', error);
