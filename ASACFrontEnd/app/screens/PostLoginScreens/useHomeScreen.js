@@ -65,7 +65,7 @@ export const useContractHandling = (navigation) => {
                 body: formData,
             });
             const responseJson = await response.json();
-            saveSolidityFile(responseJson.solidity_code, contractName);
+            saveSolidityFile(responseJson.solidity_code, contractName);            
             //Alert.alert("Success", "Contract data uploaded successfully.");
         } catch (error) {
             Alert.alert("Upload Error", "An error occurred while uploading contract data.");
@@ -80,7 +80,7 @@ export const useContractHandling = (navigation) => {
         try {
             const filePath = FileSystem.documentDirectory + fileName + '.sol';
             await FileSystem.writeAsStringAsync(filePath, solidityCode, { encoding: FileSystem.EncodingType.UTF8 });
-            setSavedContracts(prevContracts => [...prevContracts, fileName]);
+            setSavedContracts(prevContracts => [...prevContracts, { contract_name: fileName }]);
             Alert.alert("Success", `Contract was generated and saved as ${fileName}.sol to ${filePath}`);
         } catch (error) {
             console.error("Error saving Solidity file:", error.message);
