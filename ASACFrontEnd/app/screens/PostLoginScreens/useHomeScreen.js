@@ -6,6 +6,7 @@ import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { BACKEND_URL } from '@env';
 
+
 export const useContractHandling = (navigation) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [contractName, setContractName] = useState('');
@@ -160,6 +161,25 @@ export const useContractHandling = (navigation) => {
         setSavedContracts(updatedContracts);
     };
 
+    const handleDeleteContract = (contractToDelete) => {
+        Alert.alert(
+            "Delete Contract",
+            "Are you sure you want to delete this contract?",
+            [
+                { text: "Cancel" },
+                {
+                    text: "Delete", onPress: () => {
+                        setSavedContracts(currentContracts =>
+                            currentContracts.filter(contract => contract.contract_name !== contractToDelete.contract_name)
+                        );
+                        // Optional: Add logic to also delete from backend if necessary
+                    }
+                }
+            ]
+        );
+    };
+    
+
     return {
         selectedFile,
         setSelectedFile,
@@ -177,5 +197,6 @@ export const useContractHandling = (navigation) => {
         openShareContract,
         openContract,
         fetchAndSyncContracts,
+        handleDeleteContract,
     };
 };
