@@ -91,7 +91,7 @@ const getStyles = (theme = 'light') => {
             height: 44,
             width: '100%',
             backgroundColor: themeStyles[theme].backgroundColor,
-            marginBottom: '5.7%',        
+            marginBottom: '5.7%',
             borderRadius: 10,
             justifyContent: 'center',
             alignItems: 'center',
@@ -155,7 +155,7 @@ const getStyles = (theme = 'light') => {
             borderRadius: '10%',
             padding: '6%',
             marginBottom: '6%',
-            shadowColor:  theme === 'dark' ? '#3A3A3A' : '#000', // Adjust shadow color based on theme
+            shadowColor: theme === 'dark' ? '#3A3A3A' : '#000', // Adjust shadow color based on theme
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: theme === 'dark' ? '0.8%' : '0.4%',
             shadowRadius: '4%',
@@ -279,15 +279,7 @@ const getStyles = (theme = 'light') => {
             padding: 10,
             textAlignVertical: 'top', // Align text to the top on Android
         },
-        deleteButton: {
-            backgroundColor: 'red',
-            justifyContent: 'center',
-            alignItems: 'flex-end',
-        },
-        deleteButtonText: {
-            color: 'white',
-            fontWeight: 'bold',
-        },
+
     });
 };
 

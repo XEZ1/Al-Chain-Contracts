@@ -4,8 +4,6 @@ import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useContractHandling } from './UseHomeScreen';
-import { Swipeable } from 'react-native-gesture-handler';
-
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -29,7 +27,7 @@ const DropZone = ({ handleFileSelectDropZone, onFileSelected, selectedFile }) =>
     );
 };
 
-const ContractItem = ({ contract, openContract, theme, onDeletePress }) => {
+const ContractItem = ({ contract, openContract, theme }) => {
     const [expanded, setExpanded] = useState(false);
     const styles = getStyles(theme);
     const animationController = useRef(new Animated.Value(0)).current;
@@ -53,7 +51,7 @@ const ContractItem = ({ contract, openContract, theme, onDeletePress }) => {
             useNativeDriver: false,
         }).start(() => {
             if (!isMounted.current) {
-                animationController.stopAnimation();
+                animationController.stopAnimation(); 
             }
         });
     };
@@ -63,42 +61,19 @@ const ContractItem = ({ contract, openContract, theme, onDeletePress }) => {
         outputRange: [0, 60],
     });
 
-    const renderRightActions = (progress, dragX) => {
-        const trans = dragX.interpolate({
-            inputRange: [0, 50, 100, 101],
-            outputRange: [-20, 0, 0, 1],
-        });
-        return (
-            <TouchableOpacity onPress={() => onDeletePress(contract)}>
-                <Animated.View
-                    style={[
-                        styles.deleteButton,
-                        { transform: [{ translateX: trans }] },
-                    ]}>
-                    <Animated.Text
-                        style={styles.deleteButtonText}>
-                        Delete
-                    </Animated.Text>
-                </Animated.View>
-            </TouchableOpacity>
-        );
-    };
-
     return (
-        <Swipeable renderRightActions={renderRightActions}>
-            <TouchableOpacity onPress={toggleExpand} style={styles.contractItemAnimation}>
-                <View style={styles.contractHeader}>
-                    <Text style={{ color: theme === 'dark' ? 'white' : 'black' }}>{contract.contract_name}.sol</Text>
-                    <MaterialCommunityIcons name={expanded ? "chevron-up" : "chevron-down"} size={24} color={theme === 'dark' ? 'white' : 'black'} />
-                </View>
-                <Animated.View style={[styles.expandedSection, { height: animatedHeight, overflow: 'hidden' }]}>
-                    <TouchableOpacity onPress={() => openContract(contract.contract_name)} style={styles.smartContractButton}>
-                        <MaterialCommunityIcons name="file-document-outline" size={24} color={theme === 'dark' ? 'white' : 'black'} />
-                        <Text style={{ color: theme === 'dark' ? 'white' : 'black', marginLeft: 5 }}>Access Contract</Text>
-                    </TouchableOpacity>
-                </Animated.View>
-            </TouchableOpacity>
-        </Swipeable>
+        <TouchableOpacity onPress={toggleExpand} style={styles.contractItemAnimation}>
+            <View style={styles.contractHeader}>
+                <Text style={{ color: theme === 'dark' ? 'white' : 'black' }}>{contract.contract_name}.sol</Text>
+                <MaterialCommunityIcons name={expanded ? "chevron-up" : "chevron-down"} size={24} color={theme === 'dark' ? 'white' : 'black'} />
+            </View>
+            <Animated.View style={[styles.expandedSection, { height: animatedHeight, overflow: 'hidden' }]}>
+                <TouchableOpacity onPress={() => openContract(contract.contract_name)} style={styles.smartContractButton}>
+                    <MaterialCommunityIcons name="file-document-outline" size={24} color={theme === 'dark' ? 'white' : 'black'} />
+                    <Text style={{ color: theme === 'dark' ? 'white' : 'black', marginLeft: 5 }}>Access Contract</Text>
+                </TouchableOpacity>
+            </Animated.View>
+        </TouchableOpacity>
     );
 };
 
@@ -123,7 +98,6 @@ const HomeScreen = ({ navigation }) => {
         openShareContract,
         openContract,
         fetchAndSyncContracts,
-        handleDeleteContract,
     } = useContractHandling(navigation);
 
 

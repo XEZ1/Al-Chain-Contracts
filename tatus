@@ -1,0 +1,133 @@
+[1mdiff --git a/ASACFrontEnd/app/screens/PostLoginScreens/HomeScreen.js b/ASACFrontEnd/app/screens/PostLoginScreens/HomeScreen.js[m
+[1mindex e9ca80d..f30cacd 100644[m
+[1m--- a/ASACFrontEnd/app/screens/PostLoginScreens/HomeScreen.js[m
+[1m+++ b/ASACFrontEnd/app/screens/PostLoginScreens/HomeScreen.js[m
+[36m@@ -4,8 +4,6 @@[m [mimport getStyles from '../../styles/SharedStyles';[m
+ import { ThemeContext } from '../../components/Theme';[m
+ import { MaterialCommunityIcons } from '@expo/vector-icons';[m
+ import { useContractHandling } from './UseHomeScreen';[m
+[31m-import { Swipeable } from 'react-native-gesture-handler';[m
+[31m-[m
+ [m
+ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {[m
+     UIManager.setLayoutAnimationEnabledExperimental(true);[m
+[36m@@ -29,7 +27,7 @@[m [mconst DropZone = ({ handleFileSelectDropZone, onFileSelected, selectedFile }) =>[m
+     );[m
+ };[m
+ [m
+[31m-const ContractItem = ({ contract, openContract, theme, onDeletePress }) => {[m
+[32m+[m[32mconst ContractItem = ({ contract, openContract, theme }) => {[m
+     const [expanded, setExpanded] = useState(false);[m
+     const styles = getStyles(theme);[m
+     const animationController = useRef(new Animated.Value(0)).current;[m
+[36m@@ -53,7 +51,7 @@[m [mconst ContractItem = ({ contract, openContract, theme, onDeletePress }) => {[m
+             useNativeDriver: false,[m
+         }).start(() => {[m
+             if (!isMounted.current) {[m
+[31m-                animationController.stopAnimation();[m
+[32m+[m[32m                animationController.stopAnimation();[m[41m [m
+             }[m
+         });[m
+     };[m
+[36m@@ -63,42 +61,19 @@[m [mconst ContractItem = ({ contract, openContract, theme, onDeletePress }) => {[m
+         outputRange: [0, 60],[m
+     });[m
+ [m
+[31m-    const renderRightActions = (progress, dragX) => {[m
+[31m-        const trans = dragX.interpolate({[m
+[31m-            inputRange: [0, 50, 100, 101],[m
+[31m-            outputRange: [-20, 0, 0, 1],[m
+[31m-        });[m
+[31m-        return ([m
+[31m-            <TouchableOpacity onPress={() => onDeletePress(contract)}>[m
+[31m-                <Animated.View[m
+[31m-                    style={[[m
+[31m-                        styles.deleteButton,[m
+[31m-                        { transform: [{ translateX: trans }] },[m
+[31m-                    ]}>[m
+[31m-                    <Animated.Text[m
+[31m-                        style={styles.deleteButtonText}>[m
+[31m-                        Delete[m
+[31m-                    </Animated.Text>[m
+[31m-                </Animated.View>[m
+[31m-            </TouchableOpacity>[m
+[31m-        );[m
+[31m-    };[m
+[31m-[m
+     return ([m
+[31m-        <Swipeable renderRightActions={renderRightActions}>[m
+[31m-            <TouchableOpacity onPress={toggleExpand} style={styles.contractItemAnimation}>[m
+[31m-                <View style={styles.contractHeader}>[m
+[31m-                    <Text style={{ color: theme === 'dark' ? 'white' : 'black' }}>{contract.contract_name}.sol</Text>[m
+[31m-                    <MaterialCommunityIcons name={expanded ? "chevron-up" : "chevron-down"} size={24} color={theme === 'dark' ? 'white' : 'black'} />[m
+[31m-                </View>[m
+[31m-                <Animated.View style={[styles.expandedSection, { height: animatedHeight, overflow: 'hidden' }]}>[m
+[31m-                    <TouchableOpacity onPress={() => openContract(contract.contract_name)} style={styles.smartContractButton}>[m
+[31m-                        <MaterialCommunityIcons name="file-document-outline" size={24} color={theme === 'dark' ? 'white' : 'black'} />[m
+[31m-                        <Text style={{ color: theme === 'dark' ? 'white' : 'black', marginLeft: 5 }}>Access Contract</Text>[m
+[31m-                    </TouchableOpacity>[m
+[31m-                </Animated.View>[m
+[31m-            </TouchableOpacity>[m
+[31m-        </Swipeable>[m
+[32m+[m[32m        <TouchableOpacity onPress={toggleExpand} style={styles.contractItemAnimation}>[m
+[32m+[m[32m            <View style={styles.contractHeader}>[m
+[32m+[m[32m                <Text style={{ color: theme === 'dark' ? 'white' : 'black' }}>{contract.contract_name}.sol</Text>[m
+[32m+[m[32m                <MaterialCommunityIcons name={expanded ? "chevron-up" : "chevron-down"} size={24} color={theme === 'dark' ? 'white' : 'black'} />[m
+[32m+[m[32m            </View>[m
+[32m+[m[32m            <Animated.View style={[styles.expandedSection, { height: animatedHeight, overflow: 'hidden' }]}>[m
+[32m+[m[32m                <TouchableOpacity onPress={() => openContract(contract.contract_name)} style={styles.smartContractButton}>[m
+[32m+[m[32m                    <MaterialCommunityIcons name="file-document-outline" size={24} color={theme === 'dark' ? 'white' : 'black'} />[m
+[32m+[m[32m                    <Text style={{ color: theme === 'dark' ? 'white' : 'black', marginLeft: 5 }}>Access Contract</Text>[m
+[32m+[m[32m                </TouchableOpacity>[m
+[32m+[m[32m            </Animated.View>[m
+[32m+[m[32m        </TouchableOpacity>[m
+     );[m
+ };[m
+ [m
+[36m@@ -123,7 +98,6 @@[m [mconst HomeScreen = ({ navigation }) => {[m
+         openShareContract,[m
+         openContract,[m
+         fetchAndSyncContracts,[m
+[31m-        handleDeleteContract,[m
+     } = useContractHandling(navigation);[m
+ [m
+ [m
+[1mdiff --git a/ASACFrontEnd/app/styles/SharedStyles.js b/ASACFrontEnd/app/styles/SharedStyles.js[m
+[1mindex e8fbfd0..611a6ca 100644[m
+[1m--- a/ASACFrontEnd/app/styles/SharedStyles.js[m
+[1m+++ b/ASACFrontEnd/app/styles/SharedStyles.js[m
+[36m@@ -91,7 +91,7 @@[m [mconst getStyles = (theme = 'light') => {[m
+             height: 44,[m
+             width: '100%',[m
+             backgroundColor: themeStyles[theme].backgroundColor,[m
+[31m-            marginBottom: '5.7%',        [m
+[32m+[m[32m            marginBottom: '5.7%',[m
+             borderRadius: 10,[m
+             justifyContent: 'center',[m
+             alignItems: 'center',[m
+[36m@@ -155,7 +155,7 @@[m [mconst getStyles = (theme = 'light') => {[m
+             borderRadius: '10%',[m
+             padding: '6%',[m
+             marginBottom: '6%',[m
+[31m-            shadowColor:  theme === 'dark' ? '#3A3A3A' : '#000', // Adjust shadow color based on theme[m
+[32m+[m[32m            shadowColor: theme === 'dark' ? '#3A3A3A' : '#000', // Adjust shadow color based on theme[m
+             shadowOffset: { width: 0, height: 2 },[m
+             shadowOpacity: theme === 'dark' ? '0.8%' : '0.4%',[m
+             shadowRadius: '4%',[m
+[36m@@ -279,15 +279,7 @@[m [mconst getStyles = (theme = 'light') => {[m
+             padding: 10,[m
+             textAlignVertical: 'top', // Align text to the top on Android[m
+         },[m
+[31m-        deleteButton: {[m
+[31m-            backgroundColor: 'red',[m
+[31m-            justifyContent: 'center',[m
+[31m-            alignItems: 'flex-end',[m
+[31m-        },[m
+[31m-        deleteButtonText: {[m
+[31m-            color: 'white',[m
+[31m-            fontWeight: 'bold',[m
+[31m-        },[m
+[32m+[m
+     });[m
+ };[m
+ [m
