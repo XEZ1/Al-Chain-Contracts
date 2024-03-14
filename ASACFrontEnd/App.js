@@ -7,6 +7,13 @@ import { connectToNotifications } from './app/components/Notifications';
 import { BACKEND_URL } from '@env';
 import * as Notifications from 'expo-notifications';
 
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true, // This will show the notification as an alert when the app is in the foreground.
+        shouldPlaySound: true,
+        shouldSetBadge: true,
+    }),
+});
 
 const App = () => {
     useEffect(() => {

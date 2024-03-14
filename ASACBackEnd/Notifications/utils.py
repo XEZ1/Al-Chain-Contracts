@@ -1,15 +1,12 @@
-import firebase_admin
-from firebase_admin import messaging
+from exponent_server_sdk import PushClient, PushMessage
 
+# Basic arguments. You should extend this function with the push features you need
 def send_push_notification(token, title, body):
-    # See documentation: https://firebase.google.com/docs/cloud-messaging/send-message
-    message = messaging.Message(
-        notification=messaging.Notification(
-            title=title,
-            body=body,
-        ),
-        token=token,
-    )
+    message = PushMessage(to=token, title=title, body=body)
 
-    response = messaging.send(message)
-    print('Successfully sent message:', response)
+    # Send the message
+    try:
+        response = PushClient().publish(message)
+        print("Successfully sent message:", response)
+    except Exception as e:
+        print("Error sending message:", e)
