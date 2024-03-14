@@ -27,7 +27,7 @@ const DropZone = ({ handleFileSelectDropZone, onFileSelected, selectedFile }) =>
     );
 };
 
-const ContractItem = ({ contract, openContract, theme }) => {
+const ContractItem = ({ contract, openContract, onDeleteContract, theme }) => {
     const [expanded, setExpanded] = useState(false);
     const styles = getStyles(theme);
     const animationController = useRef(new Animated.Value(0)).current;
@@ -58,7 +58,7 @@ const ContractItem = ({ contract, openContract, theme }) => {
 
     const animatedHeight = animationController.interpolate({
         inputRange: [0, 1],
-        outputRange: [0, 60],
+        outputRange: [0, 120],
     });
 
     return (
@@ -71,6 +71,10 @@ const ContractItem = ({ contract, openContract, theme }) => {
                 <TouchableOpacity onPress={() => openContract(contract.contract_name)} style={styles.smartContractButton}>
                     <MaterialCommunityIcons name="file-document-outline" size={24} color={theme === 'dark' ? 'white' : 'black'} />
                     <Text style={{ color: theme === 'dark' ? 'white' : 'black', marginLeft: 5 }}>Access Contract</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => onDeleteContract(contract)} style={styles.smartContractButton}>
+                    <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
+                    <Text style={{ color: 'red', marginLeft: 5 }}>Delete Contract</Text>
                 </TouchableOpacity>
             </Animated.View>
         </TouchableOpacity>
