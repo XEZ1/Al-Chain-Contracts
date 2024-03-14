@@ -62,7 +62,7 @@ class DeleteContractView(APIView):
     def delete(self, request, *args, **kwargs):
         try:
             # Attempt to retrieve the contract
-            contract = SmartContract.objects.get(user=request.user, contract_name=request['contract_name'])
+            contract = SmartContract.objects.get(user=request.user, contract_name=request.headers.get('X-Contract-Name'))
         except SmartContract.DoesNotExist:
             # If the contract does not exist or does not belong to the user, return a 404 response
             return JsonResponse({"error": "Smart contract not found."}, status=status.HTTP_404_NOT_FOUND)

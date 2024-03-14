@@ -66,7 +66,7 @@ export const useContractHandling = (navigation) => {
                 body: formData,
             });
             const responseJson = await response.json();
-            saveSolidityFile(responseJson.solidity_code, contractName);            
+            saveSolidityFile(responseJson.solidity_code, contractName);
             //Alert.alert("Success", "Contract data uploaded successfully.");
         } catch (error) {
             Alert.alert("Upload Error", "An error occurred while uploading contract data.");
@@ -161,24 +161,37 @@ export const useContractHandling = (navigation) => {
         setSavedContracts(updatedContracts);
     };
 
-    const handleDeleteContract = (contractToDelete) => {
+    const handleDeleteContract = async (contractToDelete) => {
         Alert.alert(
             "Delete Contract",
             "Are you sure you want to delete this contract?",
             [
                 { text: "Cancel" },
                 {
-                    text: "Delete", onPress: () => {
-                        setSavedContracts(currentContracts =>
-                            currentContracts.filter(contract => contract.contract_name !== contractToDelete.contract_name)
-                        );
-                        // Optional: Add logic to also delete from backend if necessary
-                    }
-                }
+                    text: "Delete", onPress: async () => {
+                        try {
+                            const token = await SecureStore.getItemAsync('authToken');
+                            await fetch(`${BACKEND_URL}/contracts/delete-contract/`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Authorization': `Token ${token}`,
+                                    'X-Contract-Name': contractToDelete.contract_name, 
+                                },
+                            });
+
+                            // Update local state to reflect deletion
+                            setSavedContracts(currentContracts =>
+                                currentContracts.filter(contract => contract.contract_name !== contractToDelete.contract_name)
+                            );
+                        } catch (error) {
+                            console.error(error);
+                            alert('Error deleting the contract:', error);
+                        }
+                    },
+                },
             ]
         );
     };
-    
 
     return {
         selectedFile,
