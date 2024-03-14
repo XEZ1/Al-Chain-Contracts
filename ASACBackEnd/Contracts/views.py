@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from .models import SmartContract
 from rest_framework.parsers import MultiPartParser, FormParser
 from .serializers import EmploymentContractSerialiser, SmartContractSerialiser
-
+from rest_framework.permissions import IsAuthenticated
 
 # Load environment variables from .env file
 load_dotenv()
@@ -54,6 +54,24 @@ class GenerateContractView(APIView):
         )
         content = chat_completion.choices[0].message.content
         return content
+
+
+class DeleteContractView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            # Attempt to retrieve the contract
+            contract = SmartContract.objects.get(user=request.user, contract_name=request['contract_name'])
+        except SmartContract.DoesNotExist:
+            # If the contract does not exist or does not belong to the user, return a 404 response
+            return JsonResponse({"error": "Smart contract not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        # If the contract exists and belongs to the requesting user, delete the contract
+        contract.delete()
+
+        # Return a successful response
+        return JsonResponse({"message": "Smart contract deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
 
 
 class FetchContractsView(APIView):
