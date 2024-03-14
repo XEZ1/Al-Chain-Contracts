@@ -279,6 +279,15 @@ const getStyles = (theme = 'light') => {
             padding: 10,
             textAlignVertical: 'top', // Align text to the top on Android
         },
+        deleteButton: {
+            backgroundColor: 'red',
+            justifyContent: 'center',
+            alignItems: 'flex-end',
+        },
+        deleteButtonText: {
+            color: 'white',
+            fontWeight: 'bold',
+        },
     });
 };
 
