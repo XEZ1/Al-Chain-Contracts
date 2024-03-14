@@ -9,8 +9,6 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-import firebase_admin
-from firebase_admin import credentials
 from pathlib import Path
 import channels
 
@@ -28,17 +26,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['192.168.0.18', 'ba89-82-8-95-71.ngrok-free.app']
 
-###
-# Path to your service account key file
-FIREBASE_SERVICE_ACCOUNT_KEY = BASE_DIR / 'ASACBackEnd/key.json'
-
-# Initialize Firebase Admin
-cred = credentials.Certificate(FIREBASE_SERVICE_ACCOUNT_KEY)
-firebase_admin.initialize_app(cred)
-###
-
 # Application definition
-
 INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',

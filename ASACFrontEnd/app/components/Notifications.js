@@ -57,6 +57,7 @@ export const savePushToken = async () => {
             },
             body: JSON.stringify({ token }),
         });
+        console.log(token);
         console.log('Push token saved');
     } catch (error) {
         console.error('Error saving push token:', error);
