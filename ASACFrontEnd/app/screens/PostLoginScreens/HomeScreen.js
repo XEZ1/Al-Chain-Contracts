@@ -27,7 +27,7 @@ const DropZone = ({ handleFileSelectDropZone, onFileSelected, selectedFile }) =>
     );
 };
 
-const ContractItem = ({ contract, openContract, onDeleteContract, theme }) => {
+const ContractItem = ({ contract, openContract, openShareContract, deleteContract, theme }) => {
     const [expanded, setExpanded] = useState(false);
     const styles = getStyles(theme);
     const animationController = useRef(new Animated.Value(0)).current;
@@ -58,7 +58,7 @@ const ContractItem = ({ contract, openContract, onDeleteContract, theme }) => {
 
     const animatedHeight = animationController.interpolate({
         inputRange: [0, 1],
-        outputRange: [0, 120],
+        outputRange: [0, 180],
     });
 
     return (
@@ -72,7 +72,11 @@ const ContractItem = ({ contract, openContract, onDeleteContract, theme }) => {
                     <MaterialCommunityIcons name="file-document-outline" size={24} color={theme === 'dark' ? 'white' : 'black'} />
                     <Text style={{ color: theme === 'dark' ? 'white' : 'black', marginLeft: 5 }}>Access Contract</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => onDeleteContract(contract)} style={styles.smartContractButton}>
+                <TouchableOpacity onPress={() => openShareContract(contract.contract_name)} style={styles.smartContractButton}>
+                    <MaterialCommunityIcons name="share-outline" size={24} color="green" />
+                    <Text style={{ color: 'green', marginLeft: 5 }}>Share Contract</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => deleteContract(contract)} style={styles.smartContractButton}>
                     <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
                     <Text style={{ color: 'red', marginLeft: 5 }}>Delete Contract</Text>
                 </TouchableOpacity>
@@ -102,6 +106,7 @@ const HomeScreen = ({ navigation }) => {
         openShareContract,
         openContract,
         fetchAndSyncContracts,
+        handleDeleteContract,
     } = useContractHandling(navigation);
 
 
@@ -138,7 +143,7 @@ const HomeScreen = ({ navigation }) => {
                             <Text style={styles.noContractsText}>No saved contracts yet</Text>
                         ) : (
                             savedContracts.map((contract, index) => (
-                                <ContractItem key={index} contract={contract} openContract={openContract} theme={theme} />
+                                <ContractItem key={index} contract={contract} openContract={openContract} openShareContract={openShareContract} deleteContract={handleDeleteContract} theme={theme} />
                             ))
                         )}
                     </View>
