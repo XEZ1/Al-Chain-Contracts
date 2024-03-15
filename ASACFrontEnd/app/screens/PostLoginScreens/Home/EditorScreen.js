@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, TextInput, StyleSheet, Alert } from 'react-native';
 import * as FileSystem from 'expo-file-system'; // Ensure you're importing FileSystem
-import getStyles from '../../styles/SharedStyles';
+import getStyles from '../../../styles/SharedStyles';
 import { Theme } from '@react-navigation/native';
-import { ThemeContext } from '../../components/Theme';
+import { ThemeContext } from '../../../components/Theme';
 
 function EditorScreen({ route, navigation }) { // Destructure 'route' from props
     const { filePath } = route.params; // Correctly access 'filePath' from 'route.params'

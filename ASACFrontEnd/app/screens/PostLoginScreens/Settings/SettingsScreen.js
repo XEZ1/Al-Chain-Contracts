@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, Switch, TouchableOpacity } from 'react-native';
-import { AuthContext, logout } from '../../components/Authentication';
-import { ThemeContext } from '../../components/Theme';
-import getStyles from '../../styles/SharedStyles';
-import { deletePushToken, savePushToken } from '../../components/Notifications';
+import { AuthContext, logout } from '../../../components/Authentication';
+import { ThemeContext } from '../../../components/Theme';
+import getStyles from '../../../styles/SharedStyles';
+import { deletePushToken, savePushToken } from '../../../components/Notifications';
 import * as Notifications from 'expo-notifications';
 import * as SecureStore from 'expo-secure-store';
 
