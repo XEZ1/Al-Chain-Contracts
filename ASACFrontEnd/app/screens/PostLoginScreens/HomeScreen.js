@@ -143,7 +143,13 @@ const HomeScreen = ({ navigation }) => {
                             <Text style={styles.noContractsText}>No saved contracts yet</Text>
                         ) : (
                             savedContracts.map((contract, index) => (
-                                <ContractItem key={index} contract={contract} openContract={openContract} openShareContract={openShareContract} deleteContract={handleDeleteContract} theme={theme} />
+                                <ContractItem 
+                                key={index} 
+                                contract={contract} 
+                                openContract={openContract} 
+                                openShareContract={openShareContract} 
+                                deleteContract={handleDeleteContract} 
+                                theme={theme} />
                             ))
                         )}
                     </View>
