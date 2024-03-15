@@ -270,14 +270,16 @@ const getStyles = (theme = 'light') => {
         },
         EditorContainer: {
             flex: 1,
-            padding: 2,
         },
         editor: {
             flex: 1,
             borderWidth: 1,
-            borderColor: 'gray',
+            borderColor: themeStyles[theme].backgroundColor,
+            backgroundColor: themeStyles[theme].inputBackground,
+            color:  themeStyles[theme].textColor,
             padding: 10,
             textAlignVertical: 'top', // Align text to the top on Android
+            marginBottom: 90,
         },
 
     });

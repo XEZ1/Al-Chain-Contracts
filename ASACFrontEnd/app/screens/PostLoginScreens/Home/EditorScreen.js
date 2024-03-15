@@ -26,14 +26,19 @@ function EditorScreen({ route, navigation }) { // Destructure 'route' from props
     }, [filePath]);
 
     return (
-        <View style={styles.EditorContainer}>
-            <TextInput
-                style={styles.editor}
-                multiline
-                editable
-                value={fileContent}
-                onChangeText={setFileContent} // Allows editing, remove if read-only
-            />
+        <View style={{ flex: 1, backgroundColor: theme === 'dark' ? '#1A1A1A' : 'white' }}>
+            <View style={styles.EditorContainer}>
+                <TextInput
+                    style={styles.editor} theme={theme}
+                    multiline
+                    editable
+                    value={fileContent}
+                    onChangeText={setFileContent} // Allows editing, remove if read-only
+                />
+
+                {/* Separator Line */}
+                <View style={{ height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: 90, left: 0, right: 0 }} />
+            </View>
         </View>
     );
 }
