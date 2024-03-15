@@ -3,6 +3,6 @@ from .views import *
 
 urlpatterns = [
     path('generate-contract/', GenerateContractView.as_view(), name='generate-contract'),
-    path('delete-contract/<str:contract_name>/', DeleteContractView.as_view(), name='delete-contract'),
+    path('delete-contract/', DeleteContractView.as_view(), name='delete-contract'),
     path('get-user-contracts/', FetchContractsView.as_view(), name='get-user-contracts'),
 ]

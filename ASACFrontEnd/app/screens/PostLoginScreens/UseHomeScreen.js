@@ -172,15 +172,17 @@ export const useContractHandling = (navigation) => {
                         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
                         try {
                             const token = await SecureStore.getItemAsync('authToken');
-                            await fetch(`${BACKEND_URL}/contracts/delete-contract/${encodeURIComponent(contractToDelete.contract_name)}/`, {
+                            await fetch(`${BACKEND_URL}/contracts/delete-contract/`, {
                                 method: 'DELETE',
                                 headers: {
                                     'Authorization': `Token ${token}`,
+                                    'X-Contract-Name': contractToDelete.contract_name, 
                                 },
                             });
 
                             const filePath = `${FileSystem.documentDirectory}${contractName}.sol`;
-                            console.log(filePath);
+                            await FileSystem.deleteAsync(filePath, { idempotent: true });
+                            console.log(`Deleted local file: ${filePath}`);
 
                             // Update local state to reflect deletion
                             setSavedContracts(currentContracts =>
@@ -194,6 +196,16 @@ export const useContractHandling = (navigation) => {
                 },
             ]
         );
+
+        const cleanExpoFolder = async () => { 
+            const filesInDirectory = await FileSystem.readDirectoryAsync(FileSystem.documentDirectory);
+            for (const fileName of filesInDirectory) {
+                const filePath = `${FileSystem.documentDirectory}${fileName}`;
+                await FileSystem.deleteAsync(filePath, { idempotent: true });
+                console.log(`Deleted local file: ${filePath}`);
+            }
+            console.log('Succesfully deleted all file in the expo folder')
+        }
     };
 
     return {
