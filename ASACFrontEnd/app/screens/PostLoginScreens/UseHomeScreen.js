@@ -169,15 +169,18 @@ export const useContractHandling = (navigation) => {
                 { text: "Cancel" },
                 {
                     text: "Delete", onPress: async () => {
+                        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
                         try {
                             const token = await SecureStore.getItemAsync('authToken');
-                            await fetch(`${BACKEND_URL}/contracts/delete-contract/`, {
+                            await fetch(`${BACKEND_URL}/contracts/delete-contract/${encodeURIComponent(contractToDelete.contract_name)}/`, {
                                 method: 'DELETE',
                                 headers: {
                                     'Authorization': `Token ${token}`,
-                                    'X-Contract-Name': contractToDelete.contract_name, 
                                 },
                             });
+
+                            const filePath = `${FileSystem.documentDirectory}${contractName}.sol`;
+                            console.log(filePath);
 
                             // Update local state to reflect deletion
                             setSavedContracts(currentContracts =>

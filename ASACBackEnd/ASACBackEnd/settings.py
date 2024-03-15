@@ -63,6 +63,8 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:1234',
     'http://localhost:8000',
+    'https://ba89-82-8-95-71.ngrok-free.app:8000',
+    'https://ba89-82-8-95-71.ngrok-free.app:1234',
     # to be added: production server
 ]
 
