@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Animated, LayoutAnimation, StyleSheet, Platform, UIManager } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Animated, Alert, LayoutAnimation, StyleSheet, Platform, UIManager } from 'react-native';
 import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -33,6 +33,9 @@ const ContractItem = ({ contract, openContract, openShareContract, deleteContrac
     const animationController = useRef(new Animated.Value(0)).current;
     const isMounted = useRef(true);
 
+    const opacityAnimation = useRef(new Animated.Value(1)).current; 
+    const heightAnimation = useRef(new Animated.Value(1)).current;
+
     useEffect(() => {
         return () => {
             isMounted.current = false;
@@ -56,6 +59,33 @@ const ContractItem = ({ contract, openContract, openShareContract, deleteContrac
         });
     };
 
+    const initiateDeletion = () => {
+        Alert.alert(
+            "Delete Contract",
+            "Are you sure you want to delete this contract?",
+            [
+                { text: "Cancel" },
+                { text: "Delete", onPress: handleDeletionAnimation }, // Trigger animation here
+            ],
+            { cancelable: false }
+        );
+    };
+
+    const handleDeletionAnimation = () => {
+        Animated.parallel([
+            Animated.timing(opacityAnimation, {
+                toValue: 0,
+                duration: 300,
+                useNativeDriver: true
+            }),
+            Animated.timing(heightAnimation, {
+                toValue: 0,
+                duration: 300,
+                useNativeDriver: false
+            })
+        ]).start(() => deleteContract(contract));
+    };
+
     const animatedHeight = animationController.interpolate({
         inputRange: [0, 1],
         outputRange: [0, 180],
@@ -76,7 +106,7 @@ const ContractItem = ({ contract, openContract, openShareContract, deleteContrac
                     <MaterialCommunityIcons name="share-outline" size={24} color="green" />
                     <Text style={{ color: 'green', marginLeft: 5 }}>Share Contract</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => deleteContract(contract)} style={styles.smartContractButton}>
+                <TouchableOpacity onPress={initiateDeletion} style={styles.smartContractButton}>
                     <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
                     <Text style={{ color: 'red', marginLeft: 5 }}>Delete Contract</Text>
                 </TouchableOpacity>
