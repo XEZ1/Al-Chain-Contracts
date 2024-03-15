@@ -273,7 +273,6 @@ const getStyles = (theme = 'light') => {
         },
         editor: {
             flex: 1,
-            borderWidth: 1,
             borderColor: themeStyles[theme].backgroundColor,
             backgroundColor: themeStyles[theme].inputBackground,
             color:  themeStyles[theme].textColor,
