@@ -9,24 +9,6 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
     UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-const DropZone = ({ handleFileSelectDropZone, onFileSelected, selectedFile }) => {
-    const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
-    const styles = getStyles();
-
-    return (
-        <TouchableOpacity style={styles.dropZone} onPress={() => handleFileSelectDropZone(onFileSelected)}>
-            {selectedFile ? (
-                <>
-                    <MaterialCommunityIcons name="file-document-outline" size={100} color="black" />
-                    <Text style={styles.buttonText}>{selectedFile.assets[0].name}</Text>
-                </>
-            ) : (
-                <Text style={[styles.dropZoneText, { color: theme === 'dark' ? 'grey' : 'darkgrey' }]}>Tap to select a .docx / .pdf / .txt file</Text>
-            )}
-        </TouchableOpacity>
-    );
-};
-
 const ContractItem = ({ contract, openContract, openShareContract, deleteContract, theme }) => {
     const [expanded, setExpanded] = useState(false);
     const styles = getStyles(theme);
@@ -139,8 +121,6 @@ const HomeScreen = ({ navigation }) => {
         handleDeleteContract,
     } = useContractHandling(navigation);
 
-
-
     useEffect(() => {
         fetchAndSyncContracts();
     }, []);
@@ -156,7 +136,17 @@ const HomeScreen = ({ navigation }) => {
                     {/* Contract Creation Section */}
                     <View style={styles.card}>
                         <Text style={styles.cardHeader}>Upload an Employment Contract</Text>
-                        <DropZone handleFileSelectDropZone={handleFileSelectDropZone} onFileSelected={setSelectedFile} selectedFile={selectedFile} />
+                        {/* DropZone */}
+                        <TouchableOpacity style={styles.dropZone} onPress={() => handleFileSelectDropZone(setSelectedFile)}>
+                            {selectedFile ? (
+                                <>
+                                    <MaterialCommunityIcons name="file-document-outline" size={100} color="black" />
+                                    <Text style={styles.buttonText}>{selectedFile.assets[0].name}</Text>
+                                </>
+                            ) : (
+                                <Text style={[styles.dropZoneText, { color: theme === 'dark' ? 'grey' : 'darkgrey' }]}>Tap to select a .docx / .pdf / .txt file</Text>
+                            )}
+                        </TouchableOpacity>
                         <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Enter Contract Name" value={contractName} onChangeText={setContractName} />
                         <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set Employer's USDC Address" value={employerAddress} onChangeText={setEmployerAddress} />
                         <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set AuthApp's Address" value={authAppAddress} onChangeText={setAuthAppAddress} />
