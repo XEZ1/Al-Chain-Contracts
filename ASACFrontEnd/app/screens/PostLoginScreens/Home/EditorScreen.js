@@ -13,49 +13,63 @@ function EditorScreen({ route, navigation }) { // Destructure 'route' from props
     const styles = getStyles(theme);
     const [codeHtml, setCodeHtml] = useState('');
 
+
     useEffect(() => {
-        const loadAndHighlightCode = async () => {
+        const loadFileContent = async () => {
             try {
                 const content = await FileSystem.readAsStringAsync(filePath);
                 setFileContent(content);
-                const escapedContent = content
+            } catch (error) {
+                Alert.alert("Error", "Failed to load file content");
+                console.error(error);
+            }
+        };
+
+        loadFileContent();
+    }, [filePath]);
+
+    useEffect(() => {
+        // Dynamically adjust the HTML content based on the theme
+        const backgroundColor = theme === 'dark' ? '#1A1A1A' : 'white';
+        const textColor = theme === 'dark' ? 'white' : 'black';
+        const escapedContent = fileContent
                     .replace(/&/g, '&amp;')
                     .replace(/</g, '&lt;')
                     .replace(/>/g, '&gt;')
                     .replace(/"/g, '&quot;')
                     .replace(/'/g, '&#039;');
-                const highlightedCode = `
-                <html>
-                    <head>
-                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
-                        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
-                        <script>hljs.initHighlightingOnLoad();</script>
-                        <style>
-                            body { 
-                                margin: 0; 
-                                padding: 0; 
-                                font-size: 2vw; 
-                            }
-                            pre { 
-                                white-space: pre-wrap; 
-                                word-wrap: break-word; 
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <pre><code class="javascript">${escapedContent}</code></pre>
-                    </body>
-                </html>`;
-                setCodeHtml(highlightedCode);
-            } catch (error) {
-                Alert.alert("Error", "Failed to load the contract content");
-                console.error("Failed to read file content", error);
-            }
-        };
 
-        loadAndHighlightCode();
-    }, [filePath]);
+        const htmlTemplate = `
+        <html>
+            <head>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+                <script>hljs.initHighlightingOnLoad();</script>
+                <style>
+                    body { 
+                        background-color: ${backgroundColor} !important; 
+                        color: ${textColor} !important; 
+                        margin: 0; padding: 0px; 
+                        font-family: monospace; 
+                    }
+                    pre { 
+                        background-color: ${backgroundColor} !important;
+                        white-space: pre-wrap; 
+                        word-wrap: break-word; 
+                    }
+                    pre code { 
+                        background-color: ${backgroundColor} !important;
+                        color: ${textColor} !important;
+                    }
+                </style>
+            </head>
+            <body>
+                <pre><code class="">${escapedContent}</code></pre>
+            </body>
+        </html>`;
+        setCodeHtml(htmlTemplate);
+    }, [theme, fileContent]); // React to changes in theme or file content
 
     return (
         <View style={{ flex: 1, backgroundColor: theme === 'dark' ? '#1A1A1A' : 'white' }}>
