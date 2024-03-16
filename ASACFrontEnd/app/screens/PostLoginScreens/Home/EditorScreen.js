@@ -49,23 +49,30 @@ function EditorScreen({ route, navigation }) { // Destructure 'route' from props
                     body { 
                         background-color: ${backgroundColor} !important; 
                         color: ${textColor} !important; 
-                        margin: 0; padding: 0px; 
+                        margin: 0; padding: 0; 
                         font-family: monospace; 
-                       
+                        font-size: 16px;
                     }
                     pre { 
                         background-color: ${backgroundColor} !important;
-                        white-space: pre-wrap; 
-                        word-wrap: break-word; 
-                        word-break: break-all;
+                        white-space: pre-wrap !important; 
+                        word-wrap: break-word !important; 
+                        word-break: break-all !important;
+                        overflow-wrap: break-word !important;
+                        max-width: 100% !important;
                     }
                     pre code { 
                         background-color: ${backgroundColor} !important;
                         color: ${textColor} !important;
+                        white-space: pre-wrap !important; 
+                        word-wrap: break-word !important;
+                        overflow-wrap: break-word !important;
                     }
                     code {
                         display: block;
-                        overflow-wrap: break-word;
+                        overflow-wrap: break-word !important;
+                        word-wrap: break-word !important;
+                        word-break: break-all !important;
                     }
                 </style>
             </head>
