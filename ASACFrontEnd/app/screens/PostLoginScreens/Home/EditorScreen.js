@@ -42,30 +42,35 @@ function EditorScreen({ route, navigation }) { // Destructure 'route' from props
         const htmlTemplate = `
         <html>
             <head>
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
-                <script>hljs.initHighlightingOnLoad();</script>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism-okaidia.min.css" />
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/components/prism-solidity.min.js"></script>
                 <style>
                     body { 
                         background-color: ${backgroundColor} !important; 
                         color: ${textColor} !important; 
                         margin: 0; padding: 0px; 
                         font-family: monospace; 
+                       
                     }
                     pre { 
                         background-color: ${backgroundColor} !important;
                         white-space: pre-wrap; 
                         word-wrap: break-word; 
+                        word-break: break-all;
                     }
                     pre code { 
                         background-color: ${backgroundColor} !important;
                         color: ${textColor} !important;
                     }
+                    code {
+                        display: block;
+                        overflow-wrap: break-word;
+                    }
                 </style>
             </head>
             <body>
-                <pre><code class="">${escapedContent}</code></pre>
+                <pre><code class="language-solidity">${escapedContent}</code></pre>
             </body>
         </html>`;
         setCodeHtml(htmlTemplate);
