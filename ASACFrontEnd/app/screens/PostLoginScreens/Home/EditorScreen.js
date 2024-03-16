@@ -86,6 +86,7 @@ function EditorScreen({ route, navigation }) { // Destructure 'route' from props
     return (
         <View style={{ flex: 1, backgroundColor: theme === 'dark' ? '#1A1A1A' : 'white' }}>
             <View style={styles.EditorContainer}>
+
                 { /* <TextInput
                     style={styles.editor} theme={theme}
                     multiline

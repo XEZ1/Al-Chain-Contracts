@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Alert, LayoutAnimation } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as SecureStore from 'expo-secure-store';
@@ -14,7 +14,15 @@ export const useContractHandling = (navigation) => {
     const [authAppAddress, setAuthAppAddress] = useState('');
     const [tokenContractInterface, setTokenContractInterface] = useState('');
     const [savedContracts, setSavedContracts] = useState([]);
+    const [isComponentMounted, setIsComponentMounted] = useState(true);
 
+    useEffect(() => {
+        setIsComponentMounted(true);
+
+        return () => {
+            setIsComponentMounted(false);
+        };
+    }, []);
 
     const handleFileSelectDropZone = async (onFileSelected) => {
         try {
@@ -24,13 +32,17 @@ export const useContractHandling = (navigation) => {
                 multiple: false
             });
             if (result.canceled) {
-                LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                if (isComponentMounted) {
+                    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                }
                 onFileSelected(null);
                 //Alert.alert("Cancelled", "File selection was cancelled.");
                 return;
             }
             if (result.assets[0].mimeType == 'text/plain') {
-                LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                if (isComponentMounted) {
+                    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                }
                 onFileSelected(result);
             }
         } catch (error) {
@@ -162,6 +174,9 @@ export const useContractHandling = (navigation) => {
     };
 
     const handleDeleteContract = async (contractToDelete) => {
+        if (!isComponentMounted) {
+            return; 
+        }
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         try {
             const token = await SecureStore.getItemAsync('authToken');

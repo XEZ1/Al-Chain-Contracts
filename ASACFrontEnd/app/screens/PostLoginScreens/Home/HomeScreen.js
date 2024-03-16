@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Animated, Alert, LayoutAnimation, StyleSheet, Platform, UIManager } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform, UIManager } from 'react-native';
 import getStyles from '../../../styles/SharedStyles';
 import { ThemeContext } from '../../../components/Theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';

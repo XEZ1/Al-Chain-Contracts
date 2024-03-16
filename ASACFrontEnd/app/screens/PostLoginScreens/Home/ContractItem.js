@@ -59,7 +59,13 @@ export const ContractItem = ({ contract, openContract, openShareContract, delete
                 duration: 300,
                 useNativeDriver: false
             })
-        ]).start(() => deleteContract(contract));
+        ]).start(() => {
+            if (!isMounted.current) {
+                opacityAnimation.stopAnimation();
+                heightAnimation.stopAnimation();
+            }
+            deleteContract(contract)
+        });
     };
 
     const animatedHeight = animationController.interpolate({
