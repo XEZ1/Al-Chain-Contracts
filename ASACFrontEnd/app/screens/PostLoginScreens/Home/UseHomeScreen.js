@@ -93,6 +93,7 @@ export const useContractHandling = (navigation) => {
         try {
             const filePath = FileSystem.documentDirectory + fileName + '.sol';
             await FileSystem.writeAsStringAsync(filePath, solidityCode, { encoding: FileSystem.EncodingType.UTF8 });
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
             setSavedContracts(prevContracts => [...prevContracts, { contract_name: fileName }]);
             Alert.alert("Success", `Contract was generated and saved as ${fileName}.sol to ${filePath}`);
         } catch (error) {
