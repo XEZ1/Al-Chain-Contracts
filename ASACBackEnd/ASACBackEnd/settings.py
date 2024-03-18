@@ -65,6 +65,7 @@ CORS_ALLOW_METHODS = [
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'X-Contract-Name',
+    'X-Token-Address',
 ]
 
 CORS_ALLOWED_ORIGINS = [
