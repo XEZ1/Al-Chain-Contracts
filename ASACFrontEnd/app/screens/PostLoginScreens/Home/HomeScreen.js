@@ -15,6 +15,7 @@ const HomeScreen = ({ navigation }) => {
     const styles = getStyles(theme);
     const [errors, setErrors] = useState({});
     const [showErrorDetails, setShowErrorDetails] = useState(false);
+    const [addressChecksum, setAddressChecksum] = useState('');
 
     const {
         selectedFile,
@@ -104,11 +105,11 @@ const HomeScreen = ({ navigation }) => {
                                 value);
                         }}
                         />
-                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set Employer's USDC Address" value={employerAddress} onChangeText={(value) => { 
-                            setEmployerAddress(value); 
-                            validateInput('employerAddress', 
-                            value); 
-                            }} 
+                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set Employer's USDC Address" value={employerAddress} onChangeText={(value) => {
+                            setEmployerAddress(value);
+                            validateInput('employerAddress',
+                                value);
+                        }}
                         />
                         <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set AuthApp's Address" value={authAppAddress} onChangeText={(value) => {
                             setAuthAppAddress(value);
@@ -145,6 +146,18 @@ const HomeScreen = ({ navigation }) => {
                                     theme={theme} />
                             ))
                         )}
+                    </View>
+
+                    {/* Address Conversion */}
+                    <View style={styles.card}>
+                        <Text style={styles.cardHeader}>Address Checksum Conversion</Text>
+                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set your token address" value={addressChecksum} onChangeText={setAddressChecksum}></TextInput>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => handleChecksumAddress(addressInput)}
+                        >
+                            <Text style={styles.buttonText}>Validate Address</Text>
+                        </TouchableOpacity>
                     </View>
 
                     {/* Contract Templates Section */}
