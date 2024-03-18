@@ -35,7 +35,7 @@ const HomeScreen = ({ navigation }) => {
         fetchAndSyncContracts,
         handleDeleteContract,
         getValidationErrorMessage,
-    } = useContractHandling(navigation);
+    } = useContractHandling(navigation, errors, setErrors);
 
     const validateInput = (field, value) => {
         const errorMessage = getValidationErrorMessage(field, value);
