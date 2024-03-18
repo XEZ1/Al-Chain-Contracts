@@ -15,6 +15,37 @@ export const useContractHandling = (navigation) => {
     const [tokenContractInterface, setTokenContractInterface] = useState('');
     const [savedContracts, setSavedContracts] = useState([]);
     const [isComponentMounted, setIsComponentMounted] = useState(true);
+    const isValidEthereumAddress = (address) => /^0x[a-fA-F0-9]{40}$/.test(address);
+    const isValidHexadecimal = (value) => /^0x[a-fA-F0-9]+$/.test(value);
+    const isValidContractName = (name) => /^[a-zA-Z0-9\s]{3,100}$/.test(name);
+    
+    const isValidJson = (value) => {
+        try {
+            JSON.parse(value);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    };
+
+    const getValidationErrorMessage = (field, value) => {
+        switch (field) {
+            case 'employerAddress':
+            case 'authAppAddress':
+                if (!isValidEthereumAddress(value)) return 'Invalid Ethereum address. Must start with 0x followed by 40 hexadecimal characters.';
+                break;
+            case 'contractName':
+                if (!isValidContractName(value)) return 'Invalid contract name. Must be 3-100 characters long and contain only letters, numbers, and spaces.';
+                break;
+            case 'tokenContractInterface':
+                if (!isValidJson(value)) return 'Invalid token contract interface. Must be valid JSON.';
+                if (!isValidHexadecimal(value)) return 'Invalid hexadecimal value.';
+                break;
+            default:
+                return '';
+        }
+    };
+
 
     useEffect(() => {
         setIsComponentMounted(true);
@@ -176,7 +207,7 @@ export const useContractHandling = (navigation) => {
 
     const handleDeleteContract = async (contractToDelete) => {
         if (!isComponentMounted) {
-            return; 
+            return;
         }
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         try {
@@ -232,5 +263,6 @@ export const useContractHandling = (navigation) => {
         openContract,
         fetchAndSyncContracts,
         handleDeleteContract,
+        getValidationErrorMessage
     };
 };
