@@ -3,10 +3,12 @@ import re
 import json
 from django.core.exceptions import ValidationError
 
+w3 = Web3()
+
 def validate_ethereum_address(value):
-    if not Web3.isAddress(value):
+    if not w3.is_address(value):
         raise ValidationError(f"{value} is not a valid Ethereum address.")
-    if not Web3.isChecksumAddress(value):
+    if not w3.is_checksum_address(value):
         raise ValidationError(f"{value} is not a checksummed address.")
 
 def validate_hexadecimal(value):
