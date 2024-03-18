@@ -91,6 +91,9 @@ class CheckSumAddressView(APIView):
         if not address:
             return JsonResponse({"error": "Address header parameter is required."}, status=status.HTTP_400_BAD_REQUEST)
 
-        if not Web3.is_checksum_address(address):
+        try:
             valid_address = Web3.to_checksum_address(address)
-            return JsonResponse({"message": f"Here is the valid checksum address: {valid_address}"}, status=status.HTTP_200_OK)
+            print(f"address: {valid_address}")
+            return JsonResponse({"address": valid_address}, status=status.HTTP_200_OK)
+        except ValueError:
+            return JsonResponse({"error": "Invalid Ethereum address provided."}, status=status.HTTP_400_BAD_REQUEST)

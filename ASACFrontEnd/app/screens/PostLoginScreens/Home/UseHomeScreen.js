@@ -168,7 +168,6 @@ export const useContractHandling = (navigation, errors, setErrors) => {
 
         const downloadPromises = contracts.map(async (contract) => {
             const localFilePath = `${documentDirectory}${contract.name}.sol`;
-            console.log
             if (!localFiles.includes(`${contract.contract_name}.sol`)) {
                 // Download and save file if it does not exist locally
                 console.log(`Downloading and saving ${contract.contract_name}...`);
@@ -236,16 +235,13 @@ export const useContractHandling = (navigation, errors, setErrors) => {
             case 'employerAddress':
             case 'authAppAddress':
                 if (!isValidEthereumAddress(value)) return 'Invalid Ethereum address. Must start with 0x followed by 40 hexadecimal characters.';
-                console.log('invalid');
                 break;
             case 'contractName':
                 if (!isValidContractName(value)) return 'Invalid contract name. Must be 3-100 characters long and contain only letters, numbers, and spaces.';
-                console.log('invalid');
                 break;
             case 'tokenContractInterface':
             //    if (!isValidJson(value)) return 'Invalid token contract interface. Must be valid JSON.';
                 if (!isValidHexadecimal(value)) return 'Invalid hexadecimal value.';
-                console.log('invalid');
                 break;
             default:
                 return '';
@@ -271,7 +267,7 @@ export const useContractHandling = (navigation, errors, setErrors) => {
             if (verifiedAddress.error) {
                 alert(`Error: ${verifiedAddress.error}`);
             } else {
-                alert(`Validated Address: ${verifiedAddress.valid_address}`);
+                alert(`Validated Address: ${verifiedAddress.address}`);
             }
         } catch (error) {
             console.error(error);
