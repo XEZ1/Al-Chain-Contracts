@@ -275,12 +275,63 @@ const getStyles = (theme = 'light') => {
             flex: 1,
             borderColor: themeStyles[theme].backgroundColor,
             backgroundColor: themeStyles[theme].inputBackground,
-            color:  themeStyles[theme].textColor,
+            color: themeStyles[theme].textColor,
             padding: 10,
             textAlignVertical: 'top', // Align text to the top on Android
             marginBottom: 90,
         },
 
+
+        errorIcon: {
+            color: 'red', // Set the icon color to red
+        },
+        errorText: {
+            marginLeft: 5, // Space between the icon and the text
+            color: 'red', // Set the text color to red
+            fontSize: 14, // Smaller font size for the error message
+        },
+        errorIconContainer: {
+            position: 'absolute',
+            right: 5,
+            top: 5,
+        },
+        centeredView: {
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+        },
+        modalView: {
+            width: '80%', // Ensure modal is wide enough
+            margin: 20,
+            backgroundColor: themeStyles[theme].inputBackground,
+            borderRadius: 20,
+            padding: 25,
+            alignItems: "flex-start", // Align items to the start
+            shadowColor: "#000",
+            shadowOffset: {
+                width: 0,
+                height: 2
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 4,
+            elevation: 5
+        },
+        modalText: {
+            color: themeStyles[theme].textColor,
+            marginBottom: 15,
+            textAlign: "center"
+        },
+        errorListItem: {
+            color: 'red',
+            alignSelf: 'stretch',
+            textAlign: 'left', 
+            marginBottom: '5%',
+        },
+        textStyle: {
+            color: themeStyles[theme].textColor,
+            fontWeight: "bold",
+            textAlign: "center"
+        },
     });
 };
 

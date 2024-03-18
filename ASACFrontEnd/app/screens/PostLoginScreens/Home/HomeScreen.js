@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform, UIManager } from 'react-native';
+import { Modal, View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform, UIManager } from 'react-native';
 import getStyles from '../../../styles/SharedStyles';
 import { ThemeContext } from '../../../components/Theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -14,6 +14,7 @@ const HomeScreen = ({ navigation }) => {
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
     const styles = getStyles(theme);
     const [errors, setErrors] = useState({});
+    const [showErrorDetails, setShowErrorDetails] = useState(false);
 
     const {
         selectedFile,
@@ -55,6 +56,35 @@ const HomeScreen = ({ navigation }) => {
 
                     {/* Contract Creation Section */}
                     <View style={styles.card}>
+                        {Object.values(errors).some(error => error) && (
+                            <TouchableOpacity
+                                style={styles.errorIconContainer}
+                                onPress={() => setShowErrorDetails(true)}>
+                                <MaterialCommunityIcons name="alert-circle" size={24} style={styles.errorIcon} />
+                            </TouchableOpacity>
+                        )}
+                        <Modal
+                            animationType="slide"
+                            transparent={true}
+                            visible={showErrorDetails}
+                            onRequestClose={() => setShowErrorDetails(false)}
+                        >
+                            <View style={styles.centeredView}>
+                                <View style={styles.modalView}>
+                                    <Text style={styles.modalText}>Please fix the following errors:</Text>
+                                    {Object.entries(errors).map(([key, value]) =>
+                                        value ? <Text key={key} style={styles.errorListItem}>{`${key}: ${value}`}</Text> : null
+                                    )}
+                                    <TouchableOpacity
+                                        style={[styles.button]}
+                                        onPress={() => setShowErrorDetails(false)}
+                                    >
+                                        <Text style={styles.textStyle}>Got it</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </Modal>
+
                         <Text style={styles.cardHeader}>Upload an Employment Contract</Text>
                         {/* DropZone */}
                         <TouchableOpacity style={styles.dropZone} onPress={() => handleFileSelectDropZone(setSelectedFile)}>
@@ -67,37 +97,36 @@ const HomeScreen = ({ navigation }) => {
                                 <Text style={[styles.dropZoneText, { color: theme === 'dark' ? 'grey' : 'darkgrey' }]}>Tap to select a .docx / .pdf / .txt file</Text>
                             )}
                         </TouchableOpacity>
-                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Enter Contract Name" value={contractName} onChangeText={(value) => { 
-                            setContractName(value); 
-                            validateInput('contractName', 
-                            value); 
-                            }}
+
+                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Enter Contract Name" value={contractName} onChangeText={(value) => {
+                            setContractName(value);
+                            validateInput('contractName',
+                                value);
+                        }}
                         />
-                        {errors.contractName && <Text style={styles.errorText}>{errors.contractName}</Text>}
                         <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set Employer's USDC Address" value={employerAddress} onChangeText={(value) => { 
                             setEmployerAddress(value); 
                             validateInput('employerAddress', 
                             value); 
                             }} 
                         />
-                        {errors.employerAddress && <Text style={styles.errorText}>{errors.employerAddress}</Text>}
-                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set AuthApp's Address" value={authAppAddress} onChangeText={(value) => { 
-                            setAuthAppAddress(value); 
-                            validateInput('authAppAddress', 
-                            value); 
-                            }} 
+                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set AuthApp's Address" value={authAppAddress} onChangeText={(value) => {
+                            setAuthAppAddress(value);
+                            validateInput('authAppAddress',
+                                value);
+                        }}
                         />
-                        {errors.authAppAddress && <Text style={styles.errorText}>{errors.authAppAddress}</Text>}
-                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set USDC's Token Contract Interface" value={tokenContractInterface} onChangeText={(value) => { 
-                            setTokenContractInterface(value); 
-                            validateInput('tokenContractInterface', 
-                            value); 
-                            }} 
+                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set USDC's Token Contract Interface" value={tokenContractInterface} onChangeText={(value) => {
+                            setTokenContractInterface(value);
+                            validateInput('tokenContractInterface',
+                                value);
+                        }}
                         />
-                        {errors.tokenContractInterface && <Text style={styles.errorText}>{errors.tokenContractInterface}</Text>}
+
                         <TouchableOpacity style={styles.button} onPress={uploadContractData}>
                             <Text style={styles.buttonText}>Create Contract</Text>
                         </TouchableOpacity>
+
                     </View>
 
                     {/* User's Smart Contracts */}
