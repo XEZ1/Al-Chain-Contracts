@@ -160,42 +160,7 @@ const HomeScreen = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>
 
-                    {/* Contract Templates Section */}
-                    <View style={styles.card}>
-                        <Text style={styles.cardHeader}>Contract Templates</Text>
-                        <TouchableOpacity style={styles.button}>
-                            <Text style={styles.buttonText}>ERC20 Token</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.button}>
-                            <Text style={styles.buttonText}>ERC721 Token</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.button}>
-                            <Text style={styles.buttonText}>Crowdsale</Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    {/* Contract Deployment Section */}
-                    <View style={styles.card}>
-                        <Text style={styles.cardHeader}>Deploy Your Contract</Text>
-                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Enter Network (e.g., Ethereum, Binance Smart Chain)" />
-                        <TouchableOpacity style={styles.button}>
-                            <Text style={styles.buttonText}>Deploy Contract</Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    {/* Additional Features */}
-                    <View style={styles.card}>
-                        <Text style={styles.cardHeader}>Tools & Utilities</Text>
-                        <TouchableOpacity style={styles.button}>
-                            <Text style={styles.buttonText}>Contract Interactions</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.button}>
-                            <Text style={styles.buttonText}>Transaction History</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.button}>
-                            <Text style={styles.buttonText}>Smart Contract Analytics</Text>
-                        </TouchableOpacity>
-                    </View>
+                 
 
                     {/* Footer Section */}
                     <View style={styles.footer}>
