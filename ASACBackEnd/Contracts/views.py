@@ -8,10 +8,10 @@ from .models import SmartContract
 from rest_framework.parsers import MultiPartParser, FormParser
 from .serializers import EmploymentContractSerialiser, SmartContractSerialiser
 from rest_framework.permissions import IsAuthenticated
+from web3 import Web3
 
 # Load environment variables from .env file
 load_dotenv()
-
 
 class GenerateContractView(APIView):
     parser_classes = (MultiPartParser, FormParser)
@@ -40,6 +40,8 @@ class GenerateContractView(APIView):
             )
 
             return JsonResponse({"solidity_code": smart_contract.code}, status=status.HTTP_201_CREATED)
+        else:
+            print(serializer.errors)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def generate_solidity_code(self, contract_text):
@@ -74,12 +76,21 @@ class DeleteContractView(APIView):
         return JsonResponse({"message": "Smart contract deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
 
 
-
-
-
 class FetchContractsView(APIView):
 
     def get(self, request, *args, **kwargs):
         user_contracts = SmartContract.objects.filter(user=request.user)
         serializer = SmartContractSerialiser(user_contracts, many=True)
         return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
+
+
+class CheckSumAddressView(APIView):
+
+    def get(self, request, *args, **kwargs):
+        address = request.headers.get('X-Token-Address')
+        if not address:
+            return JsonResponse({"error": "Address header parameter is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not Web3.is_checksum_address(address):
+            valid_address = Web3.to_checksum_address(address)
+            return JsonResponse({"message": f"Here is the valid checksum address: {valid_address}"}, status=status.HTTP_200_OK)

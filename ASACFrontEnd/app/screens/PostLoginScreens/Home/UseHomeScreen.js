@@ -252,7 +252,29 @@ export const useContractHandling = (navigation, errors, setErrors) => {
         }
     };
 
-
+    const handleChecksumAddress = async (address) => {
+        if (!isComponentMounted) {
+            return;
+        }
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+        try {
+            const token = await SecureStore.getItemAsync('authToken');
+            const response = await fetch(`${BACKEND_URL}/contracts/get-valid-checksum-address/`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Token ${token}`,
+                    'X-Token-Address': address,
+                },
+            });
+            verifiedAddress = await response.json();
+            console.log(verifiedAddress);
+            
+            
+        } catch (error) {
+            console.error(error);
+            alert('Error verifying the address:', error);
+        }
+    };
 
     return {
         selectedFile,
