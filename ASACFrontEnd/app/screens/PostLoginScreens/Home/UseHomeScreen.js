@@ -268,8 +268,11 @@ export const useContractHandling = (navigation, errors, setErrors) => {
             });
             verifiedAddress = await response.json();
             console.log(verifiedAddress);
-            
-            
+            if (verifiedAddress.error) {
+                alert(`Error: ${verifiedAddress.error}`);
+            } else {
+                alert(`Validated Address: ${verifiedAddress.valid_address}`);
+            }
         } catch (error) {
             console.error(error);
             alert('Error verifying the address:', error);
@@ -294,6 +297,7 @@ export const useContractHandling = (navigation, errors, setErrors) => {
         openContract,
         fetchAndSyncContracts,
         handleDeleteContract,
-        getValidationErrorMessage
+        getValidationErrorMessage,
+        handleChecksumAddress,
     };
 };

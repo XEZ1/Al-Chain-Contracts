@@ -36,6 +36,7 @@ const HomeScreen = ({ navigation }) => {
         fetchAndSyncContracts,
         handleDeleteContract,
         getValidationErrorMessage,
+        handleChecksumAddress,
     } = useContractHandling(navigation, errors, setErrors);
 
     const validateInput = (field, value) => {
@@ -154,7 +155,7 @@ const HomeScreen = ({ navigation }) => {
                         <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set your token address" value={addressChecksum} onChangeText={setAddressChecksum}></TextInput>
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={() => handleChecksumAddress(addressInput)}
+                            onPress={() => handleChecksumAddress(addressChecksum)}
                         >
                             <Text style={styles.buttonText}>Validate Address</Text>
                         </TouchableOpacity>
