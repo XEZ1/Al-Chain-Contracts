@@ -7,7 +7,7 @@ import * as Sharing from 'expo-sharing';
 import { BACKEND_URL } from '@env';
 
 
-export const useContractHandling = (navigation, errors, setErrors) => {
+export const useContractHandling = (navigation) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [contractName, setContractName] = useState('');
     const [employerAddress, setEmployerAddress] = useState('');
@@ -17,6 +17,9 @@ export const useContractHandling = (navigation, errors, setErrors) => {
     const [isComponentMounted, setIsComponentMounted] = useState(true);
     const [showAddressModal, setShowAddressModal] = useState(false);
     const [validatedAddress, setValidatedAddress] = useState('');
+    const [errors, setErrors] = useState({});
+    const [showErrorDetails, setShowErrorDetails] = useState(false);
+    const [addressChecksum, setAddressChecksum] = useState('');
 
     
     const isValidEthereumAddress = (address) => /^0x[a-fA-F0-9]{40}$/.test(address);
@@ -300,6 +303,12 @@ export const useContractHandling = (navigation, errors, setErrors) => {
         setValidatedAddress,
         showAddressModal,
         setShowAddressModal,
+        errors,
+        setErrors,
+        showErrorDetails,
+        setShowErrorDetails,
+        addressChecksum,
+        setAddressChecksum,
         savedContracts,
         handleFileSelectDropZone,
         uploadContractData,

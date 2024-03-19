@@ -30,7 +30,6 @@ const getStyles = (theme = 'light') => {
             paddingTop: '5%',
             padding: '5%',
             backgroundColor: themeStyles[theme].containerBackground, // Set background color based on theme
-            paddingBottom: '20%',
         },
         containerWithoutBackground: {
             flex: 1,

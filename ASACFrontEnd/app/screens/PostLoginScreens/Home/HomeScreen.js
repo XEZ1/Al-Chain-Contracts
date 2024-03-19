@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { Modal, View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform, UIManager } from 'react-native';
+import { Modal, View, Text, TextInput, TouchableOpacity, ScrollView, LayoutAnimation, KeyboardAvoidingView, Platform, UIManager,  Keyboard, Dimensions } from 'react-native';
 import getStyles from '../../../styles/SharedStyles';
 import { ThemeContext } from '../../../components/Theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -13,10 +13,8 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 const HomeScreen = ({ navigation }) => {
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
     const styles = getStyles(theme);
-    const [errors, setErrors] = useState({});
-    const [showErrorDetails, setShowErrorDetails] = useState(false);
-    const [addressChecksum, setAddressChecksum] = useState('');
-
+    const [keyboardHeight, setKeyboardHeight] = useState(0);
+  
     const {
         selectedFile,
         setSelectedFile,
@@ -32,6 +30,12 @@ const HomeScreen = ({ navigation }) => {
         setValidatedAddress,
         showAddressModal,
         setShowAddressModal,
+        errors,
+        setErrors,
+        showErrorDetails,
+        setShowErrorDetails,
+        addressChecksum,
+        setAddressChecksum,
         savedContracts,
         handleFileSelectDropZone,
         uploadContractData,
@@ -53,11 +57,29 @@ const HomeScreen = ({ navigation }) => {
         fetchAndSyncContracts();
     }, []);
 
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (e) => {
+            const screenHeight = Dimensions.get('window').height;
+            const endY = e.endCoordinates.screenY;
+         
+            setKeyboardHeight(screenHeight - endY - 90);
+        });
+
+        const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+            setKeyboardHeight(0);
+        });
+
+        return () => {
+            keyboardDidShowListener.remove();
+            keyboardDidHideListener.remove();
+        };
+    }, []);
+
     return (
-        <View style={{ flex: 1, backgroundColor: theme === 'dark' ? '#1A1A1A' : 'white' }}>
+        <View style={{ flex: 1, backgroundColor: theme === 'dark' ? '#1A1A1A' : 'white', paddingBottom: keyboardHeight }}>
             <ScrollView style={styles.scrollView}>
                 <KeyboardAvoidingView
-                    style={styles.container}
+                    style={styles.container}                    
                 >
 
                     <Text style={styles.header}>Smart Contract Toolkit</Text>
@@ -159,6 +181,7 @@ const HomeScreen = ({ navigation }) => {
                     <View style={styles.card}>
                         <Text style={styles.cardHeader}>Address Checksum Conversion</Text>
                         <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set your token address" value={addressChecksum} onChangeText={setAddressChecksum}></TextInput>
+                        
                         <TouchableOpacity
                             style={styles.button}
                             onPress={() => handleChecksumAddress(addressChecksum)}
