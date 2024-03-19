@@ -176,16 +176,23 @@ const HomeScreen = ({ navigation }) => {
                                     <Text style={styles.modalText}>Validated Address:</Text>
                                     <Text style={styles.modalText}>{validatedAddress}</Text>
                                     <TouchableOpacity
-                                        style={[styles.button, styles.buttonClose]}
-                                        onPress={() => {copyToClipboard(validatedAddress); setShowAddressModal(false)}}
+                                        style={styles.button}
+                                        onPress={() => { copyToClipboard(validatedAddress); setShowAddressModal(false) }}
                                     >
                                         <Text style={styles.textStyle}>Copy Address</Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity
-                                        style={[styles.exitButton, styles.buttonClose]} // You may want to style this differently
+                                        style={styles.exitButton}
                                         onPress={() => setShowAddressModal(false)}
+                                        activeOpacity={0.9}
                                     >
-                                        <Text style={styles.textStyle}>Exit</Text>
+                                        <MaterialCommunityIcons
+                                            name="close-circle"
+                                            size={30}
+                                            color='red' 
+                                            onPress={() => setShowAddressModal(false)}
+                                            style={styles.exitButton}
+                                        />
                                     </TouchableOpacity>
                                 </View>
                             </View>

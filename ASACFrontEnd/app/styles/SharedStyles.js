@@ -333,15 +333,22 @@ const getStyles = (theme = 'light') => {
             textAlign: "center"
         },
         exitButton: {
-            position: 'absolute', // Position the button absolutely
-            top: 10, // Distance from the top of the modal
-            right: 10, // Distance from the right side of the modal
-            backgroundColor: 'red', // Red background for the button
-            padding: 10, // Padding inside the button
-            borderRadius: 5, // Rounded corners
+            position: 'absolute',
+            top: 5,
+            right: 5,
+            justifyContent: 'center',
+            alignItems: 'center',
+            shadowColor: theme === 'dark' ? '#3A3A3A' : '#000',
+            shadowOffset: {
+                width: 0,
+                height: 2
+            },
+            shadowOpacity: 0.15,
+            shadowRadius: 3.84, // Adjust the shadow radius to smooth out the shadow
+            elevation: 5,
         },
         exitButtonText: {
-            color: themeStyles[theme].textColor,
+            color: 'white',
             fontWeight: 'bold', // Bold text
         },
     });
