@@ -184,7 +184,6 @@ const HomeScreen = ({ navigation }) => {
                                     <TouchableOpacity
                                         style={styles.exitButton}
                                         onPress={() => setShowAddressModal(false)}
-                                        activeOpacity={0.9}
                                     >
                                         <MaterialCommunityIcons
                                             name="close-circle"

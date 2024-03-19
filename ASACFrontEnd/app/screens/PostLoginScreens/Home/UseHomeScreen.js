@@ -253,6 +253,10 @@ export const useContractHandling = (navigation, errors, setErrors) => {
 
     const handleChecksumAddress = async (address) => {
         try {
+            if (!address) {
+                alert(`Error: Please fill the input field`);
+                return;
+            }
             const token = await SecureStore.getItemAsync('authToken');
             const response = await fetch(`${BACKEND_URL}/contracts/get-valid-checksum-address/`, {
                 method: 'GET',
