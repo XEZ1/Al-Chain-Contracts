@@ -13,6 +13,9 @@ class EmploymentContract(models.Model):
     token_contract_interface = models.TextField(max_length=42, validators=[validate_ethereum_address, validate_hexadecimal])
     contract_content = models.TextField()
 
+    class Meta:
+        unique_together = ('user', 'contract_name',)
+        
     def __str__(self):
         return f"Legal Employment Contract {self.id} - {self.contract_name}"
 
@@ -25,6 +28,9 @@ class SmartContract(models.Model):
     employer_address = models.CharField(max_length=42, validators=[validate_ethereum_address, validate_hexadecimal])
     auth_app_address = models.CharField(max_length=42, validators=[validate_ethereum_address, validate_hexadecimal])
     token_contract_interface = models.TextField(validators=[validate_ethereum_address, validate_hexadecimal])
+
+    class Meta:
+        unique_together = ('user', 'contract_name',)
 
     def __str__(self):
         return f"Smart Contract {self.id} - {self.contract_name}"
