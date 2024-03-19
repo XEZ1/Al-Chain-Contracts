@@ -11,12 +11,12 @@ const SignUpScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
     const styles = getStyles(theme);
 
-    const [username, setUsername] = useState(null);
-    const [firstName, setFirstName] = useState(null);
-    const [lastName, setLastName] = useState(null);
-    const [email, setEmail] = useState(null);
-    const [password, setPassword] = useState(null);
-    const [passwordConfirmation, setPasswordConfirmation] = useState(null);
+    const [username, setUsername] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordConfirmation, setPasswordConfirmation] = useState('');
     const [errors, setErrors] = useState({});
     const [showErrorDetails, setShowErrorDetails] = useState(false);
 
@@ -63,7 +63,7 @@ const SignUpScreen = ({ navigation }) => {
 
     return (
         <KeyboardAvoidingView
-            style={ [styles.container, { paddingTop: '16%' } ] }
+            style={[styles.container, { paddingTop: '16%' }]}
             behavior="padding"
         >
             {Object.values(errors).some(error => error) && (

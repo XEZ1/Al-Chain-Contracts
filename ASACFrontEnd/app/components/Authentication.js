@@ -3,7 +3,7 @@ import { BACKEND_URL } from '@env';
 import React, { useState, useEffect, createContext } from 'react';
 import { useConnectToNotifications } from './Notifications';
 import { WebSocketProvider } from './Notifications';
-
+import { Alert } from 'react-native';
 
 export const AuthContext = createContext();
 
@@ -20,9 +20,6 @@ export const validateToken = async () => {
 
         const data = await response.json();
         return response.ok && data.token_valid;
-        /* if (!response.ok || !data.token_valid) {
-            navigation.navigate('Login');
-        } */
     } catch (error) {
         console.error('Error:', error);
         return false;
@@ -31,6 +28,10 @@ export const validateToken = async () => {
 
 export const login = async (username, password) => {
     try {
+        if (!username || !password) {
+            return { success: false, error: 'Username and password are required.' };
+        }
+
         const response = await fetch(`${BACKEND_URL}/login/`, {
             method: 'POST',
             headers: {
@@ -80,7 +81,8 @@ export const AuthProvider = ({ children }) => {
         if (result.success) {
             setIsLoggedIn(true);
         } else {
-            console.error(result.error);
+            Alert.alert('Login Failed', result.error);
+            console.log(result.error);
         }
     };
 
