@@ -26,7 +26,6 @@ const getStyles = (theme = 'light') => {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            //paddingTop: '16%',
             paddingTop: '5%',
             padding: '5%',
             backgroundColor: themeStyles[theme].containerBackground, // Set background color based on theme
@@ -288,6 +287,11 @@ const getStyles = (theme = 'light') => {
             marginLeft: 5, // Space between the icon and the text
             color: 'red', // Set the text color to red
             fontSize: 14, // Smaller font size for the error message
+        },
+        errorIconContainerSignUp: {
+            position: 'absolute',
+            right: 20,
+            top: 70,
         },
         errorIconContainer: {
             position: 'absolute',

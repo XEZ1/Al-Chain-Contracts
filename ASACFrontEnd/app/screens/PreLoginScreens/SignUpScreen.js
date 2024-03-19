@@ -1,26 +1,36 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, KeyboardAvoidingView } from 'react-native';
+import { View, Modal, Text, TextInput, TouchableOpacity, Alert, KeyboardAvoidingView } from 'react-native';
 import { AuthContext } from '../../components/Authentication';
-import getStyles from '../../styles/SharedStyles'; 
+import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
 import { BACKEND_URL } from '@env';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const SignUpScreen = ({ navigation }) => {
     const { handleLogin } = useContext(AuthContext);
     const { theme } = useContext(ThemeContext);
     const styles = getStyles(theme);
 
-    const [username, setUsername] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordConfirmation, setPasswordConfirmation] = useState('');
-
+    const [username, setUsername] = useState(null);
+    const [firstName, setFirstName] = useState(null);
+    const [lastName, setLastName] = useState(null);
+    const [email, setEmail] = useState(null);
+    const [password, setPassword] = useState(null);
+    const [passwordConfirmation, setPasswordConfirmation] = useState(null);
     const [errors, setErrors] = useState({});
+    const [showErrorDetails, setShowErrorDetails] = useState(false);
 
     const handleSignUp = async () => {
         try {
+            if (!username || !firstName || !lastName || !email || !password || !passwordConfirmation) {
+                Alert.alert('Error', 'Please fill in all the fields below');
+                return;
+            }
+            if (password !== passwordConfirmation) {
+                Alert.alert('Error', 'Passwords do not match');
+                return;
+            }
+
             const response = await fetch(`${BACKEND_URL}/sign_up/`, {
                 method: 'POST',
                 headers: {
@@ -52,13 +62,38 @@ const SignUpScreen = ({ navigation }) => {
     };
 
     return (
-        <KeyboardAvoidingView 
-            style={styles.container} 
+        <KeyboardAvoidingView
+            style={ [styles.container, { paddingTop: '16%' } ] }
             behavior="padding"
         >
-            {errors && Object.keys(errors).map((key, index) => (
-                <Text key={index} style={{ color: 'red' }}>{`${key}: ${errors[key]}`}</Text>
-            ))}
+            {Object.values(errors).some(error => error) && (
+                <TouchableOpacity
+                    style={styles.errorIconContainerSignUp}
+                    onPress={() => setShowErrorDetails(true)}>
+                    <MaterialCommunityIcons name="alert-circle" size={24} style={styles.errorIcon} />
+                </TouchableOpacity>
+            )}
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={showErrorDetails}
+                onRequestClose={() => setShowErrorDetails(false)}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalText}>Please fix the following errors:</Text>
+                        {Object.entries(errors).map(([key, value]) =>
+                            value ? <Text key={key} style={styles.errorListItem}>{`${key}: ${value}`}</Text> : null
+                        )}
+                        <TouchableOpacity
+                            style={[styles.button]}
+                            onPress={() => setShowErrorDetails(false)}
+                        >
+                            <Text style={styles.textStyle}>Got it</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
 
             <TextInput
                 placeholder="Username"
