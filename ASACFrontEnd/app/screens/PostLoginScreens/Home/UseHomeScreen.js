@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Alert, LayoutAnimation } from 'react-native';
+import { Alert, LayoutAnimation, Clipboard } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as SecureStore from 'expo-secure-store';
 import * as FileSystem from 'expo-file-system';
@@ -15,6 +15,9 @@ export const useContractHandling = (navigation, errors, setErrors) => {
     const [tokenContractInterface, setTokenContractInterface] = useState('');
     const [savedContracts, setSavedContracts] = useState([]);
     const [isComponentMounted, setIsComponentMounted] = useState(true);
+    const [showAddressModal, setShowAddressModal] = useState(false);
+    const [validatedAddress, setValidatedAddress] = useState('');
+
     
     const isValidEthereumAddress = (address) => /^0x[a-fA-F0-9]{40}$/.test(address);
     const isValidHexadecimal = (value) => /^0x[a-fA-F0-9]+$/.test(value);
@@ -267,7 +270,8 @@ export const useContractHandling = (navigation, errors, setErrors) => {
             if (verifiedAddress.error) {
                 alert(`Error: ${verifiedAddress.error}`);
             } else {
-                alert(`Validated Address: ${verifiedAddress.address}`);
+                setValidatedAddress(verifiedAddress.address);
+                setShowAddressModal(true);
             }
         } catch (error) {
             console.error(error);
@@ -286,6 +290,10 @@ export const useContractHandling = (navigation, errors, setErrors) => {
         setAuthAppAddress,
         tokenContractInterface,
         setTokenContractInterface,
+        validatedAddress,
+        setValidatedAddress,
+        showAddressModal,
+        setShowAddressModal,
         savedContracts,
         handleFileSelectDropZone,
         uploadContractData,
