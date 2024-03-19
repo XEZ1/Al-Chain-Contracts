@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { Modal, View, Text, TextInput, TouchableOpacity, ScrollView, LayoutAnimation, KeyboardAvoidingView, Platform, UIManager,  Keyboard, Dimensions } from 'react-native';
+import { Modal, View, Text, TextInput, TouchableOpacity, findNodeHandle, ScrollView, LayoutAnimation, KeyboardAvoidingView, Platform, UIManager,  Keyboard, Dimensions } from 'react-native';
 import getStyles from '../../../styles/SharedStyles';
 import { ThemeContext } from '../../../components/Theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -14,7 +14,14 @@ const HomeScreen = ({ navigation }) => {
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
     const styles = getStyles(theme);
     const [keyboardHeight, setKeyboardHeight] = useState(0);
-  
+
+    const contractNameRef = useRef(null);
+    const employerAddressRef = useRef(null);
+    const authAppAddressRef = useRef(null);
+    const tokenContractInterfaceRef = useRef(null);
+    const addressConversionRef = useRef(null);
+    const scrollViewRef = useRef(null);
+
     const {
         selectedFile,
         setSelectedFile,
@@ -61,23 +68,36 @@ const HomeScreen = ({ navigation }) => {
         const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (e) => {
             const screenHeight = Dimensions.get('window').height;
             const endY = e.endCoordinates.screenY;
-         
             setKeyboardHeight(screenHeight - endY - 90);
+    
+            const currentlyFocusedField = TextInput.State.currentlyFocusedInput
+                ? TextInput.State.currentlyFocusedInput()
+                : TextInput.State.currentlyFocusedField(); // Fallback for older versions
+    
+            if (currentlyFocusedField) {
+                const nodeHandle = findNodeHandle(currentlyFocusedField);
+                scrollViewRef.current?.getScrollResponder().scrollResponderScrollNativeHandleToKeyboard(
+                    nodeHandle, 
+                    120, 
+                    true 
+                );
+            }
         });
-
+    
         const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
             setKeyboardHeight(0);
         });
-
+    
         return () => {
             keyboardDidShowListener.remove();
             keyboardDidHideListener.remove();
         };
     }, []);
-
+    
+    
     return (
         <View style={{ flex: 1, backgroundColor: theme === 'dark' ? '#1A1A1A' : 'white', paddingBottom: keyboardHeight }}>
-            <ScrollView style={styles.scrollView}>
+            <ScrollView ref={scrollViewRef} style={styles.scrollView}>
                 <KeyboardAvoidingView
                     style={styles.container}                    
                 >
@@ -128,25 +148,25 @@ const HomeScreen = ({ navigation }) => {
                             )}
                         </TouchableOpacity>
 
-                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Enter Contract Name" value={contractName} onChangeText={(value) => {
+                        <TextInput ref={contractNameRef} style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Enter Contract Name" value={contractName} onChangeText={(value) => {
                             setContractName(value);
                             validateInput('contractName',
                                 value);
                         }}
                         />
-                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set Employer's USDC Address" value={employerAddress} onChangeText={(value) => {
+                        <TextInput ref={employerAddressRef} style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set Employer's USDC Address" value={employerAddress} onChangeText={(value) => {
                             setEmployerAddress(value);
                             validateInput('employerAddress',
                                 value);
                         }}
                         />
-                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set AuthApp's Address" value={authAppAddress} onChangeText={(value) => {
+                        <TextInput ref={authAppAddressRef} style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set AuthApp's Address" value={authAppAddress} onChangeText={(value) => {
                             setAuthAppAddress(value);
                             validateInput('authAppAddress',
                                 value);
                         }}
                         />
-                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set USDC's Token Contract Interface" value={tokenContractInterface} onChangeText={(value) => {
+                        <TextInput ref={tokenContractInterfaceRef} style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set USDC's Token Contract Interface" value={tokenContractInterface} onChangeText={(value) => {
                             setTokenContractInterface(value);
                             validateInput('tokenContractInterface',
                                 value);
@@ -180,7 +200,7 @@ const HomeScreen = ({ navigation }) => {
                     {/* Address Conversion */}
                     <View style={styles.card}>
                         <Text style={styles.cardHeader}>Address Checksum Conversion</Text>
-                        <TextInput style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set your token address" value={addressChecksum} onChangeText={setAddressChecksum}></TextInput>
+                        <TextInput ref={addressConversionRef} style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set your token address" value={addressChecksum} onChangeText={setAddressChecksum}></TextInput>
                         
                         <TouchableOpacity
                             style={styles.button}
