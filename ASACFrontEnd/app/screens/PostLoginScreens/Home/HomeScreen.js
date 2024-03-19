@@ -68,6 +68,7 @@ const HomeScreen = ({ navigation }) => {
         const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (e) => {
             const screenHeight = Dimensions.get('window').height;
             const endY = e.endCoordinates.screenY;
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
             setKeyboardHeight(screenHeight - endY - 90);
     
             const currentlyFocusedField = TextInput.State.currentlyFocusedInput
