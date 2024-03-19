@@ -41,6 +41,7 @@ const HomeScreen = ({ navigation }) => {
         handleDeleteContract,
         getValidationErrorMessage,
         handleChecksumAddress,
+        copyToClipboard,
     } = useContractHandling(navigation, errors, setErrors);
 
     const validateInput = (field, value) => {
@@ -173,12 +174,18 @@ const HomeScreen = ({ navigation }) => {
                             <View style={styles.centeredView}>
                                 <View style={styles.modalView}>
                                     <Text style={styles.modalText}>Validated Address:</Text>
-                                    <Text>{validatedAddress}</Text>
+                                    <Text style={styles.modalText}>{validatedAddress}</Text>
                                     <TouchableOpacity
                                         style={[styles.button, styles.buttonClose]}
-                                        onPress={() => copyToClipboard(validatedAddress)}
+                                        onPress={() => {copyToClipboard(validatedAddress); setShowAddressModal(false)}}
                                     >
                                         <Text style={styles.textStyle}>Copy Address</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={[styles.exitButton, styles.buttonClose]} // You may want to style this differently
+                                        onPress={() => setShowAddressModal(false)}
+                                    >
+                                        <Text style={styles.textStyle}>Exit</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
