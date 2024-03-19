@@ -324,13 +324,25 @@ const getStyles = (theme = 'light') => {
         errorListItem: {
             color: 'red',
             alignSelf: 'stretch',
-            textAlign: 'left', 
+            textAlign: 'left',
             marginBottom: '5%',
         },
         textStyle: {
             color: themeStyles[theme].textColor,
             fontWeight: "bold",
             textAlign: "center"
+        },
+        exitButton: {
+            position: 'absolute', // Position the button absolutely
+            top: 10, // Distance from the top of the modal
+            right: 10, // Distance from the right side of the modal
+            backgroundColor: 'red', // Red background for the button
+            padding: 10, // Padding inside the button
+            borderRadius: 5, // Rounded corners
+        },
+        exitButtonText: {
+            color: themeStyles[theme].textColor,
+            fontWeight: 'bold', // Bold text
         },
     });
 };
