@@ -28,6 +28,10 @@ const HomeScreen = ({ navigation }) => {
         setAuthAppAddress,
         tokenContractInterface,
         setTokenContractInterface,
+        validatedAddress,
+        setValidatedAddress,
+        showAddressModal,
+        setShowAddressModal,
         savedContracts,
         handleFileSelectDropZone,
         uploadContractData,
@@ -54,6 +58,7 @@ const HomeScreen = ({ navigation }) => {
                 <KeyboardAvoidingView
                     style={styles.container}
                 >
+
                     <Text style={styles.header}>Smart Contract Toolkit</Text>
 
                     {/* Contract Creation Section */}
@@ -159,14 +164,33 @@ const HomeScreen = ({ navigation }) => {
                         >
                             <Text style={styles.buttonText}>Validate Address</Text>
                         </TouchableOpacity>
+                        <Modal
+                            animationType="slide"
+                            transparent={true}
+                            visible={showAddressModal}
+                            onRequestClose={() => setShowAddressModal(false)}
+                        >
+                            <View style={styles.centeredView}>
+                                <View style={styles.modalView}>
+                                    <Text style={styles.modalText}>Validated Address:</Text>
+                                    <Text>{validatedAddress}</Text>
+                                    <TouchableOpacity
+                                        style={[styles.button, styles.buttonClose]}
+                                        onPress={() => copyToClipboard(validatedAddress)}
+                                    >
+                                        <Text style={styles.textStyle}>Copy Address</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </Modal>
                     </View>
 
-                 
 
                     {/* Footer Section */}
                     <View style={styles.footer}>
                         <Text style={styles.footerText}>All rights reserved © Smart Contract Toolkit</Text>
                     </View>
+
                 </KeyboardAvoidingView>
             </ScrollView>
 
