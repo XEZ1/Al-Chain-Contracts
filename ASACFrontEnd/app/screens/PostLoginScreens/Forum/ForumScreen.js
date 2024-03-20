@@ -7,12 +7,9 @@ const ForumScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
     const styles = getStyles(theme);
 
-
-    // Dummy data for forum posts
     const forumPosts = [
         { id: '1', title: 'Welcome to the Forum!', description: 'Introduce yourself to the community here!' },
         { id: '2', title: 'FAQs', description: 'Find answers to frequently asked questions.' },
-        // ... more posts
     ];
 
     const renderPost = ({ item }) => (
