@@ -11,7 +11,8 @@ export const useForumScreen = () => {
         setLoading(true);
         try {
             const token = await SecureStore.getItemAsync('authToken');
-            const response = await fetch(`${BACKEND_URL}/forum/posts/`, {
+            console.log(`${BACKEND_URL}/forums/posts/`);
+            const response = await fetch(`${BACKEND_URL}/forums/posts/`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Token ${token}`,
@@ -33,7 +34,8 @@ export const useForumScreen = () => {
 
     const createPost = async (title, description) => {
         try {
-            const response = await fetch(`${BACKEND_URL}/forum/posts/`, {
+            const token = await SecureStore.getItemAsync('authToken');
+            const response = await fetch(`${BACKEND_URL}/forums/posts/`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Token ${token}`,
