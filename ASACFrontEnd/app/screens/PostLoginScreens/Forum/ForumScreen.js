@@ -52,11 +52,20 @@ const ForumScreen = ({ navigation }) => {
             {/* Search or Create Post Input */}
             <View style={{ flexDirection: 'row', marginBottom: 20 }}>
                 <TextInput
-                    placeholder='Search the forum...'
+                    value={newPostTitle}
+                    onChangeText={setNewPostTitle}
+                    placeholder='Title...'
                     placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                     style={[styles.input, { flex: 1, marginRight: 10 }]}
                 />
-                <TouchableOpacity style={[styles.button, { width: 'auto', paddingHorizontal: 20 }]}>
+                <TextInput
+                    value={newPostDescription}
+                    onChangeText={setNewPostDescription}
+                    placeholder='Description...'
+                    placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
+                    style={[styles.input, { flex: 2, marginRight: 10 }]}
+                />
+                <TouchableOpacity onPress={handleCreatePost} style={[styles.button, { width: 'auto', paddingHorizontal: 20 }]}>
                     <Text style={styles.buttonText}>Post</Text>
                 </TouchableOpacity>
             </View>
@@ -68,7 +77,13 @@ const ForumScreen = ({ navigation }) => {
                 keyExtractor={item => item.id}
                 style={{ flex: 1 }}
             />
-
+            { /* <FlatList
+                data={posts}
+                renderItem={renderPost}
+                keyExtractor={item => item.id.toString()}
+                style={{ flex: 1 }}
+            /> /* }
+            
             {/* Separator Line */}
             <View style={{ position: 'absolute', height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: 90, left: 0, right: 0 }} />
         </KeyboardAvoidingView>
