@@ -5,6 +5,7 @@ import { ThemeContext } from '../../../components/Theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useContractHandling } from './UseHomeScreen';
 import { ContractItem } from './ContractItem';
+import { useFocusEffect } from '@react-navigation/native';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -50,32 +51,37 @@ const HomeScreen = ({ navigation }) => {
         fetchAndSyncContracts();
     }, []);
 
-    useEffect(() => {
-        const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (e) => {
-            const screenHeight = Dimensions.get('window').height;
-            const endY = e.endCoordinates.screenY;
-            setKeyboardHeight(screenHeight - endY - 90);
-            const currentlyFocusedField = TextInput.State.currentlyFocusedInput();
-    
-            if (currentlyFocusedField) {
-                const nodeHandle = findNodeHandle(currentlyFocusedField);
-                scrollViewRef.current?.getScrollResponder().scrollResponderScrollNativeHandleToKeyboard(
-                    nodeHandle, 
-                    120, 
-                    true 
-                );
-            }
-        });
-    
-        const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-            setKeyboardHeight(0);
-        });
-    
-        return () => {
-            keyboardDidShowListener.remove();
-            keyboardDidHideListener.remove();
-        };
-    }, []);
+    useFocusEffect(
+        React.useCallback(() => {
+            const handleKeyboardDidShow = (e) => {
+                const screenHeight = Dimensions.get('window').height;
+                const endY = e.endCoordinates.screenY;
+                setKeyboardHeight(screenHeight - endY - 90);
+                const currentlyFocusedField = TextInput.State.currentlyFocusedInput();
+        
+                if (currentlyFocusedField) {
+                    const nodeHandle = findNodeHandle(currentlyFocusedField);
+                    scrollViewRef.current?.getScrollResponder().scrollResponderScrollNativeHandleToKeyboard(
+                        nodeHandle, 
+                        120, 
+                        true 
+                    );
+                }
+            };
+
+            const handleKeyboardDidHide = () => {
+                setKeyboardHeight(0);
+            };
+
+            const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow);
+            const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
+
+            return () => {
+                keyboardDidShowListener.remove();
+                keyboardDidHideListener.remove();
+            };
+        }, [])
+    );
     
     
     return (
