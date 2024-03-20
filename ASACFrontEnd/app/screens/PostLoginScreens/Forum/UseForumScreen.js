@@ -11,7 +11,6 @@ export const useForumScreen = () => {
         setLoading(true);
         try {
             const token = await SecureStore.getItemAsync('authToken');
-            console.log(`${BACKEND_URL}/forums/posts/`);
             const response = await fetch(`${BACKEND_URL}/forums/posts/`, {
                 method: 'GET',
                 headers: {

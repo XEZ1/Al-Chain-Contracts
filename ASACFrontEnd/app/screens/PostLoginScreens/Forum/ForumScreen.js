@@ -83,7 +83,6 @@ const ForumScreen = ({ navigation }) => {
                 keyExtractor={item => item.id.toString()}
                 style={{ flex: 1 }}
             /> /* }
-            
             {/* Separator Line */}
             <View style={{ position: 'absolute', height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: 90, left: 0, right: 0 }} />
         </KeyboardAvoidingView>
