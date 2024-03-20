@@ -34,7 +34,7 @@ export const useContractHandling = (navigation) => {
         };
     }, []);
 
-    const handleFileSelectDropZone = async (onFileSelected) => {
+    const handleFileSelectDropZone = async () => {
         try {
             const result = await DocumentPicker.getDocumentAsync({
                 type: ['text/plain'], // ["*/*"] for accepting all types
@@ -45,7 +45,7 @@ export const useContractHandling = (navigation) => {
                 if (isComponentMounted) {
                     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
                 }
-                onFileSelected(null);
+                setSelectedFile(null);
                 return;
             } else if (result.canceled && selectedFile === null) {
                 return;
@@ -54,7 +54,7 @@ export const useContractHandling = (navigation) => {
                 if (isComponentMounted) {
                     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
                 }
-                onFileSelected(result);
+                setSelectedFile(result);
             }
         } catch (error) {
             console.error(error);
@@ -126,7 +126,7 @@ export const useContractHandling = (navigation) => {
         }
     };
 
-    const openShareContract = async (contractName) => {
+    const shareContract = async (contractName) => {
         console.log(contractName);
         try {
             const filePath = `${FileSystem.documentDirectory}${contractName}.sol`;
@@ -262,9 +262,9 @@ export const useContractHandling = (navigation) => {
         }
     };
 
-    const handleChecksumAddress = async (address) => {
+    const handleChecksumAddress = async () => {
         try {
-            if (!address) {
+            if (!addressChecksum) {
                 alert(`Error: Please fill the input field`);
                 return;
             }
@@ -273,7 +273,7 @@ export const useContractHandling = (navigation) => {
                 method: 'GET',
                 headers: {
                     'Authorization': `Token ${token}`,
-                    'X-Token-Address': address,
+                    'X-Token-Address': addressChecksum,
                 },
             });
             verifiedAddress = await response.json();
@@ -290,8 +290,8 @@ export const useContractHandling = (navigation) => {
         }
     };
 
-    const copyToClipboard = (text) => {
-        Clipboard.setString(text);
+    const copyToClipboard = () => {
+        Clipboard.setString(validatedAddress);
         alert('Copied to clipboard!');
     };
 
@@ -320,7 +320,7 @@ export const useContractHandling = (navigation) => {
         savedContracts,
         handleFileSelectDropZone,
         uploadContractData,
-        openShareContract,
+        shareContract,
         openContract,
         fetchAndSyncContracts,
         handleDeleteContract,
