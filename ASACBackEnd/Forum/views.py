@@ -6,6 +6,7 @@ from .serializers import PostSerialiser, CommentSerialiser, LikeSerialiser
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
+
 class PostListCreate(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerialiser
@@ -14,10 +15,12 @@ class PostListCreate(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
+
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerialiser
     permission_classes = [IsAuthenticatedOrReadOnly]
+
 
 class CommentCreate(generics.CreateAPIView):
     queryset = Comment.objects.all()
@@ -26,6 +29,7 @@ class CommentCreate(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
 
 class LikeCreateDelete(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
