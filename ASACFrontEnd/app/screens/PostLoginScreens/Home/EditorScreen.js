@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, TextInput, StyleSheet, Alert } from 'react-native';
+import { ActivityIndicator, View, TextInput, StyleSheet, Alert } from 'react-native';
 import * as FileSystem from 'expo-file-system'; // Ensure you're importing FileSystem
 import getStyles from '../../../styles/SharedStyles';
 import { Theme } from '@react-navigation/native';
@@ -12,6 +12,7 @@ function EditorScreen({ route, navigation }) { // Destructure 'route' from props
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
     const styles = getStyles(theme);
     const [codeHtml, setCodeHtml] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
 
 
     useEffect(() => {
@@ -86,18 +87,11 @@ function EditorScreen({ route, navigation }) { // Destructure 'route' from props
     return (
         <View style={{ flex: 1, backgroundColor: theme === 'dark' ? '#1A1A1A' : 'white' }}>
             <View style={styles.EditorContainer}>
-
-                { /* <TextInput
-                    style={styles.editor} theme={theme}
-                    multiline
-                    editable
-                    value={fileContent}
-                    onChangeText={setFileContent} // Allows editing, remove if read-only
-                /> */ }
                 <WebView
                     originWhitelist={['*']}
                     source={{ html: codeHtml }}
                     style={styles.editor}
+                    onLoad={() => setIsLoading(false)}
                 />
 
                 {/* Separator Line */}
