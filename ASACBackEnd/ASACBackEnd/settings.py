@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 from pathlib import Path
 import channels
+from corsheaders.defaults import default_headers
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +26,7 @@ SECRET_KEY = 'django-insecure-sd*6c$qhzhfw7k#ncii@3nnzxco@k&+n%fq0_=ze5hg7+j9k(z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.18', 'ba89-82-8-95-71.ngrok-free.app']
+ALLOWED_HOSTS = ['192.168.0.18', '172.20.10.4', 'fb24-193-61-207-250.ngrok-free.app']
 
 # Application definition
 INSTALLED_APPS = [
@@ -36,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'channels',
     'Accounts',
     'Notifications',
@@ -50,7 +53,29 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'DELETE',
+    'PUT',
+]
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'X-Contract-Name',
+    'X-Token-Address',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:1234',
+    'http://localhost:8000',
+    'https://*.ngrok-free.app',
+    # to be added: production server
+]
+
+#CORS_ALLOWED_ORIGINS_ALL = True
 
 ROOT_URLCONF = 'ASACBackEnd.urls'
 

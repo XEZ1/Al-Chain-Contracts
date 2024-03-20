@@ -8,10 +8,10 @@ from .models import SmartContract
 from rest_framework.parsers import MultiPartParser, FormParser
 from .serializers import EmploymentContractSerialiser, SmartContractSerialiser
 from rest_framework.permissions import IsAuthenticated
+from web3 import Web3
 
 # Load environment variables from .env file
 load_dotenv()
-
 
 class GenerateContractView(APIView):
     parser_classes = (MultiPartParser, FormParser)
@@ -40,6 +40,8 @@ class GenerateContractView(APIView):
             )
 
             return JsonResponse({"solidity_code": smart_contract.code}, status=status.HTTP_201_CREATED)
+        else:
+            print(serializer.errors)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def generate_solidity_code(self, contract_text):
@@ -80,3 +82,18 @@ class FetchContractsView(APIView):
         user_contracts = SmartContract.objects.filter(user=request.user)
         serializer = SmartContractSerialiser(user_contracts, many=True)
         return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
+
+
+class CheckSumAddressView(APIView):
+
+    def get(self, request, *args, **kwargs):
+        address = request.headers.get('X-Token-Address')
+        if not address:
+            return JsonResponse({"error": "Address header parameter is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            valid_address = Web3.to_checksum_address(address)
+            print(f"address: {valid_address}")
+            return JsonResponse({"address": valid_address}, status=status.HTTP_200_OK)
+        except ValueError:
+            return JsonResponse({"error": "Invalid Ethereum address provided."}, status=status.HTTP_400_BAD_REQUEST)

@@ -3,11 +3,11 @@ import { View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons'; // If you're using Expo or you can use any other icon library
 import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from '../screens/PostLoginScreens/HomeScreen';
-import SettingsScreen from '../screens/PostLoginScreens/SettingsScreen';
-import ForumScreen from '../screens/PostLoginScreens/ForumScreen';
-import SupportScreen from '../screens/PostLoginScreens/SupportScreen';
-import EditorScreen from '../screens/PostLoginScreens/EditorScreen';
+import HomeScreen from '../screens/PostLoginScreens/Home/HomeScreen';
+import SettingsScreen from '../screens/PostLoginScreens/Settings/SettingsScreen';
+import ForumScreen from '../screens/PostLoginScreens/Forum/ForumScreen';
+import SupportScreen from '../screens/PostLoginScreens/Support/SupportScreen';
+import EditorScreen from '../screens/PostLoginScreens/Home/EditorScreen';
 import { ThemeContext } from '../components/Theme';
 import getStyles from '../styles/SharedStyles';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';

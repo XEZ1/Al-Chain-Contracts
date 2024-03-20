@@ -26,11 +26,9 @@ const getStyles = (theme = 'light') => {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            //paddingTop: '16%',
             paddingTop: '5%',
             padding: '5%',
             backgroundColor: themeStyles[theme].containerBackground, // Set background color based on theme
-            paddingBottom: '20%',
         },
         containerWithoutBackground: {
             flex: 1,
@@ -270,16 +268,92 @@ const getStyles = (theme = 'light') => {
         },
         EditorContainer: {
             flex: 1,
-            padding: 2,
         },
         editor: {
             flex: 1,
-            borderWidth: 1,
-            borderColor: 'gray',
+            borderColor: themeStyles[theme].backgroundColor,
+            backgroundColor: themeStyles[theme].inputBackground,
+            color: themeStyles[theme].textColor,
             padding: 10,
             textAlignVertical: 'top', // Align text to the top on Android
+            marginBottom: 90,
         },
 
+
+        errorIcon: {
+            color: 'red', // Set the icon color to red
+        },
+        errorText: {
+            marginLeft: 5, // Space between the icon and the text
+            color: 'red', // Set the text color to red
+            fontSize: 14, // Smaller font size for the error message
+        },
+        errorIconContainerSignUp: {
+            position: 'absolute',
+            right: 20,
+            top: 70,
+        },
+        errorIconContainer: {
+            position: 'absolute',
+            right: 5,
+            top: 5,
+        },
+        centeredView: {
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+        },
+        modalView: {
+            width: '80%', // Ensure modal is wide enough
+            margin: 20,
+            backgroundColor: themeStyles[theme].inputBackground,
+            borderRadius: 20,
+            padding: 25,
+            alignItems: "flex-start", // Align items to the start
+            shadowColor: "#000",
+            shadowOffset: {
+                width: 0,
+                height: 2
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 4,
+            elevation: 5
+        },
+        modalText: {
+            color: themeStyles[theme].textColor,
+            marginBottom: 15,
+            textAlign: "center"
+        },
+        errorListItem: {
+            color: 'red',
+            alignSelf: 'stretch',
+            textAlign: 'left',
+            marginBottom: '5%',
+        },
+        textStyle: {
+            color: themeStyles[theme].textColor,
+            fontWeight: "bold",
+            textAlign: "center"
+        },
+        exitButton: {
+            position: 'absolute',
+            top: 5,
+            right: 5,
+            justifyContent: 'center',
+            alignItems: 'center',
+            shadowColor: theme === 'dark' ? '#3A3A3A' : '#000',
+            shadowOffset: {
+                width: 0,
+                height: 2
+            },
+            shadowOpacity: 0.15,
+            shadowRadius: 3.84, // Adjust the shadow radius to smooth out the shadow
+            elevation: 5,
+        },
+        exitButtonText: {
+            color: 'white',
+            fontWeight: 'bold', // Bold text
+        },
     });
 };
 
