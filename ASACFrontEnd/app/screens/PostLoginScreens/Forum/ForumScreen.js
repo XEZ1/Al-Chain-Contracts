@@ -1,16 +1,30 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, TextInput, FlatList, KeyboardAvoidingView } from 'react-native';
 import getStyles from '../../../styles/SharedStyles'; // Make sure the path to your styles is correct
 import { ThemeContext } from '../../../components/Theme';
+import { useForumScreen } from './UseForumScreen';
 
 const ForumScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
     const styles = getStyles(theme);
+    const { posts, loading, createPost } = useForumScreen();
+    const [newPostTitle, setNewPostTitle] = useState('');
+    const [newPostDescription, setNewPostDescription] = useState('');
 
     const forumPosts = [
         { id: '1', title: 'Welcome to the Forum!', description: 'Introduce yourself to the community here!' },
         { id: '2', title: 'FAQs', description: 'Find answers to frequently asked questions.' },
     ];
+
+    const handleCreatePost = async () => {
+        if (!newPostTitle.trim() || !newPostDescription.trim()) {
+            Alert.alert('Error', 'Title and description cannot be empty.');
+            return;
+        }
+        await createPost(newPostTitle, newPostDescription);
+        setNewPostTitle('');
+        setNewPostDescription('');
+    };
 
     const renderPost = ({ item }) => (
         <View style={styles.card}>
@@ -21,6 +35,12 @@ const ForumScreen = ({ navigation }) => {
             </TouchableOpacity>
         </View>
     );
+
+    if (loading) {
+        return (
+            <View style={styles.container}><Text>Loading...</Text></View>
+        );
+    }
 
     return (
         <KeyboardAvoidingView 
