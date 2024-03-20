@@ -58,12 +58,8 @@ const HomeScreen = ({ navigation }) => {
         const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (e) => {
             const screenHeight = Dimensions.get('window').height;
             const endY = e.endCoordinates.screenY;
-            
             setKeyboardHeight(screenHeight - endY - 90);
-    
-            const currentlyFocusedField = TextInput.State.currentlyFocusedInput
-                ? TextInput.State.currentlyFocusedInput()
-                : TextInput.State.currentlyFocusedField(); // Fallback for older versions
+            const currentlyFocusedField = TextInput.State.currentlyFocusedInput();
     
             if (currentlyFocusedField) {
                 const nodeHandle = findNodeHandle(currentlyFocusedField);

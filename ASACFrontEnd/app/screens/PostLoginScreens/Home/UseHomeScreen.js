@@ -21,7 +21,7 @@ export const useContractHandling = (navigation) => {
     const [showErrorDetails, setShowErrorDetails] = useState(false);
     const [addressChecksum, setAddressChecksum] = useState('');
 
-    
+
     const isValidEthereumAddress = (address) => /^0x[a-fA-F0-9]{40}$/.test(address);
     const isValidHexadecimal = (value) => /^0x[a-fA-F0-9]+$/.test(value);
     const isValidContractName = (name) => /^[a-zA-Z0-9\s]{3,100}$/.test(name);
@@ -41,12 +41,13 @@ export const useContractHandling = (navigation) => {
                 copyToCacheDirectory: true,
                 multiple: false
             });
-            if (result.canceled) {
+            if (result.canceled && selectedFile !== null) {
                 if (isComponentMounted) {
                     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
                 }
                 onFileSelected(null);
-                //Alert.alert("Cancelled", "File selection was cancelled.");
+                return;
+            } else if (result.canceled && selectedFile === null) {
                 return;
             }
             if (result.assets[0].mimeType == 'text/plain') {
@@ -56,7 +57,7 @@ export const useContractHandling = (navigation) => {
                 onFileSelected(result);
             }
         } catch (error) {
-            console.log(error);
+            console.error(error);
             Alert.alert("Error", "An error occurred during file selection.");
         }
     };
@@ -94,7 +95,14 @@ export const useContractHandling = (navigation) => {
             });
             const responseJson = await response.json();
             saveSolidityFile(responseJson.solidity_code, contractName);
-            //Alert.alert("Success", "Contract data uploaded successfully.");
+            if (isComponentMounted) {
+                LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                setSelectedFile(null);
+                setContractName('');
+                setEmployerAddress('');
+                setAuthAppAddress('');
+                setTokenContractInterface('');
+            }
         } catch (error) {
             Alert.alert("Upload Error", "An error occurred while uploading contract data.");
         }
@@ -246,7 +254,7 @@ export const useContractHandling = (navigation) => {
                 if (!isValidContractName(value)) return 'Invalid contract name. Must be 3-100 characters long and contain only letters, numbers, and spaces.';
                 break;
             case 'tokenContractInterface':
-            //    if (!isValidJson(value)) return 'Invalid token contract interface. Must be valid JSON.';
+                //    if (!isValidJson(value)) return 'Invalid token contract interface. Must be valid JSON.';
                 if (!isValidHexadecimal(value)) return 'Invalid hexadecimal value.';
                 break;
             default:
@@ -286,7 +294,7 @@ export const useContractHandling = (navigation) => {
         Clipboard.setString(text);
         alert('Copied to clipboard!');
     };
-      
+
 
     return {
         selectedFile,
