@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Alert, LayoutAnimation, Clipboard } from 'react-native';
+import { Alert, LayoutAnimation,  } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as SecureStore from 'expo-secure-store';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { BACKEND_URL } from '@env';
+import * as Clipboard from 'expo-clipboard';
 
 
 export const useContractHandling = (navigation) => {
@@ -291,7 +292,7 @@ export const useContractHandling = (navigation) => {
     };
 
     const copyToClipboard = () => {
-        Clipboard.setString(validatedAddress);
+        Clipboard.setStringAsync(validatedAddress);
         alert('Copied to clipboard!');
     };
 
