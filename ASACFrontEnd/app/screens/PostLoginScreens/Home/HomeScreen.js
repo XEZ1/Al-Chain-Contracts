@@ -23,26 +23,16 @@ const HomeScreen = ({ navigation }) => {
     const scrollViewRef = useRef(null);
 
     const {
-        selectedFile,
-        setSelectedFile,
-        contractName,
-        setContractName,
-        employerAddress,
-        setEmployerAddress,
-        authAppAddress,
-        setAuthAppAddress,
-        tokenContractInterface,
-        setTokenContractInterface,
-        validatedAddress,
-        setValidatedAddress,
-        showAddressModal,
-        setShowAddressModal,
-        errors,
-        setErrors,
-        showErrorDetails,
-        setShowErrorDetails,
-        addressChecksum,
-        setAddressChecksum,
+        selectedFile, setSelectedFile,
+        contractName, setContractName,
+        employerAddress, setEmployerAddress,
+        authAppAddress, setAuthAppAddress,
+        tokenContractInterface, setTokenContractInterface,
+        validatedAddress, setValidatedAddress,
+        showAddressModal, setShowAddressModal,
+        errors, setErrors,
+        showErrorDetails, setShowErrorDetails,
+        addressChecksum, setAddressChecksum,
         savedContracts,
         handleFileSelectDropZone,
         uploadContractData,
@@ -53,7 +43,7 @@ const HomeScreen = ({ navigation }) => {
         getValidationErrorMessage,
         handleChecksumAddress,
         copyToClipboard,
-    } = useContractHandling(navigation, errors, setErrors);
+    } = useContractHandling(navigation);
 
     const validateInput = (field, value) => {
         const errorMessage = getValidationErrorMessage(field, value);
@@ -68,7 +58,7 @@ const HomeScreen = ({ navigation }) => {
         const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (e) => {
             const screenHeight = Dimensions.get('window').height;
             const endY = e.endCoordinates.screenY;
-            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+            
             setKeyboardHeight(screenHeight - endY - 90);
     
             const currentlyFocusedField = TextInput.State.currentlyFocusedInput
