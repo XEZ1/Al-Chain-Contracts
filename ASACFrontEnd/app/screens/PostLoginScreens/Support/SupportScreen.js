@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native';
-import getStyles from '../../styles/SharedStyles';
-import { ThemeContext } from '../../components/Theme';
+import getStyles from '../../../styles/SharedStyles';
+import { ThemeContext } from '../../../components/Theme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const SupportScreen = ({ navigation }) => {

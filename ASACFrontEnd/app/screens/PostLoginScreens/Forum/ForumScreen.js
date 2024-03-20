@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, TextInput, FlatList, KeyboardAvoidingView } from 'react-native';
-import getStyles from '../../styles/SharedStyles'; // Make sure the path to your styles is correct
-import { ThemeContext } from '../../components/Theme';
+import getStyles from '../../../styles/SharedStyles'; // Make sure the path to your styles is correct
+import { ThemeContext } from '../../../components/Theme';
 
 const ForumScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);

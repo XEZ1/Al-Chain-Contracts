@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { Alert, LayoutAnimation } from 'react-native';
+import { useState, useEffect } from 'react';
+import { Alert, LayoutAnimation,  } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as SecureStore from 'expo-secure-store';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { BACKEND_URL } from '@env';
+import * as Clipboard from 'expo-clipboard';
 
 
 export const useContractHandling = (navigation) => {
@@ -14,32 +15,60 @@ export const useContractHandling = (navigation) => {
     const [authAppAddress, setAuthAppAddress] = useState('');
     const [tokenContractInterface, setTokenContractInterface] = useState('');
     const [savedContracts, setSavedContracts] = useState([]);
+    const [isComponentMounted, setIsComponentMounted] = useState(true);
+    const [showAddressModal, setShowAddressModal] = useState(false);
+    const [validatedAddress, setValidatedAddress] = useState('');
+    const [errors, setErrors] = useState({});
+    const [showErrorDetails, setShowErrorDetails] = useState(false);
+    const [addressChecksum, setAddressChecksum] = useState('');
 
 
-    const handleFileSelectDropZone = async (onFileSelected) => {
+    const isValidEthereumAddress = (address) => /^0x[a-fA-F0-9]{40}$/.test(address);
+    const isValidHexadecimal = (value) => /^0x[a-fA-F0-9]+$/.test(value);
+    const isValidContractName = (name) => /^[a-zA-Z0-9\s]{3,100}$/.test(name);
+
+    useEffect(() => {
+        setIsComponentMounted(true);
+
+        return () => {
+            setIsComponentMounted(false);
+        };
+    }, []);
+
+    const handleFileSelectDropZone = async () => {
         try {
             const result = await DocumentPicker.getDocumentAsync({
                 type: ['text/plain'], // ["*/*"] for accepting all types
                 copyToCacheDirectory: true,
                 multiple: false
             });
-            if (result.canceled) {
-                LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-                onFileSelected(null);
-                //Alert.alert("Cancelled", "File selection was cancelled.");
+            if (result.canceled && selectedFile !== null) {
+                if (isComponentMounted) {
+                    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                }
+                setSelectedFile(null);
+                return;
+            } else if (result.canceled && selectedFile === null) {
                 return;
             }
             if (result.assets[0].mimeType == 'text/plain') {
-                LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-                onFileSelected(result);
+                if (isComponentMounted) {
+                    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                }
+                setSelectedFile(result);
             }
         } catch (error) {
-            console.log(error);
+            console.error(error);
             Alert.alert("Error", "An error occurred during file selection.");
         }
     };
 
     const uploadContractData = async () => {
+        if (Object.values(errors).some(error => error)) {
+            Alert.alert("Validation Errors", "Please fix the errors before proceeding.");
+            return;
+        }
+
         if (!selectedFile) {
             Alert.alert("Error", "Please select a file before creating a contract.");
             return;
@@ -67,7 +96,14 @@ export const useContractHandling = (navigation) => {
             });
             const responseJson = await response.json();
             saveSolidityFile(responseJson.solidity_code, contractName);
-            //Alert.alert("Success", "Contract data uploaded successfully.");
+            if (isComponentMounted) {
+                LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                setSelectedFile(null);
+                setContractName('');
+                setEmployerAddress('');
+                setAuthAppAddress('');
+                setTokenContractInterface('');
+            }
         } catch (error) {
             Alert.alert("Upload Error", "An error occurred while uploading contract data.");
         }
@@ -81,6 +117,7 @@ export const useContractHandling = (navigation) => {
         try {
             const filePath = FileSystem.documentDirectory + fileName + '.sol';
             await FileSystem.writeAsStringAsync(filePath, solidityCode, { encoding: FileSystem.EncodingType.UTF8 });
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
             setSavedContracts(prevContracts => [...prevContracts, { contract_name: fileName }]);
             Alert.alert("Success", `Contract was generated and saved as ${fileName}.sol to ${filePath}`);
         } catch (error) {
@@ -90,7 +127,7 @@ export const useContractHandling = (navigation) => {
         }
     };
 
-    const openShareContract = async (contractName) => {
+    const shareContract = async (contractName) => {
         console.log(contractName);
         try {
             const filePath = `${FileSystem.documentDirectory}${contractName}.sol`;
@@ -146,7 +183,6 @@ export const useContractHandling = (navigation) => {
 
         const downloadPromises = contracts.map(async (contract) => {
             const localFilePath = `${documentDirectory}${contract.name}.sol`;
-            console.log
             if (!localFiles.includes(`${contract.contract_name}.sol`)) {
                 // Download and save file if it does not exist locally
                 console.log(`Downloading and saving ${contract.contract_name}...`);
@@ -162,36 +198,104 @@ export const useContractHandling = (navigation) => {
     };
 
     const handleDeleteContract = async (contractToDelete) => {
-        Alert.alert(
-            "Delete Contract",
-            "Are you sure you want to delete this contract?",
-            [
-                { text: "Cancel" },
-                {
-                    text: "Delete", onPress: async () => {
-                        try {
-                            const token = await SecureStore.getItemAsync('authToken');
-                            await fetch(`${BACKEND_URL}/contracts/delete-contract/`, {
-                                method: 'DELETE',
-                                headers: {
-                                    'Authorization': `Token ${token}`,
-                                    'X-Contract-Name': contractToDelete.contract_name, 
-                                },
-                            });
-
-                            // Update local state to reflect deletion
-                            setSavedContracts(currentContracts =>
-                                currentContracts.filter(contract => contract.contract_name !== contractToDelete.contract_name)
-                            );
-                        } catch (error) {
-                            console.error(error);
-                            alert('Error deleting the contract:', error);
-                        }
-                    },
+        if (!isComponentMounted) {
+            return;
+        }
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+        try {
+            const token = await SecureStore.getItemAsync('authToken');
+            await fetch(`${BACKEND_URL}/contracts/delete-contract/`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Token ${token}`,
+                    'X-Contract-Name': contractToDelete.contract_name,
                 },
-            ]
-        );
+            });
+
+            const filePath = `${FileSystem.documentDirectory}${contractName}.sol`;
+            await FileSystem.deleteAsync(filePath, { idempotent: true });
+            console.log(`Deleted local file: ${filePath}`);
+
+            // Update local state to reflect deletion
+            setSavedContracts(currentContracts =>
+                currentContracts.filter(contract => contract.contract_name !== contractToDelete.contract_name)
+            );
+        } catch (error) {
+            console.error(error);
+            alert('Error deleting the contract:', error);
+        }
     };
+
+    const cleanExpoFolder = async () => {
+        const filesInDirectory = await FileSystem.readDirectoryAsync(FileSystem.documentDirectory);
+        for (const fileName of filesInDirectory) {
+            const filePath = `${FileSystem.documentDirectory}${fileName}`;
+            await FileSystem.deleteAsync(filePath, { idempotent: true });
+            console.log(`Deleted local file: ${filePath}`);
+        }
+        console.log('Succesfully deleted all file in the expo folder')
+    }
+
+    const isValidJson = (value) => {
+        try {
+            JSON.parse(value);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    };
+
+    const getValidationErrorMessage = (field, value) => {
+        switch (field) {
+            case 'employerAddress':
+            case 'authAppAddress':
+                if (!isValidEthereumAddress(value)) return 'Invalid Ethereum address. Must start with 0x followed by 40 hexadecimal characters.';
+                break;
+            case 'contractName':
+                if (!isValidContractName(value)) return 'Invalid contract name. Must be 3-100 characters long and contain only letters, numbers, and spaces.';
+                break;
+            case 'tokenContractInterface':
+                //    if (!isValidJson(value)) return 'Invalid token contract interface. Must be valid JSON.';
+                if (!isValidHexadecimal(value)) return 'Invalid hexadecimal value.';
+                break;
+            default:
+                return '';
+        }
+    };
+
+    const handleChecksumAddress = async () => {
+        try {
+            if (!addressChecksum) {
+                alert(`Error: Please fill the input field`);
+                return;
+            }
+            const token = await SecureStore.getItemAsync('authToken');
+            const response = await fetch(`${BACKEND_URL}/contracts/get-valid-checksum-address/`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Token ${token}`,
+                    'X-Token-Address': addressChecksum,
+                },
+            });
+            verifiedAddress = await response.json();
+            console.log(verifiedAddress);
+            if (verifiedAddress.error) {
+                alert(`Error: ${verifiedAddress.error}`);
+            } else {
+                setValidatedAddress(verifiedAddress.address);
+                setShowAddressModal(true);
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Error verifying the address:', error);
+        }
+    };
+
+    const copyToClipboard = () => {
+        Clipboard.setStringAsync(validatedAddress);
+        alert('Copied to clipboard!');
+    };
+
 
     return {
         selectedFile,
@@ -204,12 +308,25 @@ export const useContractHandling = (navigation) => {
         setAuthAppAddress,
         tokenContractInterface,
         setTokenContractInterface,
+        validatedAddress,
+        setValidatedAddress,
+        showAddressModal,
+        setShowAddressModal,
+        errors,
+        setErrors,
+        showErrorDetails,
+        setShowErrorDetails,
+        addressChecksum,
+        setAddressChecksum,
         savedContracts,
         handleFileSelectDropZone,
         uploadContractData,
-        openShareContract,
+        shareContract,
         openContract,
         fetchAndSyncContracts,
         handleDeleteContract,
+        getValidationErrorMessage,
+        handleChecksumAddress,
+        copyToClipboard,
     };
 };
