@@ -13,7 +13,6 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 const HomeScreen = ({ navigation }) => {
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
     const styles = getStyles(theme);
-    const [keyboardHeight, setKeyboardHeight] = useState(0);
 
     const contractNameRef = useRef(null);
     const employerAddressRef = useRef(null);
@@ -21,6 +20,8 @@ const HomeScreen = ({ navigation }) => {
     const tokenContractInterfaceRef = useRef(null);
     const addressConversionRef = useRef(null);
     const scrollViewRef = useRef(null);
+
+    const [keyboardHeight, setKeyboardHeight] = useState(0);
 
     const {
         selectedFile, setSelectedFile,
@@ -33,16 +34,11 @@ const HomeScreen = ({ navigation }) => {
         errors, setErrors,
         showErrorDetails, setShowErrorDetails,
         addressChecksum, setAddressChecksum,
-        savedContracts,
-        handleFileSelectDropZone,
-        uploadContractData,
-        openShareContract,
-        openContract,
-        fetchAndSyncContracts,
-        handleDeleteContract,
-        getValidationErrorMessage,
-        handleChecksumAddress,
-        copyToClipboard,
+        savedContracts, handleFileSelectDropZone,
+        uploadContractData, shareContract,
+        openContract, fetchAndSyncContracts,
+        handleDeleteContract, getValidationErrorMessage,
+        handleChecksumAddress, copyToClipboard,
     } = useContractHandling(navigation);
 
     const validateInput = (field, value) => {
@@ -124,7 +120,7 @@ const HomeScreen = ({ navigation }) => {
 
                         <Text style={styles.cardHeader}>Upload an Employment Contract</Text>
                         {/* DropZone */}
-                        <TouchableOpacity style={styles.dropZone} onPress={() => handleFileSelectDropZone(setSelectedFile)}>
+                        <TouchableOpacity style={styles.dropZone} onPress={() => handleFileSelectDropZone()}>
                             {selectedFile ? (
                                 <>
                                     <MaterialCommunityIcons name="file-document-outline" size={100} color="black" />
@@ -177,7 +173,7 @@ const HomeScreen = ({ navigation }) => {
                                     key={index}
                                     contract={contract}
                                     openContract={openContract}
-                                    openShareContract={openShareContract}
+                                    openShareContract={shareContract}
                                     deleteContract={handleDeleteContract}
                                     theme={theme} />
                             ))
@@ -191,7 +187,7 @@ const HomeScreen = ({ navigation }) => {
                         
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={() => handleChecksumAddress(addressChecksum)}
+                            onPress={() => handleChecksumAddress()}
                         >
                             <Text style={styles.buttonText}>Validate Address</Text>
                         </TouchableOpacity>
@@ -207,7 +203,7 @@ const HomeScreen = ({ navigation }) => {
                                     <Text style={styles.modalText}>{validatedAddress}</Text>
                                     <TouchableOpacity
                                         style={styles.button}
-                                        onPress={() => { copyToClipboard(validatedAddress); setShowAddressModal(false) }}
+                                        onPress={() => { copyToClipboard(); setShowAddressModal(false) }}
                                     >
                                         <Text style={styles.textStyle}>Copy Address</Text>
                                     </TouchableOpacity>
