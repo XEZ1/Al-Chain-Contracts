@@ -21,3 +21,9 @@ class PostSerialiser(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['id', 'title', 'description', 'created_at', 'updated_at', 'author', 'comments', 'like_count']
+        read_only_fields = ['author']
+
+    def create(self, validated_data):
+        # Assign the author from the context (passed during the save call)
+        validated_data['author'] = self.context['request'].user
+        return super().create(validated_data)
