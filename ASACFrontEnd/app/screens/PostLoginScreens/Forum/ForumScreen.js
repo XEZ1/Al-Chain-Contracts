@@ -10,7 +10,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const ForumScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
     const styles = getStyles(theme);
-    const { posts, loading, createPost, handleLikePost, handleAddComment } = useForumScreen();
+    const { posts, loading, createPost, handleLikePost, handleAddComment, handleDeletePost } = useForumScreen();
     const [newPostTitle, setNewPostTitle] = useState('');
     const [newPostDescription, setNewPostDescription] = useState('');
 
@@ -24,18 +24,28 @@ const ForumScreen = ({ navigation }) => {
         setNewPostDescription('');
     };
 
+    const token = async () => await SecureStore.getItemAsync('authToken')
+
     const renderPost = ({ item }) => (
         <View style={[styles.card, { width: '97%' }]}>
             <Text style={styles.cardHeader}>{item.title}</Text>
             <Text style={styles.settingText}>{item.description}</Text>
-            <View style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center', justifyContent: 'space-between' }}>
                 <TouchableOpacity
                     onPress={() => handleLikePost(item.id, item.user_has_liked)}
-                    style={{ flexDirection: 'row', alignItems: 'center', marginRight: 110 }}>
+                    style={{ flexDirection: 'row', alignItems: 'center', marginRight: 0 }}>
                     <MaterialCommunityIcons
-                        name={item.user_has_liked ? "heart" : "heart-outline"} size={24} color="red" />
+                        name={item.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
                     <Text style={styles.buttonText}>Like ({item.like_count})</Text>
                 </TouchableOpacity>
+                {item.is_user_author && (
+                    <TouchableOpacity
+                        onPress={() => handleDeletePost(item.id)}
+                        style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
+                        <Text style={styles.buttonText}>Delete</Text>
+                    </TouchableOpacity>
+                )}
                 <TouchableOpacity
                     onPress={() => handleAddComment(item.id, 'hey')}
                     style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -43,16 +53,7 @@ const ForumScreen = ({ navigation }) => {
                     <Text style={styles.buttonText}>Comment</Text>
                 </TouchableOpacity>
             </View>
-            {/* This comparison needs to be adjusted based on your authentication and user identification logic */}
-            {item.author.id === SecureStore.getItemAsync('authToken') && (
-                <TouchableOpacity
-                    style={[styles.button, { marginTop: 10 }]}
-                    onPress={() => handleDeletePost(item.id)}>
-                    <Text style={styles.buttonText}>Delete</Text>
-                </TouchableOpacity>
-            )}
         </View>
-
     );
 
     if (loading) {

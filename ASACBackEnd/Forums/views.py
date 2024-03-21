@@ -20,6 +20,7 @@ class PostListCreateView(APIView):
         serializer = PostSerialiser(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save(author=request.user)
+            print(request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

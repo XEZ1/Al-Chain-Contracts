@@ -18,10 +18,11 @@ class PostSerialiser(serializers.ModelSerializer):
     comments = CommentSerialiser(many=True, read_only=True)
     like_count = serializers.ReadOnlyField(source='likes.count')
     user_has_liked = serializers.SerializerMethodField()
+    is_user_author = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ['id', 'title', 'description', 'created_at', 'updated_at', 'author', 'comments', 'like_count', 'user_has_liked']
+        fields = ['id', 'title', 'description', 'created_at', 'updated_at', 'author', 'comments', 'like_count', 'user_has_liked', 'is_user_author']
         read_only_fields = ['author']
 
     def create(self, validated_data):
@@ -33,4 +34,11 @@ class PostSerialiser(serializers.ModelSerializer):
         user = self.context['request'].user
         if user.is_authenticated:
             return Like.objects.filter(post=obj, user=user).exists()
+        return False
+
+    def get_is_user_author(self, obj):
+        # self.context['request'] will be your current request object
+        request = self.context.get('request', None)
+        if request and hasattr(request, "user"):
+            return obj.author == request.user
         return False
