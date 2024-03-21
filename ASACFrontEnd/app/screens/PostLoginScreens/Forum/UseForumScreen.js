@@ -54,5 +54,52 @@ export const useForumScreen = () => {
         }
     };
 
-    return { posts, loading, createPost };
+    const handleLikePost = async (postId, userHasLiked) => {
+        try {
+            const token = await SecureStore.getItemAsync('authToken');
+            const method = userHasLiked ? 'DELETE' : 'POST';
+            const response = await fetch(`${BACKEND_URL}/forums/posts/${postId}/like/`, {
+                method: method,
+                headers: {
+                    'Authorization': `Token ${token}`,
+                },
+            });
+    
+            if (response.ok) {
+                console.log(userHasLiked ? "Post unliked successfully" : "Post liked successfully");
+                await fetchPosts(); 
+            } else {
+                console.error('Failed to like post');
+            }
+        } catch (error) {
+            console.error('Failed to like post:', error);
+        }
+    };
+    
+    const handleAddComment = async (postId, commentText) => {
+        try {
+            const token = await SecureStore.getItemAsync('authToken');
+            const response = await fetch(`${BACKEND_URL}/forums/posts/${postId}/comments/`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Token ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ content: commentText }),
+            });
+    
+            if (response.ok) {
+                // Optionally refresh the post to show the new comment
+                console.log("Comment added successfully");
+                await fetchPosts(); // Refresh posts to include new comments
+            } else {
+                console.error('Failed to add comment');
+            }
+        } catch (error) {
+            console.error('Failed to add comment:', error);
+        }
+    };
+    
+
+    return { posts, loading, createPost, handleLikePost, handleAddComment };
 };
