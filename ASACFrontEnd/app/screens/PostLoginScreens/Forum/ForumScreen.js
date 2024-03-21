@@ -27,7 +27,7 @@ const ForumScreen = ({ navigation }) => {
     };
 
     const renderPost = ({ item }) => (
-        <View style={styles.card}>
+        <View style={[styles.card, { width: '97%' }]}>
             <Text style={styles.cardHeader}>{item.title}</Text>
             <Text style={styles.settingText}>{item.description}</Text>
             <TouchableOpacity style={[styles.button, { marginTop: 10 }]}>
@@ -50,7 +50,7 @@ const ForumScreen = ({ navigation }) => {
             <Text style={styles.header}>Community Forum</Text>
 
             {/* Search or Create Post Input */}
-            <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+            <View style={{ flexDirection: 'row', marginBottom: '5%' }}>
                 <TextInput
                     value={newPostTitle}
                     onChangeText={setNewPostTitle}
@@ -72,20 +72,16 @@ const ForumScreen = ({ navigation }) => {
 
             {/* List of Posts */}
             <FlatList
-                data={forumPosts}
-                renderItem={renderPost}
-                keyExtractor={item => item.id}
-                style={{ flex: 1 }}
-            />
-            { /* <FlatList
                 data={posts}
                 renderItem={renderPost}
                 keyExtractor={item => item.id.toString()}
-                style={{ flex: 1 }}
-            /> /* }
+                style={{ flex: 1, marginBottom: 90 }}
+            />
+
             {/* Separator Line */}
             <View style={{ position: 'absolute', height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: 90, left: 0, right: 0 }} />
         </KeyboardAvoidingView>
+        
     );
 };
 
