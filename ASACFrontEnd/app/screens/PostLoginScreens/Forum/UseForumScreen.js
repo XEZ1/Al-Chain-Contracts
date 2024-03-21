@@ -18,7 +18,7 @@ export const useForumScreen = () => {
                     'Content-Type': 'application/json',
                 },
             });
-            const data = await response.json(); 
+            const data = await response.json();
             setPosts(data);
         } catch (error) {
             console.error('Failed to fetch posts:', error);
@@ -42,10 +42,9 @@ export const useForumScreen = () => {
                 },
                 body: JSON.stringify({ title, description }),
             });
-            console.log(response);
             if (response.ok) {
                 const newPost = await response.json();
-                setPosts(currentPosts => [newPost, ...currentPosts]); 
+                setPosts(currentPosts => [newPost, ...currentPosts]);
             } else {
                 console.error('Failed to create post');
             }
@@ -64,10 +63,10 @@ export const useForumScreen = () => {
                     'Authorization': `Token ${token}`,
                 },
             });
-    
+
             if (response.ok) {
                 console.log(userHasLiked ? "Post unliked successfully" : "Post liked successfully");
-                await fetchPosts(); 
+                await fetchPosts();
             } else {
                 console.error('Failed to like post');
             }
@@ -75,7 +74,7 @@ export const useForumScreen = () => {
             console.error('Failed to like post:', error);
         }
     };
-    
+
     const handleAddComment = async (postId, commentText) => {
         try {
             const token = await SecureStore.getItemAsync('authToken');
@@ -87,11 +86,10 @@ export const useForumScreen = () => {
                 },
                 body: JSON.stringify({ content: commentText }),
             });
-    
+
             if (response.ok) {
-                // Optionally refresh the post to show the new comment
                 console.log("Comment added successfully");
-                await fetchPosts(); // Refresh posts to include new comments
+                await fetchPosts(); 
             } else {
                 console.error('Failed to add comment');
             }
@@ -99,7 +97,27 @@ export const useForumScreen = () => {
             console.error('Failed to add comment:', error);
         }
     };
-    
 
-    return { posts, loading, createPost, handleLikePost, handleAddComment };
+    const handleDeletePost = async (postId) => {
+        try {
+            const token = await SecureStore.getItemAsync('authToken');
+            const response = await fetch(`${BACKEND_URL}/forums/posts/${postId}/`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Token ${token}`,
+                },
+            });
+
+            if (response.ok) {
+                console.log("Post deleted successfully");
+                await fetchPosts(); // Refresh the posts to reflect the deletion
+            } else {
+                console.error('Failed to delete post');
+            }
+        } catch (error) {
+            console.error('Failed to delete post:', error);
+        }
+    };
+
+    return { posts, loading, createPost, handleLikePost, handleAddComment, handleDeletePost };
 };
