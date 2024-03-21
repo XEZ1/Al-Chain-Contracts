@@ -14,11 +14,6 @@ const ForumScreen = ({ navigation }) => {
     const [newPostTitle, setNewPostTitle] = useState('');
     const [newPostDescription, setNewPostDescription] = useState('');
 
-    const forumPosts = [
-        { id: '1', title: 'Welcome to the Forum!', description: 'Introduce yourself to the community here!' },
-        { id: '2', title: 'FAQs', description: 'Find answers to frequently asked questions.' },
-    ];
-
     const handleCreatePost = async () => {
         if (!newPostTitle.trim() || !newPostDescription.trim()) {
             Alert.alert('Error', 'Title and description cannot be empty.');
@@ -36,11 +31,9 @@ const ForumScreen = ({ navigation }) => {
             <View style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
                 <TouchableOpacity
                     onPress={() => handleLikePost(item.id, item.user_has_liked)}
-                    style={{ flexDirection: 'row', alignItems: 'center', marginRight: 40 }}>
+                    style={{ flexDirection: 'row', alignItems: 'center', marginRight: 110 }}>
                     <MaterialCommunityIcons
-                        name={item.user_has_liked ? "heart" : "heart-outline"}
-                        size={24}
-                        color="red" />
+                        name={item.user_has_liked ? "heart" : "heart-outline"} size={24} color="red" />
                     <Text style={styles.buttonText}>Like ({item.like_count})</Text>
                 </TouchableOpacity>
                 <TouchableOpacity

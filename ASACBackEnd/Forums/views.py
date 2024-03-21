@@ -5,6 +5,7 @@ from .serializers import *
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework import status
 from django.shortcuts import get_object_or_404
+from rest_framework.exceptions import PermissionDenied
 
 
 class PostListCreateView(APIView):
@@ -41,6 +42,8 @@ class PostDetailView(APIView):
 
     def delete(self, request, pk, *args, **kwargs):
         post = get_object_or_404(Post, pk=pk)
+        if post.author != request.user:
+            raise PermissionDenied('You do not have permission to delete this post.')
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
