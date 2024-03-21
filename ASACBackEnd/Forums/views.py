@@ -12,7 +12,7 @@ class PostListCreateView(APIView):
 
     def get(self, request, *args, **kwargs):
         posts = Post.objects.all()
-        serializer = PostSerialiser(posts, many=True)
+        serializer = PostSerialiser(posts, many=True, context={'request': request})
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
@@ -68,9 +68,13 @@ class LikeCreateDeleteView(APIView):
         if created:
             serializer = LikeSerialiser(like)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        elif not created:
+            like.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
         return Response({"detail": "Like already exists."}, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, *args, **kwargs):
+        print("inside")
         post = get_object_or_404(Post, pk=pk)
         try:
             like = Like.objects.get(post=post, user=request.user)

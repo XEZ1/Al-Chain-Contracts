@@ -3,11 +3,14 @@ import { View, Text, ScrollView, TouchableOpacity, TextInput, FlatList, Keyboard
 import getStyles from '../../../styles/SharedStyles'; // Make sure the path to your styles is correct
 import { ThemeContext } from '../../../components/Theme';
 import { useForumScreen } from './UseForumScreen';
+import * as SecureStore from 'expo-secure-store';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 const ForumScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
     const styles = getStyles(theme);
-    const { posts, loading, createPost } = useForumScreen();
+    const { posts, loading, createPost, handleLikePost, handleAddComment } = useForumScreen();
     const [newPostTitle, setNewPostTitle] = useState('');
     const [newPostDescription, setNewPostDescription] = useState('');
 
@@ -30,10 +33,33 @@ const ForumScreen = ({ navigation }) => {
         <View style={[styles.card, { width: '97%' }]}>
             <Text style={styles.cardHeader}>{item.title}</Text>
             <Text style={styles.settingText}>{item.description}</Text>
-            <TouchableOpacity style={[styles.button, { marginTop: 10 }]}>
-                <Text style={styles.buttonText}>Join Discussion</Text>
-            </TouchableOpacity>
+            <View style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
+                <TouchableOpacity
+                    onPress={() => handleLikePost(item.id, item.user_has_liked)}
+                    style={{ flexDirection: 'row', alignItems: 'center', marginRight: 40 }}>
+                    <MaterialCommunityIcons
+                        name={item.user_has_liked ? "heart" : "heart-outline"}
+                        size={24}
+                        color="red" />
+                    <Text style={styles.buttonText}>Like ({item.like_count})</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => handleAddComment(item.id, 'hey')}
+                    style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <MaterialCommunityIcons name="comment-text-outline" size={24} color="grey" />
+                    <Text style={styles.buttonText}>Comment</Text>
+                </TouchableOpacity>
+            </View>
+            {/* This comparison needs to be adjusted based on your authentication and user identification logic */}
+            {item.author.id === SecureStore.getItemAsync('authToken') && (
+                <TouchableOpacity
+                    style={[styles.button, { marginTop: 10 }]}
+                    onPress={() => handleDeletePost(item.id)}>
+                    <Text style={styles.buttonText}>Delete</Text>
+                </TouchableOpacity>
+            )}
         </View>
+
     );
 
     if (loading) {
@@ -43,8 +69,8 @@ const ForumScreen = ({ navigation }) => {
     }
 
     return (
-        <KeyboardAvoidingView 
-            style={styles.container} 
+        <KeyboardAvoidingView
+            style={styles.container}
             behavior="padding"
         >
             <Text style={styles.header}>Community Forum</Text>
@@ -81,7 +107,7 @@ const ForumScreen = ({ navigation }) => {
             {/* Separator Line */}
             <View style={{ position: 'absolute', height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: 90, left: 0, right: 0 }} />
         </KeyboardAvoidingView>
-        
+
     );
 };
 

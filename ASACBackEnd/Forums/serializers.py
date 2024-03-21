@@ -16,14 +16,21 @@ class LikeSerialiser(serializers.ModelSerializer):
 
 class PostSerialiser(serializers.ModelSerializer):
     comments = CommentSerialiser(many=True, read_only=True)
-    like_count = serializers.ReadOnlyField()
+    like_count = serializers.ReadOnlyField(source='likes.count')
+    user_has_liked = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ['id', 'title', 'description', 'created_at', 'updated_at', 'author', 'comments', 'like_count']
+        fields = ['id', 'title', 'description', 'created_at', 'updated_at', 'author', 'comments', 'like_count', 'user_has_liked']
         read_only_fields = ['author']
 
     def create(self, validated_data):
         # Assign the author from the context (passed during the save call)
         validated_data['author'] = self.context['request'].user
         return super().create(validated_data)
+
+    def get_user_has_liked(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            return Like.objects.filter(post=obj, user=user).exists()
+        return False
