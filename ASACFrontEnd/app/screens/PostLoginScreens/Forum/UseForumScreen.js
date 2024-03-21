@@ -42,6 +42,7 @@ export const useForumScreen = () => {
                 },
                 body: JSON.stringify({ title, description }),
             });
+            console.log(response);
             if (response.ok) {
                 const newPost = await response.json();
                 setPosts(currentPosts => [newPost, ...currentPosts]); 
