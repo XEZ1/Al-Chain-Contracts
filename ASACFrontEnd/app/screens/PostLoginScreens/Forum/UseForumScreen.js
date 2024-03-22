@@ -23,7 +23,8 @@ export const useForumScreen = () => {
                 },
             });
             const data = await response.json();
-            setPosts(data);
+            const sortedData = data.sort((a, b) => b.like_count - a.like_count);
+            setPosts(sortedData);
         } catch (error) {
             console.error('Failed to fetch posts:', error);
         } finally {
