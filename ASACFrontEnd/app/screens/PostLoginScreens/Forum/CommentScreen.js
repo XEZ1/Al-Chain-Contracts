@@ -1,18 +1,29 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, FlatList } from 'react-native';
 import { UseCommentScreen } from './UseCommentScreen';
-import { ThemeContext } from '../../../components/Theme'; // Adjust the path as necessary
-import getStyles from '../../../styles/SharedStyles'; // Adjust the path as necessary
+import { ThemeContext } from '../../../components/Theme';
+import getStyles from '../../../styles/SharedStyles';
 
 const CommentScreen = ({ route, navigation }) => {
     const { theme } = useContext(ThemeContext);
     const styles = getStyles(theme);
-    const { postId } = route.params;
-    const { fetchComments, handleAddComment } = UseCommentScreen(postId); // Assuming UseCommentScreen accepts postId as an argument
+
+    const postId = route?.params?.postId;
+    if (!postId) {
+        console.error('No postId provided to CommentScreen');
+        return null;
+    }
+    const {
+        comments,
+        newComment,
+        setNewComment,
+        fetchComments,
+        handleAddComment,
+    } = UseCommentScreen(postId);
 
     useEffect(() => {
-        fetchComments().then(setComments); // Assuming fetchComments returns a promise that resolves to the comments
-    }, [fetchComments]);
+        fetchComments();
+    }, []);
 
     return (
         <View style={[styles.container, { paddingBottom: 0 }]}>
@@ -21,7 +32,8 @@ const CommentScreen = ({ route, navigation }) => {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.card}>
-                        <Text style={styles.comment}>{item.author.username}: {item.content}</Text> {/* Adjust if your data structure is different */}
+                        {/* Ensure item.author.username and item.content are strings */}
+                        <Text style={styles.comment}>{`${item.author.username}: ${item.content}`}</Text>
                     </View>
                 )}
                 style={{ width: '100%' }}
