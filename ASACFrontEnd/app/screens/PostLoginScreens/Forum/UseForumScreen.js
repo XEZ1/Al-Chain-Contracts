@@ -7,6 +7,10 @@ export const useForumScreen = () => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        fetchPosts();
+    }, []);
+
     const fetchPosts = async () => {
         setLoading(true);
         try {
@@ -26,10 +30,6 @@ export const useForumScreen = () => {
             setLoading(false);
         }
     };
-
-    useEffect(() => {
-        fetchPosts();
-    }, []);
 
     const createPost = async (title, description) => {
         try {
@@ -54,6 +54,12 @@ export const useForumScreen = () => {
     };
 
     const handleLikePost = async (postId, userHasLiked) => {
+        setPosts(currentPosts =>
+            currentPosts.map(post =>
+                post.id === postId ? { ...post, user_has_liked: !userHasLiked, like_count: post.like_count + (userHasLiked ? -1 : 1) } : post
+            )
+        );
+
         try {
             const token = await SecureStore.getItemAsync('authToken');
             const method = userHasLiked ? 'DELETE' : 'POST';
@@ -63,12 +69,15 @@ export const useForumScreen = () => {
                     'Authorization': `Token ${token}`,
                 },
             });
-
-            if (response.ok) {
-                console.log(userHasLiked ? "Post unliked successfully" : "Post liked successfully");
-                await fetchPosts();
-            } else {
+            if (!response.ok) {
+                setPosts(currentPosts =>
+                    currentPosts.map(post =>
+                        post.id === postId ? { ...post, user_has_liked: userHasLiked, like_count: post.like_count - (userHasLiked ? -1 : 1) } : post
+                    )
+                );
                 console.error('Failed to like post');
+            } else {
+                console.log('success');
             }
         } catch (error) {
             console.error('Failed to like post:', error);
@@ -89,7 +98,7 @@ export const useForumScreen = () => {
 
             if (response.ok) {
                 console.log("Comment added successfully");
-                await fetchPosts(); 
+                await fetchPosts();
             } else {
                 console.error('Failed to add comment');
             }
