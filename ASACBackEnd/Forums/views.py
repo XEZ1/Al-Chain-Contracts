@@ -20,7 +20,6 @@ class PostListCreateView(APIView):
         serializer = PostSerialiser(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save(author=request.user)
-            print(request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -62,6 +61,15 @@ class CommentCreateView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class CommentListView(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get(self, request, pk, *args, **kwargs):
+        comments = Comment.objects.filter(post=pk).order_by(
+            '-created_at')  # Assuming you want the newest comments first
+        serializer = CommentSerialiser(comments, many=True, context={'request': request})
+        return Response(serializer.data)
+
 
 class LikeCreateDeleteView(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -86,4 +94,3 @@ class LikeCreateDeleteView(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Like.DoesNotExist:
             return Response({"detail": "Like not found."}, status=status.HTTP_404_NOT_FOUND)
-
