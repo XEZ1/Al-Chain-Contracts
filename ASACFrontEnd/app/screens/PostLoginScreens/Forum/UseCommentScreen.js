@@ -1,4 +1,9 @@
-export const UseCommentScreen = () => {
+import { useState } from 'react';
+import * as SecureStore from 'expo-secure-store';
+import { BACKEND_URL } from '@env';
+
+
+export const UseCommentScreen = (postId) => {
 
     const fetchComments = async () => {
         const token = await SecureStore.getItemAsync('authToken');

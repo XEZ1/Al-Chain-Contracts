@@ -3,7 +3,6 @@ import { View, Text, ScrollView, TouchableOpacity, TextInput, FlatList, Keyboard
 import getStyles from '../../../styles/SharedStyles'; // Make sure the path to your styles is correct
 import { ThemeContext } from '../../../components/Theme';
 import { useForumScreen } from './UseForumScreen';
-import * as SecureStore from 'expo-secure-store';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
@@ -23,8 +22,6 @@ const ForumScreen = ({ navigation }) => {
         setNewPostTitle('');
         setNewPostDescription('');
     };
-
-    const token = async () => await SecureStore.getItemAsync('authToken')
 
     const renderPost = ({ item }) => (
         <View style={[styles.card, { width: '97%' }]}>
@@ -47,7 +44,7 @@ const ForumScreen = ({ navigation }) => {
                     </TouchableOpacity>
                 )}
                 <TouchableOpacity
-                    onPress={() => handleAddComment(item.id, 'hey')}
+                    onPress={() => navigation.navigate('CommentScreen')}   // handleAddComment(item.id, 'hey')
                     style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <MaterialCommunityIcons name="comment-text-outline" size={24} color="grey" />
                     <Text style={styles.buttonText}>Comment</Text>
