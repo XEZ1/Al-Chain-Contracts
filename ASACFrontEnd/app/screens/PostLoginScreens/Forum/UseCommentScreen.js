@@ -4,6 +4,8 @@ import { BACKEND_URL } from '@env';
 
 
 export const UseCommentScreen = (postId) => {
+    const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState('');
 
     const fetchComments = async () => {
         const token = await SecureStore.getItemAsync('authToken');
@@ -30,8 +32,9 @@ export const UseCommentScreen = (postId) => {
         });
         if (response.ok) {
             setNewComment('');
-            fetchComments(); // Refresh comments to show the new one
+            fetchComments();
         }
     };
 
+    return { comments, newComment, setNewComment, fetchComments, handleAddComment };
 };
