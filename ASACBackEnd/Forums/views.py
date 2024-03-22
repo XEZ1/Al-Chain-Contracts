@@ -66,7 +66,7 @@ class CommentListView(APIView):
 
     def get(self, request, pk, *args, **kwargs):
         comments = Comment.objects.filter(post=pk).order_by(
-            '-created_at')  # Assuming you want the newest comments first
+            '-created_at')
         serializer = CommentSerialiser(comments, many=True, context={'request': request})
         return Response(serializer.data)
 
