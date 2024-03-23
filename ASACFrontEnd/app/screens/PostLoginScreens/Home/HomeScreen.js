@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { Modal, View, Text, TextInput, TouchableOpacity, findNodeHandle, ScrollView, LayoutAnimation, KeyboardAvoidingView, Platform, UIManager,  Keyboard, Dimensions } from 'react-native';
+import { Modal, View, Text, TextInput, TouchableOpacity, findNodeHandle, ScrollView, KeyboardAvoidingView, Platform, UIManager,  Keyboard, Dimensions } from 'react-native';
 import getStyles from '../../../styles/SharedStyles';
 import { ThemeContext } from '../../../components/Theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -82,7 +82,6 @@ const HomeScreen = ({ navigation }) => {
             };
         }, [])
     );
-    
     
     return (
         <View style={{ flex: 1, backgroundColor: theme === 'dark' ? '#1A1A1A' : 'white', paddingBottom: keyboardHeight }}>
