@@ -13,6 +13,7 @@ import { ThemeContext } from '../components/Theme';
 import getStyles from '../styles/SharedStyles';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'react-native';
+import { PostProvider } from '../screens/PostLoginScreens/Forum/UseForumScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -34,10 +35,12 @@ const PostLoginTabs = () => {
 
     function ForumStackScreen() {
         return (
-            <ForumStack.Navigator screenOptions={{ headerShown: false }}>
-                <HomeStack.Screen name="ForumScreen" component={ForumScreen} />
-                <HomeStack.Screen name="CommentScreen" component={CommentScreen} />
-            </ForumStack.Navigator>
+            <PostProvider>
+                <ForumStack.Navigator screenOptions={{ headerShown: false }}>
+                    <HomeStack.Screen name="ForumScreen" component={ForumScreen} />
+                    <HomeStack.Screen name="CommentScreen" component={CommentScreen} />
+                </ForumStack.Navigator>
+            </PostProvider>
         );
     }
 

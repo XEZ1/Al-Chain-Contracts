@@ -10,15 +10,9 @@ import { useFocusEffect } from '@react-navigation/native';
 const ForumScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
     const styles = getStyles(theme);
-    const { posts, loading, createPost, handleLikePost, handleDeletePost,fetchPosts } = useForumScreen();
+    const { posts, loading, createPost, handleLikePost, handleDeletePost } = useForumScreen();
     const [newPostTitle, setNewPostTitle] = useState('');
     const [newPostDescription, setNewPostDescription] = useState('');
-
-    useFocusEffect(
-        React.useCallback(() => {
-          fetchPosts();
-        }, [])
-      );
 
     const handleCreatePost = async () => {
         if (!newPostTitle.trim() || !newPostDescription.trim()) {
