@@ -29,7 +29,7 @@ class PostDetailView(APIView):
 
     def get(self, request, pk, *args, **kwargs):
         post = get_object_or_404(Post, pk=pk)
-        serializer = PostSerialiser(post)
+        serializer = PostSerialiser(post, context={'request': request})
         return Response(serializer.data)
 
     def put(self, request, pk, *args, **kwargs):

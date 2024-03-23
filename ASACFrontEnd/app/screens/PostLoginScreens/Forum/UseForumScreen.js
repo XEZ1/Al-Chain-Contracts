@@ -106,5 +106,5 @@ export const useForumScreen = () => {
         }
     };
 
-    return { posts, loading, createPost, handleLikePost, handleDeletePost };
+    return { posts, loading, createPost, handleLikePost, handleDeletePost, fetchPosts };
 };

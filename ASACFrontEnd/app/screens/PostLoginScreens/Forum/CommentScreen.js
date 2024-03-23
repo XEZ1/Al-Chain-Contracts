@@ -6,6 +6,7 @@ import { ThemeContext } from '../../../components/Theme';
 import getStyles from '../../../styles/SharedStyles';
 import { useFocusEffect } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { BACKEND_URL } from '@env';
 
 const CommentScreen = ({ route, navigation }) => {
     const { theme } = useContext(ThemeContext);
@@ -19,13 +20,30 @@ const CommentScreen = ({ route, navigation }) => {
 
     const {
         comments,
-        newComment,
-        setNewComment,
-        fetchComments,
-        handleAddComment,
+        newComment, setNewComment,
+        fetchComments, handleAddComment,
     } = useCommentScreen(postId);
 
+    const [postDetails, setPostDetails] = useState(post); // Local state for post details
     const { handleLikePost, handleDeletePost } = useForumScreen();
+    const fetchAndUpdatePostDetails = async () => {
+        try {
+            const response = await fetch(`${BACKEND_URL}/forums/posts/${postId}/`);
+            if (response.ok) {
+                const updatedPost = await response.json();
+                setPostDetails(updatedPost);
+            } else {
+                console.error('Failed to fetch updated post details');
+            }
+        } catch (error) {
+            console.error('Error fetching post details:', error);
+        }
+    };  
+    const adjustedHandleLikePost = async (postId, userHasLiked) => {
+        await handleLikePost(postId, userHasLiked);
+        fetchAndUpdatePostDetails(); // Fetch the updated post details to reflect changes
+    };
+
 
     useEffect(() => {
         fetchComments();
@@ -76,27 +94,25 @@ const CommentScreen = ({ route, navigation }) => {
                 )}
                 style={{ width: '100%', marginBottom: 90 }}
                 ListHeaderComponent={
-                    <View>
-                        <View style={[styles.card, { width: '97%' }]}>
-                            <Text style={styles.cardHeader}>{post.title}</Text>
-                            <Text style={styles.settingText}>{post.description}</Text>
-                            <View style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center', justifyContent: 'space-between' }}>
+                    <View style={[styles.card, { width: '97%' }]}>
+                        <Text style={styles.cardHeader}>{postDetails.title}</Text>
+                        <Text style={styles.settingText}>{postDetails.description}</Text>
+                        <View style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center', justifyContent: 'space-between' }}>
+                            <TouchableOpacity
+                                onPress={() => adjustedHandleLikePost(postDetails.id, postDetails.user_has_liked)}
+                                style={{ flexDirection: 'row', alignItems: 'center', marginRight: 0 }}>
+                                <MaterialCommunityIcons
+                                    name={postDetails.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
+                                <Text style={styles.buttonText}>Like ({postDetails.like_count})</Text>
+                            </TouchableOpacity>
+                            {postDetails.is_user_author && (
                                 <TouchableOpacity
-                                    onPress={() => handleLikePost(post.id, post.user_has_liked)}
-                                    style={{ flexDirection: 'row', alignItems: 'center', marginRight: 0 }}>
-                                    <MaterialCommunityIcons
-                                        name={post.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
-                                    <Text style={styles.buttonText}>Like ({post.like_count})</Text>
+                                    onPress={() => handleDeletePost(postDetails.id)}
+                                    style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
+                                    <Text style={styles.buttonText}>Delete</Text>
                                 </TouchableOpacity>
-                                {post.is_user_author && (
-                                    <TouchableOpacity
-                                        onPress={() => handleDeletePost(post.id)}
-                                        style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                        <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
-                                        <Text style={styles.buttonText}>Delete</Text>
-                                    </TouchableOpacity>
-                                )}
-                            </View>
+                            )}
                         </View>
                     </View>
                 }
