@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import { BACKEND_URL } from '@env';
 
+const PostContext = createContext();
+export const useForumScreen = () => useContext(PostContext);
 
-export const useForumScreen = () => {
+export const PostProvider = ({ children }) => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -106,5 +108,9 @@ export const useForumScreen = () => {
         }
     };
 
-    return { posts, loading, createPost, handleLikePost, handleDeletePost, fetchPosts };
+    return (
+        <PostContext.Provider value={{ posts, loading, createPost, handleLikePost, handleDeletePost }}>
+            {children}
+        </PostContext.Provider>
+    );
 };

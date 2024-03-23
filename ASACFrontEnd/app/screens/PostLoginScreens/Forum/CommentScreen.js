@@ -24,26 +24,8 @@ const CommentScreen = ({ route, navigation }) => {
         fetchComments, handleAddComment,
     } = useCommentScreen(postId);
 
-    const [postDetails, setPostDetails] = useState(post); // Local state for post details
-    const { handleLikePost, handleDeletePost } = useForumScreen();
-    const fetchAndUpdatePostDetails = async () => {
-        try {
-            const response = await fetch(`${BACKEND_URL}/forums/posts/${postId}/`);
-            if (response.ok) {
-                const updatedPost = await response.json();
-                setPostDetails(updatedPost);
-            } else {
-                console.error('Failed to fetch updated post details');
-            }
-        } catch (error) {
-            console.error('Error fetching post details:', error);
-        }
-    };  
-    const adjustedHandleLikePost = async (postId, userHasLiked) => {
-        await handleLikePost(postId, userHasLiked);
-        fetchAndUpdatePostDetails(); // Fetch the updated post details to reflect changes
-    };
-
+    const { posts, handleLikePost, handleDeletePost } = useForumScreen(); 
+    const postDetails = posts.find(p => p.id === postId);
 
     useEffect(() => {
         fetchComments();
@@ -99,7 +81,7 @@ const CommentScreen = ({ route, navigation }) => {
                         <Text style={styles.settingText}>{postDetails.description}</Text>
                         <View style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center', justifyContent: 'space-between' }}>
                             <TouchableOpacity
-                                onPress={() => adjustedHandleLikePost(postDetails.id, postDetails.user_has_liked)}
+                                onPress={() => handleLikePost(postDetails.id, postDetails.user_has_liked)}
                                 style={{ flexDirection: 'row', alignItems: 'center', marginRight: 0 }}>
                                 <MaterialCommunityIcons
                                     name={postDetails.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
