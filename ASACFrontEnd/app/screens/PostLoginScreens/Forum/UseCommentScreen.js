@@ -4,7 +4,7 @@ import { BACKEND_URL } from '@env';
 import { validateToken } from '../../../components/Authentication';
 
 
-export const UseCommentScreen = (postId) => {
+export const useCommentScreen = (postId) => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
 
