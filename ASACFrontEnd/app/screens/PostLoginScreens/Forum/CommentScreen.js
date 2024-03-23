@@ -9,10 +9,7 @@ const CommentScreen = ({ route, navigation }) => {
     const styles = getStyles(theme);
 
     const postId = route?.params?.postId;
-    if (!postId) {
-        console.error('No postId provided to CommentScreen');
-        return null;
-    }
+
     const {
         comments,
         newComment,
@@ -32,13 +29,12 @@ const CommentScreen = ({ route, navigation }) => {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.card}>
-                        {/* Ensure item.author.username and item.content are strings */}
-                        <Text style={styles.comment}>{`${item.author.username}: ${item.content}`}</Text>
+                        <Text style={styles.comment}>{`${item.author_username}: ${item.content}`}</Text>
                     </View>
                 )}
                 style={{ width: '100%' }}
             />
-            <View style={styles.inputContainer}>
+            <View style={[styles.inputContainer, { paddingBottom: '30%' }]}>
                 <TextInput
                     value={newComment}
                     onChangeText={setNewComment}
@@ -48,6 +44,8 @@ const CommentScreen = ({ route, navigation }) => {
                 />
                 <Button title="Post Comment" color={theme === 'dark' ? '#1A1A1A' : 'rgba(1, 193, 219, 1)'} onPress={() => handleAddComment(newComment)} />
             </View>
+            {/* Separator Line */}
+            <View style={{ position: 'absolute', height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: 90, left: 0, right: 0 }} />
         </View>
     );
 };
