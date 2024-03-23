@@ -18,14 +18,21 @@ const CommentScreen = ({ route, navigation }) => {
     const viewRef = useRef(null);
     const [keyboardHeight, setKeyboardHeight] = useState(0);
 
+    const { posts, handleLikePost, handleDeletePost } = useForumScreen(); 
+    const postDetails = posts.find(p => p.id === postId);
+
     const {
         comments,
         newComment, setNewComment,
         fetchComments, handleAddComment,
     } = useCommentScreen(postId);
 
-    const { posts, handleLikePost, handleDeletePost } = useForumScreen(); 
-    const postDetails = posts.find(p => p.id === postId);
+    useEffect(() => {
+        const postExists = posts.find(p => p.id === postId);
+        if (!postExists) {
+            navigation.navigate('ForumScreen')
+        }
+    }, [posts, postId, navigation]);
 
     useEffect(() => {
         fetchComments();
@@ -62,6 +69,10 @@ const CommentScreen = ({ route, navigation }) => {
             };
         }, [])
     );
+
+    if (!postDetails) {
+        return null;
+    }
 
     return (
         <View style={[styles.container, { paddingBottom: keyboardHeight }]}>
