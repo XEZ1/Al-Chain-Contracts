@@ -1,15 +1,17 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { ScrollView, View, Text, TextInput, TouchableOpacity, FlatList, findNodeHandle, Keyboard, Dimensions } from 'react-native';
-import { UseCommentScreen } from './UseCommentScreen';
+import { useCommentScreen } from './UseCommentScreen';
+import { useForumScreen } from './UseForumScreen';
 import { ThemeContext } from '../../../components/Theme';
 import getStyles from '../../../styles/SharedStyles';
 import { useFocusEffect } from '@react-navigation/native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const CommentScreen = ({ route, navigation }) => {
     const { theme } = useContext(ThemeContext);
     const styles = getStyles(theme);
 
-    const postId = route?.params?.postId;
+    const { postId, post } = route.params;
 
     const postCommentRef = useRef(null);
     const viewRef = useRef(null);
@@ -21,7 +23,9 @@ const CommentScreen = ({ route, navigation }) => {
         setNewComment,
         fetchComments,
         handleAddComment,
-    } = UseCommentScreen(postId);
+    } = useCommentScreen(postId);
+
+    const { handleLikePost, handleDeletePost } = useForumScreen();
 
     useEffect(() => {
         fetchComments();
@@ -73,7 +77,27 @@ const CommentScreen = ({ route, navigation }) => {
                 style={{ width: '100%', marginBottom: 90 }}
                 ListHeaderComponent={
                     <View>
-                        {/* Any component you want above the list */}
+                        <View style={[styles.card, { width: '97%' }]}>
+                            <Text style={styles.cardHeader}>{post.title}</Text>
+                            <Text style={styles.settingText}>{post.description}</Text>
+                            <View style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center', justifyContent: 'space-between' }}>
+                                <TouchableOpacity
+                                    onPress={() => handleLikePost(post.id, post.user_has_liked)}
+                                    style={{ flexDirection: 'row', alignItems: 'center', marginRight: 0 }}>
+                                    <MaterialCommunityIcons
+                                        name={post.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
+                                    <Text style={styles.buttonText}>Like ({post.like_count})</Text>
+                                </TouchableOpacity>
+                                {post.is_user_author && (
+                                    <TouchableOpacity
+                                        onPress={() => handleDeletePost(post.id)}
+                                        style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
+                                        <Text style={styles.buttonText}>Delete</Text>
+                                    </TouchableOpacity>
+                                )}
+                            </View>
+                        </View>
                     </View>
                 }
                 ListFooterComponent={
