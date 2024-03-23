@@ -4,14 +4,21 @@ import getStyles from '../../../styles/SharedStyles'; // Make sure the path to y
 import { ThemeContext } from '../../../components/Theme';
 import { useForumScreen } from './UseForumScreen';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 const ForumScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
     const styles = getStyles(theme);
-    const { posts, loading, createPost, handleLikePost, handleDeletePost } = useForumScreen();
+    const { posts, loading, createPost, handleLikePost, handleDeletePost,fetchPosts } = useForumScreen();
     const [newPostTitle, setNewPostTitle] = useState('');
     const [newPostDescription, setNewPostDescription] = useState('');
+
+    useFocusEffect(
+        React.useCallback(() => {
+          fetchPosts();
+        }, [])
+      );
 
     const handleCreatePost = async () => {
         if (!newPostTitle.trim() || !newPostDescription.trim()) {
