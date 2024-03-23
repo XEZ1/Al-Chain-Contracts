@@ -20,19 +20,26 @@ export const UseCommentScreen = (postId) => {
         }
     };
     
-    const handleAddComment = async () => {
-        const token = await SecureStore.getItemAsync('authToken');
-        const response = await fetch(`${BACKEND_URL}/forums/posts/${postId}/comments/`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ content: newComment }),
-        });
-        if (response.ok) {
-            setNewComment('');
-            fetchComments();
+    const handleAddComment = async (commentText) => {
+        try {
+            const token = await SecureStore.getItemAsync('authToken');
+            const response = await fetch(`${BACKEND_URL}/forums/posts/${postId}/comments/`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Token ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ content: commentText }),
+            });
+
+            if (response.ok) {
+                console.log("Comment added successfully");
+                await fetchPosts();
+            } else {
+                console.error('Failed to add comment');
+            }
+        } catch (error) {
+            console.error('Failed to add comment:', error);
         }
     };
 

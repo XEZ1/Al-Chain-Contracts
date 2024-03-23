@@ -85,29 +85,6 @@ export const useForumScreen = () => {
         }
     };
 
-    const handleAddComment = async (postId, commentText) => {
-        try {
-            const token = await SecureStore.getItemAsync('authToken');
-            const response = await fetch(`${BACKEND_URL}/forums/posts/${postId}/comments/`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Token ${token}`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ content: commentText }),
-            });
-
-            if (response.ok) {
-                console.log("Comment added successfully");
-                await fetchPosts();
-            } else {
-                console.error('Failed to add comment');
-            }
-        } catch (error) {
-            console.error('Failed to add comment:', error);
-        }
-    };
-
     const handleDeletePost = async (postId) => {
         try {
             const token = await SecureStore.getItemAsync('authToken');
@@ -129,5 +106,5 @@ export const useForumScreen = () => {
         }
     };
 
-    return { posts, loading, createPost, handleLikePost, handleAddComment, handleDeletePost };
+    return { posts, loading, createPost, handleLikePost, handleDeletePost };
 };
