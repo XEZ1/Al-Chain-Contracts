@@ -9,7 +9,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const ForumScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
     const styles = getStyles(theme);
-    const { posts, loading, createPost, handleLikePost, handleAddComment, handleDeletePost } = useForumScreen();
+    const { posts, loading, createPost, handleLikePost, handleDeletePost } = useForumScreen();
     const [newPostTitle, setNewPostTitle] = useState('');
     const [newPostDescription, setNewPostDescription] = useState('');
 
@@ -44,7 +44,7 @@ const ForumScreen = ({ navigation }) => {
                     </TouchableOpacity>
                 )}
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('CommentScreen', { postId: item.id, })}   // handleAddComment(item.id, 'hey')
+                    onPress={() => navigation.navigate('CommentScreen', { postId: item.id, })}   // handleAddComment(item.id, 'hey') ; handleAddComment(comment)
                     style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <MaterialCommunityIcons name="comment-text-outline" size={24} color="grey" />
                     <Text style={styles.buttonText}>Comment</Text>
