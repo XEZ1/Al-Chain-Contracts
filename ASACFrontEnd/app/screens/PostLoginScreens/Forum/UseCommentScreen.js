@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import { BACKEND_URL } from '@env';
+import { validateToken } from '../../../components/Authentication';
 
 
 export const UseCommentScreen = (postId) => {
@@ -11,7 +12,7 @@ export const UseCommentScreen = (postId) => {
         const token = await SecureStore.getItemAsync('authToken');
         const response = await fetch(`${BACKEND_URL}/forums/posts/${postId}/comments/list/`, {
             headers: {
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Token ${token}`,
             },
         });
         if (response.ok) {
@@ -23,6 +24,8 @@ export const UseCommentScreen = (postId) => {
     const handleAddComment = async (commentText) => {
         try {
             const token = await SecureStore.getItemAsync('authToken');
+            console.log(token);
+            console.log(validateToken);
             const response = await fetch(`${BACKEND_URL}/forums/posts/${postId}/comments/`, {
                 method: 'POST',
                 headers: {
@@ -34,7 +37,7 @@ export const UseCommentScreen = (postId) => {
 
             if (response.ok) {
                 console.log("Comment added successfully");
-                await fetchPosts();
+                await fetchComments();
             } else {
                 console.error('Failed to add comment');
             }

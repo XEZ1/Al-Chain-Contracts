@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, FlatList } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, FlatList } from 'react-native';
 import { UseCommentScreen } from './UseCommentScreen';
 import { ThemeContext } from '../../../components/Theme';
 import getStyles from '../../../styles/SharedStyles';
@@ -23,7 +23,7 @@ const CommentScreen = ({ route, navigation }) => {
     }, []);
 
     return (
-        <View style={[styles.container, { paddingBottom: 0 }]}>
+        <View style={[styles.container]}>
             <FlatList
                 data={comments}
                 keyExtractor={(item) => item.id.toString()}
@@ -34,15 +34,18 @@ const CommentScreen = ({ route, navigation }) => {
                 )}
                 style={{ width: '100%' }}
             />
-            <View style={[styles.inputContainer, { paddingBottom: '30%' }]}>
+            <View style={{ position: 'absolute', height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: 234, left: 0, right: 0 }} />
+            <View style={[styles.inputContainer, { paddingBottom: '20%', paddingTop: '5%' }]}>
                 <TextInput
                     value={newComment}
                     onChangeText={setNewComment}
                     placeholder="Write a comment..."
                     placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                    style={styles.input}
+                    style={[styles.input, { width: 300 }]}
                 />
-                <Button title="Post Comment" color={theme === 'dark' ? '#1A1A1A' : 'rgba(1, 193, 219, 1)'} onPress={() => handleAddComment(newComment)} />
+                <TouchableOpacity  title="Post Comment" style={[styles.button, { width: 300 }]} onPress={() => handleAddComment(newComment)}>
+                    <Text style={styles.buttonText}>Post Comment</Text> 
+                </TouchableOpacity>
             </View>
             {/* Separator Line */}
             <View style={{ position: 'absolute', height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: 90, left: 0, right: 0 }} />
