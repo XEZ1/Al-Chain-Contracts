@@ -6,6 +6,15 @@ import { ThemeProvider } from './app/components/Theme';
 import { connectToNotifications } from './app/components/Notifications';
 import { BACKEND_URL } from '@env';
 import * as Notifications from 'expo-notifications';
+import ErrorBoundary from './ErrorBoundary'
+
+if (__DEV__) {
+    ErrorUtils.setGlobalHandler((error, isFatal) => {
+      console.log(error, isFatal);
+      console.log(error.stack);
+    });
+  }
+  
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -25,6 +34,7 @@ const App = () => {
     }, []);
 
     return (
+        <ErrorBoundary>
         <AuthProvider>
             <ThemeProvider>
                 <NavigationContainer>
@@ -32,6 +42,7 @@ const App = () => {
                 </NavigationContainer>
             </ThemeProvider>
         </AuthProvider>
+        </ErrorBoundary>
     );
 };
 

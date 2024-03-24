@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { Modal, View, Text, TextInput, TouchableOpacity, findNodeHandle, ScrollView, KeyboardAvoidingView, Platform, UIManager,  Keyboard, Dimensions } from 'react-native';
+import { Animated, Modal, View, Text, TextInput, TouchableOpacity, findNodeHandle, ScrollView, KeyboardAvoidingView, Platform, UIManager, Keyboard, Dimensions } from 'react-native';
 import getStyles from '../../../styles/SharedStyles';
 import { ThemeContext } from '../../../components/Theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useContractHandling } from './UseHomeScreen';
 import { ContractItem } from './ContractItem';
 import { useFocusEffect } from '@react-navigation/native';
+
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -22,7 +23,8 @@ const HomeScreen = ({ navigation }) => {
     const addressConversionRef = useRef(null);
     const scrollViewRef = useRef(null);
 
-    const [keyboardHeight, setKeyboardHeight] = useState(0);
+    //const [keyboardHeight, setKeyboardHeight] = useState(0);
+    const keyboardHeight = useRef(new Animated.Value(0)).current; 
 
     const {
         selectedFile, setSelectedFile,
@@ -56,21 +58,31 @@ const HomeScreen = ({ navigation }) => {
             const handleKeyboardDidShow = (e) => {
                 const screenHeight = Dimensions.get('window').height;
                 const endY = e.endCoordinates.screenY;
-                setKeyboardHeight(screenHeight - endY - 90);
+                //setKeyboardHeight(screenHeight - endY - 90);
+                Animated.timing(keyboardHeight, {
+                    toValue: screenHeight - endY,
+                    duration: 300, 
+                    useNativeDriver: false, 
+                }).start();
+
                 const currentlyFocusedField = TextInput.State.currentlyFocusedInput();
-        
                 if (currentlyFocusedField) {
                     const nodeHandle = findNodeHandle(currentlyFocusedField);
                     scrollViewRef.current?.getScrollResponder().scrollResponderScrollNativeHandleToKeyboard(
-                        nodeHandle, 
-                        120, 
-                        true 
+                        nodeHandle,
+                        120,
+                        true
                     );
                 }
             };
 
             const handleKeyboardDidHide = () => {
-                setKeyboardHeight(0);
+                Animated.timing(keyboardHeight, {
+                    toValue: 0,
+                    duration: 300, 
+                    useNativeDriver: false,
+                }).start();
+                //setKeyboardHeight(0);
             };
 
             const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow);
@@ -82,12 +94,12 @@ const HomeScreen = ({ navigation }) => {
             };
         }, [])
     );
-    
+
     return (
         <View style={{ flex: 1, backgroundColor: theme === 'dark' ? '#1A1A1A' : 'white', paddingBottom: keyboardHeight }}>
             <ScrollView ref={scrollViewRef} style={styles.scrollView}>
                 <KeyboardAvoidingView
-                    style={styles.container}                    
+                    style={styles.container}
                 >
 
                     <Text style={styles.header}>Smart Contract Toolkit</Text>
@@ -189,7 +201,7 @@ const HomeScreen = ({ navigation }) => {
                     <View style={styles.card}>
                         <Text style={styles.cardHeader}>Address Checksum Conversion</Text>
                         <TextInput ref={addressConversionRef} style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set your token address" value={addressChecksum} onChangeText={setAddressChecksum}></TextInput>
-                        
+
                         <TouchableOpacity
                             style={styles.button}
                             onPress={() => handleChecksumAddress()}
@@ -219,7 +231,7 @@ const HomeScreen = ({ navigation }) => {
                                         <MaterialCommunityIcons
                                             name="close-circle"
                                             size={30}
-                                            color='red' 
+                                            color='red'
                                             onPress={() => setShowAddressModal(false)}
                                             style={styles.exitButton}
                                         />
