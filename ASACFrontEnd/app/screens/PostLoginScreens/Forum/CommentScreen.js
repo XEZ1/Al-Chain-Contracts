@@ -126,9 +126,10 @@ const CommentScreen = ({ route, navigation }) => {
                         </TouchableOpacity>
                     </View>
                 }
+                showsVerticalScrollIndicator={false}
             />
             {/* Separator Line */}
-            <View style={{ position: 'absolute', height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: 90, left: 0, right: 0 }} />
+            <View style={{ position: 'absolute', height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: keyboardHeight + 90, left: 0, right: 0 }} />
         </View>
 
     );

@@ -88,12 +88,15 @@ const ForumScreen = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
 
+            <View style={{ position: 'absolute', height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: 632, left: 0, right: 0 }} />
+
             {/* List of Posts */}
             <FlatList
                 data={posts}
                 renderItem={renderPost}
                 keyExtractor={item => item.id.toString()}
                 style={{ flex: 1, marginBottom: 90 }}
+                showsVerticalScrollIndicator={false}
             />
 
             {/* Separator Line */}
