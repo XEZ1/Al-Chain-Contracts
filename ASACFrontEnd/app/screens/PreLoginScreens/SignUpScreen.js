@@ -3,14 +3,13 @@ import { View, Modal, Text, TextInput, TouchableOpacity, Alert, KeyboardAvoiding
 import { AuthContext } from '../../components/Authentication';
 import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
-import { BACKEND_URL } from '@env';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 const SignUpScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
     const styles = getStyles(theme);
 
-    const { handleLogin } = useContext(AuthContext);
     const [username, setUsername] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -20,46 +19,7 @@ const SignUpScreen = ({ navigation }) => {
     const [errors, setErrors] = useState({});
     const [showErrorDetails, setShowErrorDetails] = useState(false);
 
-    const handleSignUp = async () => {
-        try {
-            if (!username || !firstName || !lastName || !email || !password || !passwordConfirmation) {
-                Alert.alert('Error', 'Please fill in all the fields below');
-                return;
-            }
-            if (password !== passwordConfirmation) {
-                Alert.alert('Error', 'Passwords do not match');
-                return;
-            }
-
-            const response = await fetch(`${BACKEND_URL}/sign_up/`, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    first_name: firstName,
-                    last_name: lastName,
-                    username: username,
-                    email: email,
-                    password: password,
-                    password_confirmation: passwordConfirmation,
-                }),
-            });
-
-            const data = await response.json();
-
-            if (response.status === 400) {
-                setErrors(data);
-                Alert.alert('Error', 'Please fix the errors');
-            } else if (response.status === 201) {
-                Alert.alert('Success', 'Account created successfully');
-                handleLogin(username, password)
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
+    const { handleSignUp } = useContext(AuthContext);
 
     return (
         <KeyboardAvoidingView
@@ -133,7 +93,9 @@ const SignUpScreen = ({ navigation }) => {
                 placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                 onChangeText={setPasswordConfirmation}
             />
-            <TouchableOpacity style={styles.buttonPreLogin} onPress={handleSignUp}>
+            <TouchableOpacity style={styles.buttonPreLogin} onPress={() =>
+                handleSignUp(username, firstName, lastName, email, password, passwordConfirmation, errors, setErrors)
+            }>
                 <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
         </KeyboardAvoidingView>
