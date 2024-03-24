@@ -1,4 +1,4 @@
-from .models import PushToken
+from .models import NotificationPushToken
 from rest_framework import status, views
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
@@ -10,7 +10,7 @@ class SaveTokenView(views.APIView):
 
     def post(self, request):
         token = request.data.get('token')
-        PushToken.objects.update_or_create(user=request.user, defaults={'token': token})
+        NotificationPushToken.objects.update_or_create(user=request.user, defaults={'token': token})
         return Response({'status': 'success'}, status=status.HTTP_200_OK)
 
 class DeleteTokenView(views.APIView):
@@ -18,5 +18,5 @@ class DeleteTokenView(views.APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        PushToken.objects.filter(user=request.user).delete()
+        NotificationPushToken.objects.filter(user=request.user).delete()
         return Response({'status': 'success'}, status=status.HTTP_200_OK)
