@@ -89,7 +89,7 @@ const CommentScreen = ({ route, navigation }) => {
                 )}
                 style={{ width: '100%', marginBottom: 90 }}
                 ListHeaderComponent={
-                    <View style={[styles.card, { width: '97%' }]}>
+                    <View style={[styles.card]}>
                         <Text style={styles.cardHeader}>{postDetails.title}</Text>
                         <Text style={styles.settingText}>{postDetails.description}</Text>
                         <View style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center', justifyContent: 'space-between' }}>
@@ -112,20 +112,18 @@ const CommentScreen = ({ route, navigation }) => {
                     </View>
                 }
                 ListFooterComponent={
-                    <View>
+                    <View style={styles.centeredContainer}>
                         <TextInput
                             ref={postCommentRef}
                             value={newComment}
                             onChangeText={setNewComment}
                             placeholder="Write a comment..."
                             placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                            style={[styles.input,]}
+                            style={[styles.input, { width: '96%'} ]}
                         />
-                        <TouchableOpacity title="Post Comment" style={[styles.button]} onPress={() => { handleAddComment(newComment); setNewComment(''); }}>
+                        <TouchableOpacity title="Post Comment" style={[styles.button, { width: '96%'}]} onPress={() => { handleAddComment(newComment); setNewComment(''); }}>
                             <Text style={styles.buttonText}>Post Comment</Text>
                         </TouchableOpacity>
-
-
                     </View>
                 }
             />
