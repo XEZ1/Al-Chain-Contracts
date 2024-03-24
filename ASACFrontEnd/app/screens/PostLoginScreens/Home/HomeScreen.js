@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { LayoutAnimation, Modal, View, Text, TextInput, TouchableOpacity, findNodeHandle, ScrollView, KeyboardAvoidingView, Platform, UIManager, Keyboard, Dimensions } from 'react-native';
+import { LayoutAnimation, Modal, View, Text, TextInput, TouchableOpacity, findNodeHandle, ScrollView, Keyboard, Dimensions } from 'react-native';
 import getStyles from '../../../styles/SharedStyles';
 import { ThemeContext } from '../../../components/Theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -8,9 +8,7 @@ import { ContractItem } from './ContractItem';
 import { useFocusEffect } from '@react-navigation/native';
 
 
-if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
-}
+
 
 const HomeScreen = ({ navigation }) => {
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
