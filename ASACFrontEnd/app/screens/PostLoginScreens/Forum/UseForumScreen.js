@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import { BACKEND_URL } from '@env';
-import { LayoutAnimation } from 'react-native';
+import { Alert, LayoutAnimation } from 'react-native';
 
 
 const PostContext = createContext();
@@ -10,6 +10,9 @@ export const useForumScreen = () => useContext(PostContext);
 export const PostProvider = ({ children }) => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    const [newPostTitle, setNewPostTitle] = useState('');
+    const [newPostDescription, setNewPostDescription] = useState('');
 
     useEffect(() => {
         fetchPosts();
@@ -36,8 +39,17 @@ export const PostProvider = ({ children }) => {
         }
     };
 
-    const createPost = async (title, description) => {
+    const createPost = async () => {
         try {
+            if (!newPostTitle.trim() || !newPostDescription.trim()) {
+                Alert.alert('Error', 'Title and description cannot be empty.');
+                return;
+            }
+            title = newPostTitle; 
+            description = newPostDescription;
+            setNewPostTitle('');
+            setNewPostDescription('');
+
             const token = await SecureStore.getItemAsync('authToken');
             const response = await fetch(`${BACKEND_URL}/forums/posts/`, {
                 method: 'POST',
@@ -113,7 +125,7 @@ export const PostProvider = ({ children }) => {
     };
 
     return (
-        <PostContext.Provider value={{ posts, loading, createPost, handleLikePost, handleDeletePost }}>
+        <PostContext.Provider value={{ posts, loading, createPost, handleLikePost, handleDeletePost, newPostTitle, setNewPostTitle, newPostDescription, setNewPostDescription }}>
             {children}
         </PostContext.Provider>
     );
