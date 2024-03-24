@@ -65,7 +65,7 @@ const HomeScreen = ({ navigation }) => {
                     const nodeHandle = findNodeHandle(currentlyFocusedField);
                     scrollViewRef.current?.getScrollResponder().scrollResponderScrollNativeHandleToKeyboard(
                         nodeHandle,
-                        120,
+                        160,
                         true
                     );
                 }
