@@ -28,7 +28,15 @@ const getStyles = (theme = 'light', keyboardHeight = 0) => {
             alignItems: 'center',
             paddingTop: '5%',
             padding: '5%',
-            backgroundColor: themeStyles[theme].containerBackground, // Set background color based on theme
+            backgroundColor: themeStyles[theme].containerBackground,
+        },
+        containerCommentScreen: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingTop: '0%',
+            padding: '5%',
+            backgroundColor: themeStyles[theme].containerBackground, 
         },
         containerWithoutBackground: {
             flex: 1,
@@ -356,7 +364,8 @@ const getStyles = (theme = 'light', keyboardHeight = 0) => {
         centeredContainer: {
             flex: 1, 
             justifyContent: 'center',
-            alignItems: 'center', 
+            alignItems: 'center',
+            marginTop: '2%', 
         },
         baseContainer: {
             flex: 1, 
@@ -416,6 +425,7 @@ const getStyles = (theme = 'light', keyboardHeight = 0) => {
         },
         flatListPostsContainer: {
             flex: 1,
+          
             marginBottom: 90, 
             paddingTop: 25,
         },
@@ -442,6 +452,14 @@ const getStyles = (theme = 'light', keyboardHeight = 0) => {
             borderRadius: 10,
             justifyContent: 'center',
             alignItems: 'center',
+        },
+        listFooterContainer: {
+            width: 300, 
+            paddingBottom: 30,
+        },
+        regularPadding: {
+            paddingTop: 20,
+            paddingBottom: 5,
         },
     });
 };

@@ -17,7 +17,7 @@ const CommentScreen = ({ route, navigation }) => {
     const [keyboardHeight, setKeyboardHeight] = useState(0);
 
     const { postId } = route.params;
-    const { posts, handleLikePost, handleDeletePost } = useForumScreen(); 
+    const { posts, handleLikePost, handleDeletePost } = useForumScreen();
     const postDetails = posts.find(p => p.id === postId);
 
     const {
@@ -34,7 +34,7 @@ const CommentScreen = ({ route, navigation }) => {
             const handleKeyboardDidShow = (e) => {
                 const screenHeight = Dimensions.get('window').height;
                 const endY = e.endCoordinates.screenY;
-                LayoutAnimation.easeInEaseOut(); 
+                LayoutAnimation.easeInEaseOut();
                 setKeyboardHeight(screenHeight - endY - 90);
                 const currentlyFocusedField = TextInput.State.currentlyFocusedInput();
 
@@ -49,7 +49,7 @@ const CommentScreen = ({ route, navigation }) => {
             };
 
             const handleKeyboardDidHide = () => {
-                LayoutAnimation.easeInEaseOut(); 
+                LayoutAnimation.easeInEaseOut();
                 setKeyboardHeight(0);
             };
 
@@ -75,7 +75,7 @@ const CommentScreen = ({ route, navigation }) => {
     }
 
     return (
-        <View style={[styles.container, { paddingBottom: keyboardHeight }]}>
+        <View style={[styles.containerCommentScreen, { paddingBottom: keyboardHeight }]}>
             <FlatList
                 ref={viewRef}
                 data={comments}
@@ -87,25 +87,27 @@ const CommentScreen = ({ route, navigation }) => {
                 )}
                 style={styles.flatListCommentsContainer}
                 ListHeaderComponent={
-                    <View style={styles.card}>
-                        <Text style={styles.cardHeader}>{postDetails.title}</Text>
-                        <Text style={styles.settingText}>{postDetails.description}</Text>
-                        <View style={styles.postsContainer}>
-                            <TouchableOpacity
-                                onPress={() => handleLikePost(postDetails.id, postDetails.user_has_liked)}
-                                style={styles.postsButtonText}>
-                                <MaterialCommunityIcons
-                                    name={postDetails.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
-                                <Text style={styles.buttonText}>Like ({postDetails.like_count})</Text>
-                            </TouchableOpacity>
-                            {postDetails.is_user_author && (
+                    <View style={styles.regularPadding}>
+                        <View style={styles.card}>
+                            <Text style={styles.cardHeader}>{postDetails.title}</Text>
+                            <Text style={styles.settingText}>{postDetails.description}</Text>
+                            <View style={styles.postsContainer}>
                                 <TouchableOpacity
-                                    onPress={() => handleDeletePost(postDetails.id)}
-                                    style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
-                                    <Text style={styles.buttonText}>Delete</Text>
+                                    onPress={() => handleLikePost(postDetails.id, postDetails.user_has_liked)}
+                                    style={styles.postsButtonText}>
+                                    <MaterialCommunityIcons
+                                        name={postDetails.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
+                                    <Text style={styles.buttonText}>Like ({postDetails.like_count})</Text>
                                 </TouchableOpacity>
-                            )}
+                                {postDetails.is_user_author && (
+                                    <TouchableOpacity
+                                        onPress={() => handleDeletePost(postDetails.id)}
+                                        style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
+                                        <Text style={styles.buttonText}>Delete</Text>
+                                    </TouchableOpacity>
+                                )}
+                            </View>
                         </View>
                     </View>
                 }
@@ -127,7 +129,7 @@ const CommentScreen = ({ route, navigation }) => {
                 showsVerticalScrollIndicator={false}
             />
             {/* Separator Line */}
-            <View style={styles.separatorLine} />
+            <View style={[styles.separatorLine, { bottom: keyboardHeight + 90 }]} />
         </View>
 
     );
