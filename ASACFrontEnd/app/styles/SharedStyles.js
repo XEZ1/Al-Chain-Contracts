@@ -373,6 +373,13 @@ const getStyles = (theme = 'light', keyboardHeight = 0) => {
         },
         activityIndicator: {
             paddingTop: '10%',
+        },
+        generalText: {
+            color: theme === 'dark' ? 'white' : 'black', 
+        },
+        contractItemText: {
+            color: theme === 'dark' ? 'white' : 'black', 
+            marginLeft: 5,
         }
     });
 };
