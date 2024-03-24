@@ -3,15 +3,13 @@ import { LayoutAnimation, Modal, View, Text, TextInput, TouchableOpacity, findNo
 import getStyles from '../../../styles/SharedStyles';
 import { ThemeContext } from '../../../components/Theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useContractHandling } from './UseHomeScreen';
+import { useHomeScreen } from './UseHomeScreen';
 import { ContractItem } from './ContractItem';
 import { useFocusEffect } from '@react-navigation/native';
 
 
-
-
 const HomeScreen = ({ navigation }) => {
-    const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
+    const { theme } = useContext(ThemeContext);
     const styles = getStyles(theme);
 
     const contractNameRef = useRef(null);
@@ -37,14 +35,9 @@ const HomeScreen = ({ navigation }) => {
         savedContracts, handleFileSelectDropZone,
         uploadContractData, shareContract,
         openContract, fetchAndSyncContracts,
-        handleDeleteContract, getValidationErrorMessage,
+        handleDeleteContract, validateInput, 
         handleChecksumAddress, copyToClipboard,
-    } = useContractHandling(navigation);
-
-    const validateInput = (field, value) => {
-        const errorMessage = getValidationErrorMessage(field, value);
-        setErrors({ ...errors, [field]: errorMessage });
-    };
+    } = useHomeScreen(navigation);
 
     useEffect(() => {
         fetchAndSyncContracts();
@@ -85,12 +78,11 @@ const HomeScreen = ({ navigation }) => {
     );
 
     return (
-        <View style={{ flex: 1, backgroundColor: theme === 'dark' ? '#1A1A1A' : 'white', paddingBottom: keyboardHeight }}>
+        <View style={[styles.baseContainer, { paddingBottom: keyboardHeight }]}>
             <ScrollView ref={scrollViewRef} style={styles.scrollView} showsVerticalScrollIndicator={false}>
                 <View
                     style={styles.container}
                 >
-
                     <Text style={styles.header}>Smart Contract Toolkit</Text>
 
                     {/* Contract Creation Section */}
@@ -137,25 +129,48 @@ const HomeScreen = ({ navigation }) => {
                             )}
                         </TouchableOpacity>
 
-                        <TextInput ref={contractNameRef} style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Enter Contract Name" value={contractName} onChangeText={(value) => {
+                        <TextInput 
+                        ref={contractNameRef} 
+                        style={styles.input} 
+                        placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} 
+                        placeholder="Enter Contract Name" 
+                        value={contractName} 
+                        onChangeText={(value) => {
                             setContractName(value);
                             validateInput('contractName',
                                 value);
                         }}
                         />
-                        <TextInput ref={employerAddressRef} style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set Employer's USDC Address" value={employerAddress} onChangeText={(value) => {
+                        <TextInput 
+                        ref={employerAddressRef} 
+                        style={styles.input} 
+                        placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} 
+                        placeholder="Set Employer's USDC Address" 
+                        value={employerAddress} 
+                        onChangeText={(value) => {
                             setEmployerAddress(value);
                             validateInput('employerAddress',
                                 value);
                         }}
                         />
-                        <TextInput ref={authAppAddressRef} style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set AuthApp's Address" value={authAppAddress} onChangeText={(value) => {
+                        <TextInput 
+                        ref={authAppAddressRef} 
+                        style={styles.input} 
+                        placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} 
+                        placeholder="Set AuthApp's Address" value={authAppAddress} 
+                        onChangeText={(value) => {
                             setAuthAppAddress(value);
                             validateInput('authAppAddress',
                                 value);
                         }}
                         />
-                        <TextInput ref={tokenContractInterfaceRef} style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set USDC's Token Contract Interface" value={tokenContractInterface} onChangeText={(value) => {
+                        <TextInput 
+                        ref={tokenContractInterfaceRef} 
+                        style={styles.input} 
+                        placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
+                        placeholder="Set USDC's Token Contract Interface" 
+                        value={tokenContractInterface} 
+                        onChangeText={(value) => {
                             setTokenContractInterface(value);
                             validateInput('tokenContractInterface',
                                 value);
@@ -189,7 +204,13 @@ const HomeScreen = ({ navigation }) => {
                     {/* Address Conversion */}
                     <View style={styles.card}>
                         <Text style={styles.cardHeader}>Address Checksum Conversion</Text>
-                        <TextInput ref={addressConversionRef} style={styles.input} placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} placeholder="Set your token address" value={addressChecksum} onChangeText={setAddressChecksum}></TextInput>
+                        <TextInput 
+                        ref={addressConversionRef} 
+                        style={styles.input} 
+                        placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} 
+                        placeholder="Set your token address" value={addressChecksum} 
+                        onChangeText={setAddressChecksum}
+                        />
 
                         <TouchableOpacity
                             style={styles.button}
@@ -240,7 +261,7 @@ const HomeScreen = ({ navigation }) => {
             </ScrollView>
 
             {/* Separator Line */}
-            <View style={{position: 'absolute', height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: keyboardHeight + 90, left: 0, right: 0 }} />
+            <View style={[styles.separatorLine, {bottom: keyboardHeight + 90}]} />
 
         </View >
     );

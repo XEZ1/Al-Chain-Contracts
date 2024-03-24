@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const getStyles = (theme = 'light') => {
+const getStyles = (theme = 'light', keyboardHeight = 0) => {
     const themeStyles = {
         light: {
             backgroundColor: 'rgba(1, 193, 219, 1)', // Light blue for buttons
@@ -359,7 +359,21 @@ const getStyles = (theme = 'light') => {
             justifyContent: 'center',
             alignItems: 'center', 
         },
-        
+        baseContainer: {
+            flex: 1, 
+            backgroundColor: theme === 'dark' ? '#1A1A1A' : 'white', 
+        },
+        separatorLine: {
+            position: 'absolute',
+            height: 0.3, 
+            backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey',
+            bottom: 90,
+            left: 0,
+            right: 0,
+        },
+        activityIndicator: {
+            paddingTop: '10%',
+        }
     });
 };
 

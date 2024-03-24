@@ -7,10 +7,10 @@ import { BACKEND_URL } from '@env';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const SignUpScreen = ({ navigation }) => {
-    const { handleLogin } = useContext(AuthContext);
     const { theme } = useContext(ThemeContext);
     const styles = getStyles(theme);
 
+    const { handleLogin } = useContext(AuthContext);
     const [username, setUsername] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
