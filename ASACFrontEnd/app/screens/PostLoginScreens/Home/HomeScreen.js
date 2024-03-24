@@ -86,7 +86,7 @@ const HomeScreen = ({ navigation }) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: theme === 'dark' ? '#1A1A1A' : 'white', paddingBottom: keyboardHeight }}>
-            <ScrollView ref={scrollViewRef} style={styles.scrollView}>
+            <ScrollView ref={scrollViewRef} style={styles.scrollView} showsVerticalScrollIndicator={false}>
                 <View
                     style={styles.container}
                 >
@@ -240,7 +240,7 @@ const HomeScreen = ({ navigation }) => {
             </ScrollView>
 
             {/* Separator Line */}
-            <View style={{ height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: 90, left: 0, right: 0 }} />
+            <View style={{position: 'absolute', height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: keyboardHeight + 90, left: 0, right: 0 }} />
 
         </View >
     );
