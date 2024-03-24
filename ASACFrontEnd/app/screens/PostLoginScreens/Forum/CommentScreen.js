@@ -121,7 +121,7 @@ const CommentScreen = ({ route, navigation }) => {
                             placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                             style={[styles.input,]}
                         />
-                        <TouchableOpacity title="Post Comment" style={[styles.button]} onPress={() => handleAddComment(newComment)}>
+                        <TouchableOpacity title="Post Comment" style={[styles.button]} onPress={() => { handleAddComment(newComment); setNewComment(''); }}>
                             <Text style={styles.buttonText}>Post Comment</Text>
                         </TouchableOpacity>
 

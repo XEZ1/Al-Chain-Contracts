@@ -2,6 +2,7 @@ import { useState } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import { BACKEND_URL } from '@env';
 import { validateToken } from '../../../components/Authentication';
+import { LayoutAnimation } from 'react-native';
 
 
 export const useCommentScreen = (postId) => {
@@ -37,6 +38,7 @@ export const useCommentScreen = (postId) => {
 
             if (response.ok) {
                 console.log("Comment added successfully");
+                LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
                 await fetchComments();
             } else {
                 console.error('Failed to add comment');
