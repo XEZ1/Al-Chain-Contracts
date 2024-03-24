@@ -1,60 +1,100 @@
-import React, { useContext } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, TextInput, FlatList, KeyboardAvoidingView } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View, Text, TouchableOpacity, TextInput, FlatList, KeyboardAvoidingView } from 'react-native';
 import getStyles from '../../../styles/SharedStyles'; // Make sure the path to your styles is correct
 import { ThemeContext } from '../../../components/Theme';
+import { useForumScreen } from './UseForumScreen';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 const ForumScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
     const styles = getStyles(theme);
+    
+    const { posts, loading, createPost, handleLikePost, handleDeletePost, 
+        newPostTitle, setNewPostTitle, 
+        newPostDescription, setNewPostDescription 
+    } = useForumScreen();
 
-
-    // Dummy data for forum posts
-    const forumPosts = [
-        { id: '1', title: 'Welcome to the Forum!', description: 'Introduce yourself to the community here!' },
-        { id: '2', title: 'FAQs', description: 'Find answers to frequently asked questions.' },
-        // ... more posts
-    ];
+    if (loading) {
+        return (
+            <View style={styles.container}><Text>Loading...</Text></View>
+        );
+    }
 
     const renderPost = ({ item }) => (
         <View style={styles.card}>
             <Text style={styles.cardHeader}>{item.title}</Text>
             <Text style={styles.settingText}>{item.description}</Text>
-            <TouchableOpacity style={[styles.button, { marginTop: 10 }]}>
-                <Text style={styles.buttonText}>Join Discussion</Text>
-            </TouchableOpacity>
+            <View style={styles.postsContainer}>
+                <TouchableOpacity
+                    onPress={() => handleLikePost(item.id, item.user_has_liked)}
+                    style={styles.postsButtonText}>
+                    <MaterialCommunityIcons
+                        name={item.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
+                    <Text style={styles.buttonText}>Like({item.like_count})</Text>
+                </TouchableOpacity>
+                {item.is_user_author && (
+                    <TouchableOpacity
+                        onPress={() => handleDeletePost(item.id)}
+                        style={styles.postsButtonText}>
+                        <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
+                        <Text style={styles.buttonText}>Delete</Text>
+                    </TouchableOpacity>
+                )}
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('CommentScreen', { postId: item.id })}
+                    style={styles.postsButtonText}>
+                    <MaterialCommunityIcons name="comment-text-outline" size={24} color="grey" />
+                    <Text style={styles.buttonText}>Comment</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 
     return (
-        <KeyboardAvoidingView 
-            style={styles.container} 
+        <KeyboardAvoidingView
+            style={styles.container}
             behavior="padding"
         >
             <Text style={styles.header}>Community Forum</Text>
 
             {/* Search or Create Post Input */}
-            <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+            <View style={styles.postsViewContainer}>
                 <TextInput
-                    placeholder='Search the forum...'
+                    value={newPostTitle}
+                    onChangeText={setNewPostTitle}
+                    placeholder='Title...'
                     placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                    style={[styles.input, { flex: 1, marginRight: 10 }]}
+                    style={styles.inputForumScreen}
                 />
-                <TouchableOpacity style={[styles.button, { width: 'auto', paddingHorizontal: 20 }]}>
+                <TextInput
+                    value={newPostDescription}
+                    onChangeText={setNewPostDescription}
+                    placeholder='Description...'
+                    placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
+                    style={[styles.inputForumScreen, { flex: 2 }]}
+                />
+                <TouchableOpacity onPress={createPost} style={styles.buttonForumScreen}>
                     <Text style={styles.buttonText}>Post</Text>
                 </TouchableOpacity>
             </View>
 
+            <View style={[styles.separatorLine, { bottom: 635 }]} />
+
             {/* List of Posts */}
             <FlatList
-                data={forumPosts}
+                data={posts}
                 renderItem={renderPost}
-                keyExtractor={item => item.id}
-                style={{ flex: 1 }}
+                keyExtractor={item => item.id.toString()}
+                style={styles.flatListPostsContainer}
+                showsVerticalScrollIndicator={false}
+                ListFooterComponent={<View style={styles.listFooterContainer} />}
             />
 
             {/* Separator Line */}
-            <View style={{ position: 'absolute', height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: 90, left: 0, right: 0 }} />
+            <View style={styles.separatorLine} />
         </KeyboardAvoidingView>
+
     );
 };
 

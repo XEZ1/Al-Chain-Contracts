@@ -6,10 +6,10 @@ import { ThemeContext } from '../../components/Theme';
 
 
 const LoginScreen = ({ navigation }) => {
-    const { handleLogin } = useContext(AuthContext);
     const { theme } = useContext(ThemeContext);
     const styles = getStyles(theme);
 
+    const { handleLogin } = useContext(AuthContext);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
