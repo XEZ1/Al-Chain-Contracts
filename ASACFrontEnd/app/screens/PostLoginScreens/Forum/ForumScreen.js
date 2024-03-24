@@ -79,7 +79,7 @@ const ForumScreen = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
 
-            <View style={[styles.separatorLine, { bottom: 634 }]} />
+            <View style={[styles.separatorLine, { bottom: 635 }]} />
 
             {/* List of Posts */}
             <FlatList
@@ -88,6 +88,7 @@ const ForumScreen = ({ navigation }) => {
                 keyExtractor={item => item.id.toString()}
                 style={styles.flatListPostsContainer}
                 showsVerticalScrollIndicator={false}
+                ListFooterComponent={<View style={styles.listFooterContainer} />}
             />
 
             {/* Separator Line */}
