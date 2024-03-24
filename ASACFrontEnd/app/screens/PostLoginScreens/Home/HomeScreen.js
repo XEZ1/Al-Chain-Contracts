@@ -7,6 +7,8 @@ import { useHomeScreen } from './UseHomeScreen';
 import { ContractItem } from './ContractItem';
 import { useFocusEffect } from '@react-navigation/native';
 
+import * as SecureStore from 'expo-secure-store';
+
 
 const HomeScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
@@ -76,6 +78,10 @@ const HomeScreen = ({ navigation }) => {
             };
         }, [])
     );
+
+    const getNotificationToken = async () => {
+        console.log(await SecureStore.getItemAsync('notificationToken'));
+    };
 
     return (
         <View style={[styles.baseContainer, { paddingBottom: keyboardHeight }]}>

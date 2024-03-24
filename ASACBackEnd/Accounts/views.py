@@ -5,11 +5,11 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
-from .serializers import SignUpSerialiser, UserSerialiser, PushTokenSerialiser
-from Accounts.models import User, PushToken
+from .serializers import SignUpSerialiser, UserSerialiser, AuthenticationPushTokenSerialiser
+from Accounts.models import User, AuthenticationPushToken
 
 
-class ValidateTokenView(views.APIView):
+class ValidateAuthenticationTokenView(views.APIView):
     authentication_classes = [TokenAuthentication]
 
     def get(self, request):
@@ -46,12 +46,12 @@ class SignUpView(generics.CreateAPIView):
     queryset = User.objects.all()
 
 
-class PushTokenView(views.APIView):
+class AuthenticationPushTokenView(views.APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        serialiser = PushTokenSerialiser(data=request.data, context={'request': request})
+        serialiser = AuthenticationPushTokenSerialiser(data=request.data, context={'request': request})
         if serialiser.is_valid():
             serialiser.save()
             return Response(serialiser.data, status=status.HTTP_201_CREATED)
@@ -59,15 +59,15 @@ class PushTokenView(views.APIView):
 
     def delete(self, request):
         try:
-            push_token = PushToken.objects.get(user=request.user)
+            push_token = AuthenticationPushToken.objects.get(user=request.user)
             push_token.delete()
             return Response({"message": "Push token deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
-        except PushToken.DoesNotExist:
+        except AuthenticationPushToken.DoesNotExist:
             return Response({"error": "Push token not found"}, status=status.HTTP_404_NOT_FOUND)
 
     def get(self, request):
-        push_token = PushToken.objects.filter(user=request.user).first()
+        push_token = AuthenticationPushToken.objects.filter(user=request.user).first()
         if push_token:
-            serialiser = PushTokenSerialiser(push_token)
+            serialiser = AuthenticationPushTokenSerialiser(push_token)
             return Response(serialiser.data)
         return Response(status=status.HTTP_404_NOT_FOUND)
