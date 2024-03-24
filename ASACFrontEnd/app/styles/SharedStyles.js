@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const getStyles = (theme = 'light', keyboardHeight = 0) => {
+const getStyles = (theme = 'light') => {
     const themeStyles = {
         light: {
             backgroundColor: 'rgba(1, 193, 219, 1)',
@@ -49,21 +49,21 @@ const getStyles = (theme = 'light', keyboardHeight = 0) => {
             alignItems: 'center',
         },
         tabBar: {
-            activeTintColor: theme === 'dark' ? 'white' : 'black', // Icons and labels in the active tab
-            inactiveTintColor: theme === 'dark' ? 'grey' : 'darkgrey', // Icons and labels in the inactive tabs
-            backgroundColor: 'rgba(1, 193, 219, 1)', // Light 
-            //backgroundColor: theme === 'dark' ? 'black' : 'white', // Tab bar background
-            borderColor: theme === 'dark' ? 'black' : 'white', // Border color or set to 'transparent' to hide
-            position: 'absolute', // Position it absolutely
-            bottom: '2.5%', // Align to the bottom of the screen
-            left: '5%', // Spacing from the left
-            right: '5%', // Spacing from the right
-            borderRadius: '30%', // Rounded corners
-            height: '7%', // Set a fixed height
-            paddingVertical: '2%', //for the space between the icons and the labels
-            paddingBottom: '2.5%', // for the padding of the labels
-            borderTopWidth: '0%', // Remove the top border
-            shadowColor: theme === 'dark' ? '#3A3A3A' : '#000', // Shadow for iOS
+            activeTintColor: theme === 'dark' ? 'white' : 'black', 
+            inactiveTintColor: theme === 'dark' ? 'grey' : 'darkgrey', 
+            backgroundColor: 'rgba(1, 193, 219, 1)', 
+            //backgroundColor: theme === 'dark' ? 'black' : 'white', 
+            borderColor: theme === 'dark' ? 'black' : 'white', 
+            position: 'absolute', 
+            bottom: '2.5%', 
+            left: '5%', 
+            right: '5%',
+            borderRadius: '30%', 
+            height: '7%', 
+            paddingVertical: '2%', 
+            paddingBottom: '2.5%',
+            borderTopWidth: '0%', 
+            shadowColor: theme === 'dark' ? '#3A3A3A' : '#000',
             shadowOffset: { width: '0%', height: '1%' },
             shadowOpacity: theme === 'dark' ? '0.8%' : '0.4%',
             shadowRadius: '20%',
@@ -285,8 +285,6 @@ const getStyles = (theme = 'light', keyboardHeight = 0) => {
             textAlignVertical: 'top',
             marginBottom: 90,
         },
-
-
         errorIcon: {
             color: 'red', 
         },
@@ -425,7 +423,6 @@ const getStyles = (theme = 'light', keyboardHeight = 0) => {
         },
         flatListPostsContainer: {
             flex: 1,
-          
             marginBottom: 90, 
             paddingTop: 25,
         },
