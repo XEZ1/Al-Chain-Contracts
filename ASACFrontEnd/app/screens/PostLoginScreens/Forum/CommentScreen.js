@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
-import { ScrollView, View, Text, TextInput, TouchableOpacity, FlatList, findNodeHandle, Keyboard, Dimensions } from 'react-native';
+import { LayoutAnimation, View, Text, TextInput, TouchableOpacity, FlatList, findNodeHandle, Keyboard, Dimensions } from 'react-native';
 import { useCommentScreen } from './UseCommentScreen';
 import { useForumScreen } from './UseForumScreen';
 import { ThemeContext } from '../../../components/Theme';
@@ -43,6 +43,7 @@ const CommentScreen = ({ route, navigation }) => {
             const handleKeyboardDidShow = (e) => {
                 const screenHeight = Dimensions.get('window').height;
                 const endY = e.endCoordinates.screenY;
+                LayoutAnimation.easeInEaseOut(); 
                 setKeyboardHeight(screenHeight - endY - 90);
                 const currentlyFocusedField = TextInput.State.currentlyFocusedInput();
 
@@ -57,6 +58,7 @@ const CommentScreen = ({ route, navigation }) => {
             };
 
             const handleKeyboardDidHide = () => {
+                LayoutAnimation.easeInEaseOut(); 
                 setKeyboardHeight(0);
             };
 
