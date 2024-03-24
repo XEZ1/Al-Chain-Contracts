@@ -1,6 +1,8 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import { BACKEND_URL } from '@env';
+import { LayoutAnimation } from 'react-native';
+
 
 const PostContext = createContext();
 export const useForumScreen = () => useContext(PostContext);
@@ -47,6 +49,7 @@ export const PostProvider = ({ children }) => {
             });
             if (response.ok) {
                 const newPost = await response.json();
+                LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
                 setPosts(currentPosts => [newPost, ...currentPosts]);
             } else {
                 console.error('Failed to create post');
@@ -99,7 +102,8 @@ export const PostProvider = ({ children }) => {
 
             if (response.ok) {
                 console.log("Post deleted successfully");
-                await fetchPosts(); // Refresh the posts to reflect the deletion
+                LayoutAnimation.configureNext(LayoutAnimation.Presets.spring); 
+                setPosts(currentPosts => currentPosts.filter(post => post.id !== postId));
             } else {
                 console.error('Failed to delete post');
             }
