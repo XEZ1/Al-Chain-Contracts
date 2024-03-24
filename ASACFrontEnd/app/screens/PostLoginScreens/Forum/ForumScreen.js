@@ -42,7 +42,7 @@ const ForumScreen = ({ navigation }) => {
                     </TouchableOpacity>
                 )}
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('CommentScreen', { postId: item.id, post: item })}
+                    onPress={() => navigation.navigate('CommentScreen', { postId: item.id })}
                     style={styles.postsButtonText}>
                     <MaterialCommunityIcons name="comment-text-outline" size={24} color="grey" />
                     <Text style={styles.buttonText}>Comment</Text>

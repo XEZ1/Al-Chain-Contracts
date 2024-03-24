@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import { BACKEND_URL } from '@env';
 import { validateToken } from '../../../components/Authentication';

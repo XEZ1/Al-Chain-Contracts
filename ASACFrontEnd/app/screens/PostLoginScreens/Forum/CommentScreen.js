@@ -6,33 +6,24 @@ import { ThemeContext } from '../../../components/Theme';
 import getStyles from '../../../styles/SharedStyles';
 import { useFocusEffect } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { BACKEND_URL } from '@env';
+
 
 const CommentScreen = ({ route, navigation }) => {
     const { theme } = useContext(ThemeContext);
     const styles = getStyles(theme);
 
-    const { postId, post } = route.params;
-
     const postCommentRef = useRef(null);
     const viewRef = useRef(null);
     const [keyboardHeight, setKeyboardHeight] = useState(0);
 
+    const { postId } = route.params;
     const { posts, handleLikePost, handleDeletePost } = useForumScreen(); 
     const postDetails = posts.find(p => p.id === postId);
 
     const {
-        comments,
-        newComment, setNewComment,
-        fetchComments, handleAddComment,
+        comments, newComment, setNewComment,
+        fetchComments, handleAddComment
     } = useCommentScreen(postId);
-
-    useEffect(() => {
-        const postExists = posts.find(p => p.id === postId);
-        if (!postExists) {
-            navigation.navigate('ForumScreen')
-        }
-    }, [posts, postId, navigation]);
 
     useEffect(() => {
         fetchComments();
@@ -72,6 +63,13 @@ const CommentScreen = ({ route, navigation }) => {
         }, [])
     );
 
+    useEffect(() => {
+        const postExists = posts.find(p => p.id === postId);
+        if (!postExists) {
+            navigation.navigate('ForumScreen')
+        }
+    }, [posts, postId, navigation]);
+
     if (!postDetails) {
         return null;
     }
@@ -87,15 +85,15 @@ const CommentScreen = ({ route, navigation }) => {
                         <Text style={styles.comment}>{`${item.author_username}: ${item.content}`}</Text>
                     </View>
                 )}
-                style={{ width: '100%', marginBottom: 90 }}
+                style={styles.flatListCommentsContainer}
                 ListHeaderComponent={
-                    <View style={[styles.card]}>
+                    <View style={styles.card}>
                         <Text style={styles.cardHeader}>{postDetails.title}</Text>
                         <Text style={styles.settingText}>{postDetails.description}</Text>
-                        <View style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center', justifyContent: 'space-between' }}>
+                        <View style={styles.postsContainer}>
                             <TouchableOpacity
                                 onPress={() => handleLikePost(postDetails.id, postDetails.user_has_liked)}
-                                style={{ flexDirection: 'row', alignItems: 'center', marginRight: 0 }}>
+                                style={styles.postsButtonText}>
                                 <MaterialCommunityIcons
                                     name={postDetails.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
                                 <Text style={styles.buttonText}>Like ({postDetails.like_count})</Text>
@@ -119,9 +117,9 @@ const CommentScreen = ({ route, navigation }) => {
                             onChangeText={setNewComment}
                             placeholder="Write a comment..."
                             placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                            style={[styles.input, { width: '96%'} ]}
+                            style={styles.inputCommentsScreen}
                         />
-                        <TouchableOpacity title="Post Comment" style={[styles.button, { width: '96%'}]} onPress={() => { handleAddComment(newComment); setNewComment(''); }}>
+                        <TouchableOpacity title="Post Comment" style={styles.buttonCommentsScreen} onPress={() => { handleAddComment(newComment); setNewComment(''); }}>
                             <Text style={styles.buttonText}>Post Comment</Text>
                         </TouchableOpacity>
                     </View>
@@ -129,7 +127,7 @@ const CommentScreen = ({ route, navigation }) => {
                 showsVerticalScrollIndicator={false}
             />
             {/* Separator Line */}
-            <View style={{ position: 'absolute', height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: keyboardHeight + 90, left: 0, right: 0 }} />
+            <View style={styles.separatorLine} />
         </View>
 
     );

@@ -3,21 +3,21 @@ import { StyleSheet } from 'react-native';
 const getStyles = (theme = 'light', keyboardHeight = 0) => {
     const themeStyles = {
         light: {
-            backgroundColor: 'rgba(1, 193, 219, 1)', // Light blue for buttons
-            textColor: 'rgb(57, 63, 67)', // Dark text color
-            inputBackground: 'white', // White input background
-            borderColor: 'rgba(0, 0, 0, 0.5)', // Border color
-            containerBackground: 'white', // White background for containers
-            cardBackground: 'white', // White background for cards
+            backgroundColor: 'rgba(1, 193, 219, 1)',
+            textColor: 'rgb(57, 63, 67)', 
+            inputBackground: 'white',
+            borderColor: 'rgba(0, 0, 0, 0.5)',
+            containerBackground: 'white', 
+            cardBackground: 'white', 
         },
         dark: {
-            backgroundColor: 'rgba(1, 193, 219, 1)', // Maintain light blue for buttons
-            textColor: 'rgb(255, 255, 255)', // White text
-            inputBackground: 'rgb(28, 28, 30)', // Dark grey (almost black) for inputs
-            borderColor: 'rgba(255, 255, 255, 0.5)', // White borders
-            containerBackground: 'rgb(0, 0, 0)', // Black background for containers
+            backgroundColor: 'rgba(1, 193, 219, 1)', 
+            textColor: 'rgb(255, 255, 255)', 
+            inputBackground: 'rgb(28, 28, 30)', 
+            borderColor: 'rgba(255, 255, 255, 0.5)', 
+            containerBackground: 'rgb(0, 0, 0)', 
             containerBackground: '#1A1A1A',
-            cardBackground: 'rgb(50, 50, 52)', // Slightly lighter black for cards
+            cardBackground: 'rgb(50, 50, 52)',  
         },
     };
 
@@ -65,25 +65,25 @@ const getStyles = (theme = 'light', keyboardHeight = 0) => {
         },
         input: {
             height: 44,
-            width: '100%', // Make input stretch to full container width
+            width: '100%', 
             backgroundColor: themeStyles[theme].inputBackground,
             borderColor: themeStyles[theme].borderColor,
             borderWidth: 1,
             borderRadius: 10,
             marginBottom: '5.5%',
             paddingLeft: '4%',
-            color: themeStyles[theme].textColor, // Set text color based on theme for input text
+            color: themeStyles[theme].textColor, 
         },
         inputPreLogin: {
             height: 50,
-            width: '71%', // Make input stretch to full container width
+            width: '71%', 
             backgroundColor: themeStyles[theme].inputBackground,
             borderColor: themeStyles[theme].borderColor,
             borderWidth: 1,
             borderRadius: 10,
             marginBottom: '4.5%',
             paddingLeft: '4%',
-            color: themeStyles[theme].textColor, // Set text color based on theme for input text
+            color: themeStyles[theme].textColor, 
         },
         button: {
             height: 44,
@@ -118,8 +118,8 @@ const getStyles = (theme = 'light', keyboardHeight = 0) => {
             fontSize: 22,
             fontWeight: 'bold',
             marginBottom: '6%',
-            color: themeStyles[theme].textColor, // Use theme color for text
-            textAlign: 'center', // Center the title text
+            color: themeStyles[theme].textColor, 
+            textAlign: 'center', 
         },
         settingItem: {
             flexDirection: 'row',
@@ -130,11 +130,11 @@ const getStyles = (theme = 'light', keyboardHeight = 0) => {
         },
         settingText: {
             fontSize: 18,
-            color: themeStyles[theme].textColor, // Set text color based on theme
+            color: themeStyles[theme].textColor, 
         },
         fileInput: {
             height: 44,
-            width: '100%', // Changed to fill the container width
+            width: '100%', 
             backgroundColor: themeStyles[theme].inputBackground,
             marginBottom: 16,
             borderRadius: 10,
@@ -148,12 +148,12 @@ const getStyles = (theme = 'light', keyboardHeight = 0) => {
             fontSize: 16,
         },
         card: {
-            width: '96%', // Cards should fill the width
-            backgroundColor: themeStyles[theme].cardBackground, // Use theme background for card
+            width: '96%', 
+            backgroundColor: themeStyles[theme].cardBackground,
             borderRadius: '10%',
             padding: '6%',
             marginBottom: '6%',
-            shadowColor: theme === 'dark' ? '#3A3A3A' : '#000', // Adjust shadow color based on theme
+            shadowColor: theme === 'dark' ? '#3A3A3A' : '#000',
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: theme === 'dark' ? '0.8%' : '0.4%',
             shadowRadius: '4%',
@@ -170,13 +170,13 @@ const getStyles = (theme = 'light', keyboardHeight = 0) => {
             marginBottom: 10,
         },
         scrollView: {
-            backgroundColor: themeStyles[theme].containerBackground, // Use theme background for scroll view
+            backgroundColor: themeStyles[theme].containerBackground, 
             marginBottom: 90,
         },
         header: {
             fontSize: 28,
             fontWeight: 'bold',
-            color: themeStyles[theme].textColor, // Use theme color for header text
+            color: themeStyles[theme].textColor, 
             marginBottom: 30,
         },
         footer: {
@@ -185,7 +185,7 @@ const getStyles = (theme = 'light', keyboardHeight = 0) => {
         },
         footerText: {
             fontSize: 14,
-            color: themeStyles[theme].textColor, // Use theme color for footer text
+            color: themeStyles[theme].textColor,
         },
         dropZone: {
             width: '100%',
@@ -209,8 +209,7 @@ const getStyles = (theme = 'light', keyboardHeight = 0) => {
             justifyContent: 'center',
             alignItems: 'center',
             paddingHorizontal: '5%',
-            // Define a fixed width or use padding to determine the size of the button
-            paddingVertical: 10, // Optional, adjust the vertical padding if needed
+            paddingVertical: 10, 
             height: 50,
         },
         fileInfo: {
@@ -258,13 +257,13 @@ const getStyles = (theme = 'light', keyboardHeight = 0) => {
             padding: 10,
             marginTop: 10,
             borderRadius: 10,
-            backgroundColor: theme === 'dark' ? '#2D2D2D' : '#EFEFEF', // Example background colors, adjust as needed
+            backgroundColor: theme === 'dark' ? '#2D2D2D' : '#EFEFEF',
         },
         noContractsText: {
             textAlign: 'center',
             color: themeStyles[theme].textColor,
-            marginTop: 20, // Add some margin to position it nicely in the card
-            fontSize: 16, // Set the font size
+            marginTop: 20, 
+            fontSize: 16,
         },
         EditorContainer: {
             flex: 1,
@@ -275,18 +274,18 @@ const getStyles = (theme = 'light', keyboardHeight = 0) => {
             backgroundColor: themeStyles[theme].inputBackground,
             color: themeStyles[theme].textColor,
             padding: 10,
-            textAlignVertical: 'top', // Align text to the top on Android
+            textAlignVertical: 'top',
             marginBottom: 90,
         },
 
 
         errorIcon: {
-            color: 'red', // Set the icon color to red
+            color: 'red', 
         },
         errorText: {
-            marginLeft: 5, // Space between the icon and the text
-            color: 'red', // Set the text color to red
-            fontSize: 14, // Smaller font size for the error message
+            marginLeft: 5, 
+            color: 'red', 
+            fontSize: 14, 
         },
         errorIconContainerSignUp: {
             position: 'absolute',
@@ -304,12 +303,12 @@ const getStyles = (theme = 'light', keyboardHeight = 0) => {
             alignItems: "center",
         },
         modalView: {
-            width: '80%', // Ensure modal is wide enough
+            width: '80%', 
             margin: 20,
             backgroundColor: themeStyles[theme].inputBackground,
             borderRadius: 20,
             padding: 25,
-            alignItems: "flex-start", // Align items to the start
+            alignItems: "flex-start", 
             shadowColor: "#000",
             shadowOffset: {
                 width: 0,
@@ -347,12 +346,12 @@ const getStyles = (theme = 'light', keyboardHeight = 0) => {
                 height: 2
             },
             shadowOpacity: 0.15,
-            shadowRadius: 3.84, // Adjust the shadow radius to smooth out the shadow
+            shadowRadius: 3.84, 
             elevation: 5,
         },
         exitButtonText: {
             color: 'white',
-            fontWeight: 'bold', // Bold text
+            fontWeight: 'bold',
         },
         centeredContainer: {
             flex: 1, 
@@ -419,6 +418,30 @@ const getStyles = (theme = 'light', keyboardHeight = 0) => {
             flex: 1,
             marginBottom: 90, 
             paddingTop: 25,
+        },
+        flatListCommentsContainer: {
+            width: '100%',
+            marginBottom: 90,
+        },
+        inputCommentsScreen: {
+            height: 44,
+            width: '96%', 
+            backgroundColor: themeStyles[theme].inputBackground,
+            borderColor: themeStyles[theme].borderColor,
+            borderWidth: 1,
+            borderRadius: 10,
+            marginBottom: '5.5%',
+            paddingLeft: '4%',
+            color: themeStyles[theme].textColor, 
+        },
+        buttonCommentsScreen: {
+            height: 44,
+            width: '96%',
+            backgroundColor: themeStyles[theme].backgroundColor,
+            marginBottom: '5.7%',
+            borderRadius: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
         },
     });
 };
