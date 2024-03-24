@@ -37,7 +37,7 @@ const App = () => {
     }, []);
 
     return (
-        <ErrorBoundary>
+        
         <AuthProvider>
             <ThemeProvider>
                 <NavigationContainer>
@@ -45,7 +45,7 @@ const App = () => {
                 </NavigationContainer>
             </ThemeProvider>
         </AuthProvider>
-        </ErrorBoundary>
+    
     );
 };
 

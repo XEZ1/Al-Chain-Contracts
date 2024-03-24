@@ -354,6 +354,11 @@ const getStyles = (theme = 'light') => {
             color: 'white',
             fontWeight: 'bold', // Bold text
         },
+        centeredContainer: {
+            flex: 1, 
+            justifyContent: 'center',
+            alignItems: 'center', 
+          },
     });
 };
 
