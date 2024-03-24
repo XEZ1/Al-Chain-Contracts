@@ -5,6 +5,9 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
+
+from Notifications.models import NotificationPushToken
+from Notifications.utils import send_push_notification
 from .serializers import SignUpSerialiser, UserSerialiser, AuthenticationPushTokenSerialiser
 from Accounts.models import User, AuthenticationPushToken
 
@@ -35,6 +38,9 @@ class LoginView(views.APIView):
 
         if user:
             token, _ = Token.objects.get_or_create(user=user)
+            notification_push_token = NotificationPushToken.objects.filter(user=user).first()
+            if notification_push_token:
+                send_push_notification(notification_push_token.token, "Welcome Back!", "You've successfully logged in.")
             return Response({"token": token.key}, status=status.HTTP_200_OK)
         else:
             return Response({"error": "Wrong Credentials"}, status=status.HTTP_400_BAD_REQUEST)
