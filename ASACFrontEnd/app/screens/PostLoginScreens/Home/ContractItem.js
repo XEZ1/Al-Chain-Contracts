@@ -5,8 +5,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 export const ContractItem = ({ contract, openContract, openShareContract, deleteContract, theme }) => {
-    const [expanded, setExpanded] = useState(false);
     const styles = getStyles(theme);
+
+    const [expanded, setExpanded] = useState(false);
     const animationController = useRef(new Animated.Value(0)).current;
     const opacityAnimation = useRef(new Animated.Value(1)).current; 
     const heightAnimation = useRef(new Animated.Value(1)).current;
@@ -76,21 +77,21 @@ export const ContractItem = ({ contract, openContract, openShareContract, delete
     return (
         <TouchableOpacity onPress={toggleExpand} style={styles.contractItemAnimation}>
             <View style={styles.contractHeader}>
-                <Text style={{ color: theme === 'dark' ? 'white' : 'black' }}>{contract.contract_name}.sol</Text>
+                <Text style={styles.generalText}>{contract.contract_name}.sol</Text>
                 <MaterialCommunityIcons name={expanded ? "chevron-up" : "chevron-down"} size={24} color={theme === 'dark' ? 'white' : 'black'} />
             </View>
             <Animated.View style={[styles.expandedSection, { height: animatedHeight, overflow: 'hidden' }]}>
                 <TouchableOpacity onPress={() => openContract(contract.contract_name)} style={styles.smartContractButton}>
                     <MaterialCommunityIcons name="file-document-outline" size={24} color={theme === 'dark' ? 'white' : 'black'} />
-                    <Text style={{ color: theme === 'dark' ? 'white' : 'black', marginLeft: 5 }}>Access Contract</Text>
+                    <Text style={styles.contractItemText}>Access Contract</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => openShareContract(contract.contract_name)} style={styles.smartContractButton}>
                     <MaterialCommunityIcons name="share-outline" size={24} color="green" />
-                    <Text style={{ color: 'green', marginLeft: 5 }}>Share Contract</Text>
+                    <Text style={[styles.contractItemText, {color: 'green' }]}>Share Contract</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={initiateDeletion} style={styles.smartContractButton}>
                     <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
-                    <Text style={{ color: 'red', marginLeft: 5 }}>Delete Contract</Text>
+                    <Text style={[styles.contractItemText, {color: 'red' }]}>Delete Contract</Text>
                 </TouchableOpacity>
             </Animated.View>
         </TouchableOpacity>

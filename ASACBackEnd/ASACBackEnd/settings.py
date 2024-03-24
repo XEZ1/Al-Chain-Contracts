@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'Accounts',
     'Notifications',
     'Contracts',
+    'Forums'
 ]
 
 MIDDLEWARE = [

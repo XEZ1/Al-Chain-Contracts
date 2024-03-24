@@ -3,9 +3,21 @@ import { NavigationContainer } from '@react-navigation/native';
 import { AuthProvider } from './app/components/Authentication';
 import AppNavigator from './app/navigation/AppNavigator';
 import { ThemeProvider } from './app/components/Theme';
-import { connectToNotifications } from './app/components/Notifications';
-import { BACKEND_URL } from '@env';
+import { UIManager, Platform } from 'react-native';
 import * as Notifications from 'expo-notifications';
+import ErrorBoundary from './ErrorBoundary'
+
+if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
+if (__DEV__) {
+    ErrorUtils.setGlobalHandler((error, isFatal) => {
+      console.log(error, isFatal);
+      console.log(error.stack);
+    });
+  }
+  
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -25,6 +37,7 @@ const App = () => {
     }, []);
 
     return (
+        
         <AuthProvider>
             <ThemeProvider>
                 <NavigationContainer>
@@ -32,6 +45,7 @@ const App = () => {
                 </NavigationContainer>
             </ThemeProvider>
         </AuthProvider>
+    
     );
 };
 

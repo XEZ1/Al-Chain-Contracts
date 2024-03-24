@@ -8,7 +8,7 @@ import { BACKEND_URL } from '@env';
 import * as Clipboard from 'expo-clipboard';
 
 
-export const useContractHandling = (navigation) => {
+export const useHomeScreen = (navigation) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [contractName, setContractName] = useState('');
     const [employerAddress, setEmployerAddress] = useState('');
@@ -263,6 +263,11 @@ export const useContractHandling = (navigation) => {
         }
     };
 
+    const validateInput = (field, value) => {
+        const errorMessage = getValidationErrorMessage(field, value);
+        setErrors({ ...errors, [field]: errorMessage });
+    };
+
     const handleChecksumAddress = async () => {
         try {
             if (!addressChecksum) {
@@ -325,7 +330,7 @@ export const useContractHandling = (navigation) => {
         openContract,
         fetchAndSyncContracts,
         handleDeleteContract,
-        getValidationErrorMessage,
+        validateInput,
         handleChecksumAddress,
         copyToClipboard,
     };

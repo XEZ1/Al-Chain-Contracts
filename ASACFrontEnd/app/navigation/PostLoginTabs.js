@@ -6,19 +6,23 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/PostLoginScreens/Home/HomeScreen';
 import SettingsScreen from '../screens/PostLoginScreens/Settings/SettingsScreen';
 import ForumScreen from '../screens/PostLoginScreens/Forum/ForumScreen';
+import CommentScreen from '../screens/PostLoginScreens/Forum/CommentScreen';
 import SupportScreen from '../screens/PostLoginScreens/Support/SupportScreen';
 import EditorScreen from '../screens/PostLoginScreens/Home/EditorScreen';
 import { ThemeContext } from '../components/Theme';
 import getStyles from '../styles/SharedStyles';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'react-native';
+import { PostProvider } from '../screens/PostLoginScreens/Forum/UseForumScreen';
 
 const Tab = createBottomTabNavigator();
 
 const PostLoginTabs = () => {
     const { theme } = useContext(ThemeContext);
     const styles = getStyles(theme);
+
     const HomeStack = createStackNavigator();
+    const ForumStack = createStackNavigator();
 
     function HomeStackScreen() {
         return (
@@ -26,6 +30,17 @@ const PostLoginTabs = () => {
                 <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
                 <HomeStack.Screen name="EditorScreen" component={EditorScreen} />
             </HomeStack.Navigator>
+        );
+    }
+
+    function ForumStackScreen() {
+        return (
+            <PostProvider>
+                <ForumStack.Navigator screenOptions={{ headerShown: false }}>
+                    <HomeStack.Screen name="ForumScreen" component={ForumScreen} />
+                    <HomeStack.Screen name="CommentScreen" component={CommentScreen} />
+                </ForumStack.Navigator>
+            </PostProvider>
         );
     }
 
@@ -62,7 +77,7 @@ const PostLoginTabs = () => {
                 <View style={{ flex: 1, Bottom: 80 }}>
                     <Tab.Navigator screenOptions={screenOptions}>
                         <Tab.Screen name="Home" component={HomeStackScreen} />
-                        <Tab.Screen name="Forum" component={ForumScreen} />
+                        <Tab.Screen name="Forum" component={ForumStackScreen} />
                         <Tab.Screen name="Support" component={SupportScreen} />
                         <Tab.Screen name="Settings" component={SettingsScreen} />
                     </Tab.Navigator>

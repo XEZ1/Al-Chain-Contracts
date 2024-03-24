@@ -5,6 +5,7 @@ import { useConnectToNotifications } from './Notifications';
 import { WebSocketProvider } from './Notifications';
 import { Alert } from 'react-native';
 
+
 export const AuthContext = createContext();
 
 export const validateToken = async () => {
@@ -23,6 +24,48 @@ export const validateToken = async () => {
     } catch (error) {
         console.error('Error:', error);
         return false;
+    }
+};
+
+export const signUp = async (username, firstName, lastName, email, password, passwordConfirmation, errors, setErrors) => {
+    try {
+        if (!username || !firstName || !lastName || !email || !password || !passwordConfirmation) {
+            Alert.alert('Error', 'Please fill in all the fields below');
+            return;
+        }
+        if (password !== passwordConfirmation) {
+            Alert.alert('Error', 'Passwords do not match');
+            return;
+        }
+
+        const response = await fetch(`${BACKEND_URL}/sign_up/`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                first_name: firstName,
+                last_name: lastName,
+                username: username,
+                email: email,
+                password: password,
+                password_confirmation: passwordConfirmation,
+            }),
+        });
+
+        const data = await response.json();
+
+        if (response.status === 400) {
+            setErrors(data);
+            Alert.alert('Error', 'Please fix the errors');
+            return { success: false, error: data };
+        } else if (response.status === 201) {
+            Alert.alert('Success', 'Account created successfully');
+            return { success: true };
+        }
+    } catch (error) {
+        console.error('Error:', error);
     }
 };
 
@@ -86,8 +129,18 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const handleSignUp =  async (username, firstName, lastName, email, password, passwordConfirmation, errors, setErrors) => {
+        const result = await signUp(username, firstName, lastName, email, password, passwordConfirmation, errors, setErrors);
+        if (result.success) {
+            handleLogin(username, password);
+        } else {
+            Alert.alert('Login Failed', result.error);
+            console.log(result.error);
+        }
+    };
+
     return (
-        <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, handleLogin }}>
+        <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, handleLogin, handleSignUp }}>
             {isLoggedIn ? <WebSocketProvider>{children}</WebSocketProvider> : children}
         </AuthContext.Provider>
     );
