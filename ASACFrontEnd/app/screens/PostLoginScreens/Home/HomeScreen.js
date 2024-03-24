@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { Animated, Modal, View, Text, TextInput, TouchableOpacity, findNodeHandle, ScrollView, KeyboardAvoidingView, Platform, UIManager, Keyboard, Dimensions } from 'react-native';
+import { LayoutAnimation, Modal, View, Text, TextInput, TouchableOpacity, findNodeHandle, ScrollView, KeyboardAvoidingView, Platform, UIManager, Keyboard, Dimensions } from 'react-native';
 import getStyles from '../../../styles/SharedStyles';
 import { ThemeContext } from '../../../components/Theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -23,8 +23,7 @@ const HomeScreen = ({ navigation }) => {
     const addressConversionRef = useRef(null);
     const scrollViewRef = useRef(null);
 
-    //const [keyboardHeight, setKeyboardHeight] = useState(0);
-    const keyboardHeight = useRef(new Animated.Value(0)).current; 
+    const [keyboardHeight, setKeyboardHeight] = useState(0);
 
     const {
         selectedFile, setSelectedFile,
@@ -58,12 +57,8 @@ const HomeScreen = ({ navigation }) => {
             const handleKeyboardDidShow = (e) => {
                 const screenHeight = Dimensions.get('window').height;
                 const endY = e.endCoordinates.screenY;
-                //setKeyboardHeight(screenHeight - endY - 90);
-                Animated.timing(keyboardHeight, {
-                    toValue: screenHeight - endY,
-                    duration: 300, 
-                    useNativeDriver: false, 
-                }).start();
+                LayoutAnimation.easeInEaseOut(); 
+                setKeyboardHeight(screenHeight - endY - 90);
 
                 const currentlyFocusedField = TextInput.State.currentlyFocusedInput();
                 if (currentlyFocusedField) {
@@ -77,12 +72,8 @@ const HomeScreen = ({ navigation }) => {
             };
 
             const handleKeyboardDidHide = () => {
-                Animated.timing(keyboardHeight, {
-                    toValue: 0,
-                    duration: 300, 
-                    useNativeDriver: false,
-                }).start();
-                //setKeyboardHeight(0);
+                LayoutAnimation.easeInEaseOut(); 
+                setKeyboardHeight(0);
             };
 
             const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow);
@@ -98,7 +89,7 @@ const HomeScreen = ({ navigation }) => {
     return (
         <View style={{ flex: 1, backgroundColor: theme === 'dark' ? '#1A1A1A' : 'white', paddingBottom: keyboardHeight }}>
             <ScrollView ref={scrollViewRef} style={styles.scrollView}>
-                <KeyboardAvoidingView
+                <View
                     style={styles.container}
                 >
 
@@ -247,7 +238,7 @@ const HomeScreen = ({ navigation }) => {
                         <Text style={styles.footerText}>All rights reserved © Smart Contract Toolkit</Text>
                     </View>
 
-                </KeyboardAvoidingView>
+                </View>
             </ScrollView>
 
             {/* Separator Line */}
