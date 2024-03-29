@@ -5,29 +5,31 @@ import getStyles from '../../../styles/SharedStyles';
 import { ThemeContext } from '../../../components/Theme';
 import { WebView } from 'react-native-webview';
 import { useEditorScreen } from './UseEditorScreen';
+import getLocalStyles from './LocalSharedStyles';
 
 function EditorScreen({ route, navigation }) {  
     const { theme } = useContext(ThemeContext);
-    const styles = getStyles(theme);
+    const sharedStyles = getStyles(theme);
+    const localStyles = getLocalStyles(theme); 
 
     const { filePath } = route.params;
     const { codeHtml, isLoading } = useEditorScreen(filePath, theme);
 
     return (
-        <View style={styles.baseContainer}>
+        <View style={sharedStyles.baseContainer}>
             {isLoading ? (
-                <ActivityIndicator size="large" color='rgba(1, 193, 219, 1)' style={styles.activityIndicator} /> 
+                <ActivityIndicator size="large" color='rgba(1, 193, 219, 1)' style={sharedStyles.activityIndicator} /> 
             ) : (
-                <View style={styles.EditorContainer}>
+                <View style={sharedStyles.EditorContainer}>
                     <WebView
                         originWhitelist={['*']}
                         source={{ html: codeHtml }}
-                        style={styles.editor}
+                        style={sharedStyles.editor}
                     />
                 </View>
             )}
             {/* Separator Line */}
-            <View style={styles.separatorLine} />
+            <View style={sharedStyles.separatorLine} />
         </View>
     );
 }

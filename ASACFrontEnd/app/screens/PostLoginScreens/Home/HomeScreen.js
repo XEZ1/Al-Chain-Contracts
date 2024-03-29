@@ -6,13 +6,15 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useHomeScreen } from './UseHomeScreen';
 import { ContractItem } from './ContractItem';
 import { useFocusEffect } from '@react-navigation/native';
+import getLocalStyles from './LocalSharedStyles';
 
 import * as SecureStore from 'expo-secure-store';
 
 
 const HomeScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
-    const styles = getStyles(theme);
+    const sharedStyles = getStyles(theme);
+    const localStyles = getLocalStyles(theme); 
 
     const contractNameRef = useRef(null);
     const employerAddressRef = useRef(null);
@@ -84,18 +86,18 @@ const HomeScreen = ({ navigation }) => {
     };
 
     return (
-        <View style={[styles.baseContainer, { paddingBottom: keyboardHeight }]}>
-            <ScrollView ref={scrollViewRef} style={styles.scrollView} showsVerticalScrollIndicator={false}>
+        <View style={[sharedStyles.baseContainer, { paddingBottom: keyboardHeight }]}>
+            <ScrollView ref={scrollViewRef} style={sharedStyles.scrollView} showsVerticalScrollIndicator={false}>
                 <View
-                    style={styles.container}
+                    style={sharedStyles.container}
                 >
-                    <Text style={styles.header}>Smart Contract Toolkit</Text>
+                    <Text style={sharedStyles.header}>Smart Contract Toolkit</Text>
 
                     {/* Contract Creation Section */}
-                    <View style={styles.card}>
+                    <View style={sharedStyles.card}>
                         {Object.values(errors).some(error => error) && (
                             <TouchableOpacity
-                                style={styles.errorIconContainer}
+                                style={sharedStyles.errorIconContainer}
                                 onPress={() => setShowErrorDetails(true)}>
                                 <MaterialCommunityIcons name="alert-circle" size={24} style={styles.errorIcon} />
                             </TouchableOpacity>
@@ -106,38 +108,38 @@ const HomeScreen = ({ navigation }) => {
                             visible={showErrorDetails}
                             onRequestClose={() => setShowErrorDetails(false)}
                         >
-                            <View style={styles.centeredView}>
-                                <View style={styles.modalView}>
-                                    <Text style={styles.modalText}>Please fix the following errors:</Text>
+                            <View style={sharedStyles.centeredView}>
+                                <View style={sharedStyles.modalView}>
+                                    <Text style={sharedStyles.modalText}>Please fix the following errors:</Text>
                                     {Object.entries(errors).map(([key, value]) =>
-                                        value ? <Text key={key} style={styles.errorListItem}>{`${key}: ${value}`}</Text> : null
+                                        value ? <Text key={key} style={sharedStyles.errorListItem}>{`${key}: ${value}`}</Text> : null
                                     )}
                                     <TouchableOpacity
-                                        style={[styles.button]}
+                                        style={[sharedStyles.button]}
                                         onPress={() => setShowErrorDetails(false)}
                                     >
-                                        <Text style={styles.textStyle}>Got it</Text>
+                                        <Text style={sharedStyles.textStyle}>Got it</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
                         </Modal>
 
-                        <Text style={styles.cardHeader}>Upload an Employment Contract</Text>
+                        <Text style={sharedStyles.cardHeader}>Upload an Employment Contract</Text>
                         {/* DropZone */}
-                        <TouchableOpacity style={styles.dropZone} onPress={() => handleFileSelectDropZone()}>
+                        <TouchableOpacity style={sharedStyles.dropZone} onPress={() => handleFileSelectDropZone()}>
                             {selectedFile ? (
                                 <>
                                     <MaterialCommunityIcons name="file-document-outline" size={100} color="black" />
-                                    <Text style={styles.buttonText}>{selectedFile.assets[0].name}</Text>
+                                    <Text style={sharedStyles.buttonText}>{selectedFile.assets[0].name}</Text>
                                 </>
                             ) : (
-                                <Text style={[styles.dropZoneText, { color: theme === 'dark' ? 'grey' : 'darkgrey' }]}>Tap to select a .docx / .pdf / .txt file</Text>
+                                <Text style={[sharedStyles.dropZoneText, { color: theme === 'dark' ? 'grey' : 'darkgrey' }]}>Tap to select a .docx / .pdf / .txt file</Text>
                             )}
                         </TouchableOpacity>
 
                         <TextInput 
                         ref={contractNameRef} 
-                        style={styles.input} 
+                        style={sharedStyles.input} 
                         placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} 
                         placeholder="Enter Contract Name" 
                         value={contractName} 
@@ -149,7 +151,7 @@ const HomeScreen = ({ navigation }) => {
                         />
                         <TextInput 
                         ref={employerAddressRef} 
-                        style={styles.input} 
+                        style={sharedStyles.input} 
                         placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} 
                         placeholder="Set Employer's USDC Address" 
                         value={employerAddress} 
@@ -161,7 +163,7 @@ const HomeScreen = ({ navigation }) => {
                         />
                         <TextInput 
                         ref={authAppAddressRef} 
-                        style={styles.input} 
+                        style={sharedStyles.input} 
                         placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} 
                         placeholder="Set AuthApp's Address" value={authAppAddress} 
                         onChangeText={(value) => {
@@ -172,7 +174,7 @@ const HomeScreen = ({ navigation }) => {
                         />
                         <TextInput 
                         ref={tokenContractInterfaceRef} 
-                        style={styles.input} 
+                        style={sharedStyles.input} 
                         placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                         placeholder="Set USDC's Token Contract Interface" 
                         value={tokenContractInterface} 
@@ -183,17 +185,17 @@ const HomeScreen = ({ navigation }) => {
                         }}
                         />
 
-                        <TouchableOpacity style={styles.button} onPress={uploadContractData}>
-                            <Text style={styles.buttonText}>Create Contract</Text>
+                        <TouchableOpacity style={sharedStyles.button} onPress={uploadContractData}>
+                            <Text style={sharedStyles.buttonText}>Create Contract</Text>
                         </TouchableOpacity>
 
                     </View>
 
                     {/* User's Smart Contracts */}
-                    <View style={styles.card}>
-                        <Text style={styles.cardHeader}>My Smart Contracts</Text>
+                    <View style={sharedStyles.card}>
+                        <Text style={sharedStyles.cardHeader}>My Smart Contracts</Text>
                         {savedContracts.length === 0 ? (
-                            <Text style={styles.noContractsText}>No saved contracts yet</Text>
+                            <Text style={sharedStyles.noContractsText}>No saved contracts yet</Text>
                         ) : (
                             savedContracts.map((contract, index) => (
                                 <ContractItem
@@ -208,21 +210,21 @@ const HomeScreen = ({ navigation }) => {
                     </View>
 
                     {/* Address Conversion */}
-                    <View style={styles.card}>
-                        <Text style={styles.cardHeader}>Address Checksum Conversion</Text>
+                    <View style={sharedStyles.card}>
+                        <Text style={sharedStyles.cardHeader}>Address Checksum Conversion</Text>
                         <TextInput 
                         ref={addressConversionRef} 
-                        style={styles.input} 
+                        style={sharedStyles.input} 
                         placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} 
                         placeholder="Set your token address" value={addressChecksum} 
                         onChangeText={setAddressChecksum}
                         />
 
                         <TouchableOpacity
-                            style={styles.button}
+                            style={sharedStyles.button}
                             onPress={() => handleChecksumAddress()}
                         >
-                            <Text style={styles.buttonText}>Validate Address</Text>
+                            <Text style={sharedStyles.buttonText}>Validate Address</Text>
                         </TouchableOpacity>
                         <Modal
                             animationType="slide"
@@ -230,18 +232,18 @@ const HomeScreen = ({ navigation }) => {
                             visible={showAddressModal}
                             onRequestClose={() => setShowAddressModal(false)}
                         >
-                            <View style={styles.centeredView}>
-                                <View style={styles.modalView}>
-                                    <Text style={styles.modalText}>Validated Address:</Text>
-                                    <Text style={styles.modalText}>{validatedAddress}</Text>
+                            <View style={sharedStyles.centeredView}>
+                                <View style={sharedStyles.modalView}>
+                                    <Text style={sharedStyles.modalText}>Validated Address:</Text>
+                                    <Text style={sharedStyles.modalText}>{validatedAddress}</Text>
                                     <TouchableOpacity
-                                        style={styles.button}
+                                        style={sharedStyles.button}
                                         onPress={() => { copyToClipboard(); setShowAddressModal(false) }}
                                     >
-                                        <Text style={styles.textStyle}>Copy Address</Text>
+                                        <Text style={sharedStyles.textStyle}>Copy Address</Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity
-                                        style={styles.exitButton}
+                                        style={sharedStyles.exitButton}
                                         onPress={() => setShowAddressModal(false)}
                                     >
                                         <MaterialCommunityIcons
@@ -249,7 +251,7 @@ const HomeScreen = ({ navigation }) => {
                                             size={30}
                                             color='red'
                                             onPress={() => setShowAddressModal(false)}
-                                            style={styles.exitButton}
+                                            style={sharedStyles.exitButton}
                                         />
                                     </TouchableOpacity>
                                 </View>
@@ -259,15 +261,15 @@ const HomeScreen = ({ navigation }) => {
 
 
                     {/* Footer Section */}
-                    <View style={styles.footer}>
-                        <Text style={styles.footerText}>All rights reserved © Smart Contract Toolkit</Text>
+                    <View style={sharedStyles.footer}>
+                        <Text style={sharedStyles.footerText}>All rights reserved © Smart Contract Toolkit</Text>
                     </View>
 
                 </View>
             </ScrollView>
 
             {/* Separator Line */}
-            <View style={[styles.separatorLine, {bottom: keyboardHeight + 90}]} />
+            <View style={[sharedStyles.separatorLine, {bottom: keyboardHeight + 90}]} />
 
         </View >
     );
