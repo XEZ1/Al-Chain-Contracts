@@ -16,15 +16,15 @@ function EditorScreen({ route, navigation }) {
     const { codeHtml, isLoading } = useEditorScreen(filePath, theme);
 
     return (
-        <View style={sharedStyles.baseContainer}>
+        <View style={localStyles.baseContainer}>
             {isLoading ? (
-                <ActivityIndicator size="large" color='rgba(1, 193, 219, 1)' style={sharedStyles.activityIndicator} /> 
+                <ActivityIndicator size="large" color='rgba(1, 193, 219, 1)' style={localStyles.activityIndicator} /> 
             ) : (
-                <View style={sharedStyles.EditorContainer}>
+                <View style={localStyles.EditorContainer}>
                     <WebView
                         originWhitelist={['*']}
                         source={{ html: codeHtml }}
-                        style={sharedStyles.editor}
+                        style={localStyles.editor}
                     />
                 </View>
             )}

@@ -55,7 +55,16 @@ const getLocalStyles = (theme = 'light') => {
             backgroundColor: theme === 'dark' ? '#2D2D2D' : '#EFEFEF',
         },
 
-        
+        baseContainer: {
+            flex: 1, 
+            backgroundColor: theme === 'dark' ? '#1A1A1A' : 'white', 
+        },
+        activityIndicator: {
+            paddingTop: '10%',
+        },
+        EditorContainer: {
+            flex: 1,
+        },
     });
 };
 
