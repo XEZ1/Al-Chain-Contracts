@@ -22,6 +22,39 @@ const getLocalStyles = (theme = 'light') => {
     };
 
     return StyleSheet.create({
+        contractItemAnimation: {
+            marginBottom: 10,
+            paddingHorizontal: 10,
+            paddingTop: 10,
+            backgroundColor: themeStyles[theme].backgroundColor,
+            borderRadius: 10,
+            borderColor: '#ddd',
+        },
+        contractHeader: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+        },
+        generalText: {
+            color: theme === 'dark' ? 'white' : 'black', 
+        },
+        expandedSection: {
+            paddingTop: 10,
+        },
+        contractItemText: {
+            color: theme === 'dark' ? 'white' : 'black', 
+            marginLeft: 5,
+        },
+        smartContractButton: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 10,
+            marginTop: 10,
+            borderRadius: 10,
+            backgroundColor: theme === 'dark' ? '#2D2D2D' : '#EFEFEF',
+        },
+
         
     });
 };
