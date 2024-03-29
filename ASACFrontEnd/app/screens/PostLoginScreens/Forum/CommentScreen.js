@@ -6,11 +6,13 @@ import { ThemeContext } from '../../../components/Theme';
 import getStyles from '../../../styles/SharedStyles';
 import { useFocusEffect } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import getLocalStyles from './LocalSharedStyles';
 
 
 const CommentScreen = ({ route, navigation }) => {
     const { theme } = useContext(ThemeContext);
-    const styles = getStyles(theme);
+    const sharedStyles = getStyles(theme);
+    const localStyles = getLocalStyles(theme);
 
     const postCommentRef = useRef(null);
     const viewRef = useRef(null);
@@ -75,36 +77,36 @@ const CommentScreen = ({ route, navigation }) => {
     }
 
     return (
-        <View style={[styles.containerCommentScreen, { paddingBottom: keyboardHeight }]}>
+        <View style={[sharedStyles.containerCommentScreen, { paddingBottom: keyboardHeight }]}>
             <FlatList
                 ref={viewRef}
                 data={comments}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
-                    <View style={styles.card}>
-                        <Text style={styles.comment}>{`${item.author_username}: ${item.content}`}</Text>
+                    <View style={sharedStyles.card}>
+                        <Text style={sharedStyles.comment}>{`${item.author_username}: ${item.content}`}</Text>
                     </View>
                 )}
-                style={styles.flatListCommentsContainer}
+                style={sharedStyles.flatListCommentsContainer}
                 ListHeaderComponent={
-                    <View style={styles.regularPadding}>
-                        <View style={styles.card}>
-                            <Text style={styles.cardHeader}>{postDetails.title}</Text>
-                            <Text style={styles.settingText}>{postDetails.description}</Text>
-                            <View style={styles.postsContainer}>
+                    <View style={sharedStyles.regularPadding}>
+                        <View style={sharedStyles.card}>
+                            <Text style={sharedStyles.cardHeader}>{postDetails.title}</Text>
+                            <Text style={sharedStyles.settingText}>{postDetails.description}</Text>
+                            <View style={sharedStyles.postsContainer}>
                                 <TouchableOpacity
                                     onPress={() => handleLikePost(postDetails.id, postDetails.user_has_liked)}
-                                    style={styles.postsButtonText}>
+                                    style={sharedStyles.postsButtonText}>
                                     <MaterialCommunityIcons
                                         name={postDetails.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
-                                    <Text style={styles.buttonText}>Like ({postDetails.like_count})</Text>
+                                    <Text style={sharedStyles.buttonText}>Like ({postDetails.like_count})</Text>
                                 </TouchableOpacity>
                                 {postDetails.is_user_author && (
                                     <TouchableOpacity
                                         onPress={() => handleDeletePost(postDetails.id)}
                                         style={{ flexDirection: 'row', alignItems: 'center' }}>
                                         <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
-                                        <Text style={styles.buttonText}>Delete</Text>
+                                        <Text style={sharedStyles.buttonText}>Delete</Text>
                                     </TouchableOpacity>
                                 )}
                             </View>
@@ -112,24 +114,24 @@ const CommentScreen = ({ route, navigation }) => {
                     </View>
                 }
                 ListFooterComponent={
-                    <View style={styles.centeredContainer}>
+                    <View style={sharedStyles.centeredContainer}>
                         <TextInput
                             ref={postCommentRef}
                             value={newComment}
                             onChangeText={setNewComment}
                             placeholder="Write a comment..."
                             placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                            style={styles.inputCommentsScreen}
+                            style={sharedStyles.inputCommentsScreen}
                         />
-                        <TouchableOpacity title="Post Comment" style={styles.buttonCommentsScreen} onPress={() => { handleAddComment(newComment); setNewComment(''); }}>
-                            <Text style={styles.buttonText}>Post Comment</Text>
+                        <TouchableOpacity title="Post Comment" style={sharedStyles.buttonCommentsScreen} onPress={() => { handleAddComment(newComment); setNewComment(''); }}>
+                            <Text style={sharedStyles.buttonText}>Post Comment</Text>
                         </TouchableOpacity>
                     </View>
                 }
                 showsVerticalScrollIndicator={false}
             />
             {/* Separator Line */}
-            <View style={[styles.separatorLine, { bottom: keyboardHeight + 90 }]} />
+            <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight + 90 }]} />
         </View>
 
     );
