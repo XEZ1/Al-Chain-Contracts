@@ -3,11 +3,13 @@ import { Text, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-n
 import { AuthContext } from '../../components/Authentication';
 import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
+import getLocalStyles from './LocalSharedStyles';
 
 
 const LoginScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
-    const styles = getStyles(theme);
+    const sharedStyles = getStyles(theme);
+    const localStyles = getLocalStyles(theme);
 
     const { handleLogin } = useContext(AuthContext);
     const [username, setUsername] = useState('');
@@ -15,24 +17,24 @@ const LoginScreen = ({ navigation }) => {
 
     return (
         <KeyboardAvoidingView 
-            style={styles.container} 
+            style={sharedStyles.container} 
             behavior="padding"
         >
             <TextInput
                 placeholder="Username"
-                style={styles.inputPreLogin}
+                style={localStyles.inputPreLogin}
                 placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                 onChangeText={setUsername}
             />
             <TextInput
                 placeholder="Password"
                 secureTextEntry
-                style={styles.inputPreLogin}
+                style={localStyles.inputPreLogin}
                 placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                 onChangeText={setPassword}
             />
-            <TouchableOpacity style={styles.buttonPreLogin} onPress={() => handleLogin(username, password)}>
-                <Text style={styles.buttonText}>Login</Text>
+            <TouchableOpacity style={localStyles.buttonPreLogin} onPress={() => handleLogin(username, password)}>
+                <Text style={localStyles.buttonText}>Login</Text>
             </TouchableOpacity>
         </KeyboardAvoidingView>
     );

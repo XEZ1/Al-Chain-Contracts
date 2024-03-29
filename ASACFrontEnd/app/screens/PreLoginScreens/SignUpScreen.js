@@ -4,7 +4,7 @@ import { AuthContext } from '../../components/Authentication';
 import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import getLocalStyles from './SharedStylesLocal';
+import getLocalStyles from './LocalSharedStyles';
 
 
 const SignUpScreen = ({ navigation }) => {
