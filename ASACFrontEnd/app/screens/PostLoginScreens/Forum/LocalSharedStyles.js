@@ -88,7 +88,50 @@ const getLocalStyles = (theme = 'light') => {
             fontSize: 18,
             color: themeStyles[theme].textColor, 
         },
-     
+        header: {
+            fontSize: 28,
+            fontWeight: 'bold',
+            color: themeStyles[theme].textColor, 
+            marginBottom: 30,
+        },
+        postsViewContainer: {
+            flexDirection: 'row', 
+            marginBottom: '10%',
+        },
+        inputForumScreen: {
+            flex: 1, 
+            height: 44,
+            backgroundColor: themeStyles[theme].inputBackground,
+            borderColor: themeStyles[theme].borderColor,
+            color: themeStyles[theme].textColor, 
+            borderWidth: 1,
+            borderRadius: 10,
+            paddingLeft: '4%',
+            marginRight: 10,
+        },
+        buttonForumScreen: {
+            height: 44,
+            backgroundColor: themeStyles[theme].backgroundColor,
+            borderRadius: 10,
+            justifyContent: 'center',
+            alignItems: 'center', 
+            paddingHorizontal: 20,
+        },
+        listFooterContainer: {
+            width: 300, 
+            paddingBottom: 30,
+        },
+        flatListPostsContainer: {
+            flex: 1,
+            marginBottom: 90, 
+            paddingTop: 25,
+        },
+        header: {
+            fontSize: 28,
+            fontWeight: 'bold',
+            color: themeStyles[theme].textColor, 
+            marginBottom: 30,
+        },
     });
 };
 
