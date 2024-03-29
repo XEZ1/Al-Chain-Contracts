@@ -58,6 +58,17 @@ const getLocalStyles = (theme = 'light') => {
             fontWeight: "bold",
             textAlign: "center"
         },
+
+        containerWithoutBackground: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        buttonTextPreLogin: {
+            color: themeStyles[theme].textColor,
+            fontSize: 16,
+            fontWeight: 'bold',
+        },
     });
 };
 
