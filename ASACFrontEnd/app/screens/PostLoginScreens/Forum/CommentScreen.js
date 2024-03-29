@@ -77,36 +77,36 @@ const CommentScreen = ({ route, navigation }) => {
     }
 
     return (
-        <View style={[sharedStyles.containerCommentScreen, { paddingBottom: keyboardHeight }]}>
+        <View style={[localStyles.containerCommentScreen, { paddingBottom: keyboardHeight }]}>
             <FlatList
                 ref={viewRef}
                 data={comments}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={sharedStyles.card}>
-                        <Text style={sharedStyles.comment}>{`${item.author_username}: ${item.content}`}</Text>
+                        <Text>{`${item.author_username}: ${item.content}`}</Text>
                     </View>
                 )}
-                style={sharedStyles.flatListCommentsContainer}
+                style={localStyles.flatListCommentsContainer}
                 ListHeaderComponent={
-                    <View style={sharedStyles.regularPadding}>
+                    <View style={localStyles.regularPadding}>
                         <View style={sharedStyles.card}>
                             <Text style={sharedStyles.cardHeader}>{postDetails.title}</Text>
-                            <Text style={sharedStyles.settingText}>{postDetails.description}</Text>
-                            <View style={sharedStyles.postsContainer}>
+                            <Text style={localStyles.settingText}>{postDetails.description}</Text>
+                            <View style={localStyles.postsContainer}>
                                 <TouchableOpacity
                                     onPress={() => handleLikePost(postDetails.id, postDetails.user_has_liked)}
-                                    style={sharedStyles.postsButtonText}>
+                                    style={localStyles.postsButtonText}>
                                     <MaterialCommunityIcons
                                         name={postDetails.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
-                                    <Text style={sharedStyles.buttonText}>Like ({postDetails.like_count})</Text>
+                                    <Text style={localStyles.buttonText}>Like ({postDetails.like_count})</Text>
                                 </TouchableOpacity>
                                 {postDetails.is_user_author && (
                                     <TouchableOpacity
                                         onPress={() => handleDeletePost(postDetails.id)}
                                         style={{ flexDirection: 'row', alignItems: 'center' }}>
                                         <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
-                                        <Text style={sharedStyles.buttonText}>Delete</Text>
+                                        <Text style={localStyles.buttonText}>Delete</Text>
                                     </TouchableOpacity>
                                 )}
                             </View>
@@ -114,17 +114,17 @@ const CommentScreen = ({ route, navigation }) => {
                     </View>
                 }
                 ListFooterComponent={
-                    <View style={sharedStyles.centeredContainer}>
+                    <View style={localStyles.centeredContainer}>
                         <TextInput
                             ref={postCommentRef}
                             value={newComment}
                             onChangeText={setNewComment}
                             placeholder="Write a comment..."
                             placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                            style={sharedStyles.inputCommentsScreen}
+                            style={localStyles.inputCommentsScreen}
                         />
-                        <TouchableOpacity title="Post Comment" style={sharedStyles.buttonCommentsScreen} onPress={() => { handleAddComment(newComment); setNewComment(''); }}>
-                            <Text style={sharedStyles.buttonText}>Post Comment</Text>
+                        <TouchableOpacity title="Post Comment" style={localStyles.buttonCommentsScreen} onPress={() => { handleAddComment(newComment); setNewComment(''); }}>
+                            <Text style={localStyles.buttonText}>Post Comment</Text>
                         </TouchableOpacity>
                     </View>
                 }
