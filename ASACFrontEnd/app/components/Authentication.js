@@ -134,7 +134,6 @@ export const AuthProvider = ({ children }) => {
         if (result.success) {
             handleLogin(username, password);
         } else {
-            Alert.alert('Login Failed', result.error);
             console.log(result.error);
         }
     };
