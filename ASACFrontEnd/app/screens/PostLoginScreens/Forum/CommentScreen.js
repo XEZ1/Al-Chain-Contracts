@@ -89,7 +89,7 @@ const CommentScreen = ({ route, navigation }) => {
                 )}
                 style={localStyles.flatListCommentsContainer}
                 ListHeaderComponent={
-                    <View style={sharedStyles.card}>
+                    <View style={[sharedStyles.card, {marginTop: '7%'}]}>
                         <Text style={sharedStyles.cardHeader}>{postDetails.title}</Text>
                         <Text style={localStyles.settingText}>{postDetails.description}</Text>
                         <View style={localStyles.postsContainer}>
