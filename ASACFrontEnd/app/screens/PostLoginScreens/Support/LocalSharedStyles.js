@@ -22,7 +22,41 @@ const getLocalStyles = (theme = 'light') => {
     };
 
     return StyleSheet.create({
-        
+        header: {
+            fontSize: 28,
+            fontWeight: 'bold',
+            color: themeStyles[theme].textColor, 
+            marginBottom: 30,
+        },
+        settingText: {
+            fontSize: 18,
+            color: themeStyles[theme].textColor, 
+        },
+        input: {
+            height: 44,
+            width: '100%', 
+            backgroundColor: themeStyles[theme].inputBackground,
+            borderColor: themeStyles[theme].borderColor,
+            borderWidth: 1,
+            borderRadius: 10,
+            marginBottom: '5.5%',
+            paddingLeft: '4%',
+            color: themeStyles[theme].textColor, 
+        },
+        sendButton: {
+            backgroundColor: themeStyles[theme].backgroundColor,
+            borderRadius: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingHorizontal: '5%',
+            paddingVertical: 10, 
+            height: 50,
+        },
+        buttonText: {
+            color: themeStyles[theme].textColor,
+            fontSize: 16,
+            fontWeight: 'bold',
+        },
     });
 };
 
