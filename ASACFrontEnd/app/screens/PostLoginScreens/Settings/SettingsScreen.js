@@ -4,20 +4,23 @@ import { AuthContext, logout } from '../../../components/Authentication';
 import { ThemeContext } from '../../../components/Theme';
 import getStyles from '../../../styles/SharedStyles';
 import { useSettingsScreen } from './UseSettingsScreen';
+import getLocalStyles from './LocalSharedStyles';
 
 const SettingsScreen = ({ navigation }) => {
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
-    const styles = getStyles(theme);
+    const sharedStyles = getStyles(theme);
+    const localStyles = getLocalStyles(theme);
+
     const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
     const { notificationsEnabled, setNotificationsEnabled, toggleNotifications } = useSettingsScreen();
 
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Settings</Text>
+        <View style={sharedStyles.container}>
+            <Text style={sharedStyles.title}>Settings</Text>
 
-            <View style={styles.settingItem}>
-                <Text style={styles.settingText}>Dark Mode</Text>
+            <View style={sharedStyles.settingItem}>
+                <Text style={sharedStyles.settingText}>Dark Mode</Text>
                 <Switch
                     trackColor={{ false: "#767577", true: "#81b0ff" }}
                     thumbColor={theme.isDark ? "#f4f3f4" : "#f4f3f4"}
@@ -27,8 +30,8 @@ const SettingsScreen = ({ navigation }) => {
                 />
             </View>
 
-            <View style={styles.settingItem}>
-                <Text style={styles.settingText}>Notifications</Text>
+            <View style={sharedStyles.settingItem}>
+                <Text style={sharedStyles.settingText}>Notifications</Text>
                 <Switch
                     trackColor={{ false: "#767577", true: "#81b0ff" }}
                     thumbColor={notificationsEnabled ? "#f4f3f4" : "#f4f3f4"}
@@ -39,14 +42,14 @@ const SettingsScreen = ({ navigation }) => {
             </View>
 
             <TouchableOpacity
-                style={styles.button}
+                style={sharedStyles.button}
                 onPress={() => { logout(); setIsLoggedIn(false) }}
             >
-                <Text style={styles.buttonText}>Log Out</Text>
+                <Text style={sharedStyles.buttonText}>Log Out</Text>
             </TouchableOpacity>
 
             {/* Separator Line */}
-            <View style={styles.separatorLine} />
+            <View style={sharedStyles.separatorLine} />
         </View>
     );
 };
