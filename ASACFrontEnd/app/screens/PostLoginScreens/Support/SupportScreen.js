@@ -6,7 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const SupportScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
-    const styles = getStyles(theme); // Applying the theme to the styles
+    const sharedStyles = getStyles(theme);
     const [message, setMessage] = useState('');
 
     // Dummy data for messages
@@ -26,10 +26,10 @@ const SupportScreen = ({ navigation }) => {
 
     return (
         <KeyboardAvoidingView 
-            style={styles.container} 
+            style={sharedStyles.container} 
             behavior="padding"
         >
-            <Text style={styles.header}>Support Chat</Text>
+            <Text style={sharedStyles.header}>Support Chat</Text>
 
             <ScrollView
                 style={{ flex: 1, width: '100%' }}
@@ -40,14 +40,14 @@ const SupportScreen = ({ navigation }) => {
                     <View
                         key={msg.id}
                         style={[
-                            styles.card,
+                            sharedStyles.card,
                             {
                                 alignSelf: msg.isAssistant ? 'flex-start' : 'flex-end',
-                                backgroundColor: msg.isAssistant ? styles.card.backgroundColor : styles.tabBar.activeTintColor,
+                                backgroundColor: msg.isAssistant ? sharedStyles.card.backgroundColor : sharedStyles.tabBar.activeTintColor,
                             },
                         ]}
                     >
-                        <Text style={[styles.settingText, { color: theme === 'dark' ? '#FFF' : '#000' }]}>
+                        <Text style={[sharedStyles.settingText, { color: theme === 'dark' ? '#FFF' : '#000' }]}>
                             {msg.text}
                         </Text>
                     </View>
@@ -62,7 +62,7 @@ const SupportScreen = ({ navigation }) => {
                     placeholder='Type your message here...'
                     placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                     style={[
-                        styles.input,
+                        sharedStyles.input,
                         {
                             flex: 1,
                             marginRight: 10,
@@ -72,8 +72,8 @@ const SupportScreen = ({ navigation }) => {
                     ]}
                     multiline
                 />
-                <TouchableOpacity onPress={handleSendMessage} style={[styles.sendButton]}>
-                    <Text style={styles.buttonText}>Send</Text>
+                <TouchableOpacity onPress={handleSendMessage} style={[sharedStyles.sendButton]}>
+                    <Text style={sharedStyles.buttonText}>Send</Text>
                 </TouchableOpacity>
             </View>  
 
