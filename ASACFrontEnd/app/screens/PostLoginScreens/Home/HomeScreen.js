@@ -86,8 +86,8 @@ const HomeScreen = ({ navigation }) => {
     };
 
     return (
-        <View style={[sharedStyles.baseContainer, { paddingBottom: keyboardHeight }]}>
-            <ScrollView ref={scrollViewRef} style={sharedStyles.scrollView} showsVerticalScrollIndicator={false}>
+        <View style={[localStyles.baseContainer, { paddingBottom: keyboardHeight }]}>
+            <ScrollView ref={scrollViewRef} style={localStyles.scrollView} showsVerticalScrollIndicator={false}>
                 <View
                     style={sharedStyles.container}
                 >
@@ -126,20 +126,20 @@ const HomeScreen = ({ navigation }) => {
 
                         <Text style={sharedStyles.cardHeader}>Upload an Employment Contract</Text>
                         {/* DropZone */}
-                        <TouchableOpacity style={sharedStyles.dropZone} onPress={() => handleFileSelectDropZone()}>
+                        <TouchableOpacity style={localStyles.dropZone} onPress={() => handleFileSelectDropZone()}>
                             {selectedFile ? (
                                 <>
                                     <MaterialCommunityIcons name="file-document-outline" size={100} color="black" />
-                                    <Text style={sharedStyles.buttonText}>{selectedFile.assets[0].name}</Text>
+                                    <Text style={localStyles.buttonText}>{selectedFile.assets[0].name}</Text>
                                 </>
                             ) : (
-                                <Text style={[sharedStyles.dropZoneText, { color: theme === 'dark' ? 'grey' : 'darkgrey' }]}>Tap to select a .docx / .pdf / .txt file</Text>
+                                <Text style={[localStyles.dropZoneText, { color: theme === 'dark' ? 'grey' : 'darkgrey' }]}>Tap to select a .docx / .pdf / .txt file</Text>
                             )}
                         </TouchableOpacity>
 
                         <TextInput 
                         ref={contractNameRef} 
-                        style={sharedStyles.input} 
+                        style={localStyles.input} 
                         placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} 
                         placeholder="Enter Contract Name" 
                         value={contractName} 
@@ -151,7 +151,7 @@ const HomeScreen = ({ navigation }) => {
                         />
                         <TextInput 
                         ref={employerAddressRef} 
-                        style={sharedStyles.input} 
+                        style={localStyles.input} 
                         placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} 
                         placeholder="Set Employer's USDC Address" 
                         value={employerAddress} 
@@ -163,7 +163,7 @@ const HomeScreen = ({ navigation }) => {
                         />
                         <TextInput 
                         ref={authAppAddressRef} 
-                        style={sharedStyles.input} 
+                        style={localStyles.input} 
                         placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} 
                         placeholder="Set AuthApp's Address" value={authAppAddress} 
                         onChangeText={(value) => {
@@ -174,7 +174,7 @@ const HomeScreen = ({ navigation }) => {
                         />
                         <TextInput 
                         ref={tokenContractInterfaceRef} 
-                        style={sharedStyles.input} 
+                        style={localStyles.input} 
                         placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                         placeholder="Set USDC's Token Contract Interface" 
                         value={tokenContractInterface} 
@@ -185,8 +185,8 @@ const HomeScreen = ({ navigation }) => {
                         }}
                         />
 
-                        <TouchableOpacity style={sharedStyles.button} onPress={uploadContractData}>
-                            <Text style={sharedStyles.buttonText}>Create Contract</Text>
+                        <TouchableOpacity style={localStyles.button} onPress={uploadContractData}>
+                            <Text style={localStyles.buttonText}>Create Contract</Text>
                         </TouchableOpacity>
 
                     </View>
@@ -195,7 +195,7 @@ const HomeScreen = ({ navigation }) => {
                     <View style={sharedStyles.card}>
                         <Text style={sharedStyles.cardHeader}>My Smart Contracts</Text>
                         {savedContracts.length === 0 ? (
-                            <Text style={sharedStyles.noContractsText}>No saved contracts yet</Text>
+                            <Text style={localStyles.noContractsText}>No saved contracts yet</Text>
                         ) : (
                             savedContracts.map((contract, index) => (
                                 <ContractItem
@@ -214,17 +214,17 @@ const HomeScreen = ({ navigation }) => {
                         <Text style={sharedStyles.cardHeader}>Address Checksum Conversion</Text>
                         <TextInput 
                         ref={addressConversionRef} 
-                        style={sharedStyles.input} 
+                        style={localStyles.input} 
                         placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} 
                         placeholder="Set your token address" value={addressChecksum} 
                         onChangeText={setAddressChecksum}
                         />
 
                         <TouchableOpacity
-                            style={sharedStyles.button}
+                            style={localStyles.button}
                             onPress={() => handleChecksumAddress()}
                         >
-                            <Text style={sharedStyles.buttonText}>Validate Address</Text>
+                            <Text style={localStyles.buttonText}>Validate Address</Text>
                         </TouchableOpacity>
                         <Modal
                             animationType="slide"
@@ -261,8 +261,8 @@ const HomeScreen = ({ navigation }) => {
 
 
                     {/* Footer Section */}
-                    <View style={sharedStyles.footer}>
-                        <Text style={sharedStyles.footerText}>All rights reserved © Smart Contract Toolkit</Text>
+                    <View style={localStyles.footer}>
+                        <Text style={localStyles.footerText}>All rights reserved © Al-Slebi AI-Contracts</Text>
                     </View>
 
                 </View>
