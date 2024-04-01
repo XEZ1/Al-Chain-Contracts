@@ -24,9 +24,6 @@ const getLocalStyles = (theme = 'light') => {
     return StyleSheet.create({
         containerCommentScreen: {
             flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingTop: '0%',
             padding: '5%',
             backgroundColor: themeStyles[theme].containerBackground, 
         },
@@ -34,24 +31,21 @@ const getLocalStyles = (theme = 'light') => {
             width: '100%',
             marginBottom: 90,
         },
-        regularPadding: {
-            paddingTop: 20,
-            paddingBottom: 5,
-        },
         settingText: {
             fontSize: 18,
             color: themeStyles[theme].textColor, 
         },
+        generalText: {
+            color: theme === 'dark' ? 'white' : 'black', 
+        },
         postsContainer: {
             flexDirection: 'row',
             marginTop: 10,
-            alignItems: 'center', 
             justifyContent: 'space-between', 
         },
         postsButtonText: {
             flexDirection: 'row', 
             alignItems: 'center', 
-            marginRight: 0,
         },
         buttonText: {
             color: themeStyles[theme].textColor,
@@ -59,12 +53,10 @@ const getLocalStyles = (theme = 'light') => {
             fontWeight: 'bold',
         },
         centeredContainer: {
-            flex: 1, 
-            justifyContent: 'center',
             alignItems: 'center',
             marginTop: '2%', 
         },
-        inputCommentsScreen: {
+        inputField: {
             height: 44,
             width: '96%', 
             backgroundColor: themeStyles[theme].inputBackground,
@@ -73,7 +65,6 @@ const getLocalStyles = (theme = 'light') => {
             borderRadius: 10,
             marginBottom: '5.5%',
             paddingLeft: '4%',
-            color: themeStyles[theme].textColor, 
         },
         buttonCommentsScreen: {
             height: 44,
@@ -84,6 +75,7 @@ const getLocalStyles = (theme = 'light') => {
             justifyContent: 'center',
             alignItems: 'center',
         },
+        
         settingText: {
             fontSize: 18,
             color: themeStyles[theme].textColor, 
@@ -100,10 +92,7 @@ const getLocalStyles = (theme = 'light') => {
         },
         inputForumScreen: {
             flex: 1, 
-            height: 44,
-            backgroundColor: themeStyles[theme].inputBackground,
             borderColor: themeStyles[theme].borderColor,
-            color: themeStyles[theme].textColor, 
             borderWidth: 1,
             borderRadius: 10,
             paddingLeft: '4%',
@@ -122,15 +111,8 @@ const getLocalStyles = (theme = 'light') => {
             paddingBottom: 30,
         },
         flatListPostsContainer: {
-            flex: 1,
             marginBottom: 90, 
             paddingTop: 25,
-        },
-        header: {
-            fontSize: 28,
-            fontWeight: 'bold',
-            color: themeStyles[theme].textColor, 
-            marginBottom: 30,
         },
     });
 };
