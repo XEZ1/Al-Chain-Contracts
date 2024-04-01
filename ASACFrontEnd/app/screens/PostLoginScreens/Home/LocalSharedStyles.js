@@ -65,6 +65,12 @@ const getLocalStyles = (theme = 'light') => {
         EditorContainer: {
             flex: 1,
         },
+
+        scrollView: {
+            backgroundColor: themeStyles[theme].containerBackground, 
+            marginBottom: 90,
+        },
+        
     });
 };
 
