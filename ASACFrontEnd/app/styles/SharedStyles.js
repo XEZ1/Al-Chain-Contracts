@@ -29,6 +29,7 @@ const getStyles = (theme = 'light') => {
             paddingTop: '5%',
             padding: '5%',
             backgroundColor: themeStyles[theme].containerBackground,
+            
         },
         containerCommentScreen: {
             flex: 1,
@@ -185,7 +186,7 @@ const getStyles = (theme = 'light') => {
             fontSize: 28,
             fontWeight: 'bold',
             color: themeStyles[theme].textColor, 
-            marginBottom: 30,
+            marginBottom: 20,
         },
         footer: {
             marginTop: 20,
