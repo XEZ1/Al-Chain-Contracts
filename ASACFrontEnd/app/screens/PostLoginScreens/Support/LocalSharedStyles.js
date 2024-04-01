@@ -48,8 +48,7 @@ const getLocalStyles = (theme = 'light') => {
             borderRadius: 10,
             justifyContent: 'center',
             alignItems: 'center',
-            paddingHorizontal: '5%',
-            paddingVertical: 10, 
+            paddingHorizontal: '5%',        
             height: 50,
         },
         buttonText: {
