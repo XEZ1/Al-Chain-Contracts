@@ -13,7 +13,7 @@ const PreLoginScreen = ({ navigation }) => {
     return (
         <ImageBackground
             source={require('../../../assets/PreLoginScreenBackground.png')}
-            style={[sharedStyles.backgroundImage, { paddingTop: StatusBar.currentHeight }]}
+            style={[localStyles.backgroundImage, { paddingTop: StatusBar.currentHeight }]}
             resizeMode="cover"
         >
             <StatusBar barStyle={theme === 'light-content'} />

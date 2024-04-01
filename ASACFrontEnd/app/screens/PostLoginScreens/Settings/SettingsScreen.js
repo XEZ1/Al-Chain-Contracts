@@ -42,7 +42,7 @@ const SettingsScreen = ({ navigation }) => {
             </View>
 
             <TouchableOpacity
-                style={localStyles.button}
+                style={sharedStyles.button}
                 onPress={() => { logout(); setIsLoggedIn(false) }}
             >
                 <Text style={localStyles.buttonText}>Log Out</Text>
