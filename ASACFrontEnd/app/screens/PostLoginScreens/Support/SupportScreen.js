@@ -2,25 +2,25 @@ import React, { useState, useContext } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native';
 import getStyles from '../../../styles/SharedStyles';
 import { ThemeContext } from '../../../components/Theme';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import getLocalStyles from './LocalSharedStyles';
+
 
 const SupportScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
     const sharedStyles = getStyles(theme);
+    const localStyles = getLocalStyles(theme);
     const [message, setMessage] = useState('');
 
-    // Dummy data for messages
     const messages = [
         { id: '1', text: 'Hi! How can I help you today?', isAssistant: true },
-        // ... other messages
+       
     ];
 
-    // Handler for sending a message
+   
     const handleSendMessage = () => {
         if (message.trim()) {
-            // Here, you'd normally append the message to your messages state or send it to your backend
             console.log('Sending message:', message);
-            setMessage(''); // Clear the input field after sending the message
+            setMessage('');
         }
     };
 
@@ -29,7 +29,7 @@ const SupportScreen = ({ navigation }) => {
             style={sharedStyles.container} 
             behavior="padding"
         >
-            <Text style={sharedStyles.header}>Support Chat</Text>
+            <Text style={localStyles.header}>Support Chat</Text>
 
             <ScrollView
                 style={{ flex: 1, width: '100%' }}
@@ -47,7 +47,7 @@ const SupportScreen = ({ navigation }) => {
                             },
                         ]}
                     >
-                        <Text style={[sharedStyles.settingText, { color: theme === 'dark' ? '#FFF' : '#000' }]}>
+                        <Text style={[localStyles.settingText, { color: theme === 'dark' ? '#FFF' : '#000' }]}>
                             {msg.text}
                         </Text>
                     </View>
@@ -62,7 +62,7 @@ const SupportScreen = ({ navigation }) => {
                     placeholder='Type your message here...'
                     placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                     style={[
-                        sharedStyles.input,
+                        localStyles.input,
                         {
                             flex: 1,
                             marginRight: 10,
@@ -72,13 +72,13 @@ const SupportScreen = ({ navigation }) => {
                     ]}
                     multiline
                 />
-                <TouchableOpacity onPress={handleSendMessage} style={[sharedStyles.sendButton]}>
-                    <Text style={sharedStyles.buttonText}>Send</Text>
+                <TouchableOpacity onPress={handleSendMessage} style={[localStyles.sendButton]}>
+                    <Text style={localStyles.buttonText}>Send</Text>
                 </TouchableOpacity>
             </View>  
 
             {/* Separator Line */}
-            <View style={{ position: 'absolute', height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: 90, left: 0, right: 0 }} />
+            <View style={sharedStyles.separatorLine} />
         </KeyboardAvoidingView>
     )
 };
