@@ -40,15 +40,6 @@ const getLocalStyles = (theme = 'light') => {
             fontSize: 18,
             color: themeStyles[theme].textColor, 
         },
-        button: {
-            height: 44,
-            width: '100%',
-            backgroundColor: themeStyles[theme].backgroundColor,
-            marginBottom: '5.7%',
-            borderRadius: 10,
-            justifyContent: 'center',
-            alignItems: 'center',
-        },
         buttonText: {
             color: themeStyles[theme].textColor,
             fontSize: 16,
