@@ -44,7 +44,6 @@ const PostLoginTabs = () => {
         );
     }
 
-    // Define screenOptions for icons and tab bar styles if you're using them
     const screenOptions = ({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
             let iconName;
@@ -64,7 +63,6 @@ const PostLoginTabs = () => {
             );
         },
         tabBarStyle: styles.tabBar,
-        tabBarLabelStyle: styles.tabBarLabel,
         headerShown: false,
     });
 

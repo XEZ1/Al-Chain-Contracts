@@ -8,8 +8,6 @@ import { ContractItem } from './ContractItem';
 import { useFocusEffect } from '@react-navigation/native';
 import getLocalStyles from './LocalSharedStyles';
 
-import * as SecureStore from 'expo-secure-store';
-
 
 const HomeScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
@@ -80,10 +78,6 @@ const HomeScreen = ({ navigation }) => {
             };
         }, [])
     );
-
-    const getNotificationToken = async () => {
-        console.log(await SecureStore.getItemAsync('notificationToken'));
-    };
 
     return (
         <View style={[localStyles.bottomTabNavigatorContainer, { paddingBottom: keyboardHeight }]}>

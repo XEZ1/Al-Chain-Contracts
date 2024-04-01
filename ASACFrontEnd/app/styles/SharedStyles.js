@@ -49,9 +49,6 @@ const getStyles = (theme = 'light') => {
             shadowOpacity: theme === 'dark' ? '0.8%' : '0.4%',
             shadowRadius: '20%',
         },
-        tabBarLabel: {
-            fontSize: 11,
-        },
         title: {
             fontSize: 22,
             fontWeight: 'bold',
@@ -87,6 +84,8 @@ const getStyles = (theme = 'light') => {
             color: themeStyles[theme].textColor,
             marginBottom: 30,
         },
+        
+        // Modals
         errorIcon: {
             color: 'red', 
         },
@@ -114,8 +113,8 @@ const getStyles = (theme = 'light') => {
             alignItems: "flex-start", 
             shadowColor: "#000",
             shadowOffset: {
-                width: 0,
-                height: 2
+                width: 2,
+                height: 3,
             },
             shadowOpacity: 0.25,
             shadowRadius: 4,
@@ -128,8 +127,6 @@ const getStyles = (theme = 'light') => {
         },
         errorListItem: {
             color: 'red',
-            alignSelf: 'stretch',
-            textAlign: 'left',
             marginBottom: '5%',
         },
         textStyle: {
@@ -156,6 +153,7 @@ const getStyles = (theme = 'light') => {
             color: 'white',
             fontWeight: 'bold',
         },
+
         separatorLine: {
             position: 'absolute',
             height: 0.3, 
@@ -164,9 +162,11 @@ const getStyles = (theme = 'light') => {
             left: 0,
             right: 0,
         },
+        
         activityIndicator: {
             paddingTop: '10%',
         },
+
         button: {
             height: 44,
             width: '100%',
