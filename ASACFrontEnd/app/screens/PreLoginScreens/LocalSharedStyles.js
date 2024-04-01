@@ -69,6 +69,11 @@ const getLocalStyles = (theme = 'light') => {
             fontSize: 16,
             fontWeight: 'bold',
         },
+        backgroundImage: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
     });
 };
 
