@@ -84,32 +84,30 @@ const CommentScreen = ({ route, navigation }) => {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={sharedStyles.card}>
-                        <Text>{`${item.author_username}: ${item.content}`}</Text>
+                        <Text style={localStyles.generalText}>{`${item.author_username}: ${item.content}`}</Text>
                     </View>
                 )}
                 style={localStyles.flatListCommentsContainer}
                 ListHeaderComponent={
-                    <View style={localStyles.regularPadding}>
-                        <View style={sharedStyles.card}>
-                            <Text style={sharedStyles.cardHeader}>{postDetails.title}</Text>
-                            <Text style={localStyles.settingText}>{postDetails.description}</Text>
-                            <View style={localStyles.postsContainer}>
+                    <View style={sharedStyles.card}>
+                        <Text style={sharedStyles.cardHeader}>{postDetails.title}</Text>
+                        <Text style={localStyles.settingText}>{postDetails.description}</Text>
+                        <View style={localStyles.postsContainer}>
+                            <TouchableOpacity
+                                onPress={() => handleLikePost(postDetails.id, postDetails.user_has_liked)}
+                                style={localStyles.postsButtonText}>
+                                <MaterialCommunityIcons
+                                    name={postDetails.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
+                                <Text style={localStyles.buttonText}>Like ({postDetails.like_count})</Text>
+                            </TouchableOpacity>
+                            {postDetails.is_user_author && (
                                 <TouchableOpacity
-                                    onPress={() => handleLikePost(postDetails.id, postDetails.user_has_liked)}
+                                    onPress={() => handleDeletePost(postDetails.id)}
                                     style={localStyles.postsButtonText}>
-                                    <MaterialCommunityIcons
-                                        name={postDetails.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
-                                    <Text style={localStyles.buttonText}>Like ({postDetails.like_count})</Text>
+                                    <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
+                                    <Text style={localStyles.buttonText}>Delete</Text>
                                 </TouchableOpacity>
-                                {postDetails.is_user_author && (
-                                    <TouchableOpacity
-                                        onPress={() => handleDeletePost(postDetails.id)}
-                                        style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                        <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
-                                        <Text style={localStyles.buttonText}>Delete</Text>
-                                    </TouchableOpacity>
-                                )}
-                            </View>
+                            )}
                         </View>
                     </View>
                 }
@@ -121,7 +119,7 @@ const CommentScreen = ({ route, navigation }) => {
                             onChangeText={setNewComment}
                             placeholder="Write a comment..."
                             placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                            style={localStyles.inputCommentsScreen}
+                            style={localStyles.inputField}
                         />
                         <TouchableOpacity title="Post Comment" style={localStyles.buttonCommentsScreen} onPress={() => { handleAddComment(newComment); setNewComment(''); }}>
                             <Text style={localStyles.buttonText}>Post Comment</Text>
