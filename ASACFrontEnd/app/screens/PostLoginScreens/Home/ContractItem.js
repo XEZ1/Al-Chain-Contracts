@@ -77,23 +77,23 @@ export const ContractItem = ({ contract, openContract, openShareContract, delete
     });
 
     return (
-        <TouchableOpacity onPress={toggleExpand} style={localStyles.contractItemAnimation}>
-            <View style={localStyles.contractHeader}>
+        <TouchableOpacity onPress={toggleExpand} style={localStyles.contractItem}>
+            <View style={localStyles.contractItemHeader}>
                 <Text style={localStyles.generalText}>{contract.contract_name}.sol</Text>
                 <MaterialCommunityIcons name={expanded ? "chevron-up" : "chevron-down"} size={24} color={theme === 'dark' ? 'white' : 'black'} />
             </View>
             <Animated.View style={[localStyles.expandedSection, { height: animatedHeight, overflow: 'hidden' }]}>
                 <TouchableOpacity onPress={() => openContract(contract.contract_name)} style={localStyles.smartContractButton}>
                     <MaterialCommunityIcons name="file-document-outline" size={24} color={theme === 'dark' ? 'white' : 'black'} />
-                    <Text style={localStyles.contractItemText}>Access Contract</Text>
+                    <Text style={[localStyles.generalText, {marginLeft: 5}]}>Access Contract</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => openShareContract(contract.contract_name)} style={localStyles.smartContractButton}>
                     <MaterialCommunityIcons name="share-outline" size={24} color="green" />
-                    <Text style={[localStyles.contractItemText, {color: 'green' }]}>Share Contract</Text>
+                    <Text style={[localStyles.generalText, {color: 'green', marginLeft: 5 }]}>Share Contract</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={initiateDeletion} style={localStyles.smartContractButton}>
                     <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
-                    <Text style={[localStyles.contractItemText, {color: 'red' }]}>Delete Contract</Text>
+                    <Text style={[localStyles.generalText, {color: 'red', marginLeft: 5}]}>Delete Contract</Text>
                 </TouchableOpacity>
             </Animated.View>
         </TouchableOpacity>

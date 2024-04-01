@@ -22,7 +22,7 @@ const getLocalStyles = (theme = 'light') => {
     };
 
     return StyleSheet.create({
-        contractItemAnimation: {
+        contractItem: {
             marginBottom: 10,
             paddingHorizontal: 10,
             paddingTop: 10,
@@ -30,7 +30,7 @@ const getLocalStyles = (theme = 'light') => {
             borderRadius: 10,
             borderColor: '#ddd',
         },
-        contractHeader: {
+        contractItemHeader: {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -40,10 +40,6 @@ const getLocalStyles = (theme = 'light') => {
         },
         expandedSection: {
             paddingTop: 10,
-        },
-        contractItemText: {
-            color: theme === 'dark' ? 'white' : 'black', 
-            marginLeft: 5,
         },
         smartContractButton: {
             flexDirection: 'row',
@@ -55,21 +51,16 @@ const getLocalStyles = (theme = 'light') => {
             backgroundColor: theme === 'dark' ? '#2D2D2D' : '#EFEFEF',
         },
 
-        baseContainer: {
+        bottomTabNavigatorContainer: {
             flex: 1, 
-            backgroundColor: theme === 'dark' ? '#1A1A1A' : 'white', 
+            backgroundColor: themeStyles[theme].containerBackground,
+            
         },
-        activityIndicator: {
-            paddingTop: '10%',
-        },
-        EditorContainer: {
-            flex: 1,
-        },
-
-        scrollView: {
-            backgroundColor: themeStyles[theme].containerBackground, 
+        editorContainer: {
+            backgroundColor: themeStyles[theme].inputBackground,
             marginBottom: 90,
         },
+
         dropZone: {
             width: '100%',
             height: 150,
@@ -81,17 +72,12 @@ const getLocalStyles = (theme = 'light') => {
             alignItems: 'center',
             marginBottom: '5%',
         },
-        buttonText: {
-            color: themeStyles[theme].textColor,
-            fontSize: 16,
-            fontWeight: 'bold',
-        },
-        dropZoneText: {
-            textAlign: 'center',
-            color: '#007bff',
+       
+        inputFieldText: {
+            color: theme === 'dark' ? 'grey' : 'darkgrey',
             fontSize: 16,
         },
-        input: {
+        inputField: {
             height: 44,
             width: '100%', 
             backgroundColor: themeStyles[theme].inputBackground,
@@ -100,13 +86,10 @@ const getLocalStyles = (theme = 'light') => {
             borderRadius: 10,
             marginBottom: '5.5%',
             paddingLeft: '4%',
-            color: themeStyles[theme].textColor, 
         },
         button: {
             height: 44,
-            width: '100%',
             backgroundColor: themeStyles[theme].backgroundColor,
-            marginBottom: '5.7%',
             borderRadius: 10,
             justifyContent: 'center',
             alignItems: 'center',
@@ -116,20 +99,21 @@ const getLocalStyles = (theme = 'light') => {
             fontSize: 16,
             fontWeight: 'bold',
         },
-        noContractsText: {
+        noContractsView: {
             textAlign: 'center',
             color: themeStyles[theme].textColor,
-            marginTop: 20, 
             fontSize: 16,
+            paddingTop: 12.5,
+            height: 50,
+            borderRadius: 10,
+            borderWidth: 2,
+            borderColor: themeStyles[theme].backgroundColor,
         },
         footer: {
             marginTop: 10,
             marginBottom: 10,
         },
-        footerText: {
-            fontSize: 14,
-            color: themeStyles[theme].textColor,
-        },
+        
     });
 };
 
