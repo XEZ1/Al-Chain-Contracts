@@ -82,6 +82,7 @@ const getLocalStyles = (theme = 'light') => {
             width: '100%', 
             backgroundColor: themeStyles[theme].inputBackground,
             borderColor: themeStyles[theme].borderColor,
+            color: themeStyles[theme].textColor,
             borderWidth: 1,
             borderRadius: 10,
             marginBottom: '5.5%',

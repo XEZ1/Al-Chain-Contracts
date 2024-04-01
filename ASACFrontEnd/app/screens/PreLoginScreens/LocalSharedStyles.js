@@ -24,12 +24,12 @@ const getLocalStyles = (theme = 'light') => {
     return StyleSheet.create({
         errorIconContainerSignUp: {
             position: 'absolute',
-            right: 20,
-            top: 70,
+            right: 5,
+            top: 5,
         },
         inputPreLogin: {
             height: 50,
-            width: '71%', 
+            width: '90%', 
             backgroundColor: themeStyles[theme].inputBackground,
             borderColor: themeStyles[theme].borderColor,
             borderWidth: 1,
@@ -40,9 +40,8 @@ const getLocalStyles = (theme = 'light') => {
         },
         buttonPreLogin: {
             height: 50,
-            width: 250,
+            width: '90%',
             backgroundColor: themeStyles[theme].backgroundColor,
-            marginBottom: '3%',
             borderRadius: 10,
             justifyContent: 'center',
             alignItems: 'center',

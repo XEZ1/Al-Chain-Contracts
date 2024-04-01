@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Text, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { AuthContext } from '../../components/Authentication';
 import getStyles from '../../styles/SharedStyles';
 import { ThemeContext } from '../../components/Theme';
@@ -16,26 +16,28 @@ const LoginScreen = ({ navigation }) => {
     const [password, setPassword] = useState('');
 
     return (
-        <KeyboardAvoidingView 
-            style={sharedStyles.container} 
+        <KeyboardAvoidingView
+            style={sharedStyles.container}
             behavior="padding"
         >
-            <TextInput
-                placeholder="Username"
-                style={localStyles.inputPreLogin}
-                placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                onChangeText={setUsername}
-            />
-            <TextInput
-                placeholder="Password"
-                secureTextEntry
-                style={localStyles.inputPreLogin}
-                placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                onChangeText={setPassword}
-            />
-            <TouchableOpacity style={localStyles.buttonPreLogin} onPress={() => handleLogin(username, password)}>
-                <Text style={localStyles.buttonText}>Login</Text>
-            </TouchableOpacity>
+            <View style={[sharedStyles.card, { justifyContent: 'center', alignItems: 'center' }]}>
+                <TextInput
+                    placeholder="Username"
+                    style={localStyles.inputPreLogin}
+                    placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
+                    onChangeText={setUsername}
+                />
+                <TextInput
+                    placeholder="Password"
+                    secureTextEntry
+                    style={localStyles.inputPreLogin}
+                    placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
+                    onChangeText={setPassword}
+                />
+                <TouchableOpacity style={localStyles.buttonPreLogin} onPress={() => handleLogin(username, password)}>
+                    <Text style={localStyles.buttonText}>Login</Text>
+                </TouchableOpacity>
+            </View>
         </KeyboardAvoidingView>
     );
 };
