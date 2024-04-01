@@ -70,7 +70,66 @@ const getLocalStyles = (theme = 'light') => {
             backgroundColor: themeStyles[theme].containerBackground, 
             marginBottom: 90,
         },
-        
+        dropZone: {
+            width: '100%',
+            height: 150,
+            borderRadius: 10,
+            borderWidth: 2,
+            borderColor: themeStyles[theme].backgroundColor,
+            borderStyle: 'dashed',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: '5%',
+        },
+        buttonText: {
+            color: themeStyles[theme].textColor,
+            fontSize: 16,
+            fontWeight: 'bold',
+        },
+        dropZoneText: {
+            textAlign: 'center',
+            color: '#007bff',
+            fontSize: 16,
+        },
+        input: {
+            height: 44,
+            width: '100%', 
+            backgroundColor: themeStyles[theme].inputBackground,
+            borderColor: themeStyles[theme].borderColor,
+            borderWidth: 1,
+            borderRadius: 10,
+            marginBottom: '5.5%',
+            paddingLeft: '4%',
+            color: themeStyles[theme].textColor, 
+        },
+        button: {
+            height: 44,
+            width: '100%',
+            backgroundColor: themeStyles[theme].backgroundColor,
+            marginBottom: '5.7%',
+            borderRadius: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        buttonText: {
+            color: themeStyles[theme].textColor,
+            fontSize: 16,
+            fontWeight: 'bold',
+        },
+        noContractsText: {
+            textAlign: 'center',
+            color: themeStyles[theme].textColor,
+            marginTop: 20, 
+            fontSize: 16,
+        },
+        footer: {
+            marginTop: 10,
+            marginBottom: 10,
+        },
+        footerText: {
+            fontSize: 14,
+            color: themeStyles[theme].textColor,
+        },
     });
 };
 
