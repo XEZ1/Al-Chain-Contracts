@@ -114,6 +114,12 @@ const getLocalStyles = (theme = 'light') => {
             marginBottom: 90, 
             paddingTop: 25,
         },
+        header: {
+            fontSize: 28,
+            fontWeight: 'bold',
+            color: themeStyles[theme].textColor,
+            marginBottom: 30,
+        },
     });
 };
 

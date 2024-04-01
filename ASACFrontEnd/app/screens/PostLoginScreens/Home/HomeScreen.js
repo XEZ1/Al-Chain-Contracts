@@ -124,7 +124,7 @@ const HomeScreen = ({ navigation }) => {
                             </View>
                         </Modal>
 
-                        <Text style={sharedStyles.cardHeader}>Upload an Employment Contract</Text>
+                        <Text style={sharedStyles.cardHeader}>Generate a Smart Contract</Text>
                         {/* DropZone */}
                         <TouchableOpacity style={localStyles.dropZone} onPress={() => handleFileSelectDropZone()}>
                             {selectedFile ? (
@@ -133,7 +133,7 @@ const HomeScreen = ({ navigation }) => {
                                     <Text style={localStyles.buttonText}>{selectedFile.assets[0].name}</Text>
                                 </>
                             ) : (
-                                <Text style={[localStyles.inputFieldText]}>Tap to select a .docx / .pdf / .txt file</Text>
+                                <Text style={[localStyles.inputFieldText]}>Tap to upload an employment contract</Text>
                             )}
                         </TouchableOpacity>
 

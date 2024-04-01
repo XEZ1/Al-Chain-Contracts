@@ -29,15 +29,6 @@ const getStyles = (theme = 'light') => {
             paddingTop: '5%',
             padding: '5%',
             backgroundColor: themeStyles[theme].containerBackground,
-            
-        },
-        containerCommentScreen: {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingTop: '0%',
-            padding: '5%',
-            backgroundColor: themeStyles[theme].containerBackground, 
         },
         containerWithoutBackground: {
             flex: 1,
@@ -381,23 +372,9 @@ const getStyles = (theme = 'light') => {
         activityIndicator: {
             paddingTop: '10%',
         },
-        generalText: {
-            color: theme === 'dark' ? 'white' : 'black', 
-        },
         contractItemText: {
             color: theme === 'dark' ? 'white' : 'black', 
             marginLeft: 5,
-        },
-        postsContainer: {
-            flexDirection: 'row',
-            marginTop: 10,
-            alignItems: 'center', 
-            justifyContent: 'space-between', 
-        },
-        postsButtonText: {
-            flexDirection: 'row', 
-            alignItems: 'center', 
-            marginRight: 0,
         },
         postsViewContainer: {
             flexDirection: 'row', 
@@ -427,10 +404,7 @@ const getStyles = (theme = 'light') => {
             marginBottom: 90, 
             paddingTop: 25,
         },
-        flatListCommentsContainer: {
-            width: '100%',
-            marginBottom: 90,
-        },
+
         inputCommentsScreen: {
             height: 44,
             width: '96%', 
