@@ -25,10 +25,11 @@ const getLocalStyles = (theme = 'light') => {
         containerCommentScreen: {
             flex: 1,
             padding: '5%',
+            paddingTop: '0%',
             backgroundColor: themeStyles[theme].containerBackground, 
         },
         flatListCommentsContainer: {
-            width: '100%',
+            //width: '100%',
             marginBottom: 90,
         },
         settingText: {
@@ -54,7 +55,7 @@ const getLocalStyles = (theme = 'light') => {
         },
         centeredContainer: {
             alignItems: 'center',
-            marginTop: '2%', 
+            //marginTop: '2%', 
         },
         inputField: {
             height: 44,
