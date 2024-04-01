@@ -18,13 +18,13 @@ const PreLoginScreen = ({ navigation }) => {
         >
             <StatusBar barStyle={theme === 'light-content'} />
             <View style={localStyles.containerWithoutBackground}>
-                <TouchableOpacity style={localStyles.buttonPreLogin} onPress={() => navigation.navigate('Login')}>
+                <TouchableOpacity style={[localStyles.buttonPreLogin, {width: 250, marginBottom: '3%'}]} onPress={() => navigation.navigate('Login')}>
                     <Text style={localStyles.buttonTextPreLogin}>Login</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={localStyles.buttonPreLogin} onPress={() => navigation.navigate('SignUp')}>
+                <TouchableOpacity style={[localStyles.buttonPreLogin, {width: 250, marginBottom: '3%'}]} onPress={() => navigation.navigate('SignUp')}>
                     <Text style={localStyles.buttonTextPreLogin}>Sign Up</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={localStyles.buttonPreLogin}>
+                <TouchableOpacity style={[localStyles.buttonPreLogin, {width: 250, marginBottom: '3%'}]}>
                     <Text style={localStyles.buttonTextPreLogin}>About Us</Text>
                 </TouchableOpacity>
             </View>

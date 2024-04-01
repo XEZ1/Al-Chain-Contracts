@@ -30,6 +30,20 @@ const getStyles = (theme = 'light') => {
             padding: '5%',
             backgroundColor: themeStyles[theme].containerBackground,
         },
+        card: {
+            width: '96%', 
+            backgroundColor: themeStyles[theme].cardBackground,
+            borderRadius: '10%',
+            padding: '6%',
+            marginBottom: '8%',
+            shadowColor: theme === 'dark' ? '#3A3A3A' : '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: theme === 'dark' ? '0.8%' : '0.4%',
+            shadowRadius: '4%',
+            elevation: '1%',
+            margin: '1%',
+        },
+
         tabBar: {
             activeTintColor: theme === 'dark' ? 'white' : 'black', 
             inactiveTintColor: theme === 'dark' ? 'grey' : 'darkgrey', 
@@ -55,22 +69,6 @@ const getStyles = (theme = 'light') => {
             marginBottom: '6%',
             color: themeStyles[theme].textColor, 
             textAlign: 'center', 
-        },
-        card: {
-            width: '96%', 
-            backgroundColor: themeStyles[theme].cardBackground,
-            borderRadius: '10%',
-            padding: '6%',
-            marginBottom: '6%',
-            shadowColor: theme === 'dark' ? '#3A3A3A' : '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: theme === 'dark' ? '0.8%' : '0.4%',
-            shadowRadius: '4%',
-            elevation: '1%',
-            margin: '1%',
-            marginTop: '2%',
-            marginLeft: '2%',
-            marginLeft: '2%'
         },
         cardHeader: {
             fontSize: 18,

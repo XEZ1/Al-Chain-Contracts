@@ -244,8 +244,8 @@ const HomeScreen = ({ navigation }) => {
                                             name="close-circle"
                                             size={30}
                                             color='red'
-                                            onPress={() => setShowAddressModal(false)}
-                                            style={sharedStyles.exitButton}
+                                            //onPress={() => setShowAddressModal(false)}
+                                            //style={sharedStyles.exitButton}
                                         />
                                     </TouchableOpacity>
                                 </View>
