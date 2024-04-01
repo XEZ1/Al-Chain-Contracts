@@ -17,10 +17,10 @@ const SettingsScreen = ({ navigation }) => {
 
     return (
         <View style={sharedStyles.container}>
-            <Text style={sharedStyles.title}>Settings</Text>
+            <Text style={localStyles.title}>Settings</Text>
 
-            <View style={sharedStyles.settingItem}>
-                <Text style={sharedStyles.settingText}>Dark Mode</Text>
+            <View style={localStyles.settingItem}>
+                <Text style={localStyles.settingText}>Dark Mode</Text>
                 <Switch
                     trackColor={{ false: "#767577", true: "#81b0ff" }}
                     thumbColor={theme.isDark ? "#f4f3f4" : "#f4f3f4"}
@@ -30,8 +30,8 @@ const SettingsScreen = ({ navigation }) => {
                 />
             </View>
 
-            <View style={sharedStyles.settingItem}>
-                <Text style={sharedStyles.settingText}>Notifications</Text>
+            <View style={localStyles.settingItem}>
+                <Text style={localStyles.settingText}>Notifications</Text>
                 <Switch
                     trackColor={{ false: "#767577", true: "#81b0ff" }}
                     thumbColor={notificationsEnabled ? "#f4f3f4" : "#f4f3f4"}
@@ -42,10 +42,10 @@ const SettingsScreen = ({ navigation }) => {
             </View>
 
             <TouchableOpacity
-                style={sharedStyles.button}
+                style={localStyles.button}
                 onPress={() => { logout(); setIsLoggedIn(false) }}
             >
-                <Text style={sharedStyles.buttonText}>Log Out</Text>
+                <Text style={localStyles.buttonText}>Log Out</Text>
             </TouchableOpacity>
 
             {/* Separator Line */}
