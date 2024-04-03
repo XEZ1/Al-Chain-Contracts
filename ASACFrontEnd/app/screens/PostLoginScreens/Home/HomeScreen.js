@@ -7,7 +7,7 @@ import { useHomeScreen } from './UseHomeScreen';
 import { ContractItem } from './ContractItem';
 import { useFocusEffect } from '@react-navigation/native';
 import getLocalStyles from './LocalSharedStyles';
-
+import { useKeyboard } from '../../../components/Keyboard';
 
 const HomeScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
@@ -21,7 +21,7 @@ const HomeScreen = ({ navigation }) => {
     const addressConversionRef = useRef(null);
     const scrollViewRef = useRef(null);
 
-    const [keyboardHeight, setKeyboardHeight] = useState(0);
+    const { keyboardHeight, registerScrollViewRef, unregisterScrollViewRef } = useKeyboard();
 
     const {
         selectedFile, setSelectedFile,
@@ -45,39 +45,14 @@ const HomeScreen = ({ navigation }) => {
         fetchAndSyncContracts();
     }, []);
 
-    useFocusEffect(
-        React.useCallback(() => {
-            const handleKeyboardDidShow = (e) => {
-                const screenHeight = Dimensions.get('window').height;
-                const endY = e.endCoordinates.screenY;
-                LayoutAnimation.easeInEaseOut(); 
-                setKeyboardHeight(screenHeight - endY - 90);
+    useEffect(() => {
+        const id = "HomeScreen"; 
+        registerScrollViewRef(id, scrollViewRef);
 
-                const currentlyFocusedField = TextInput.State.currentlyFocusedInput();
-                if (currentlyFocusedField) {
-                    const nodeHandle = findNodeHandle(currentlyFocusedField);
-                    scrollViewRef.current?.getScrollResponder().scrollResponderScrollNativeHandleToKeyboard(
-                        nodeHandle,
-                        160,
-                        true
-                    );
-                }
-            };
-
-            const handleKeyboardDidHide = () => {
-                LayoutAnimation.easeInEaseOut(); 
-                setKeyboardHeight(0);
-            };
-
-            const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow);
-            const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
-
-            return () => {
-                keyboardDidShowListener.remove();
-                keyboardDidHideListener.remove();
-            };
-        }, [])
-    );
+        return () => {
+            unregisterScrollViewRef(id);
+        };
+    }, [registerScrollViewRef, unregisterScrollViewRef]);
 
     return (
         <View style={[sharedStyles.avoidingTabBarContainer, { paddingBottom: keyboardHeight, marginBottom: 0 }]}>
