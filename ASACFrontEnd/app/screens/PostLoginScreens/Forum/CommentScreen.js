@@ -122,9 +122,9 @@ const CommentScreen = ({ route, navigation }) => {
                             onChangeText={setNewComment}
                             placeholder="Write a comment..."
                             placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                            style={localStyles.inputField}
+                            style={[sharedStyles.inputField, { width: '96%' }]}
                         />
-                        <TouchableOpacity title="Post Comment" style={[sharedStyles.button, { width: '96%' }]} onPress={() => { handleAddComment(newComment); setNewComment(''); }}>
+                        <TouchableOpacity title="Post Comment" style={[sharedStyles.button, { width: '96%', marginBottom: '6%' }]} onPress={() => { handleAddComment(newComment); setNewComment(''); }}>
                             <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Post Comment</Text>
                         </TouchableOpacity>
                     </View>

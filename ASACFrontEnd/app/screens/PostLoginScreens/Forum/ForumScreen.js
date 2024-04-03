@@ -28,7 +28,7 @@ const ForumScreen = ({ navigation }) => {
             <View style={sharedStyles.cardContainer}>
                 <Text style={sharedStyles.cardHeaderText}>{item.title}</Text>
                 <Text style={[sharedStyles.generalText, { fontSize: 18 }]}>{item.description}</Text>
-                <View style={localStyles.postsContainer}>
+                <View style={[sharedStyles.rowCenteredContainer, { marginTop: '3.5%' }]}>
                     <TouchableOpacity
                         onPress={() => handleLikePost(item.id, item.user_has_liked)}
                         style={localStyles.postsButton}>
@@ -56,47 +56,48 @@ const ForumScreen = ({ navigation }) => {
     );
 
     return (
-        <KeyboardAvoidingView
-            style={sharedStyles.container}
-            behavior="padding"
+        <View
+            style={[sharedStyles.container, { paddingBottom: '0%' }]}
         >
             <Text style={sharedStyles.pageHeaderText}>Community Forum</Text>
 
             {/* Search or Create Post Input */}
-            <View style={localStyles.postsViewContainer}>
+            <View style={[sharedStyles.rowCenteredContainer, { marginTop: '0%', marginBottom: '10%' }]}>
                 <TextInput
                     value={newPostTitle}
                     onChangeText={setNewPostTitle}
                     placeholder='Title...'
                     placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                    style={[localStyles.inputField, { flex: 1, marginRight: 10, marginBottom: '0%' }]}
+                    style={[sharedStyles.inputField, { flex: 1, marginRight: 10, marginBottom: '0%' }]}
                 />
                 <TextInput
                     value={newPostDescription}
                     onChangeText={setNewPostDescription}
                     placeholder='Description...'
                     placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                    style={[localStyles.inputField, { flex: 2, marginRight: 10, marginBottom: '0%' }]}
+                    style={[sharedStyles.inputField, { flex: 2, marginRight: 10, marginBottom: '0%' }]}
                 />
-                <TouchableOpacity onPress={createPost} style={[sharedStyles.button, { width: '20%', marginBottom: '0%', }]}>
-                    <Text style={localStyles.buttonText}>Post</Text>
+                <TouchableOpacity onPress={createPost} style={[sharedStyles.button, { width: '20%' }]}>
+                    <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Post</Text>
                 </TouchableOpacity>
             </View>
 
-            <View style={[sharedStyles.separatorLine, { bottom: 635 }]} />
+            {/* 634.45 */}
+            <View style={[sharedStyles.separatorLine, { bottom: 635 }]} /> 
 
             {/* List of Posts */}
             <FlatList
                 data={posts}
                 renderItem={renderPost}
                 keyExtractor={item => item.id.toString()}
-                style={[sharedStyles.avoidingTabBarContainer, { paddingTop: 25 }]}
+                style={[sharedStyles.avoidingTabBarContainer, { paddingTop: 25, }]}
                 showsVerticalScrollIndicator={false}
+                ListFooterComponent={<View style={{ paddingBottom: '10%' }}/>}
             />
 
             {/* Separator Line */}
             <View style={sharedStyles.separatorLine} />
-        </KeyboardAvoidingView>
+        </View>
 
     );
 };

@@ -16,7 +16,7 @@ function EditorScreen({ route, navigation }) {
     const { codeHtml, isLoading } = useEditorScreen(filePath, theme);
 
     return (
-        <View style={localStyles.bottomTabNavigatorContainer}>
+        <View style={[sharedStyles.avoidingTabBarContainer, { flex: 1, marginBottom: 0 }]}>
             {isLoading ? (
                 <ActivityIndicator size="large" color='rgba(1, 193, 219, 1)' style={{paddingTop: '10%'}} /> 
             ) : (
