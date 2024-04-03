@@ -115,8 +115,9 @@ const HomeScreen = ({ navigation }) => {
                                 </View>
                             </View>
                         </Modal>
+                       
 
-                        <Text style={sharedStyles.cardHeaderText}>Generate a Smart Contract</Text>
+                        <Text style={sharedStyles.cardHeaderText}>Produce a Solidity Smart Contract</Text>
                         {/* DropZone */}
                         <TouchableOpacity style={localStyles.dropZone} onPress={() => handleFileSelectDropZone()}>
                             {selectedFile ? (
