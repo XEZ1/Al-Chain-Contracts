@@ -9,6 +9,8 @@ const getStyles = (theme = 'light') => {
             borderColor: 'rgba(0, 0, 0, 0.5)',
             containerBackground: 'white', 
             cardBackground: 'white', 
+            shadowColor: '#000',
+            shadowOpacity: '0.4%',
         },
         dark: {
             backgroundColor: 'rgba(1, 193, 219, 1)', 
@@ -18,11 +20,33 @@ const getStyles = (theme = 'light') => {
             containerBackground: 'rgb(0, 0, 0)', 
             containerBackground: '#1A1A1A',
             cardBackground: 'rgb(50, 50, 52)',  
+            shadowColor:'#3A3A3A',
+            shadowOpacity: '0.8%',
         },
     };
 
     return StyleSheet.create({
-        container: {
+        tabBar: { //tab bar styling
+            activeTintColor: theme === 'dark' ? 'white' : 'black', 
+            inactiveTintColor: theme === 'dark' ? 'grey' : 'darkgrey', 
+            backgroundColor: themeStyles[theme].backgroundColor,  
+            borderColor: theme === 'dark' ? 'black' : 'white', 
+            position: 'absolute', 
+            bottom: '2.5%', 
+            left: '5%', 
+            right: '5%',
+            height: '7%', 
+            paddingVertical: '2%', 
+            paddingBottom: '2.5%',
+            borderRadius: '30%',  
+            shadowColor: themeStyles[theme].shadowColor,
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: themeStyles[theme].shadowOpacity,
+            shadowRadius: '8%',
+            elevation: '1%'
+        },
+
+        container: { // general container
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
@@ -30,93 +54,90 @@ const getStyles = (theme = 'light') => {
             padding: '5%',
             backgroundColor: themeStyles[theme].containerBackground,
         },
-        card: {
+        cardContainer: { // used for cards
             width: '96%', 
             backgroundColor: themeStyles[theme].cardBackground,
             borderRadius: '10%',
             padding: '6%',
             marginBottom: '8%',
-            shadowColor: theme === 'dark' ? '#3A3A3A' : '#000',
+            shadowColor: themeStyles[theme].shadowColor,
             shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: theme === 'dark' ? '0.8%' : '0.4%',
+            shadowOpacity: themeStyles[theme].shadowOpacity,
             shadowRadius: '4%',
             elevation: '1%',
             margin: '1%',
         },
-
-        tabBar: {
-            activeTintColor: theme === 'dark' ? 'white' : 'black', 
-            inactiveTintColor: theme === 'dark' ? 'grey' : 'darkgrey', 
-            backgroundColor: 'rgba(1, 193, 219, 1)',  
-            borderColor: theme === 'dark' ? 'black' : 'white', 
-            position: 'absolute', 
-            bottom: '2.5%', 
-            left: '5%', 
-            right: '5%',
-            borderRadius: '30%', 
-            height: '7%', 
-            paddingVertical: '2%', 
-            paddingBottom: '2.5%',
-            borderTopWidth: '0%', 
-            shadowColor: theme === 'dark' ? '#3A3A3A' : '#000',
-            shadowOffset: { width: '0%', height: '1%' },
-            shadowOpacity: theme === 'dark' ? '0.8%' : '0.4%',
-            shadowRadius: '20%',
-        },
-        title: {
-            fontSize: 22,
-            fontWeight: 'bold',
-            marginBottom: '6%',
-            color: themeStyles[theme].textColor, 
-            textAlign: 'center', 
-        },
-        cardHeader: {
-            fontSize: 18,
-            color: themeStyles[theme].textColor,
-            fontWeight: 'bold',
-            marginBottom: 10,
-        },
-        header: {
-            fontSize: 28,
-            fontWeight: 'bold',
-            color: themeStyles[theme].textColor,
-            marginBottom: 30,
-        },
-        
-        // Modals
-        errorIcon: {
-            color: 'red', 
-        },
-        errorText: {
-            marginLeft: 5, 
-            color: 'red', 
-            fontSize: 14, 
-        },
-        errorIconContainer: {
-            position: 'absolute',
-            right: 5,
-            top: 5,
-        },
-        centeredView: {
+        centeredViewContainer: { // used for modals
             flex: 1,
             justifyContent: "center",
             alignItems: "center",
         },
-        modalView: {
+        modalViewContainer: { // used for modals
             width: '80%', 
             margin: 20,
             backgroundColor: themeStyles[theme].inputBackground,
             borderRadius: 20,
             padding: 25,
             alignItems: "flex-start", 
-            shadowColor: "#000",
-            shadowOffset: {
-                width: 2,
-                height: 3,
-            },
-            shadowOpacity: 0.25,
-            shadowRadius: 4,
-            elevation: 5
+            shadowColor: themeStyles[theme].shadowColor,
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: themeStyles[theme].shadowOpacity,
+            shadowRadius: '4%',
+            elevation: '1%'
+        },
+        errorIconContainer: {
+            position: 'absolute',
+            right: 5,
+            top: 5,
+        },
+        avoidingTabBarContainer: {
+            backgroundColor: themeStyles[theme].containerBackground,
+            marginBottom: 90,
+        },
+
+        pageHeaderText: {
+            fontSize: 28,
+            fontWeight: 'bold',
+            color: themeStyles[theme].textColor,
+            marginBottom: 30,
+        },
+        cardHeaderText: {
+            fontSize: 18,
+            color: themeStyles[theme].textColor,
+            fontWeight: 'bold',
+            marginBottom: 10,
+        },
+        generalText: {
+            color: themeStyles[theme].textColor, 
+        },
+        
+        button: {
+            height: 44,
+            width: '100%',
+            backgroundColor: themeStyles[theme].backgroundColor,
+            marginBottom: '5.7%',
+            borderRadius: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        exitButton: {
+            position: 'absolute',
+            top: 5,
+            right: 5,
+            justifyContent: 'center',
+            alignItems: 'center',
+            shadowColor: themeStyles[theme].shadowColor,
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: themeStyles[theme].shadowOpacity,
+            shadowRadius: '4%',
+            elevation: '1%'
+        },
+
+        // ADJUST AND DELETE: Modals
+        errorText: {
+            marginLeft: 5, 
+            color: 'red', 
+            fontSize: 14, 
         },
         modalText: {
             color: themeStyles[theme].textColor,
@@ -132,26 +153,13 @@ const getStyles = (theme = 'light') => {
             fontWeight: "bold",
             textAlign: "center"
         },
-        exitButton: {
-            position: 'absolute',
-            top: 5,
-            right: 5,
-            justifyContent: 'center',
-            alignItems: 'center',
-            shadowColor: theme === 'dark' ? '#3A3A3A' : '#000',
-            shadowOffset: {
-                width: 0,
-                height: 2
-            },
-            shadowOpacity: 0.15,
-            shadowRadius: 3.84, 
-            elevation: 5,
-        },
         exitButtonText: {
             color: 'white',
             fontWeight: 'bold',
         },
 
+
+        
         separatorLine: {
             position: 'absolute',
             height: 0.3, 
@@ -165,15 +173,6 @@ const getStyles = (theme = 'light') => {
             paddingTop: '10%',
         },
 
-        button: {
-            height: 44,
-            width: '100%',
-            backgroundColor: themeStyles[theme].backgroundColor,
-            marginBottom: '5.7%',
-            borderRadius: 10,
-            justifyContent: 'center',
-            alignItems: 'center',
-        },
     });
 };
 

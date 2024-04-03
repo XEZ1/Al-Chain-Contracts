@@ -17,7 +17,7 @@ const SettingsScreen = ({ navigation }) => {
 
     return (
         <View style={sharedStyles.container}>
-            <Text style={localStyles.title}>Settings</Text>
+            <Text style={sharedStyles.pageHeaderText}>Settings</Text>
 
             <View style={localStyles.settingItem}>
                 <Text style={localStyles.settingText}>Dark Mode</Text>

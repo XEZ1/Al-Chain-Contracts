@@ -11,10 +11,10 @@ const ForumScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
     const sharedStyles = getStyles(theme);
     const localStyles = getLocalStyles(theme);
-    
-    const { posts, loading, createPost, handleLikePost, handleDeletePost, 
-        newPostTitle, setNewPostTitle, 
-        newPostDescription, setNewPostDescription 
+
+    const { posts, loading, createPost, handleLikePost, handleDeletePost,
+        newPostTitle, setNewPostTitle,
+        newPostDescription, setNewPostDescription
     } = useForumScreen();
 
     if (loading) {
@@ -24,31 +24,33 @@ const ForumScreen = ({ navigation }) => {
     }
 
     const renderPost = ({ item }) => (
-        <View style={sharedStyles.card}>
-            <Text style={sharedStyles.cardHeader}>{item.title}</Text>
-            <Text style={localStyles.settingText}>{item.description}</Text>
-            <View style={localStyles.postsContainer}>
-                <TouchableOpacity
-                    onPress={() => handleLikePost(item.id, item.user_has_liked)}
-                    style={localStyles.postsButtonText}>
-                    <MaterialCommunityIcons
-                        name={item.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
-                    <Text style={localStyles.buttonText}>Like({item.like_count})</Text>
-                </TouchableOpacity>
-                {item.is_user_author && (
+        <View style={[sharedStyles.container, { paddingTop: '0%', padding: '0%' }]}>
+            <View style={sharedStyles.cardContainer}>
+                <Text style={sharedStyles.cardHeaderText}>{item.title}</Text>
+                <Text style={[sharedStyles.generalText, { fontSize: 18 }]}>{item.description}</Text>
+                <View style={localStyles.postsContainer}>
                     <TouchableOpacity
-                        onPress={() => handleDeletePost(item.id)}
-                        style={localStyles.postsButtonText}>
-                        <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
-                        <Text style={localStyles.buttonText}>Delete</Text>
+                        onPress={() => handleLikePost(item.id, item.user_has_liked)}
+                        style={localStyles.postsButton}>
+                        <MaterialCommunityIcons
+                            name={item.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
+                        <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Like({item.like_count})</Text>
                     </TouchableOpacity>
-                )}
-                <TouchableOpacity
-                    onPress={() => navigation.navigate('CommentScreen', { postId: item.id })}
-                    style={localStyles.postsButtonText}>
-                    <MaterialCommunityIcons name="comment-text-outline" size={24} color="grey" />
-                    <Text style={localStyles.buttonText}>Comment</Text>
-                </TouchableOpacity>
+                    {item.is_user_author && (
+                        <TouchableOpacity
+                            onPress={() => handleDeletePost(item.id)}
+                            style={localStyles.postsButton}>
+                            <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
+                            <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Delete</Text>
+                        </TouchableOpacity>
+                    )}
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('CommentScreen', { postId: item.id })}
+                        style={localStyles.postsButton}>
+                        <MaterialCommunityIcons name="comment-text-outline" size={24} color="grey" />
+                        <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Comment</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     );
@@ -58,7 +60,7 @@ const ForumScreen = ({ navigation }) => {
             style={sharedStyles.container}
             behavior="padding"
         >
-            <Text style={localStyles.header}>Community Forum</Text>
+            <Text style={sharedStyles.pageHeaderText}>Community Forum</Text>
 
             {/* Search or Create Post Input */}
             <View style={localStyles.postsViewContainer}>
@@ -67,16 +69,16 @@ const ForumScreen = ({ navigation }) => {
                     onChangeText={setNewPostTitle}
                     placeholder='Title...'
                     placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                    style={localStyles.inputForumScreen}
+                    style={[localStyles.inputField, { flex: 1, marginRight: 10, marginBottom: '0%' }]}
                 />
                 <TextInput
                     value={newPostDescription}
                     onChangeText={setNewPostDescription}
                     placeholder='Description...'
                     placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                    style={[localStyles.inputForumScreen, { flex: 2 }]}
+                    style={[localStyles.inputField, { flex: 2, marginRight: 10, marginBottom: '0%' }]}
                 />
-                <TouchableOpacity onPress={createPost} style={localStyles.buttonForumScreen}>
+                <TouchableOpacity onPress={createPost} style={[sharedStyles.button, { width: '20%', marginBottom: '0%', }]}>
                     <Text style={localStyles.buttonText}>Post</Text>
                 </TouchableOpacity>
             </View>
@@ -88,9 +90,8 @@ const ForumScreen = ({ navigation }) => {
                 data={posts}
                 renderItem={renderPost}
                 keyExtractor={item => item.id.toString()}
-                style={localStyles.flatListPostsContainer}
+                style={[sharedStyles.avoidingTabBarContainer, { paddingTop: 25 }]}
                 showsVerticalScrollIndicator={false}
-                ListFooterComponent={<View style={localStyles.listFooterContainer} />}
             />
 
             {/* Separator Line */}

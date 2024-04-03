@@ -20,7 +20,7 @@ const LoginScreen = ({ navigation }) => {
             style={sharedStyles.container}
             behavior="padding"
         >
-            <View style={[sharedStyles.card, { justifyContent: 'center', alignItems: 'center' }]}>
+            <View style={[sharedStyles.cardContainer, { justifyContent: 'center', alignItems: 'center' }]}>
                 <TextInput
                     placeholder="Username"
                     style={localStyles.inputPreLogin}
