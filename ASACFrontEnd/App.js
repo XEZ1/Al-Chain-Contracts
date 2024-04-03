@@ -6,6 +6,7 @@ import { ThemeProvider } from './app/components/Theme';
 import { UIManager, Platform } from 'react-native';
 import * as Notifications from 'expo-notifications';
 import ErrorBoundary from './ErrorBoundary'
+import { KeyboardProvider } from './app/components/Keyboard';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -37,12 +38,13 @@ const App = () => {
     }, []);
 
     return (
-        
         <AuthProvider>
             <ThemeProvider>
-                <NavigationContainer>
-                    <AppNavigator />
-                </NavigationContainer>
+                <KeyboardProvider>
+                    <NavigationContainer>
+                        <AppNavigator />
+                    </NavigationContainer>
+                </KeyboardProvider>
             </ThemeProvider>
         </AuthProvider>
     
