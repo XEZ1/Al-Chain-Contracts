@@ -20,10 +20,10 @@ const SettingsScreen = ({ navigation }) => {
             <Text style={sharedStyles.pageHeaderText}>Settings</Text>
 
             <View style={localStyles.settingItem}>
-                <Text style={localStyles.settingText}>Dark Mode</Text>
+                <Text style={[sharedStyles.generalText, { fontSize: 18 }]}>Dark Mode</Text>
                 <Switch
                     trackColor={{ false: "#767577", true: "#81b0ff" }}
-                    thumbColor={theme.isDark ? "#f4f3f4" : "#f4f3f4"}
+                    thumbColor={theme === 'dark' ? "#f4f3f4" : "#f4f3f4"}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleTheme}
                     value={isDarkMode}
@@ -31,7 +31,7 @@ const SettingsScreen = ({ navigation }) => {
             </View>
 
             <View style={localStyles.settingItem}>
-                <Text style={localStyles.settingText}>Notifications</Text>
+                <Text style={[sharedStyles.generalText, { fontSize: 18 }]}>Notifications</Text>
                 <Switch
                     trackColor={{ false: "#767577", true: "#81b0ff" }}
                     thumbColor={notificationsEnabled ? "#f4f3f4" : "#f4f3f4"}
@@ -45,7 +45,7 @@ const SettingsScreen = ({ navigation }) => {
                 style={sharedStyles.button}
                 onPress={() => { logout(); setIsLoggedIn(false) }}
             >
-                <Text style={localStyles.buttonText}>Log Out</Text>
+                <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Log Out</Text>
             </TouchableOpacity>
 
             {/* Separator Line */}

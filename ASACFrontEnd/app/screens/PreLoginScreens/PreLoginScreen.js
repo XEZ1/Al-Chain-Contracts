@@ -13,19 +13,19 @@ const PreLoginScreen = ({ navigation }) => {
     return (
         <ImageBackground
             source={require('../../../assets/PreLoginScreenBackground.png')}
-            style={[localStyles.backgroundImage, { paddingTop: StatusBar.currentHeight }]}
+            style={[sharedStyles.centeredViewContainer, { paddingTop: StatusBar.currentHeight }]}
             resizeMode="cover"
         >
             <StatusBar barStyle={theme === 'light-content'} />
-            <View style={localStyles.containerWithoutBackground}>
-                <TouchableOpacity style={[localStyles.buttonPreLogin, {width: 250, marginBottom: '3%'}]} onPress={() => navigation.navigate('Login')}>
-                    <Text style={localStyles.buttonTextPreLogin}>Login</Text>
+            <View>
+                <TouchableOpacity style={[sharedStyles.button, { height: 50, width: 250, marginBottom: '3%'}]} onPress={() => navigation.navigate('Login')}>
+                    <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Login</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[localStyles.buttonPreLogin, {width: 250, marginBottom: '3%'}]} onPress={() => navigation.navigate('SignUp')}>
-                    <Text style={localStyles.buttonTextPreLogin}>Sign Up</Text>
+                <TouchableOpacity style={[sharedStyles.button, {height: 50, width: 250, marginBottom: '3%'}]} onPress={() => navigation.navigate('SignUp')}>
+                    <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Sign Up</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[localStyles.buttonPreLogin, {width: 250, marginBottom: '3%'}]}>
-                    <Text style={localStyles.buttonTextPreLogin}>About Us</Text>
+                <TouchableOpacity style={[sharedStyles.button, {height: 50, width: 250, marginBottom: '3%'}]}>
+                    <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>About Us</Text>
                 </TouchableOpacity>
             </View>
         </ImageBackground>

@@ -22,28 +22,12 @@ const getLocalStyles = (theme = 'light') => {
     };
 
     return StyleSheet.create({
-        title: {
-            fontSize: 22,
-            fontWeight: 'bold',
-            marginBottom: '6%',
-            color: themeStyles[theme].textColor, 
-            textAlign: 'center', 
-        },
         settingItem: {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
             width: '100%',
             marginBottom: '3%',
-        },
-        settingText: {
-            fontSize: 18,
-            color: themeStyles[theme].textColor, 
-        },
-        buttonText: {
-            color: themeStyles[theme].textColor,
-            fontSize: 16,
-            fontWeight: 'bold',
         },
     });
 };
