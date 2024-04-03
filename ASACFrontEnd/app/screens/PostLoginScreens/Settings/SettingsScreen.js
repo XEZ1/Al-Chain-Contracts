@@ -19,7 +19,7 @@ const SettingsScreen = ({ navigation }) => {
         <View style={sharedStyles.container}>
             <Text style={sharedStyles.pageHeaderText}>Settings</Text>
 
-            <View style={localStyles.settingItem}>
+            <View style={[sharedStyles.rowCenteredContainer, { width: '100%', marginBottom: '3%' }]}>
                 <Text style={[sharedStyles.generalText, { fontSize: 18 }]}>Dark Mode</Text>
                 <Switch
                     trackColor={{ false: "#767577", true: "#81b0ff" }}
@@ -30,7 +30,7 @@ const SettingsScreen = ({ navigation }) => {
                 />
             </View>
 
-            <View style={localStyles.settingItem}>
+            <View style={[sharedStyles.rowCenteredContainer, { width: '100%', marginBottom: '3%' }]}>
                 <Text style={[sharedStyles.generalText, { fontSize: 18 }]}>Notifications</Text>
                 <Switch
                     trackColor={{ false: "#767577", true: "#81b0ff" }}

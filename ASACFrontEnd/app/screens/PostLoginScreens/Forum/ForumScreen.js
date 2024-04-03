@@ -31,7 +31,7 @@ const ForumScreen = ({ navigation }) => {
                 <View style={[sharedStyles.rowCenteredContainer, { marginTop: '3.5%' }]}>
                     <TouchableOpacity
                         onPress={() => handleLikePost(item.id, item.user_has_liked)}
-                        style={localStyles.postsButton}>
+                        style={sharedStyles.rowCenteredContainer}>
                         <MaterialCommunityIcons
                             name={item.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
                         <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Like({item.like_count})</Text>
@@ -39,14 +39,14 @@ const ForumScreen = ({ navigation }) => {
                     {item.is_user_author && (
                         <TouchableOpacity
                             onPress={() => handleDeletePost(item.id)}
-                            style={localStyles.postsButton}>
+                            style={sharedStyles.rowCenteredContainer}>
                             <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
                             <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Delete</Text>
                         </TouchableOpacity>
                     )}
                     <TouchableOpacity
                         onPress={() => navigation.navigate('CommentScreen', { postId: item.id })}
-                        style={localStyles.postsButton}>
+                        style={sharedStyles.rowCenteredContainer}>
                         <MaterialCommunityIcons name="comment-text-outline" size={24} color="grey" />
                         <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Comment</Text>
                     </TouchableOpacity>
