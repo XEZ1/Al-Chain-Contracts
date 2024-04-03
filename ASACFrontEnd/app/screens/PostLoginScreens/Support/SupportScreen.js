@@ -47,7 +47,7 @@ const SupportScreen = ({ navigation }) => {
                             },
                         ]}
                     >
-                        <Text style={[localStyles.settingText, { color: theme === 'dark' ? '#FFF' : '#000' }]}>
+                        <Text style={[sharedStyles.generalText, { fontSize: 18 }]}>
                             {msg.text}
                         </Text>
                     </View>
@@ -62,7 +62,7 @@ const SupportScreen = ({ navigation }) => {
                     placeholder='Type your message here...'
                     placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                     style={[
-                        localStyles.input,
+                        sharedStyles.inputField,
                         {
                             flex: 1,
                             marginRight: 10,
@@ -72,8 +72,8 @@ const SupportScreen = ({ navigation }) => {
                     ]}
                     multiline
                 />
-                <TouchableOpacity onPress={handleSendMessage} style={[localStyles.sendButton]}>
-                    <Text style={localStyles.buttonText}>Send</Text>
+                <TouchableOpacity onPress={handleSendMessage} style={[sharedStyles.button, { width: 'auto', height: 50, paddingHorizontal: '5%' }]}>
+                    <Text style={[sharedStyles.generalText, {fontSize: 16, fontWeight: 'bold' }]}>Send</Text>
                 </TouchableOpacity>
             </View>  
 

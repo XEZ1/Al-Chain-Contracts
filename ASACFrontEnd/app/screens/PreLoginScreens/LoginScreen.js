@@ -23,19 +23,19 @@ const LoginScreen = ({ navigation }) => {
             <View style={[sharedStyles.cardContainer, { justifyContent: 'center', alignItems: 'center' }]}>
                 <TextInput
                     placeholder="Username"
-                    style={localStyles.inputPreLogin}
+                    style={sharedStyles.inputField}
                     placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                     onChangeText={setUsername}
                 />
                 <TextInput
                     placeholder="Password"
                     secureTextEntry
-                    style={localStyles.inputPreLogin}
+                    style={sharedStyles.inputField}
                     placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                     onChangeText={setPassword}
                 />
-                <TouchableOpacity style={localStyles.buttonPreLogin} onPress={() => handleLogin(username, password)}>
-                    <Text style={localStyles.buttonText}>Login</Text>
+                <TouchableOpacity style={sharedStyles.button} onPress={() => handleLogin(username, password)}>
+                    <Text style={[sharedStyles.generalText, {fontSize: 16, fontWeight: 'bold' }]}>Login</Text>
                 </TouchableOpacity>
             </View>
         </KeyboardAvoidingView>

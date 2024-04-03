@@ -21,54 +21,7 @@ const getLocalStyles = (theme = 'light') => {
         },
     };
 
-    return StyleSheet.create({
-        
-        inputPreLogin: {
-            height: 50,
-            width: '90%', 
-            backgroundColor: themeStyles[theme].inputBackground,
-            borderColor: themeStyles[theme].borderColor,
-            borderWidth: 1,
-            borderRadius: 10,
-            marginBottom: '4.5%',
-            paddingLeft: '4%',
-            color: themeStyles[theme].textColor, 
-        },
-        buttonPreLogin: {
-            height: 50,
-            width: '90%',
-            backgroundColor: themeStyles[theme].backgroundColor,
-            borderRadius: 10,
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: '0.5%',
-        },
-        buttonText: {
-            color: themeStyles[theme].textColor,
-            fontSize: 16,
-            fontWeight: 'bold',
-        },
-        textStyle: {
-            color: themeStyles[theme].textColor,
-            fontWeight: "bold",
-            textAlign: "center"
-        },
-
-        containerWithoutBackground: {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-        },
-        buttonTextPreLogin: {
-            color: themeStyles[theme].textColor,
-            fontSize: 16,
-            fontWeight: 'bold',
-        },
-        backgroundImage: {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-        },
+    return StyleSheet.create({     
     });
 };
 

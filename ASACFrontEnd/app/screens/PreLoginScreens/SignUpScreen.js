@@ -28,7 +28,7 @@ const SignUpScreen = ({ navigation }) => {
             style={[sharedStyles.container, { paddingTop: '16%' }]}
             behavior="padding"
         >
-            <View style={[sharedStyles.cardContainer, { justifyContent: 'center', alignItems: 'center' }]}>
+            <View style={[sharedStyles.cardContainer, { justifyContent: 'center', alignItems: 'center', padding: '8%' }]}>
                 {Object.values(errors).some(error => error) && (
                     <TouchableOpacity
                         style={sharedStyles.errorIconContainer}
@@ -52,7 +52,7 @@ const SignUpScreen = ({ navigation }) => {
                                 style={[sharedStyles.button]}
                                 onPress={() => setShowErrorDetails(false)}
                             >
-                                <Text style={sharedStyles.textStyle}>Got it</Text>
+                                <Text style={[sharedStyles.generalText, {fontWeight: "bold", textAlign: "center" }]}>Got it</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={sharedStyles.exitButton}
@@ -70,46 +70,46 @@ const SignUpScreen = ({ navigation }) => {
 
                 <TextInput
                     placeholder="Username"
-                    style={localStyles.inputPreLogin}
+                    style={sharedStyles.inputField}
                     placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                     onChangeText={setUsername}
                 />
                 <TextInput
                     placeholder="First Name"
-                    style={localStyles.inputPreLogin}
+                    style={sharedStyles.inputField}
                     placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                     onChangeText={setFirstName}
                 />
                 <TextInput
                     placeholder="Last Name"
-                    style={localStyles.inputPreLogin}
+                    style={sharedStyles.inputField}
                     placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                     onChangeText={setLastName}
                 />
                 <TextInput
                     placeholder="Email"
-                    style={localStyles.inputPreLogin}
+                    style={sharedStyles.inputField}
                     placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                     onChangeText={setEmail}
                 />
                 <TextInput
                     placeholder="Password"
                     secureTextEntry
-                    style={localStyles.inputPreLogin}
+                    style={sharedStyles.inputField}
                     placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                     onChangeText={setPassword}
                 />
                 <TextInput
                     placeholder="Confirm Password"
                     secureTextEntry
-                    style={localStyles.inputPreLogin}
+                    style={sharedStyles.inputField}
                     placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                     onChangeText={setPasswordConfirmation}
                 />
-                <TouchableOpacity style={localStyles.buttonPreLogin} onPress={() =>
+                <TouchableOpacity style={sharedStyles.button} onPress={() =>
                     handleSignUp(username, firstName, lastName, email, password, passwordConfirmation, errors, setErrors)
                 }>
-                    <Text style={localStyles.buttonText}>Sign Up</Text>
+                    <Text style={[sharedStyles.generalText, {fontSize: 16, fontWeight: 'bold' }]}>Sign Up</Text>
                 </TouchableOpacity>
             </View>
         </KeyboardAvoidingView>
