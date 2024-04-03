@@ -22,13 +22,7 @@ const getLocalStyles = (theme = 'light') => {
     };
 
     return StyleSheet.create({
-        settingItem: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '100%',
-            marginBottom: '3%',
-        },
+       
     });
 };
 

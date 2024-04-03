@@ -95,17 +95,17 @@ const CommentScreen = ({ route, navigation }) => {
                         <View style={[sharedStyles.cardContainer, { marginTop: '7%' }]}>
                             <Text style={sharedStyles.cardHeaderText}>{postDetails.title}</Text>
                             <Text style={[sharedStyles.generalText, { fontSize: 18 }]}>{postDetails.description}</Text>
-                            <View style={localStyles.postsContainer}>
+                            <View style={sharedStyles.rowCenteredContainer}>
                                 <TouchableOpacity
                                     onPress={() => handleLikePost(postDetails.id, postDetails.user_has_liked)}
-                                    style={localStyles.postsButton}>
+                                    style={sharedStyles.rowCenteredContainer}>
                                     <MaterialCommunityIcons name={postDetails.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
                                     <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Like ({postDetails.like_count})</Text>
                                 </TouchableOpacity>
                                 {postDetails.is_user_author && (
                                     <TouchableOpacity
                                         onPress={() => handleDeletePost(postDetails.id)}
-                                        style={localStyles.postsButton}>
+                                        style={sharedStyles.rowCenteredContainer}>
                                         <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
                                         <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Delete</Text>
                                     </TouchableOpacity>

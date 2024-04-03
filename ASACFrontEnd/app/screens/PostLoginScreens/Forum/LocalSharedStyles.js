@@ -22,10 +22,7 @@ const getLocalStyles = (theme = 'light') => {
     };
 
     return StyleSheet.create({
-        postsButton: {
-            flexDirection: 'row', 
-            alignItems: 'center', 
-        },
+       
     });
 };
 
