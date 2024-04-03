@@ -29,7 +29,7 @@ const SupportScreen = ({ navigation }) => {
             style={sharedStyles.container} 
             behavior="padding"
         >
-            <Text style={localStyles.header}>Support Chat</Text>
+            <Text style={sharedStyles.pageHeaderText}>Support Chat</Text>
 
             <ScrollView
                 style={{ flex: 1, width: '100%' }}
@@ -40,10 +40,10 @@ const SupportScreen = ({ navigation }) => {
                     <View
                         key={msg.id}
                         style={[
-                            sharedStyles.card,
+                            sharedStyles.cardContainer,
                             {
                                 alignSelf: msg.isAssistant ? 'flex-start' : 'flex-end',
-                                backgroundColor: msg.isAssistant ? sharedStyles.card.backgroundColor : sharedStyles.tabBar.activeTintColor,
+                                backgroundColor: msg.isAssistant ? sharedStyles.cardContainer.backgroundColor : sharedStyles.tabBar.activeTintColor,
                             },
                         ]}
                     >

@@ -22,11 +22,7 @@ const getLocalStyles = (theme = 'light') => {
     };
 
     return StyleSheet.create({
-        errorIconContainerSignUp: {
-            position: 'absolute',
-            right: 5,
-            top: 5,
-        },
+        
         inputPreLogin: {
             height: 50,
             width: '90%', 

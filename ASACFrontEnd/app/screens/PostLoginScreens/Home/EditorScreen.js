@@ -24,7 +24,7 @@ function EditorScreen({ route, navigation }) {
                     <WebView
                         originWhitelist={['*']}
                         source={{ html: codeHtml }}
-                        style={localStyles.editorContainer}
+                        style={sharedStyles.avoidingTabBarContainer}
                     />
                 </View>
             )}

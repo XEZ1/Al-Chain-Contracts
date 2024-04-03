@@ -81,19 +81,17 @@ const HomeScreen = ({ navigation }) => {
 
     return (
         <View style={[localStyles.bottomTabNavigatorContainer, { paddingBottom: keyboardHeight }]}>
-            <ScrollView ref={scrollViewRef} style={localStyles.editorContainer} showsVerticalScrollIndicator={false}>
-                <View
-                    style={sharedStyles.container}
-                >
-                    <Text style={sharedStyles.header}>Smart Contract Toolkit</Text>
+            <ScrollView ref={scrollViewRef} style={sharedStyles.avoidingTabBarContainer} showsVerticalScrollIndicator={false}>
+                <View style={sharedStyles.container}>
+                    <Text style={sharedStyles.pageHeaderText}>Smart Contract Toolkit</Text>
 
                     {/* Contract Creation Section */}
-                    <View style={sharedStyles.card}>
+                    <View style={sharedStyles.cardContainer}>
                         {Object.values(errors).some(error => error) && (
                             <TouchableOpacity
                                 style={sharedStyles.errorIconContainer}
                                 onPress={() => setShowErrorDetails(true)}>
-                                <MaterialCommunityIcons name="alert-circle" size={24} style={sharedStyles.errorIcon} />
+                                <MaterialCommunityIcons name="alert-circle" size={24} style={{color: 'red'}} />
                             </TouchableOpacity>
                         )}
                         <Modal
@@ -102,8 +100,8 @@ const HomeScreen = ({ navigation }) => {
                             visible={showErrorDetails}
                             onRequestClose={() => setShowErrorDetails(false)}
                         >
-                            <View style={sharedStyles.centeredView}>
-                                <View style={sharedStyles.modalView}>
+                            <View style={sharedStyles.centeredViewContainer}>
+                                <View style={sharedStyles.modalViewContainer}>
                                     <Text style={sharedStyles.modalText}>Please fix the following errors:</Text>
                                     {Object.entries(errors).map(([key, value]) =>
                                         value ? <Text key={key} style={sharedStyles.errorListItem}>{`${key}: ${value}`}</Text> : null
@@ -118,7 +116,7 @@ const HomeScreen = ({ navigation }) => {
                             </View>
                         </Modal>
 
-                        <Text style={sharedStyles.cardHeader}>Generate a Smart Contract</Text>
+                        <Text style={sharedStyles.cardHeaderText}>Generate a Smart Contract</Text>
                         {/* DropZone */}
                         <TouchableOpacity style={localStyles.dropZone} onPress={() => handleFileSelectDropZone()}>
                             {selectedFile ? (
@@ -186,8 +184,8 @@ const HomeScreen = ({ navigation }) => {
                     </View>
 
                     {/* User's Smart Contracts */}
-                    <View style={sharedStyles.card}>
-                        <Text style={sharedStyles.cardHeader}>My Smart Contracts</Text>
+                    <View style={sharedStyles.cardContainer}>
+                        <Text style={sharedStyles.cardHeaderText}>My Smart Contracts</Text>
                         {savedContracts.length === 0 ? (
                             <Text style={localStyles.noContractsView}>No saved contracts yet</Text>
                         ) : (
@@ -204,13 +202,14 @@ const HomeScreen = ({ navigation }) => {
                     </View>
 
                     {/* Address Conversion */}
-                    <View style={sharedStyles.card}>
-                        <Text style={sharedStyles.cardHeader}>Address Checksum Conversion</Text>
+                    <View style={sharedStyles.cardContainer}>
+                        <Text style={sharedStyles.cardHeaderText}>Address Checksum Conversion</Text>
                         <TextInput 
                         ref={addressConversionRef} 
                         style={localStyles.inputField} 
                         placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} 
-                        placeholder="Set your token address" value={addressChecksum} 
+                        placeholder="Set your token address" 
+                        value={addressChecksum} 
                         onChangeText={setAddressChecksum}
                         />
 
@@ -226,8 +225,8 @@ const HomeScreen = ({ navigation }) => {
                             visible={showAddressModal}
                             onRequestClose={() => setShowAddressModal(false)}
                         >
-                            <View style={sharedStyles.centeredView}>
-                                <View style={sharedStyles.modalView}>
+                            <View style={sharedStyles.centeredViewContainer}>
+                                <View style={sharedStyles.modalViewContainer}>
                                     <Text style={sharedStyles.modalText}>Validated Address:</Text>
                                     <Text style={sharedStyles.modalText}>{validatedAddress}</Text>
                                     <TouchableOpacity

@@ -28,12 +28,12 @@ const SignUpScreen = ({ navigation }) => {
             style={[sharedStyles.container, { paddingTop: '16%' }]}
             behavior="padding"
         >
-            <View style={[sharedStyles.card, { justifyContent: 'center', alignItems: 'center' }]}>
+            <View style={[sharedStyles.cardContainer, { justifyContent: 'center', alignItems: 'center' }]}>
                 {Object.values(errors).some(error => error) && (
                     <TouchableOpacity
-                        style={localStyles.errorIconContainerSignUp}
+                        style={sharedStyles.errorIconContainer}
                         onPress={() => setShowErrorDetails(true)}>
-                        <MaterialCommunityIcons name="alert-circle" size={24} style={sharedStyles.errorIcon} />
+                        <MaterialCommunityIcons name="alert-circle" size={24} style={{color: 'red'}} />
                     </TouchableOpacity>
                 )}
                 <Modal
@@ -42,8 +42,8 @@ const SignUpScreen = ({ navigation }) => {
                     visible={showErrorDetails}
                     onRequestClose={() => setShowErrorDetails(false)}
                 >
-                    <View style={sharedStyles.centeredView}>
-                        <View style={sharedStyles.modalView}>
+                    <View style={sharedStyles.centeredViewContainer}>
+                        <View style={sharedStyles.modalViewContainer}>
                             <Text style={sharedStyles.modalText}>Please fix the following errors:</Text>
                             {Object.entries(errors).map(([key, value]) =>
                                 value ? <Text key={key} style={sharedStyles.errorListItem}>{`${key}: ${value}`}</Text> : null
