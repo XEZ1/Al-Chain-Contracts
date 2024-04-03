@@ -123,6 +123,7 @@ const getStyles = (theme = 'light') => {
             borderRadius: 10,
             justifyContent: 'center',
             alignItems: 'center',
+            
         },
         exitButton: {
             position: 'absolute',
