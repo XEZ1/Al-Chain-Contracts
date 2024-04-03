@@ -22,33 +22,10 @@ const getLocalStyles = (theme = 'light') => {
     };
 
     return StyleSheet.create({
-        postsContainer: {
-            flexDirection: 'row',
-            marginTop: 10,
-            justifyContent: 'space-between', 
-        },
         postsButton: {
             flexDirection: 'row', 
             alignItems: 'center', 
         },
-
-        inputField: {
-            height: 44,
-            width: '96%', 
-            backgroundColor: themeStyles[theme].inputBackground,
-            borderColor: themeStyles[theme].borderColor,
-            borderWidth: 1,
-            borderRadius: 10,
-            marginBottom: '5.5%',
-            paddingLeft: '4%',
-        },
-        
-        
-        postsViewContainer: {
-            flexDirection: 'row', 
-            marginBottom: '10%',
-        },
-
     });
 };
 

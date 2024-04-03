@@ -94,6 +94,11 @@ const getStyles = (theme = 'light') => {
             backgroundColor: themeStyles[theme].containerBackground,
             marginBottom: 90,
         },
+        rowCenteredContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+        },
 
         pageHeaderText: {
             fontSize: 28,
@@ -115,7 +120,6 @@ const getStyles = (theme = 'light') => {
             height: 44,
             width: '100%',
             backgroundColor: themeStyles[theme].backgroundColor,
-            marginBottom: '5.7%',
             borderRadius: 10,
             justifyContent: 'center',
             alignItems: 'center',
@@ -158,6 +162,17 @@ const getStyles = (theme = 'light') => {
             fontWeight: 'bold',
         },
 
+        inputField: {
+            height: 44,
+            width: '100%', 
+            backgroundColor: themeStyles[theme].inputBackground,
+            borderColor: themeStyles[theme].borderColor,
+            color: themeStyles[theme].textColor,
+            borderWidth: 1,
+            borderRadius: 10,
+            marginBottom: '5.5%',
+            paddingLeft: '4%',
+        },
 
         
         separatorLine: {

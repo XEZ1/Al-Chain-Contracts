@@ -22,7 +22,7 @@ const getLocalStyles = (theme = 'light') => {
     };
 
     return StyleSheet.create({
-        contractItem: {
+        contractItemContainer: {
             marginBottom: 10,
             paddingHorizontal: 10,
             paddingTop: 10,
@@ -30,17 +30,7 @@ const getLocalStyles = (theme = 'light') => {
             borderRadius: 10,
             borderColor: '#ddd',
         },
-        contractItemHeader: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-        },
-        generalText: {
-            color: theme === 'dark' ? 'white' : 'black', 
-        },
-        expandedSection: {
-            paddingTop: 10,
-        },
+      
         smartContractButton: {
             flexDirection: 'row',
             alignItems: 'center',
@@ -49,16 +39,6 @@ const getLocalStyles = (theme = 'light') => {
             marginTop: 10,
             borderRadius: 10,
             backgroundColor: theme === 'dark' ? '#2D2D2D' : '#EFEFEF',
-        },
-
-        bottomTabNavigatorContainer: {
-            flex: 1, 
-            backgroundColor: themeStyles[theme].containerBackground,
-            
-        },
-        editorContainer: {
-            backgroundColor: themeStyles[theme].inputBackground,
-            marginBottom: 90,
         },
 
         dropZone: {
@@ -76,30 +56,8 @@ const getLocalStyles = (theme = 'light') => {
         inputFieldText: {
             color: theme === 'dark' ? 'grey' : 'darkgrey',
             fontSize: 16,
-        },
-        inputField: {
-            height: 44,
-            width: '100%', 
-            backgroundColor: themeStyles[theme].inputBackground,
-            borderColor: themeStyles[theme].borderColor,
-            color: themeStyles[theme].textColor,
-            borderWidth: 1,
-            borderRadius: 10,
-            marginBottom: '5.5%',
-            paddingLeft: '4%',
-        },
-        button: {
-            height: 44,
-            backgroundColor: themeStyles[theme].backgroundColor,
-            borderRadius: 10,
-            justifyContent: 'center',
-            alignItems: 'center',
-        },
-        buttonText: {
-            color: themeStyles[theme].textColor,
-            fontSize: 16,
-            fontWeight: 'bold',
-        },
+        }, 
+        
         noContractsView: {
             textAlign: 'center',
             color: themeStyles[theme].textColor,
@@ -110,6 +68,7 @@ const getLocalStyles = (theme = 'light') => {
             borderWidth: 2,
             borderColor: themeStyles[theme].backgroundColor,
         },
+
         footer: {
             marginTop: 10,
             marginBottom: 10,
