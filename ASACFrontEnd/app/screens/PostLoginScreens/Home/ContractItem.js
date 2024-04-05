@@ -82,18 +82,18 @@ export const ContractItem = ({ contract, openContract, openShareContract, delete
                 <Text style={sharedStyles.generalText}>{contract.contract_name}.sol</Text>
                 <MaterialCommunityIcons name={expanded ? "chevron-up" : "chevron-down"} size={24} color={theme === 'dark' ? 'white' : 'black'} />
             </View>
-            <Animated.View style={[{ height: animatedHeight, overflow: 'hidden', paddingTop: 10 }]}>
+            <Animated.View style={[localStyles.mediumTopPadding, { height: animatedHeight, overflow: 'hidden' }]}>
                 <TouchableOpacity onPress={() => openContract(contract.contract_name)} style={localStyles.smartContractButton}>
                     <MaterialCommunityIcons name="file-document-outline" size={24} color={theme === 'dark' ? 'white' : 'black'} />
-                    <Text style={[sharedStyles.generalText, {marginLeft: 5}]}>Access Contract</Text>
+                    <Text style={[sharedStyles.generalText, localStyles.smallLeftMargin]}>Access Contract</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => openShareContract(contract.contract_name)} style={localStyles.smartContractButton}>
                     <MaterialCommunityIcons name="share-outline" size={24} color="green" />
-                    <Text style={[sharedStyles.generalText, {color: 'green', marginLeft: 5 }]}>Share Contract</Text>
+                    <Text style={[sharedStyles.generalText, localStyles.smallLeftMargin, {color: 'green'}]}>Share Contract</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={initiateDeletion} style={localStyles.smartContractButton}>
                     <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
-                    <Text style={[sharedStyles.generalText, {color: 'red', marginLeft: 5}]}>Delete Contract</Text>
+                    <Text style={[sharedStyles.generalText, localStyles.smallLeftMargin, {color: 'red'}]}>Delete Contract</Text>
                 </TouchableOpacity>
             </Animated.View>
         </TouchableOpacity>

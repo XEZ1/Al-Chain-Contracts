@@ -74,6 +74,24 @@ const getLocalStyles = (theme = 'light') => {
             marginBottom: 10,
         },
         
+
+        mediumTopPadding: {
+            paddingTop: 10, 
+        },
+        smallLeftMargin: {
+            marginLeft: 5,
+        },
+        zeroMaringBottom: {
+            marginBottom: 0,
+        },
+        mediumTopPaddint: {
+            paddingTop: '10%',
+        },
+        boldMedium: {
+            fontSize: 16, 
+            fontWeight: 'bold',
+        },
+
     });
 };
 
