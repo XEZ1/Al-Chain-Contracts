@@ -22,15 +22,11 @@ const getLocalStyles = (theme = 'light') => {
     };
 
     return StyleSheet.create({
-        boldMedium: {
-            fontSize: 16, 
-            fontWeight: 'bold',
-        },
         bigMargin: {
             fontSize: 18, 
             marginBottom: 10, 
         },
-        smallMargin: {
+        mediumMargin: {
             marginTop: '7%',
         },
         zeroPadding: { 
@@ -53,7 +49,7 @@ const getLocalStyles = (theme = 'light') => {
             paddingBottom: '10%' 
         },
         mediumTopPadding: {
-            paddingTop: 25,
+            paddingTop: '8%',
         },
 
         

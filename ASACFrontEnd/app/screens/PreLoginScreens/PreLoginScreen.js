@@ -19,13 +19,13 @@ const PreLoginScreen = ({ navigation }) => {
             <StatusBar barStyle={theme === 'light-content'} />
             <View>
                 <TouchableOpacity style={[sharedStyles.button, localStyles.localButtonContainer]} onPress={() => navigation.navigate('Login')}>
-                    <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Login</Text>
+                    <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Login</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[sharedStyles.button, localStyles.localButtonContainer]} onPress={() => navigation.navigate('SignUp')}>
-                    <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Sign Up</Text>
+                    <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Sign Up</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[sharedStyles.button, localStyles.localButtonContainer]}>
-                    <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>About Us</Text>
+                    <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>About Us</Text>
                 </TouchableOpacity>
             </View>
         </ImageBackground>

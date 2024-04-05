@@ -25,12 +25,6 @@ const getLocalStyles = (theme = 'light') => {
         maxWidth: {
             width: '100%',
         },
-        smallPading: {
-            padding: 10, 
-        },
-        bigFont: {
-            fontSize: 18 
-        },
         inputAreaContainer: {
             flexDirection: 'row', 
             alignItems: 'center', 
@@ -46,10 +40,6 @@ const getLocalStyles = (theme = 'light') => {
             width: 'auto', 
             height: 50, 
             paddingHorizontal: '5%'
-        },
-        boldMedium: {
-            fontSize: 16, 
-            fontWeight: 'bold',
         },
     });
 };

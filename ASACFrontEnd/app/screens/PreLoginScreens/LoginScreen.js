@@ -35,7 +35,7 @@ const LoginScreen = ({ navigation }) => {
                     onChangeText={setPassword}
                 />
                 <TouchableOpacity style={sharedStyles.button} onPress={() => handleLogin(username, password)}>
-                    <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Login</Text>
+                    <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Login</Text>
                 </TouchableOpacity>
             </View>
         </KeyboardAvoidingView>

@@ -46,7 +46,7 @@ const SupportScreen = ({ navigation }) => {
                             },
                         ]}
                     >
-                        <Text style={[sharedStyles.generalText, localStyles.bigFont]}>
+                        <Text style={[sharedStyles.generalText, sharedStyles.bigFont]}>
                             {msg.text}
                         </Text>
                     </View>
@@ -64,7 +64,7 @@ const SupportScreen = ({ navigation }) => {
                     multiline
                 />
                 <TouchableOpacity onPress={handleSendMessage} style={[sharedStyles.button, localStyles.localButtonContainer]}>
-                    <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Send</Text>
+                    <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Send</Text>
                 </TouchableOpacity>
             </View>  
 
