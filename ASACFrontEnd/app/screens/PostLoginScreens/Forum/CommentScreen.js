@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useCallback, useContext, useState, useEffect, useRef } from 'react';
 import { LayoutAnimation, View, Text, TextInput, TouchableOpacity, FlatList, findNodeHandle, Keyboard, Dimensions } from 'react-native';
 import { useCommentScreen } from './UseCommentScreen';
 import { useForumScreen } from './UseForumScreen';
@@ -7,6 +7,7 @@ import getStyles from '../../../styles/SharedStyles';
 import { useFocusEffect } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import getLocalStyles from './LocalSharedStyles';
+import { useKeyboard } from '../../../components/Keyboard';
 
 
 const CommentScreen = ({ route, navigation }) => {
@@ -16,7 +17,7 @@ const CommentScreen = ({ route, navigation }) => {
 
     const postCommentRef = useRef(null);
     const viewRef = useRef(null);
-    const [keyboardHeight, setKeyboardHeight] = useState(0);
+    const { keyboardHeight, registerScrollViewRef, unregisterScrollViewRef } = useKeyboard();
 
     const { postId } = route.params;
     const { posts, handleLikePost, handleDeletePost } = useForumScreen();
@@ -32,38 +33,15 @@ const CommentScreen = ({ route, navigation }) => {
     }, []);
 
     useFocusEffect(
-        React.useCallback(() => {
-            const handleKeyboardDidShow = (e) => {
-                const screenHeight = Dimensions.get('window').height;
-                const endY = e.endCoordinates.screenY;
-                LayoutAnimation.easeInEaseOut();
-                setKeyboardHeight(screenHeight - endY - 90);
-                const currentlyFocusedField = TextInput.State.currentlyFocusedInput();
-
-                if (currentlyFocusedField) {
-                    const nodeHandle = findNodeHandle(currentlyFocusedField);
-                    viewRef.current?.getScrollResponder().scrollResponderScrollNativeHandleToKeyboard(
-                        nodeHandle,
-                        160,
-                        true
-                    );
-                }
-            };
-
-            const handleKeyboardDidHide = () => {
-                LayoutAnimation.easeInEaseOut();
-                setKeyboardHeight(0);
-            };
-
-            const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow);
-            const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
-
-            return () => {
-                keyboardDidShowListener.remove();
-                keyboardDidHideListener.remove();
-            };
-        }, [])
-    );
+        useCallback(() => {
+          const id = "ForumScreen";
+          registerScrollViewRef(id, viewRef);
+      
+          return () => {
+            unregisterScrollViewRef(id);
+          };
+        }, [registerScrollViewRef, unregisterScrollViewRef])
+      );
 
     useEffect(() => {
         const postExists = posts.find(p => p.id === postId);

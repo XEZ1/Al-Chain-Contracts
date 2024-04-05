@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import React, { useCallback, useContext, useEffect, useState, useRef } from 'react';
 import { LayoutAnimation, Modal, View, Text, TextInput, TouchableOpacity, findNodeHandle, ScrollView, Keyboard, Dimensions } from 'react-native';
 import getStyles from '../../../styles/SharedStyles';
 import { ThemeContext } from '../../../components/Theme';
@@ -12,7 +12,7 @@ import { useKeyboard } from '../../../components/Keyboard';
 const HomeScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
     const sharedStyles = getStyles(theme);
-    const localStyles = getLocalStyles(theme); 
+    const localStyles = getLocalStyles(theme);
 
     const contractNameRef = useRef(null);
     const employerAddressRef = useRef(null);
@@ -37,7 +37,7 @@ const HomeScreen = ({ navigation }) => {
         savedContracts, handleFileSelectDropZone,
         uploadContractData, shareContract,
         openContract, fetchAndSyncContracts,
-        handleDeleteContract, validateInput, 
+        handleDeleteContract, validateInput,
         handleChecksumAddress, copyToClipboard,
     } = useHomeScreen(navigation);
 
@@ -45,14 +45,16 @@ const HomeScreen = ({ navigation }) => {
         fetchAndSyncContracts();
     }, []);
 
-    useEffect(() => {
-        const id = "HomeScreen"; 
-        registerScrollViewRef(id, scrollViewRef);
+    useFocusEffect(
+        useCallback(() => {
+            const id = "HomeScreen";
+            registerScrollViewRef(id, scrollViewRef);
 
-        return () => {
-            unregisterScrollViewRef(id);
-        };
-    }, [registerScrollViewRef, unregisterScrollViewRef]);
+            return () => {
+                unregisterScrollViewRef(id);
+            };
+        }, [registerScrollViewRef, unregisterScrollViewRef])
+    );
 
     return (
         <View style={[sharedStyles.avoidingTabBarContainer, { paddingBottom: keyboardHeight, marginBottom: 0 }]}>
@@ -66,7 +68,7 @@ const HomeScreen = ({ navigation }) => {
                             <TouchableOpacity
                                 style={sharedStyles.errorIconContainer}
                                 onPress={() => setShowErrorDetails(true)}>
-                                <MaterialCommunityIcons name="alert-circle" size={24} style={{color: 'red'}} />
+                                <MaterialCommunityIcons name="alert-circle" size={24} style={{ color: 'red' }} />
                             </TouchableOpacity>
                         )}
                         <Modal
@@ -90,14 +92,14 @@ const HomeScreen = ({ navigation }) => {
                                 </View>
                             </View>
                         </Modal>
-                       
+
 
                         <Text style={sharedStyles.cardHeaderText}>Produce a Solidity Smart Contract</Text>
                         {/* DropZone */}
                         <TouchableOpacity style={localStyles.dropZone} onPress={() => handleFileSelectDropZone()}>
                             {selectedFile ? (
                                 <>
-                                    <MaterialCommunityIcons name="file-document-outline" size={100} color = {theme === 'dark' ? 'white' : 'black'} />
+                                    <MaterialCommunityIcons name="file-document-outline" size={100} color={theme === 'dark' ? 'white' : 'black'} />
                                     <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>{selectedFile.assets[0].name}</Text>
                                 </>
                             ) : (
@@ -105,52 +107,52 @@ const HomeScreen = ({ navigation }) => {
                             )}
                         </TouchableOpacity>
 
-                        <TextInput 
-                        ref={contractNameRef} 
-                        style={sharedStyles.inputField} 
-                        placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} 
-                        placeholder="Enter Contract Name" 
-                        value={contractName} 
-                        onChangeText={(value) => {
-                            setContractName(value);
-                            validateInput('contractName',
-                                value);
-                        }}
+                        <TextInput
+                            ref={contractNameRef}
+                            style={sharedStyles.inputField}
+                            placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
+                            placeholder="Enter Contract Name"
+                            value={contractName}
+                            onChangeText={(value) => {
+                                setContractName(value);
+                                validateInput('contractName',
+                                    value);
+                            }}
                         />
-                        <TextInput 
-                        ref={employerAddressRef} 
-                        style={sharedStyles.inputField} 
-                        placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} 
-                        placeholder="Set Employer's USDC Address" 
-                        value={employerAddress} 
-                        onChangeText={(value) => {
-                            setEmployerAddress(value);
-                            validateInput('employerAddress',
-                                value);
-                        }}
+                        <TextInput
+                            ref={employerAddressRef}
+                            style={sharedStyles.inputField}
+                            placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
+                            placeholder="Set Employer's USDC Address"
+                            value={employerAddress}
+                            onChangeText={(value) => {
+                                setEmployerAddress(value);
+                                validateInput('employerAddress',
+                                    value);
+                            }}
                         />
-                        <TextInput 
-                        ref={authAppAddressRef} 
-                        style={sharedStyles.inputField} 
-                        placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} 
-                        placeholder="Set AuthApp's Address" value={authAppAddress} 
-                        onChangeText={(value) => {
-                            setAuthAppAddress(value);
-                            validateInput('authAppAddress',
-                                value);
-                        }}
+                        <TextInput
+                            ref={authAppAddressRef}
+                            style={sharedStyles.inputField}
+                            placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
+                            placeholder="Set AuthApp's Address" value={authAppAddress}
+                            onChangeText={(value) => {
+                                setAuthAppAddress(value);
+                                validateInput('authAppAddress',
+                                    value);
+                            }}
                         />
-                        <TextInput 
-                        ref={tokenContractInterfaceRef} 
-                        style={sharedStyles.inputField} 
-                        placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                        placeholder="Set USDC's Token Contract Interface" 
-                        value={tokenContractInterface} 
-                        onChangeText={(value) => {
-                            setTokenContractInterface(value);
-                            validateInput('tokenContractInterface',
-                                value);
-                        }}
+                        <TextInput
+                            ref={tokenContractInterfaceRef}
+                            style={sharedStyles.inputField}
+                            placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
+                            placeholder="Set USDC's Token Contract Interface"
+                            value={tokenContractInterface}
+                            onChangeText={(value) => {
+                                setTokenContractInterface(value);
+                                validateInput('tokenContractInterface',
+                                    value);
+                            }}
                         />
 
                         <TouchableOpacity style={sharedStyles.button} onPress={uploadContractData}>
@@ -180,13 +182,13 @@ const HomeScreen = ({ navigation }) => {
                     {/* Address Conversion */}
                     <View style={sharedStyles.cardContainer}>
                         <Text style={sharedStyles.cardHeaderText}>Address Checksum Conversion</Text>
-                        <TextInput 
-                        ref={addressConversionRef} 
-                        style={sharedStyles.inputField} 
-                        placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} 
-                        placeholder="Set your token address" 
-                        value={addressChecksum} 
-                        onChangeText={setAddressChecksum}
+                        <TextInput
+                            ref={addressConversionRef}
+                            style={sharedStyles.inputField}
+                            placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
+                            placeholder="Set your token address"
+                            value={addressChecksum}
+                            onChangeText={setAddressChecksum}
                         />
 
                         <TouchableOpacity
@@ -219,8 +221,8 @@ const HomeScreen = ({ navigation }) => {
                                             name="close-circle"
                                             size={30}
                                             color='red'
-                                            //onPress={() => setShowAddressModal(false)}
-                                            //style={sharedStyles.exitButton}
+                                        //onPress={() => setShowAddressModal(false)}
+                                        //style={sharedStyles.exitButton}
                                         />
                                     </TouchableOpacity>
                                 </View>
@@ -238,7 +240,7 @@ const HomeScreen = ({ navigation }) => {
             </ScrollView>
 
             {/* Separator Line */}
-            <View style={[sharedStyles.separatorLine, {bottom: keyboardHeight + 90}]} />
+            <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight + 90 }]} />
 
         </View >
     );
