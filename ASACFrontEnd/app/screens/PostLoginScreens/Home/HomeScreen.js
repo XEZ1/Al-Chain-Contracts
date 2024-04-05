@@ -57,7 +57,7 @@ const HomeScreen = ({ navigation }) => {
     );
 
     return (
-        <View style={[sharedStyles.avoidingTabBarContainer, { paddingBottom: keyboardHeight, marginBottom: 0 }]}>
+        <View style={[sharedStyles.avoidingTabBarContainer, localStyles.zeroMaringBottom, { paddingBottom: keyboardHeight }]}>
             <ScrollView ref={scrollViewRef} style={sharedStyles.avoidingTabBarContainer} showsVerticalScrollIndicator={false}>
                 <View style={sharedStyles.container}>
                     <Text style={sharedStyles.pageHeaderText}>Smart Contract Toolkit</Text>
@@ -100,7 +100,7 @@ const HomeScreen = ({ navigation }) => {
                             {selectedFile ? (
                                 <>
                                     <MaterialCommunityIcons name="file-document-outline" size={100} color={theme === 'dark' ? 'white' : 'black'} />
-                                    <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>{selectedFile.assets[0].name}</Text>
+                                    <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>{selectedFile.assets[0].name}</Text>
                                 </>
                             ) : (
                                 <Text style={[localStyles.inputFieldText]}>Tap to upload an employment contract</Text>
@@ -156,7 +156,7 @@ const HomeScreen = ({ navigation }) => {
                         />
 
                         <TouchableOpacity style={sharedStyles.button} onPress={uploadContractData}>
-                            <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Create Contract</Text>
+                            <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Create Contract</Text>
                         </TouchableOpacity>
 
                     </View>
@@ -195,7 +195,7 @@ const HomeScreen = ({ navigation }) => {
                             style={sharedStyles.button}
                             onPress={() => handleChecksumAddress()}
                         >
-                            <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Validate Address</Text>
+                            <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Validate Address</Text>
                         </TouchableOpacity>
                         <Modal
                             animationType="slide"
@@ -221,8 +221,6 @@ const HomeScreen = ({ navigation }) => {
                                             name="close-circle"
                                             size={30}
                                             color='red'
-                                        //onPress={() => setShowAddressModal(false)}
-                                        //style={sharedStyles.exitButton}
                                         />
                                     </TouchableOpacity>
                                 </View>

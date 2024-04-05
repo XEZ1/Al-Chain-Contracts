@@ -16,11 +16,11 @@ function EditorScreen({ route, navigation }) {
     const { codeHtml, isLoading } = useEditorScreen(filePath, theme);
 
     return (
-        <View style={[sharedStyles.avoidingTabBarContainer, { flex: 1, marginBottom: 0 }]}>
+        <View style={[sharedStyles.avoidingTabBarContainer, localStyles.zeroMaringBottom, { flex: 1 }]}>
             {isLoading ? (
-                <ActivityIndicator size="large" color='rgba(1, 193, 219, 1)' style={{paddingTop: '10%'}} /> 
+                <ActivityIndicator size="large" color='rgba(1, 193, 219, 1)' style={localStyles.mediumTopPadding} /> 
             ) : (
-                <View style={{flex: 1}}>
+                <View style={{ flex: 1 }}>
                     <WebView
                         originWhitelist={['*']}
                         source={{ html: codeHtml }}
