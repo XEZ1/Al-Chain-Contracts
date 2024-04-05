@@ -25,13 +25,6 @@ const getLocalStyles = (theme = 'light') => {
         maxWidthSmallMarginBottom: {
             width: '100%', marginBottom: '3%',
         },
-        bigFont: {
-            fontSize: 18 
-        },
-        boldMedium: {
-            fontSize: 16, 
-            fontWeight: 'bold',
-        },
     });
 };
 

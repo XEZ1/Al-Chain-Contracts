@@ -100,7 +100,7 @@ const HomeScreen = ({ navigation }) => {
                             {selectedFile ? (
                                 <>
                                     <MaterialCommunityIcons name="file-document-outline" size={100} color={theme === 'dark' ? 'white' : 'black'} />
-                                    <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>{selectedFile.assets[0].name}</Text>
+                                    <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>{selectedFile.assets[0].name}</Text>
                                 </>
                             ) : (
                                 <Text style={[localStyles.inputFieldText]}>Tap to upload an employment contract</Text>
@@ -156,7 +156,7 @@ const HomeScreen = ({ navigation }) => {
                         />
 
                         <TouchableOpacity style={sharedStyles.button} onPress={uploadContractData}>
-                            <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Create Contract</Text>
+                            <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Create Contract</Text>
                         </TouchableOpacity>
 
                     </View>
@@ -195,7 +195,7 @@ const HomeScreen = ({ navigation }) => {
                             style={sharedStyles.button}
                             onPress={() => handleChecksumAddress()}
                         >
-                            <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Validate Address</Text>
+                            <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Validate Address</Text>
                         </TouchableOpacity>
                         <Modal
                             animationType="slide"

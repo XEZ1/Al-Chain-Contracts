@@ -109,7 +109,7 @@ const SignUpScreen = ({ navigation }) => {
                 <TouchableOpacity style={sharedStyles.button} onPress={() =>
                     handleSignUp(username, firstName, lastName, email, password, passwordConfirmation, errors, setErrors)
                 }>
-                    <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Sign Up</Text>
+                    <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Sign Up</Text>
                 </TouchableOpacity>
             </View>
         </KeyboardAvoidingView>

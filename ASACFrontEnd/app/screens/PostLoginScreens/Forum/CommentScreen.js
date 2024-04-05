@@ -70,7 +70,7 @@ const CommentScreen = ({ route, navigation }) => {
                 style={sharedStyles.avoidingTabBarContainer}
                 ListHeaderComponent={
                     <View style={[sharedStyles.container, localStyles.zeroPadding]}>
-                        <View style={[sharedStyles.cardContainer,  localStyles.smallMargin]}>
+                        <View style={[sharedStyles.cardContainer,  localStyles.mediumMargin]}>
                             <Text style={sharedStyles.cardHeaderText}>{postDetails.title}</Text>
                             <Text style={[sharedStyles.generalText, localStyles.bigMargin]}>{postDetails.description}</Text>
                             
@@ -79,14 +79,14 @@ const CommentScreen = ({ route, navigation }) => {
                                     onPress={() => handleLikePost(postDetails.id, postDetails.user_has_liked)}
                                     style={sharedStyles.rowCenteredContainer}>
                                     <MaterialCommunityIcons name={postDetails.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
-                                    <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Like ({postDetails.like_count})</Text>
+                                    <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Like ({postDetails.like_count})</Text>
                                 </TouchableOpacity>
                                 {postDetails.is_user_author && (
                                     <TouchableOpacity
                                         onPress={() => handleDeletePost(postDetails.id)}
                                         style={sharedStyles.rowCenteredContainer}>
                                         <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
-                                        <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Delete</Text>
+                                        <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Delete</Text>
                                     </TouchableOpacity>
                                 )}
                                 
@@ -105,7 +105,7 @@ const CommentScreen = ({ route, navigation }) => {
                             style={[sharedStyles.inputField, localStyles.adjustedWidthAndMargin]}
                         />
                         <TouchableOpacity title="Post Comment" style={[sharedStyles.button, localStyles.adjustedWidthAndMargin]} onPress={() => { handleAddComment(newComment); setNewComment(''); }}>
-                            <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Post Comment</Text>
+                            <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Post Comment</Text>
                         </TouchableOpacity>
                     </View>
                 }

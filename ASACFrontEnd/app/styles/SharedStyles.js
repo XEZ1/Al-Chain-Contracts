@@ -189,6 +189,13 @@ const getStyles = (theme = 'light') => {
             paddingTop: '10%',
         },
 
+        boldMediumText: {
+            fontSize: 16, 
+            fontWeight: 'bold',
+        },
+        bigFont: {
+            fontSize: 18 
+        },
     });
 };
 

@@ -22,14 +22,6 @@ const getLocalStyles = (theme = 'light') => {
     };
 
     return StyleSheet.create({     
-        centeredContainer: {
-            justifyContent: 'center', 
-            alignItems: 'center',
-        },
-        boldMedium: {
-            fontSize: 16, 
-            fontWeight: 'bold',
-        },
         mediumPadding: {
             padding: '8%',
         },

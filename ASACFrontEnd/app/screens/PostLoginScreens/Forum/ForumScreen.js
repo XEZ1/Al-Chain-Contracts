@@ -78,7 +78,7 @@ const ForumScreen = ({ navigation }) => {
                     style={[sharedStyles.inputField, localStyles.zeroBottomMarginAndLightRightOne, { flex: 2 }]}
                 />
                 <TouchableOpacity onPress={createPost} style={[sharedStyles.button, { width: '20%' }]}>
-                    <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Post</Text>
+                    <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Post</Text>
                 </TouchableOpacity>
             </View>
 
