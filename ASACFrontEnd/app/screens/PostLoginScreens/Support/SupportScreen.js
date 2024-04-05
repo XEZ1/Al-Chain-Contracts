@@ -15,7 +15,6 @@ const SupportScreen = ({ navigation }) => {
         { id: '1', text: 'Hi! How can I help you today?', isAssistant: true },
        
     ];
-
    
     const handleSendMessage = () => {
         if (message.trim()) {

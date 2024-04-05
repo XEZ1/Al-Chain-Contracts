@@ -18,14 +18,14 @@ const PreLoginScreen = ({ navigation }) => {
         >
             <StatusBar barStyle={theme === 'light-content'} />
             <View>
-                <TouchableOpacity style={[sharedStyles.button, { height: 50, width: 250, marginBottom: '3%'}]} onPress={() => navigation.navigate('Login')}>
-                    <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Login</Text>
+                <TouchableOpacity style={[sharedStyles.button, localStyles.localButtonContainer]} onPress={() => navigation.navigate('Login')}>
+                    <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Login</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[sharedStyles.button, {height: 50, width: 250, marginBottom: '3%'}]} onPress={() => navigation.navigate('SignUp')}>
-                    <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Sign Up</Text>
+                <TouchableOpacity style={[sharedStyles.button, localStyles.localButtonContainer]} onPress={() => navigation.navigate('SignUp')}>
+                    <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Sign Up</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[sharedStyles.button, {height: 50, width: 250, marginBottom: '3%'}]}>
-                    <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>About Us</Text>
+                <TouchableOpacity style={[sharedStyles.button, localStyles.localButtonContainer]}>
+                    <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>About Us</Text>
                 </TouchableOpacity>
             </View>
         </ImageBackground>
