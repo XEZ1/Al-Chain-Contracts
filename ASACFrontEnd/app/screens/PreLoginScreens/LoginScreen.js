@@ -20,7 +20,7 @@ const LoginScreen = ({ navigation }) => {
             style={sharedStyles.container}
             behavior="padding"
         >
-            <View style={[sharedStyles.cardContainer, { justifyContent: 'center', alignItems: 'center' }]}>
+            <View style={[sharedStyles.cardContainer]}>
                 <TextInput
                     placeholder="Username"
                     style={sharedStyles.inputField}
@@ -35,7 +35,7 @@ const LoginScreen = ({ navigation }) => {
                     onChangeText={setPassword}
                 />
                 <TouchableOpacity style={sharedStyles.button} onPress={() => handleLogin(username, password)}>
-                    <Text style={[sharedStyles.generalText, {fontSize: 16, fontWeight: 'bold' }]}>Login</Text>
+                    <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Login</Text>
                 </TouchableOpacity>
             </View>
         </KeyboardAvoidingView>
