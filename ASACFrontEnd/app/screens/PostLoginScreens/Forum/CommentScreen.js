@@ -72,7 +72,8 @@ const CommentScreen = ({ route, navigation }) => {
                     <View style={[sharedStyles.container, { paddingTop: '0%', padding: '0%' }]}>
                         <View style={[sharedStyles.cardContainer, { marginTop: '7%' }]}>
                             <Text style={sharedStyles.cardHeaderText}>{postDetails.title}</Text>
-                            <Text style={[sharedStyles.generalText, { fontSize: 18 }]}>{postDetails.description}</Text>
+                            <Text style={[sharedStyles.generalText, { fontSize: 18, marginBottom: 10 }]}>{postDetails.description}</Text>
+                            
                             <View style={sharedStyles.rowCenteredContainer}>
                                 <TouchableOpacity
                                     onPress={() => handleLikePost(postDetails.id, postDetails.user_has_liked)}
@@ -88,12 +89,13 @@ const CommentScreen = ({ route, navigation }) => {
                                         <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Delete</Text>
                                     </TouchableOpacity>
                                 )}
+                                
                             </View>
                         </View>
                     </View>
                 }
                 ListFooterComponent={
-                    <View style={[sharedStyles.container, { paddingTop: '0%', padding: '0%' }]}>
+                    <View style={[sharedStyles.container, { paddingTop: '0%', padding: '0' }]}>
                         <TextInput
                             ref={postCommentRef}
                             value={newComment}
