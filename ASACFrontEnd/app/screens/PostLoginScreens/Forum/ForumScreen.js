@@ -62,23 +62,23 @@ const ForumScreen = ({ navigation }) => {
             <Text style={sharedStyles.pageHeaderText}>Community Forum</Text>
 
             {/* Search or Create Post Input */}
-            <View style={[sharedStyles.rowCenteredContainer, { marginTop: '0%', marginBottom: '10%' }]}>
+            <View style={[sharedStyles.rowCenteredContainer, localStyles.zeroTopMarginAndMediumBottomOne]}>
                 <TextInput
                     value={newPostTitle}
                     onChangeText={setNewPostTitle}
                     placeholder='Title...'
                     placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                    style={[sharedStyles.inputField, { flex: 1, marginRight: 10, marginBottom: '0%' }]}
+                    style={[sharedStyles.inputField, localStyles.zeroBottomMarginAndLightRightOne, { flex: 1 }]}
                 />
                 <TextInput
                     value={newPostDescription}
                     onChangeText={setNewPostDescription}
                     placeholder='Description...'
                     placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                    style={[sharedStyles.inputField, { flex: 2, marginRight: 10, marginBottom: '0%' }]}
+                    style={[sharedStyles.inputField, localStyles.zeroBottomMarginAndLightRightOne, { flex: 2 }]}
                 />
                 <TouchableOpacity onPress={createPost} style={[sharedStyles.button, { width: '20%' }]}>
-                    <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Post</Text>
+                    <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Post</Text>
                 </TouchableOpacity>
             </View>
 
@@ -90,9 +90,9 @@ const ForumScreen = ({ navigation }) => {
                 data={posts}
                 renderItem={renderPost}
                 keyExtractor={item => item.id.toString()}
-                style={[sharedStyles.avoidingTabBarContainer, { paddingTop: 25, }]}
+                style={[sharedStyles.avoidingTabBarContainer, localStyles.mediumTopPadding]}
                 showsVerticalScrollIndicator={false}
-                ListFooterComponent={<View style={{ paddingBottom: '10%' }}/>}
+                ListFooterComponent={<View style={localStyles.mediumBottomPadding}/>}
             />
 
             {/* Separator Line */}
