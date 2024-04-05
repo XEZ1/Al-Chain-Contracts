@@ -32,8 +32,8 @@ const SupportScreen = ({ navigation }) => {
             <Text style={sharedStyles.pageHeaderText}>Support Chat</Text>
 
             <ScrollView
-                style={{ flex: 1, width: '100%' }}
-                contentContainerStyle={{ padding: 10 }}
+                style={[localStyles.maxWidth, { flex: 1 }]}
+                contentContainerStyle={localStyles.smallPading}
             >
                 {/* Message bubbles */}
                 {messages.map((msg) => (
@@ -47,7 +47,7 @@ const SupportScreen = ({ navigation }) => {
                             },
                         ]}
                     >
-                        <Text style={[sharedStyles.generalText, { fontSize: 18 }]}>
+                        <Text style={[sharedStyles.generalText, localStyles.bigFont]}>
                             {msg.text}
                         </Text>
                     </View>
@@ -55,25 +55,17 @@ const SupportScreen = ({ navigation }) => {
             </ScrollView>
        
             {/* Input area */}
-            <View style={{ flexDirection: 'row', alignItems: 'center', paddingBottom: 85 }}>
+            <View style={localStyles.inputAreaContainer}>
                 <TextInput
                     value={message}
                     onChangeText={setMessage}
                     placeholder='Type your message here...'
                     placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                    style={[
-                        sharedStyles.inputField,
-                        {
-                            flex: 1,
-                            marginRight: 10,
-                            marginTop: 18.5,
-                            height: 50, 
-                        }
-                    ]}
+                    style={[sharedStyles.inputField, localStyles.inputFieldLocalContainer]}
                     multiline
                 />
-                <TouchableOpacity onPress={handleSendMessage} style={[sharedStyles.button, { width: 'auto', height: 50, paddingHorizontal: '5%' }]}>
-                    <Text style={[sharedStyles.generalText, {fontSize: 16, fontWeight: 'bold' }]}>Send</Text>
+                <TouchableOpacity onPress={handleSendMessage} style={[sharedStyles.button, localStyles.localButtonContainer]}>
+                    <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Send</Text>
                 </TouchableOpacity>
             </View>  
 
