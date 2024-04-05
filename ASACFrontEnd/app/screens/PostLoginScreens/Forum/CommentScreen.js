@@ -61,7 +61,7 @@ const CommentScreen = ({ route, navigation }) => {
                 data={comments}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
-                    <View style={[sharedStyles.container, { paddingTop: '0%', padding: '0%' }]}>
+                    <View style={[sharedStyles.container, localStyles.zeroPadding]}>
                         <View style={sharedStyles.cardContainer}>
                             <Text style={sharedStyles.generalText}>{`${item.author_username}: ${item.content}`}</Text>
                         </View>
@@ -69,24 +69,24 @@ const CommentScreen = ({ route, navigation }) => {
                 )}
                 style={sharedStyles.avoidingTabBarContainer}
                 ListHeaderComponent={
-                    <View style={[sharedStyles.container, { paddingTop: '0%', padding: '0%' }]}>
-                        <View style={[sharedStyles.cardContainer, { marginTop: '7%' }]}>
+                    <View style={[sharedStyles.container, localStyles.zeroPadding]}>
+                        <View style={[sharedStyles.cardContainer,  localStyles.smallMargin]}>
                             <Text style={sharedStyles.cardHeaderText}>{postDetails.title}</Text>
-                            <Text style={[sharedStyles.generalText, { fontSize: 18, marginBottom: 10 }]}>{postDetails.description}</Text>
+                            <Text style={[sharedStyles.generalText, localStyles.bigMargin]}>{postDetails.description}</Text>
                             
                             <View style={sharedStyles.rowCenteredContainer}>
                                 <TouchableOpacity
                                     onPress={() => handleLikePost(postDetails.id, postDetails.user_has_liked)}
                                     style={sharedStyles.rowCenteredContainer}>
                                     <MaterialCommunityIcons name={postDetails.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
-                                    <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Like ({postDetails.like_count})</Text>
+                                    <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Like ({postDetails.like_count})</Text>
                                 </TouchableOpacity>
                                 {postDetails.is_user_author && (
                                     <TouchableOpacity
                                         onPress={() => handleDeletePost(postDetails.id)}
                                         style={sharedStyles.rowCenteredContainer}>
                                         <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
-                                        <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Delete</Text>
+                                        <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Delete</Text>
                                     </TouchableOpacity>
                                 )}
                                 
@@ -95,17 +95,17 @@ const CommentScreen = ({ route, navigation }) => {
                     </View>
                 }
                 ListFooterComponent={
-                    <View style={[sharedStyles.container, { paddingTop: '0%', padding: '0' }]}>
+                    <View style={[sharedStyles.container, localStyles.zeroPadding]}>
                         <TextInput
                             ref={postCommentRef}
                             value={newComment}
                             onChangeText={setNewComment}
                             placeholder="Write a comment..."
                             placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                            style={[sharedStyles.inputField, { width: '96%' }]}
+                            style={[sharedStyles.inputField, localStyles.adjustedWidthAndMargin]}
                         />
-                        <TouchableOpacity title="Post Comment" style={[sharedStyles.button, { width: '96%', marginBottom: '6%' }]} onPress={() => { handleAddComment(newComment); setNewComment(''); }}>
-                            <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Post Comment</Text>
+                        <TouchableOpacity title="Post Comment" style={[sharedStyles.button, localStyles.adjustedWidthAndMargin]} onPress={() => { handleAddComment(newComment); setNewComment(''); }}>
+                            <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Post Comment</Text>
                         </TouchableOpacity>
                     </View>
                 }
