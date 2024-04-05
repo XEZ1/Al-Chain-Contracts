@@ -22,7 +22,16 @@ const getLocalStyles = (theme = 'light') => {
     };
 
     return StyleSheet.create({
-       
+        maxWidthSmallMarginBottom: {
+            width: '100%', marginBottom: '3%',
+        },
+        bigFont: {
+            fontSize: 18 
+        },
+        boldMedium: {
+            fontSize: 16, 
+            fontWeight: 'bold',
+        },
     });
 };
 

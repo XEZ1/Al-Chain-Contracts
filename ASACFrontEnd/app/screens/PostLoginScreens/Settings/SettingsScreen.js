@@ -19,8 +19,8 @@ const SettingsScreen = ({ navigation }) => {
         <View style={sharedStyles.container}>
             <Text style={sharedStyles.pageHeaderText}>Settings</Text>
 
-            <View style={[sharedStyles.rowCenteredContainer, { width: '100%', marginBottom: '3%' }]}>
-                <Text style={[sharedStyles.generalText, { fontSize: 18 }]}>Dark Mode</Text>
+            <View style={[sharedStyles.rowCenteredContainer, localStyles.maxWidthSmallMarginBottom]}>
+                <Text style={[sharedStyles.generalText, localStyles.bigFont]}>Dark Mode</Text>
                 <Switch
                     trackColor={{ false: "#767577", true: "#81b0ff" }}
                     thumbColor={theme === 'dark' ? "#f4f3f4" : "#f4f3f4"}
@@ -30,8 +30,8 @@ const SettingsScreen = ({ navigation }) => {
                 />
             </View>
 
-            <View style={[sharedStyles.rowCenteredContainer, { width: '100%', marginBottom: '3%' }]}>
-                <Text style={[sharedStyles.generalText, { fontSize: 18 }]}>Notifications</Text>
+            <View style={[sharedStyles.rowCenteredContainer, localStyles.maxWidthSmallMarginBottom]}>
+                <Text style={[sharedStyles.generalText, localStyles.bigFont]}>Notifications</Text>
                 <Switch
                     trackColor={{ false: "#767577", true: "#81b0ff" }}
                     thumbColor={notificationsEnabled ? "#f4f3f4" : "#f4f3f4"}
@@ -45,7 +45,7 @@ const SettingsScreen = ({ navigation }) => {
                 style={sharedStyles.button}
                 onPress={() => { logout(); setIsLoggedIn(false) }}
             >
-                <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Log Out</Text>
+                <Text style={[sharedStyles.generalText, localStyles.boldMedium]}>Log Out</Text>
             </TouchableOpacity>
 
             {/* Separator Line */}
