@@ -10,7 +10,7 @@ import CommentScreen from '../screens/PostLoginScreens/Forum/CommentScreen';
 import SupportScreen from '../screens/PostLoginScreens/Support/SupportScreen';
 import EditorScreen from '../screens/PostLoginScreens/Home/EditorScreen';
 import { ThemeContext } from '../components/Theme';
-import getGloballySharedStyles from '../styles/SharedStyles';
+import getGloballySharedStyles from '../styles/GloballySharedStyles';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'react-native';
 import { PostProvider } from '../screens/PostLoginScreens/Forum/UseForumScreen';
