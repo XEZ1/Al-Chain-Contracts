@@ -30,7 +30,6 @@ const getLocalStyles = (theme = 'light') => {
             borderRadius: 10,
             borderColor: '#ddd',
         },
-      
         smartContractButton: {
             flexDirection: 'row',
             alignItems: 'center',
@@ -40,7 +39,6 @@ const getLocalStyles = (theme = 'light') => {
             borderRadius: 10,
             backgroundColor: theme === 'dark' ? '#2D2D2D' : '#EFEFEF',
         },
-
         dropZone: {
             width: '100%',
             height: 150,
@@ -52,12 +50,10 @@ const getLocalStyles = (theme = 'light') => {
             alignItems: 'center',
             marginBottom: '5%',
         },
-       
         inputFieldText: {
             color: theme === 'dark' ? 'grey' : 'darkgrey',
             fontSize: 16,
         }, 
-        
         noContractsView: {
             textAlign: 'center',
             color: themeStyles[theme].textColor,
@@ -68,13 +64,10 @@ const getLocalStyles = (theme = 'light') => {
             borderWidth: 2,
             borderColor: themeStyles[theme].backgroundColor,
         },
-
         footer: {
             marginTop: 10,
             marginBottom: 10,
         },
-        
-
         mediumTopPadding: {
             paddingTop: 10, 
         },

@@ -17,7 +17,6 @@ const getStyles = (theme = 'light') => {
             textColor: 'rgb(255, 255, 255)', 
             inputBackground: 'rgb(28, 28, 30)', 
             borderColor: 'rgba(255, 255, 255, 0.5)', 
-            containerBackground: 'rgb(0, 0, 0)', 
             containerBackground: '#1A1A1A',
             cardBackground: 'rgb(50, 50, 52)',  
             shadowColor:'#3A3A3A',
