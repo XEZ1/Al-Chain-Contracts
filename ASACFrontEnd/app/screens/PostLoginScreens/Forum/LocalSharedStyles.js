@@ -51,8 +51,6 @@ const getLocalStyles = (theme = 'light') => {
         mediumTopPadding: {
             paddingTop: '8%',
         },
-
-        
     });
 };
 
