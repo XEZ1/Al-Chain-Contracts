@@ -22,6 +22,13 @@ const getLocallySharedStylesSupportScreens = (theme = 'light') => {
             height: 50, 
             paddingHorizontal: '5%'
         },
+        smallPadding: {
+            paddingBottom: 90,
+            marginBottom: 90,
+        },
+        zeroBottomPadding: {
+            paddingBottom: '0%',
+        },
     });
 };
 

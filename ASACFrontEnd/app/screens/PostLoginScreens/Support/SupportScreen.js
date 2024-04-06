@@ -24,23 +24,18 @@ const SupportScreen = ({ navigation }) => {
     };
 
     return (
-        <KeyboardAvoidingView 
-            style={sharedStyles.container} 
-            behavior="padding"
-        >
+        <View style={[sharedStyles.container, localStyles.zeroBottomPadding]} >
             <Text style={sharedStyles.pageHeaderText}>Support Chat</Text>
 
-            <ScrollView
-                style={[localStyles.maxWidth, { flex: 1 }]}
-                contentContainerStyle={localStyles.smallPading}
-            >
+            <ScrollView style={[localStyles.maxWidth, { flex: 1 }]}>
                 {/* Message bubbles */}
                 {messages.map((msg) => (
                     <View
                         key={msg.id}
                         style={[
-                            sharedStyles.cardContainer,
+                            sharedStyles.cardContainer, 
                             {
+                                marginTop: '10%',
                                 alignSelf: msg.isAssistant ? 'flex-start' : 'flex-end',
                                 backgroundColor: msg.isAssistant ? sharedStyles.cardContainer.backgroundColor : sharedStyles.tabBar.activeTintColor,
                             },
@@ -67,10 +62,12 @@ const SupportScreen = ({ navigation }) => {
                     <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Send</Text>
                 </TouchableOpacity>
             </View>  
+            
+            <View style={[sharedStyles.separatorLine, { bottom: 713 }]} /> 
 
             {/* Separator Line */}
             <View style={sharedStyles.separatorLine} />
-        </KeyboardAvoidingView>
+        </View>
     )
 };
 
