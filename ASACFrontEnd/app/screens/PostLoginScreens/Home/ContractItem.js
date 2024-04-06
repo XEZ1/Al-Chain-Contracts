@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
 import { View, Text, TouchableOpacity,  Animated, Alert } from 'react-native';
-import getStyles from '../../../styles/SharedStyles';
+import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import getLocalStyles from './LocalSharedStyles';
+import getLocallySharedStylesHomeScreens from '../../../styles/LocallySharedStylesHomeScreens';
 
 
 export const ContractItem = ({ contract, openContract, openShareContract, deleteContract, theme }) => {
-    const sharedStyles = getStyles(theme);
-    const localStyles = getLocalStyles(theme); 
+    const sharedStyles = getGloballySharedStyles(theme);
+    const localStyles = getLocallySharedStylesHomeScreens(theme); 
 
     const [expanded, setExpanded] = useState(false);
     const animationController = useRef(new Animated.Value(0)).current;

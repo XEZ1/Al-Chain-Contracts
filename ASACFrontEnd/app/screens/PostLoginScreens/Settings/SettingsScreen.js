@@ -2,14 +2,14 @@ import React, { useContext } from 'react';
 import { View, Text, Switch, TouchableOpacity } from 'react-native';
 import { AuthContext, logout } from '../../../components/Authentication';
 import { ThemeContext } from '../../../components/Theme';
-import getStyles from '../../../styles/SharedStyles';
+import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
 import { useSettingsScreen } from './UseSettingsScreen';
-import getLocalStyles from './LocalSharedStyles';
+import getLocallySharedStylesSettingsScreens from '../../../styles/LocallySharedStylesSettingsScreens';
 
 const SettingsScreen = ({ navigation }) => {
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
-    const sharedStyles = getStyles(theme);
-    const localStyles = getLocalStyles(theme);
+    const sharedStyles = getGloballySharedStyles(theme);
+    const localStyles = getLocallySharedStylesSettingsScreens(theme);
 
     const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
     const { notificationsEnabled, setNotificationsEnabled, toggleNotifications } = useSettingsScreen();

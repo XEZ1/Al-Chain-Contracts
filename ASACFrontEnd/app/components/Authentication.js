@@ -1,7 +1,6 @@
 import * as SecureStore from 'expo-secure-store';
 import { BACKEND_URL } from '@env';
 import React, { useState, useEffect, createContext } from 'react';
-import { useConnectToNotifications } from './Notifications';
 import { WebSocketProvider } from './Notifications';
 import { Alert } from 'react-native';
 

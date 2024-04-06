@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
-import themeStyles from '../../styles/ThemeStyles';
+import themeStyles from './ThemeStyles';
 
-const getLocalStyles = (theme = 'light') => {
+const getLocallySharedStylesPreLoginScreens = (theme = 'light') => {
     return StyleSheet.create({     
         mediumPadding: {
             padding: '8%',
@@ -19,4 +19,4 @@ const getLocalStyles = (theme = 'light') => {
     });
 };
 
-export default getLocalStyles;
+export default getLocallySharedStylesPreLoginScreens;

@@ -1,14 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native';
-import getStyles from '../../../styles/SharedStyles';
+import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
 import { ThemeContext } from '../../../components/Theme';
-import getLocalStyles from './LocalSharedStyles';
+import getLocallySharedStylesSupportScreens from '../../../styles/LocalSharedStylesSupportScreens';
 
 
 const SupportScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
-    const sharedStyles = getStyles(theme);
-    const localStyles = getLocalStyles(theme);
+    const sharedStyles = getGloballySharedStyles(theme);
+    const localStyles = getLocallySharedStylesSupportScreens(theme);
     const [message, setMessage] = useState('');
 
     const messages = [

@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
-import getStyles from '../../styles/SharedStyles';
+import getGloballySharedStyles from '../../styles/GloballySharedStyles';
 import { ThemeContext } from '../../components/Theme';
 import { StatusBar } from 'react-native';
-import getLocalStyles from './LocalSharedStyles';
+import getLocallySharedStylesPreLoginScreens from '../../styles/LocallySharedStylesPreLoginScreens';
 
 const PreLoginScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
-    const sharedStyles = getStyles(theme);
-    const localStyles = getLocalStyles(theme);
+    const sharedStyles = getGloballySharedStyles(theme);
+    const localStyles = getLocallySharedStylesPreLoginScreens(theme);
 
     return (
         <ImageBackground

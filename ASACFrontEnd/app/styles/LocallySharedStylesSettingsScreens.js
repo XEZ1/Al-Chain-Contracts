@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
-import themeStyles from '../../../styles/ThemeStyles';
+import themeStyles from './ThemeStyles';
 
-const getLocalStyles = (theme = 'light') => {
+const getLocalSharedStylesSettingsScreens = (theme = 'light') => {
     return StyleSheet.create({
         maxWidthSmallMarginBottom: {
             width: '100%', marginBottom: '3%',
@@ -9,4 +9,4 @@ const getLocalStyles = (theme = 'light') => {
     });
 };
 
-export default getLocalStyles;
+export default getLocalSharedStylesSettingsScreens;

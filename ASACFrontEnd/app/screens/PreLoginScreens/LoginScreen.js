@@ -1,15 +1,15 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { AuthContext } from '../../components/Authentication';
-import getStyles from '../../styles/SharedStyles';
+import getGloballySharedStyles from '../../styles/GloballySharedStyles';
 import { ThemeContext } from '../../components/Theme';
-import getLocalStyles from './LocalSharedStyles';
+import getLocallySharedStylesPreLoginScreens from '../../styles/LocallySharedStylesPreLoginScreens';
 
 
 const LoginScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
-    const sharedStyles = getStyles(theme);
-    const localStyles = getLocalStyles(theme);
+    const sharedStyles = getGloballySharedStyles(theme);
+    const localStyles = getLocallySharedStylesPreLoginScreens(theme);
 
     const { handleLogin } = useContext(AuthContext);
     const [username, setUsername] = useState('');
