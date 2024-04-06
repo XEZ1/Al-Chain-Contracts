@@ -3,17 +3,17 @@ import { LayoutAnimation, View, Text, TextInput, TouchableOpacity, FlatList, fin
 import { useCommentScreen } from './UseCommentScreen';
 import { useForumScreen } from './UseForumScreen';
 import { ThemeContext } from '../../../components/Theme';
-import getStyles from '../../../styles/SharedStyles';
+import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
 import { useFocusEffect } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import getLocalStyles from './LocalSharedStyles';
+import getLocallySharedStylesForumScreens from '../../../styles/LocallySharedStylesForumScreens';
 import { useKeyboard } from '../../../components/Keyboard';
 
 
 const CommentScreen = ({ route, navigation }) => {
     const { theme } = useContext(ThemeContext);
-    const sharedStyles = getStyles(theme);
-    const localStyles = getLocalStyles(theme);
+    const sharedStyles = getGloballySharedStyles(theme);
+    const localStyles = getLocallySharedStylesForumScreens(theme);
 
     const postCommentRef = useRef(null);
     const viewRef = useRef(null);

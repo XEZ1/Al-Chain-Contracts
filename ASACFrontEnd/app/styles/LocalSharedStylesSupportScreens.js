@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
-import themeStyles from '../../../styles/ThemeStyles';
+import themeStyles from './ThemeStyles';
 
-const getLocalStyles = (theme = 'light') => {
+const getLocallySharedStylesSupportScreens = (theme = 'light') => {
     return StyleSheet.create({
         maxWidth: {
             width: '100%',
@@ -25,4 +25,4 @@ const getLocalStyles = (theme = 'light') => {
     });
 };
 
-export default getLocalStyles;
+export default getLocallySharedStylesSupportScreens;

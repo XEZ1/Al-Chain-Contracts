@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import themeStyles from './ThemeStyles';
 
-const getStyles = (theme = 'light') => {
+const getGloballySharedStyles = (theme = 'light') => {
     return StyleSheet.create({
         tabBar: { //tab bar styling
             activeTintColor: theme === 'dark' ? 'white' : 'black', 
@@ -176,4 +176,4 @@ const getStyles = (theme = 'light') => {
     });
 };
 
-export default getStyles;
+export default getGloballySharedStyles;

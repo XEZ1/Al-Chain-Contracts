@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
-import themeStyles from '../../../styles/ThemeStyles';
+import themeStyles from './ThemeStyles';
 
-const getLocalStyles = (theme = 'light') => {
+const getLocallySharedStylesForumScreens = (theme = 'light') => {
     return StyleSheet.create({
         bigMargin: {
             fontSize: 18, 
@@ -35,4 +35,4 @@ const getLocalStyles = (theme = 'light') => {
     });
 };
 
-export default getLocalStyles;
+export default getLocallySharedStylesForumScreens;

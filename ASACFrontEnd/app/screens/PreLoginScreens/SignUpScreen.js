@@ -1,16 +1,16 @@
 import React, { useState, useContext } from 'react';
 import { View, Modal, Text, TextInput, TouchableOpacity, Alert, KeyboardAvoidingView } from 'react-native';
 import { AuthContext } from '../../components/Authentication';
-import getStyles from '../../styles/SharedStyles';
+import getGloballySharedStyles from '../../styles/GloballySharedStyles';
 import { ThemeContext } from '../../components/Theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import getLocalStyles from './LocalSharedStyles';
+import getLocallySharedStylesPreLoginScreens from '../../styles/LocallySharedStylesPreLoginScreens';
 
 
 const SignUpScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
-    const sharedStyles = getStyles(theme);
-    const localStyles = getLocalStyles(theme);
+    const sharedStyles = getGloballySharedStyles(theme);
+    const localStyles = getLocallySharedStylesPreLoginScreens(theme);
 
     const [username, setUsername] = useState('');
     const [firstName, setFirstName] = useState('');

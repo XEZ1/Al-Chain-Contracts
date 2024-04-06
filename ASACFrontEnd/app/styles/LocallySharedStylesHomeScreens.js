@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
-import themeStyles from '../../../styles/ThemeStyles';
+import themeStyles from './ThemeStyles';
 
-const getLocalStyles = (theme = 'light') => {
+const getLocallySharedStylesHomeScreens = (theme = 'light') => {
     return StyleSheet.create({
         contractItemContainer: {
             marginBottom: 10,
@@ -62,4 +62,4 @@ const getLocalStyles = (theme = 'light') => {
     });
 };
 
-export default getLocalStyles;
+export default getLocallySharedStylesHomeScreens;

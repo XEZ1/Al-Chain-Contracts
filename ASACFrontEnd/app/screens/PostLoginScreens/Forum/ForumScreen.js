@@ -1,16 +1,16 @@
 import React, { useContext, useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput, FlatList, KeyboardAvoidingView } from 'react-native';
-import getStyles from '../../../styles/SharedStyles'; // Make sure the path to your styles is correct
+import getGloballySharedStyles from '../../../styles/GloballySharedStyles'; // Make sure the path to your styles is correct
 import { ThemeContext } from '../../../components/Theme';
 import { useForumScreen } from './UseForumScreen';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import getLocalStyles from './LocalSharedStyles';
+import getLocallySharedStylesForumScreens from '../../../styles/LocallySharedStylesForumScreens';
 
 
 const ForumScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
-    const sharedStyles = getStyles(theme);
-    const localStyles = getLocalStyles(theme);
+    const sharedStyles = getGloballySharedStyles(theme);
+    const localStyles = getLocallySharedStylesForumScreens(theme);
 
     const { posts, loading, createPost, handleLikePost, handleDeletePost,
         newPostTitle, setNewPostTitle,

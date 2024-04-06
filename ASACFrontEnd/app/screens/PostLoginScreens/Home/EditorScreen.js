@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Alert, ActivityIndicator } from 'react-native';
 import * as FileSystem from 'expo-file-system';
-import getStyles from '../../../styles/SharedStyles';
+import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
 import { ThemeContext } from '../../../components/Theme';
 import { WebView } from 'react-native-webview';
 import { useEditorScreen } from './UseEditorScreen';
-import getLocalStyles from './LocalSharedStyles';
+import getLocallySharedStylesHomeScreens from '../../../styles/LocallySharedStylesHomeScreens';
 
 function EditorScreen({ route, navigation }) {  
     const { theme } = useContext(ThemeContext);
-    const sharedStyles = getStyles(theme);
-    const localStyles = getLocalStyles(theme); 
+    const sharedStyles = getGloballySharedStyles(theme);
+    const localStyles = getLocallySharedStylesHomeScreens(theme); 
 
     const { filePath } = route.params;
     const { codeHtml, isLoading } = useEditorScreen(filePath, theme);

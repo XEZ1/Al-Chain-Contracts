@@ -1,18 +1,18 @@
 import React, { useCallback, useContext, useEffect, useState, useRef } from 'react';
 import { LayoutAnimation, Modal, View, Text, TextInput, TouchableOpacity, findNodeHandle, ScrollView, Keyboard, Dimensions } from 'react-native';
-import getStyles from '../../../styles/SharedStyles';
+import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
 import { ThemeContext } from '../../../components/Theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useHomeScreen } from './UseHomeScreen';
 import { ContractItem } from './ContractItem';
 import { useFocusEffect } from '@react-navigation/native';
-import getLocalStyles from './LocalSharedStyles';
+import getLocallySharedStylesHomeScreens from '../../../styles/LocallySharedStylesHomeScreens';
 import { useKeyboard } from '../../../components/Keyboard';
 
 const HomeScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
-    const sharedStyles = getStyles(theme);
-    const localStyles = getLocalStyles(theme);
+    const sharedStyles = getGloballySharedStyles(theme);
+    const localStyles = getLocallySharedStylesHomeScreens(theme);
 
     const contractNameRef = useRef(null);
     const employerAddressRef = useRef(null);
