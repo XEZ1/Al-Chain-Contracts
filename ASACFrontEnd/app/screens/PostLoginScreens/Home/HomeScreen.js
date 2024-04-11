@@ -14,11 +14,6 @@ const HomeScreen = ({ navigation }) => {
     const sharedStyles = getGloballySharedStyles(theme);
     const localStyles = getLocallySharedStylesHomeScreens(theme);
 
-    const contractNameRef = useRef(null);
-    const employerAddressRef = useRef(null);
-    const authAppAddressRef = useRef(null);
-    const tokenContractInterfaceRef = useRef(null);
-    const addressConversionRef = useRef(null);
     const scrollViewRef = useRef(null);
 
     const { keyboardHeight, registerScrollViewRef, unregisterScrollViewRef } = useKeyboard();
@@ -108,7 +103,6 @@ const HomeScreen = ({ navigation }) => {
                         </TouchableOpacity>
 
                         <TextInput
-                            ref={contractNameRef}
                             style={sharedStyles.inputField}
                             placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                             placeholder="Enter Contract Name"
@@ -120,7 +114,6 @@ const HomeScreen = ({ navigation }) => {
                             }}
                         />
                         <TextInput
-                            ref={employerAddressRef}
                             style={sharedStyles.inputField}
                             placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                             placeholder="Set Employer's USDC Address"
@@ -132,7 +125,6 @@ const HomeScreen = ({ navigation }) => {
                             }}
                         />
                         <TextInput
-                            ref={authAppAddressRef}
                             style={sharedStyles.inputField}
                             placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                             placeholder="Set AuthApp's Address" value={authAppAddress}
@@ -143,7 +135,6 @@ const HomeScreen = ({ navigation }) => {
                             }}
                         />
                         <TextInput
-                            ref={tokenContractInterfaceRef}
                             style={sharedStyles.inputField}
                             placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                             placeholder="Set USDC's Token Contract Interface"
@@ -183,7 +174,6 @@ const HomeScreen = ({ navigation }) => {
                     <View style={sharedStyles.cardContainer}>
                         <Text style={sharedStyles.cardHeaderText}>Address Checksum Conversion</Text>
                         <TextInput
-                            ref={addressConversionRef}
                             style={sharedStyles.inputField}
                             placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                             placeholder="Set your token address"
