@@ -34,14 +34,14 @@ const CommentScreen = ({ route, navigation }) => {
 
     useFocusEffect(
         useCallback(() => {
-          const id = "ForumScreen";
-          registerScrollViewRef(id, viewRef);
-      
-          return () => {
-            unregisterScrollViewRef(id);
-          };
+            const id = "ForumScreen";
+            registerScrollViewRef(id, viewRef);
+
+            return () => {
+                unregisterScrollViewRef(id);
+            };
         }, [registerScrollViewRef, unregisterScrollViewRef])
-      );
+    );
 
     useEffect(() => {
         const postExists = posts.find(p => p.id === postId);
@@ -70,10 +70,10 @@ const CommentScreen = ({ route, navigation }) => {
                 style={sharedStyles.avoidingTabBarContainer}
                 ListHeaderComponent={
                     <View style={[sharedStyles.container, localStyles.zeroPadding]}>
-                        <View style={[sharedStyles.cardContainer,  localStyles.mediumMargin]}>
+                        <View style={[sharedStyles.cardContainer, localStyles.mediumMargin]}>
                             <Text style={sharedStyles.cardHeaderText}>{postDetails.title}</Text>
                             <Text style={[sharedStyles.generalText, localStyles.bigMargin]}>{postDetails.description}</Text>
-                            
+
                             <View style={sharedStyles.rowCenteredContainer}>
                                 <TouchableOpacity
                                     onPress={() => handleLikePost(postDetails.id, postDetails.user_has_liked)}
@@ -89,7 +89,7 @@ const CommentScreen = ({ route, navigation }) => {
                                         <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Delete</Text>
                                     </TouchableOpacity>
                                 )}
-                                
+
                             </View>
                         </View>
                     </View>

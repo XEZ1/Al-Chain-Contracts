@@ -4,12 +4,13 @@ import themeStyles from './ThemeStyles';
 const getLocallySharedStylesSupportScreens = (theme = 'light') => {
     return StyleSheet.create({
         maxWidth: {
-            width: '100%',
+            width: '90%',
+            //padding: '5%'
         },
         inputAreaContainer: {
             flexDirection: 'row', 
             alignItems: 'center', 
-            paddingBottom: 85,
+            //padding: '5%'
         },
         inputFieldLocalContainer: {
             flex: 1,
@@ -26,9 +27,11 @@ const getLocallySharedStylesSupportScreens = (theme = 'light') => {
             paddingBottom: 90,
             marginBottom: 90,
         },
-        zeroBottomPadding: {
+        zeroPadding: {
             paddingBottom: '0%',
+            padding: '0%'
         },
+
     });
 };
 
