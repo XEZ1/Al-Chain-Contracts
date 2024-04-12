@@ -31,6 +31,19 @@ const getLocallySharedStylesPreLoginScreens = (theme = 'light') => {
         backgroundContainer: {
             backgroundColor: themeStyles[theme].containerBackground,
         },
+        topSeparatorLine: {
+            top: 90, 
+            zIndex: 1,
+        },
+        bigTopMargin: {
+            marginTop: 90,
+        },
+        mediumTopPadding: {
+            paddingTop: '25%',
+        },
+        bigTopPadding: {
+            paddingTop: '70%',
+        },
     });
 };
 

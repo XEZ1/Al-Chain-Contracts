@@ -1,5 +1,5 @@
-import React, { useCallback, useContext, useEffect, useState, useRef } from 'react';
-import { LayoutAnimation, Modal, View, Text, TextInput, TouchableOpacity, findNodeHandle, ScrollView, Keyboard, Dimensions } from 'react-native';
+import React, { useCallback, useContext, useEffect, useRef } from 'react';
+import { LayoutAnimation, Modal, View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
 import { ThemeContext } from '../../../components/Theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
