@@ -52,13 +52,13 @@ const HomeScreen = ({ navigation }) => {
     );
 
     return (
-        <View style={[sharedStyles.avoidingTabBarContainer, localStyles.zeroMaringBottom, { paddingBottom: keyboardHeight }]}>
+        <View style={[localStyles.backgroundContainer, { paddingBottom: keyboardHeight }]}>
             <ScrollView ref={scrollViewRef} style={sharedStyles.avoidingTabBarContainer} showsVerticalScrollIndicator={false}>
                 <View style={sharedStyles.container}>
                     <Text style={sharedStyles.pageHeaderText}>Smart Contract Toolkit</Text>
 
                     {/* Contract Creation Section */}
-                    <View style={sharedStyles.cardContainer}>
+                    <View style={[sharedStyles.cardContainer]}>
                         {Object.values(errors).some(error => error) && (
                             <TouchableOpacity
                                 style={sharedStyles.errorIconContainer}
@@ -88,8 +88,9 @@ const HomeScreen = ({ navigation }) => {
                             </View>
                         </Modal>
 
-
-                        <Text style={sharedStyles.cardHeaderText}>Produce a Solidity Smart Contract</Text>
+                        <View style={sharedStyles.centeredText}>
+                            <Text style={sharedStyles.cardHeaderText}>Build a Solidity Smart Contract</Text>
+                        </View>
                         {/* DropZone */}
                         <TouchableOpacity style={localStyles.dropZone} onPress={() => handleFileSelectDropZone()}>
                             {selectedFile ? (
@@ -154,7 +155,9 @@ const HomeScreen = ({ navigation }) => {
 
                     {/* User's Smart Contracts */}
                     <View style={sharedStyles.cardContainer}>
-                        <Text style={sharedStyles.cardHeaderText}>My Smart Contracts</Text>
+                        <View style={sharedStyles.centeredText}>
+                            <Text style={sharedStyles.cardHeaderText}>My Smart Contracts</Text>
+                        </View>
                         {savedContracts.length === 0 ? (
                             <Text style={localStyles.noContractsView}>No saved contracts yet</Text>
                         ) : (
@@ -172,7 +175,9 @@ const HomeScreen = ({ navigation }) => {
 
                     {/* Address Conversion */}
                     <View style={sharedStyles.cardContainer}>
-                        <Text style={sharedStyles.cardHeaderText}>Address Checksum Conversion</Text>
+                        <View style={sharedStyles.centeredText}>
+                            <Text style={sharedStyles.cardHeaderText}>Address Checksum Conversion</Text>
+                        </View>
                         <TextInput
                             style={sharedStyles.inputField}
                             placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
