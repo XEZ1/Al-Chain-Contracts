@@ -15,6 +15,22 @@ const getLocallySharedStylesPreLoginScreens = (theme = 'light') => {
             width: 250, 
             marginBottom: '3%',
         },
+        container: {
+            width: '100%',
+            marginBottom: 90,
+            paddingTop: '85%',
+            padding: '5%',
+            backgroundColor: themeStyles[theme].containerBackground,
+        },
+        scroll: {
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '5%',
+            paddingTop: 350,
+        },
+        backgroundContainer: {
+            backgroundColor: themeStyles[theme].containerBackground,
+        },
     });
 };
 
