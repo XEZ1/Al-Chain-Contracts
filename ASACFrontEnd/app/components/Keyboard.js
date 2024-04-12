@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { LayoutAnimation, Keyboard, Dimensions, findNodeHandle, TextInput } from 'react-native';
 
+
 const KeyboardContext = createContext();
 
 export const KeyboardProvider = ({ children }) => {

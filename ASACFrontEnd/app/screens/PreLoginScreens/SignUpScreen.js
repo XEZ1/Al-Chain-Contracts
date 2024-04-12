@@ -24,7 +24,7 @@ const SignUpScreen = ({ navigation }) => {
     const { handleSignUp } = useContext(AuthContext);
 
     return (
-        <KeyboardAvoidingView style={[sharedStyles.container, { paddingTop: '16%' }]} behavior="padding">
+        <View style={[sharedStyles.container, { paddingTop: '16%' }]}>
             <View style={[sharedStyles.cardContainer, localStyles.mediumPadding]}>
                 {Object.values(errors).some(error => error) && (
                     <TouchableOpacity
@@ -109,7 +109,7 @@ const SignUpScreen = ({ navigation }) => {
                     <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Sign Up</Text>
                 </TouchableOpacity>
             </View>
-        </KeyboardAvoidingView>
+        </View>
     );
 };
 
