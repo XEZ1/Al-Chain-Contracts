@@ -32,6 +32,7 @@ const getGloballySharedStyles = (theme = 'light') => {
             backgroundColor: themeStyles[theme].containerBackground,
         },
         cardContainer: { // used for cards
+            //padding: '8%',
             width: '96%', 
             backgroundColor: themeStyles[theme].cardBackground,
             borderRadius: '10%',
@@ -68,7 +69,6 @@ const getGloballySharedStyles = (theme = 'light') => {
             top: 5,
         },
         avoidingTabBarContainer: {
-            backgroundColor: themeStyles[theme].containerBackground,
             marginBottom: 90,
         },
         rowCenteredContainer: {
@@ -172,6 +172,11 @@ const getGloballySharedStyles = (theme = 'light') => {
         },
         bigFont: {
             fontSize: 18 
+        },
+
+        centeredText: {
+            justifyContent: 'center',
+            alignItems: 'center',
         },
     });
 };

@@ -55,7 +55,7 @@ const CommentScreen = ({ route, navigation }) => {
     }
 
     return (
-        <View style={[sharedStyles.container, { paddingBottom: keyboardHeight, paddingTop: '0%', alignItems: 'stretch' }]}>
+        <View style={[sharedStyles.container, localStyles.zeroTopPadding, localStyles.stretchedContainer, {paddingBottom: keyboardHeight}]}>
             <FlatList
                 style={sharedStyles.avoidingTabBarContainer}
                 ref={viewRef}
@@ -71,9 +71,9 @@ const CommentScreen = ({ route, navigation }) => {
                 
                 ListHeaderComponent={
                     <View style={[sharedStyles.container, localStyles.zeroPadding]}>
-                        <View style={[sharedStyles.cardContainer, localStyles.mediumMargin]}>
+                        <View style={[sharedStyles.cardContainer, localStyles.mediumTopMargin]}>
                             <Text style={sharedStyles.cardHeaderText}>{postDetails.title}</Text>
-                            <Text style={[sharedStyles.generalText, localStyles.bigMargin]}>{postDetails.description}</Text>
+                            <Text style={[sharedStyles.generalText, sharedStyles.bigFont, localStyles.smallMargin]}>{postDetails.description}</Text>
 
                             <View style={sharedStyles.rowCenteredContainer}>
                                 <TouchableOpacity
@@ -103,9 +103,9 @@ const CommentScreen = ({ route, navigation }) => {
                             onChangeText={setNewComment}
                             placeholder="Write a comment..."
                             placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                            style={[sharedStyles.inputField, localStyles.adjustedWidthAndMargin]}
+                            style={[sharedStyles.inputField, localStyles.adjustedWidth]}
                         />
-                        <TouchableOpacity title="Post Comment" style={[sharedStyles.button, localStyles.adjustedWidthAndMargin]} onPress={() => { handleAddComment(newComment); setNewComment(''); }}>
+                        <TouchableOpacity title="Post Comment" style={[sharedStyles.button, localStyles.adjustedWidth, localStyles.mediumMargin]} onPress={() => { handleAddComment(newComment); setNewComment(''); }}>
                             <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Post Comment</Text>
                         </TouchableOpacity>
                     </View>

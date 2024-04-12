@@ -16,10 +16,7 @@ const LoginScreen = ({ navigation }) => {
     const [password, setPassword] = useState('');
 
     return (
-        <KeyboardAvoidingView
-            style={sharedStyles.container}
-            behavior="padding"
-        >
+        <KeyboardAvoidingView style={sharedStyles.container} behavior="padding">
             <View style={[sharedStyles.cardContainer]}>
                 <TextInput
                     placeholder="Username"

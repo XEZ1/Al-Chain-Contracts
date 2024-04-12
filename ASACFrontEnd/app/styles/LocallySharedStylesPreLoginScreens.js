@@ -15,7 +15,6 @@ const getLocallySharedStylesPreLoginScreens = (theme = 'light') => {
             width: 250, 
             marginBottom: '3%',
         },
-
     });
 };
 

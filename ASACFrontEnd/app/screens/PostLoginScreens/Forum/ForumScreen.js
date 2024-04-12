@@ -24,7 +24,7 @@ const ForumScreen = ({ navigation }) => {
     }
 
     const renderPost = ({ item }) => (
-        <View style={[sharedStyles.container, { paddingTop: '0%', padding: '0%' }]}>
+        <View style={[sharedStyles.container, localStyles.zeroPadding]}>
             <View style={sharedStyles.cardContainer}>
                 <Text style={sharedStyles.cardHeaderText}>{item.title}</Text>
                 <Text style={[sharedStyles.generalText, { fontSize: 18 }]}>{item.description}</Text>
@@ -34,21 +34,21 @@ const ForumScreen = ({ navigation }) => {
                         style={sharedStyles.rowCenteredContainer}>
                         <MaterialCommunityIcons
                             name={item.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
-                        <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Like({item.like_count})</Text>
+                        <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Like({item.like_count})</Text>
                     </TouchableOpacity>
                     {item.is_user_author && (
                         <TouchableOpacity
                             onPress={() => handleDeletePost(item.id)}
                             style={sharedStyles.rowCenteredContainer}>
                             <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
-                            <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Delete</Text>
+                            <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Delete</Text>
                         </TouchableOpacity>
                     )}
                     <TouchableOpacity
                         onPress={() => navigation.navigate('CommentScreen', { postId: item.id })}
                         style={sharedStyles.rowCenteredContainer}>
                         <MaterialCommunityIcons name="comment-text-outline" size={24} color="grey" />
-                        <Text style={[sharedStyles.generalText, { fontSize: 16, fontWeight: 'bold' }]}>Comment</Text>
+                        <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Comment</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -56,9 +56,7 @@ const ForumScreen = ({ navigation }) => {
     );
 
     return (
-        <View
-            style={[sharedStyles.container, { paddingBottom: '0%' }]}
-        >
+        <View style={[sharedStyles.container, localStyles.zeroBottomPadding]}>
             <Text style={sharedStyles.pageHeaderText}>Community Forum</Text>
 
             {/* Search or Create Post Input */}

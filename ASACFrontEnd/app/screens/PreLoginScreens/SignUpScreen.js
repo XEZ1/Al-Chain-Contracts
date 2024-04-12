@@ -24,10 +24,7 @@ const SignUpScreen = ({ navigation }) => {
     const { handleSignUp } = useContext(AuthContext);
 
     return (
-        <KeyboardAvoidingView
-            style={[sharedStyles.container, { paddingTop: '16%' }]}
-            behavior="padding"
-        >
+        <KeyboardAvoidingView style={[sharedStyles.container, { paddingTop: '16%' }]} behavior="padding">
             <View style={[sharedStyles.cardContainer, localStyles.mediumPadding]}>
                 {Object.values(errors).some(error => error) && (
                     <TouchableOpacity

@@ -34,7 +34,7 @@ const getLocallySharedStylesHomeScreens = (theme = 'light') => {
         inputFieldText: {
             color: theme === 'dark' ? 'grey' : 'darkgrey',
             fontSize: 16,
-        }, 
+        },
         noContractsView: {
             textAlign: 'center',
             color: themeStyles[theme].textColor,
@@ -50,7 +50,7 @@ const getLocallySharedStylesHomeScreens = (theme = 'light') => {
             marginBottom: 10,
         },
         mediumTopPadding: {
-            paddingTop: 10, 
+            paddingTop: 10,
         },
         smallLeftMargin: {
             marginLeft: 5,
@@ -58,7 +58,9 @@ const getLocallySharedStylesHomeScreens = (theme = 'light') => {
         zeroMaringBottom: {
             marginBottom: 0,
         },
-        
+        backgroundContainer: {
+            backgroundColor: themeStyles[theme].containerBackground,
+        },
     });
 };
 

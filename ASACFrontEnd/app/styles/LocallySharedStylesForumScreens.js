@@ -3,20 +3,21 @@ import themeStyles from './ThemeStyles';
 
 const getLocallySharedStylesForumScreens = (theme = 'light') => {
     return StyleSheet.create({
-        bigMargin: {
-            fontSize: 18, 
+        smallMargin: {
             marginBottom: 10, 
         },
         mediumMargin: {
+            marginBottom: '6%',
+        },
+        mediumTopMargin: {
             marginTop: '7%',
         },
         zeroPadding: { 
             paddingTop: '0%', 
             padding: '0%' ,
         },
-        adjustedWidthAndMargin: {
+        adjustedWidth: {
             width: '96%', 
-            marginBottom: '6%',
         },
         zeroTopMarginAndMediumBottomOne: {
             marginTop: '0%', 
@@ -32,6 +33,16 @@ const getLocallySharedStylesForumScreens = (theme = 'light') => {
         mediumTopPadding: {
             paddingTop: '8%',
         },
+        zeroBottomPadding: {
+            paddingBottom: '0%',
+        },
+        zeroTopPadding: {
+            paddingTop: '0%',
+        },
+        stretchedContainer: {
+            alignItems: 'stretch',
+        },
+
     });
 };
 
