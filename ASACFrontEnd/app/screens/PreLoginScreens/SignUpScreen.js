@@ -39,9 +39,13 @@ const SignUpScreen = ({ navigation }) => {
         }, [registerScrollViewRef, unregisterScrollViewRef])
     );
 
+    // <View style={[sharedStyles.separatorLine, localStyles.topSeparatorLine]} /> 
+    // localStyles.mediumTopMargin
+    // localStyles.mediumTopPadding
+    // <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight + 90}]} />
+
     return (
-        <View style={[localStyles.backgroundContainer, { flex: 1, paddingBottom: keyboardHeight }]}>
-            <View style={[sharedStyles.separatorLine, localStyles.topSeparatorLine]} /> 
+        <View style={[localStyles.backgroundContainer, { flex: 1, paddingBottom: keyboardHeight - 91}]}>
             <ScrollView ref={scrollViewRef} style={[sharedStyles.avoidingTabBarContainer, localStyles.bigTopMargin]} showsVerticalScrollIndicator={false}>
                 <View style={[sharedStyles.container, localStyles.mediumTopPadding]}>
                     <View style={[sharedStyles.cardContainer, localStyles.mediumPadding]}>
@@ -131,8 +135,7 @@ const SignUpScreen = ({ navigation }) => {
                 </View>
             </ScrollView>
 
-            {/* Separator Line */}
-            <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight + 90}]} />
+            <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight - 1}]} />
         </View>
     );
 };

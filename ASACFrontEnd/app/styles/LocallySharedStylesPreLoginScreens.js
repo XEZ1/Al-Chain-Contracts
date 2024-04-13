@@ -36,10 +36,11 @@ const getLocallySharedStylesPreLoginScreens = (theme = 'light') => {
             zIndex: 1,
         },
         bigTopMargin: {
-            marginTop: 90,
+            marginTop: 40,
         },
         mediumTopPadding: {
-            paddingTop: '25%',
+            paddingTop: '40%',
+            //paddingTop: '25%',
         },
         bigTopPadding: {
             paddingTop: '70%',
