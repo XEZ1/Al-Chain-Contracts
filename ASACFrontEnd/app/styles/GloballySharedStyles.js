@@ -108,11 +108,6 @@ const getGloballySharedStyles = (theme = 'light') => {
             right: 5,
             justifyContent: 'center',
             alignItems: 'center',
-            shadowColor: themeStyles[theme].shadowColor,
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: themeStyles[theme].shadowOpacity,
-            shadowRadius: '4%',
-            elevation: '1%'
         },
 
         // ADJUST AND DELETE: Modals

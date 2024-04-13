@@ -74,15 +74,8 @@ const SignUpScreen = ({ navigation }) => {
                                     >
                                         <Text style={[sharedStyles.generalText, localStyles.boldAlignedText]}>Got it</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={sharedStyles.exitButton}
-                                        onPress={() => setShowErrorDetails(false)}
-                                    >
-                                        <MaterialCommunityIcons
-                                            name="close-circle"
-                                            size={30}
-                                            color='red'
-                                        />
+                                    <TouchableOpacity style={sharedStyles.exitButton} onPress={() => setShowErrorDetails(false)}>
+                                        <MaterialCommunityIcons name="close-circle" size={30} color='red'/>
                                     </TouchableOpacity>
                                 </View>
                             </View>
