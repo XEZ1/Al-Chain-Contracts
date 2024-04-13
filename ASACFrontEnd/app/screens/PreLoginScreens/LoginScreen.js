@@ -1,12 +1,11 @@
 import React, { useRef, useCallback, useState, useContext } from 'react';
-import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { AuthContext } from '../../components/Authentication';
 import getGloballySharedStyles from '../../styles/GloballySharedStyles';
 import { ThemeContext } from '../../components/Theme';
 import getLocallySharedStylesPreLoginScreens from '../../styles/LocallySharedStylesPreLoginScreens';
 import { useFocusEffect } from '@react-navigation/native';
 import { useKeyboard } from '../../components/Keyboard';
-import { ScrollView } from 'react-native-gesture-handler';
 
 
 const LoginScreen = ({ navigation }) => {
@@ -20,7 +19,6 @@ const LoginScreen = ({ navigation }) => {
 
     const scrollViewRef = useRef(null);
     const { keyboardHeight, registerScrollViewRef, unregisterScrollViewRef } = useKeyboard();
-    const postCommentRef = useRef(null);
 
     useFocusEffect(
         useCallback(() => {
@@ -33,10 +31,16 @@ const LoginScreen = ({ navigation }) => {
         }, [registerScrollViewRef, unregisterScrollViewRef])
     );
 
+
+    // <View style={[sharedStyles.separatorLine, localStyles.topSeparatorLine]} />
+    // localStyles.bigTopMargin 
+    // localStyles.bigTopPadding 
+    // <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight + 90}]} />
+
     return (
         <View style={[localStyles.backgroundContainer, { flex: 1, paddingBottom: keyboardHeight }]}>
-            <ScrollView ref={scrollViewRef} style={sharedStyles.avoidingTabBarContainer} showsVerticalScrollIndicator={false}>
-                <View style={[localStyles.container, { flex: 1 }]}>
+            <ScrollView ref={scrollViewRef} style={[sharedStyles.avoidingTabBarContainer, ]} showsVerticalScrollIndicator={false}> 
+                <View style={[localStyles.container, { flex: 1 }]}> 
                     <View style={[sharedStyles.cardContainer]}>
                         <TextInput
                             placeholder="Username"
@@ -57,6 +61,7 @@ const LoginScreen = ({ navigation }) => {
                     </View>
                 </View>
             </ScrollView>
+            <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight - 1}]} />
         </View>
     );
 };
