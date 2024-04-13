@@ -78,11 +78,11 @@ const HomeScreen = ({ navigation }) => {
                                     {Object.entries(errors).map(([key, value]) =>
                                         value ? <Text key={key} style={sharedStyles.errorListItem}>{`${key}: ${value}`}</Text> : null
                                     )}
-                                    <TouchableOpacity
-                                        style={[sharedStyles.button]}
-                                        onPress={() => setShowErrorDetails(false)}
-                                    >
+                                    <TouchableOpacity style={[sharedStyles.button]} onPress={() => setShowErrorDetails(false)}>
                                         <Text style={sharedStyles.textStyle}>Got it</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={sharedStyles.exitButton} onPress={() => setShowErrorDetails(false)}>
+                                        <MaterialCommunityIcons name="close-circle" size={30} color='red'/>
                                     </TouchableOpacity>
                                 </View>
                             </View>
