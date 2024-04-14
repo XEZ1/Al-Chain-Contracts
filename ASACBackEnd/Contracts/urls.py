@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import *
 
+
 urlpatterns = [
     path('generate-contract/', GenerateContractView.as_view(), name='generate-contract'),
     path('delete-contract/', DeleteContractView.as_view(), name='delete-contract'),

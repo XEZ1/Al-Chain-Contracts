@@ -1,8 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
 from Notifications.utils import send_push_notification
-from .models import *
 from .serializers import *
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework import status

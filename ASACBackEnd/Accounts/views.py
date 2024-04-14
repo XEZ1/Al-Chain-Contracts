@@ -5,7 +5,6 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
-
 from Notifications.models import NotificationPushToken
 from Notifications.utils import send_push_notification
 from .serializers import SignUpSerialiser, UserSerialiser, AuthenticationPushTokenSerialiser
