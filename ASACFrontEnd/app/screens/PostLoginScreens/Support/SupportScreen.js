@@ -1,10 +1,10 @@
 import React, { useCallback, useRef, useState, useContext } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native';
-import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
-import { ThemeContext } from '../../../components/Theme';
-import getLocallySharedStylesSupportScreens from '../../../styles/LocalSharedStylesSupportScreens';
+import { View, Text, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import { useKeyboard } from '../../../components/Keyboard';
 import { useFocusEffect } from '@react-navigation/native';
+import { ThemeContext } from '../../../components/Theme';
+import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
+import getLocallySharedStylesSupportScreens from '../../../styles/LocalSharedStylesSupportScreens';
 
 
 const SupportScreen = ({ navigation }) => {

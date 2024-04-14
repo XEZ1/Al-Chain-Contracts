@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { View, Alert, ActivityIndicator } from 'react-native';
-import * as FileSystem from 'expo-file-system';
-import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
-import { ThemeContext } from '../../../components/Theme';
+import { View, ActivityIndicator } from 'react-native';
+import React, { useContext } from 'react';
 import { WebView } from 'react-native-webview';
 import { useEditorScreen } from './UseEditorScreen';
+import { ThemeContext } from '../../../components/Theme';
+import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
 import getLocallySharedStylesHomeScreens from '../../../styles/LocallySharedStylesHomeScreens';
+
 
 function EditorScreen({ route, navigation }) {  
     const { theme } = useContext(ThemeContext);

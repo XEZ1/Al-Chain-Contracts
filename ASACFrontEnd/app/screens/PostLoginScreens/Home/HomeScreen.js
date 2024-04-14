@@ -1,13 +1,14 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react';
-import { LayoutAnimation, Modal, View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
-import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
-import { ThemeContext } from '../../../components/Theme';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useHomeScreen } from './UseHomeScreen';
-import { ContractItem } from './ContractItem';
+import { Modal, View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import getLocallySharedStylesHomeScreens from '../../../styles/LocallySharedStylesHomeScreens';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { ContractItem } from './ContractItem';
+import { useHomeScreen } from './UseHomeScreen';
 import { useKeyboard } from '../../../components/Keyboard';
+import { ThemeContext } from '../../../components/Theme';
+import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
+import getLocallySharedStylesHomeScreens from '../../../styles/LocallySharedStylesHomeScreens';
+
 
 const HomeScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);

@@ -1,12 +1,12 @@
 import React, { useRef, useCallback, useState, useContext } from 'react';
 import { View, Modal, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
-import { AuthContext } from '../../components/Authentication';
-import getGloballySharedStyles from '../../styles/GloballySharedStyles';
-import { ThemeContext } from '../../components/Theme';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import getLocallySharedStylesPreLoginScreens from '../../styles/LocallySharedStylesPreLoginScreens';
 import { useFocusEffect } from '@react-navigation/native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useKeyboard } from '../../components/Keyboard';
+import { AuthContext } from '../../components/Authentication';
+import { ThemeContext } from '../../components/Theme';
+import getLocallySharedStylesPreLoginScreens from '../../styles/LocallySharedStylesPreLoginScreens';
+import getGloballySharedStyles from '../../styles/GloballySharedStyles';
 
 
 const SignUpScreen = ({ navigation }) => {

@@ -3,6 +3,7 @@ import * as Notifications from 'expo-notifications';
 import * as SecureStore from 'expo-secure-store';
 import { deletePushToken, savePushToken } from '../../../components/Notifications';
 
+
 export const useSettingsScreen = () => {
     const [notificationsEnabled, setNotificationsEnabled] = useState(false);
 

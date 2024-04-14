@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import * as SecureStore from 'expo-secure-store';
 
+
 export const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {

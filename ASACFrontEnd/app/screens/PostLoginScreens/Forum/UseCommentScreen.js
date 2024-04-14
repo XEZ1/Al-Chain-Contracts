@@ -1,8 +1,8 @@
 import { useState } from 'react';
+import { LayoutAnimation } from 'react-native';
+import { validateToken } from '../../../components/Authentication';
 import * as SecureStore from 'expo-secure-store';
 import { BACKEND_URL } from '@env';
-import { validateToken } from '../../../components/Authentication';
-import { LayoutAnimation } from 'react-native';
 
 
 export const useCommentScreen = (postId) => {

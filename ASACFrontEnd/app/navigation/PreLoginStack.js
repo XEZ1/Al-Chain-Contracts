@@ -4,6 +4,7 @@ import PreLoginScreen from '../screens/PreLoginScreens/PreLoginScreen';
 import LoginScreen from '../screens/PreLoginScreens/LoginScreen';
 import SignUpScreen from '../screens/PreLoginScreens/SignUpScreen';
 
+
 const Stack = createStackNavigator();
 
 const PreLoginStack = () => {
