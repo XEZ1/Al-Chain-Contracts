@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { AuthProvider } from './app/components/Authentication';
-import AppNavigator from './app/navigation/AppNavigator';
-import { ThemeProvider } from './app/components/Theme';
 import { UIManager, Platform } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import * as Notifications from 'expo-notifications';
 import ErrorBoundary from './ErrorBoundary'
+import { AuthProvider } from './app/components/Authentication';
+import AppNavigator from './app/navigation/AppNavigator';
 import { KeyboardProvider } from './app/components/Keyboard';
+import { ThemeProvider } from './app/components/Theme';
+
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -22,7 +23,7 @@ if (__DEV__) {
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
-        shouldShowAlert: true, // This will show the notification as an alert when the app is in the foreground.
+        shouldShowAlert: true, 
         shouldPlaySound: true,
         shouldSetBadge: true,
     }),
