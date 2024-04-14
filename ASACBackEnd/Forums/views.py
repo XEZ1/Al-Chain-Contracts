@@ -1,5 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+
+from Notifications.utils import send_push_notification
 from .models import *
 from .serializers import *
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -79,6 +81,7 @@ class LikeCreateDeleteView(APIView):
         like, created = Like.objects.get_or_create(post=post, user=request.user)
         if created:
             serializer = LikeSerialiser(like)
+            self.notify_post_owner(post, request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         elif not created:
             like.delete()
@@ -94,3 +97,12 @@ class LikeCreateDeleteView(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Like.DoesNotExist:
             return Response({"detail": "Like not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    def notify_post_owner(self, post, user):
+        owner_push_token = post.author.notification_tokens.first()
+        print(post.author)
+        print(owner_push_token)
+        if owner_push_token:
+            message_title = "New Like"
+            message_body = f"{user.username} liked your post."
+            send_push_notification(owner_push_token.token, message_title, message_body)

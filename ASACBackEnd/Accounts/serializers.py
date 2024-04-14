@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, PushToken
+from .models import User, AuthenticationPushToken
 from django.core.validators import RegexValidator
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
@@ -70,13 +70,13 @@ class UserSerialiser(serializers.ModelSerializer):
         fields = ['username', 'first_name', 'last_name', 'email']
 
 
-class PushTokenSerialiser(serializers.ModelSerializer):
+class AuthenticationPushTokenSerialiser(serializers.ModelSerializer):
     class Meta:
-        model = PushToken
+        model = AuthenticationPushToken
         fields = ('token', 'created_at')
         read_only_fields = ('created_at',)  # 'created_at' should not be editable
 
     def create(self, validated_data):
         user = self.context['request'].user
-        token, created = PushToken.objects.update_or_create(user=user, defaults=validated_data)
+        token, created = AuthenticationPushToken.objects.update_or_create(user=user, defaults=validated_data)
         return token

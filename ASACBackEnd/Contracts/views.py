@@ -4,6 +4,9 @@ from dotenv import load_dotenv
 from rest_framework import status
 from django.http import JsonResponse
 from rest_framework.views import APIView
+
+from Notifications.models import NotificationPushToken
+from Notifications.utils import send_push_notification
 from .models import SmartContract
 from rest_framework.parsers import MultiPartParser, FormParser
 from .serializers import EmploymentContractSerialiser, SmartContractSerialiser
@@ -38,6 +41,11 @@ class GenerateContractView(APIView):
                 auth_app_address=data['auth_app_address'],
                 token_contract_interface=data['token_contract_interface'],
             )
+
+            notification_push_token = NotificationPushToken.objects.filter(user=data['user']).first()
+            if notification_push_token:
+                send_push_notification(notification_push_token.token, "Your Smart Contract Was Successfully Generated!",
+                                       f"We've successfully generated {smart_contract.contract_name}.sol for you.")
 
             return JsonResponse({"solidity_code": smart_contract.code}, status=status.HTTP_201_CREATED)
         else:

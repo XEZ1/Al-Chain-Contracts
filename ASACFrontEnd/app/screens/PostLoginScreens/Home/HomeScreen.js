@@ -1,25 +1,22 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
-import { LayoutAnimation, Modal, View, Text, TextInput, TouchableOpacity, findNodeHandle, ScrollView, Keyboard, Dimensions } from 'react-native';
-import getStyles from '../../../styles/SharedStyles';
+import React, { useCallback, useContext, useEffect, useRef } from 'react';
+import { LayoutAnimation, Modal, View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
 import { ThemeContext } from '../../../components/Theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useHomeScreen } from './UseHomeScreen';
 import { ContractItem } from './ContractItem';
 import { useFocusEffect } from '@react-navigation/native';
-
+import getLocallySharedStylesHomeScreens from '../../../styles/LocallySharedStylesHomeScreens';
+import { useKeyboard } from '../../../components/Keyboard';
 
 const HomeScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
-    const styles = getStyles(theme);
+    const sharedStyles = getGloballySharedStyles(theme);
+    const localStyles = getLocallySharedStylesHomeScreens(theme);
 
-    const contractNameRef = useRef(null);
-    const employerAddressRef = useRef(null);
-    const authAppAddressRef = useRef(null);
-    const tokenContractInterfaceRef = useRef(null);
-    const addressConversionRef = useRef(null);
     const scrollViewRef = useRef(null);
 
-    const [keyboardHeight, setKeyboardHeight] = useState(0);
+    const { keyboardHeight, registerScrollViewRef, unregisterScrollViewRef } = useKeyboard();
 
     const {
         selectedFile, setSelectedFile,
@@ -35,7 +32,7 @@ const HomeScreen = ({ navigation }) => {
         savedContracts, handleFileSelectDropZone,
         uploadContractData, shareContract,
         openContract, fetchAndSyncContracts,
-        handleDeleteContract, validateInput, 
+        handleDeleteContract, validateInput,
         handleChecksumAddress, copyToClipboard,
     } = useHomeScreen(navigation);
 
@@ -44,54 +41,29 @@ const HomeScreen = ({ navigation }) => {
     }, []);
 
     useFocusEffect(
-        React.useCallback(() => {
-            const handleKeyboardDidShow = (e) => {
-                const screenHeight = Dimensions.get('window').height;
-                const endY = e.endCoordinates.screenY;
-                LayoutAnimation.easeInEaseOut(); 
-                setKeyboardHeight(screenHeight - endY - 90);
-
-                const currentlyFocusedField = TextInput.State.currentlyFocusedInput();
-                if (currentlyFocusedField) {
-                    const nodeHandle = findNodeHandle(currentlyFocusedField);
-                    scrollViewRef.current?.getScrollResponder().scrollResponderScrollNativeHandleToKeyboard(
-                        nodeHandle,
-                        160,
-                        true
-                    );
-                }
-            };
-
-            const handleKeyboardDidHide = () => {
-                LayoutAnimation.easeInEaseOut(); 
-                setKeyboardHeight(0);
-            };
-
-            const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow);
-            const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
+        useCallback(() => {
+            const id = "HomeScreen";
+            registerScrollViewRef(id, scrollViewRef);
 
             return () => {
-                keyboardDidShowListener.remove();
-                keyboardDidHideListener.remove();
+                unregisterScrollViewRef(id);
             };
-        }, [])
+        }, [registerScrollViewRef, unregisterScrollViewRef])
     );
 
     return (
-        <View style={[styles.baseContainer, { paddingBottom: keyboardHeight }]}>
-            <ScrollView ref={scrollViewRef} style={styles.scrollView} showsVerticalScrollIndicator={false}>
-                <View
-                    style={styles.container}
-                >
-                    <Text style={styles.header}>Smart Contract Toolkit</Text>
+        <View style={[localStyles.backgroundContainer, { paddingBottom: keyboardHeight }]}>
+            <ScrollView ref={scrollViewRef} style={sharedStyles.avoidingTabBarContainer} showsVerticalScrollIndicator={false}>
+                <View style={sharedStyles.container}>
+                    <Text style={sharedStyles.pageHeaderText}>Smart Contract Toolkit</Text>
 
                     {/* Contract Creation Section */}
-                    <View style={styles.card}>
+                    <View style={[sharedStyles.cardContainer]}>
                         {Object.values(errors).some(error => error) && (
                             <TouchableOpacity
-                                style={styles.errorIconContainer}
+                                style={sharedStyles.errorIconContainer}
                                 onPress={() => setShowErrorDetails(true)}>
-                                <MaterialCommunityIcons name="alert-circle" size={24} style={styles.errorIcon} />
+                                <MaterialCommunityIcons name="alert-circle" size={24} style={{ color: 'red' }} />
                             </TouchableOpacity>
                         )}
                         <Modal
@@ -100,94 +72,94 @@ const HomeScreen = ({ navigation }) => {
                             visible={showErrorDetails}
                             onRequestClose={() => setShowErrorDetails(false)}
                         >
-                            <View style={styles.centeredView}>
-                                <View style={styles.modalView}>
-                                    <Text style={styles.modalText}>Please fix the following errors:</Text>
+                            <View style={sharedStyles.centeredViewContainer}>
+                                <View style={sharedStyles.modalViewContainer}>
+                                    <Text style={sharedStyles.modalText}>Please fix the following errors:</Text>
                                     {Object.entries(errors).map(([key, value]) =>
-                                        value ? <Text key={key} style={styles.errorListItem}>{`${key}: ${value}`}</Text> : null
+                                        value ? <Text key={key} style={sharedStyles.errorListItem}>{`${key}: ${value}`}</Text> : null
                                     )}
-                                    <TouchableOpacity
-                                        style={[styles.button]}
-                                        onPress={() => setShowErrorDetails(false)}
-                                    >
-                                        <Text style={styles.textStyle}>Got it</Text>
+                                    <TouchableOpacity style={[sharedStyles.button]} onPress={() => setShowErrorDetails(false)}>
+                                        <Text style={sharedStyles.textStyle}>Got it</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={sharedStyles.exitButton} onPress={() => setShowErrorDetails(false)}>
+                                        <MaterialCommunityIcons name="close-circle" size={30} color='red'/>
                                     </TouchableOpacity>
                                 </View>
                             </View>
                         </Modal>
 
-                        <Text style={styles.cardHeader}>Upload an Employment Contract</Text>
+                        <View style={sharedStyles.centeredText}>
+                            <Text style={sharedStyles.cardHeaderText}>Build a Solidity Smart Contract</Text>
+                        </View>
                         {/* DropZone */}
-                        <TouchableOpacity style={styles.dropZone} onPress={() => handleFileSelectDropZone()}>
+                        <TouchableOpacity style={localStyles.dropZone} onPress={() => handleFileSelectDropZone()}>
                             {selectedFile ? (
                                 <>
-                                    <MaterialCommunityIcons name="file-document-outline" size={100} color="black" />
-                                    <Text style={styles.buttonText}>{selectedFile.assets[0].name}</Text>
+                                    <MaterialCommunityIcons name="file-document-outline" size={100} color={theme === 'dark' ? 'white' : 'black'} />
+                                    <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>{selectedFile.assets[0].name}</Text>
                                 </>
                             ) : (
-                                <Text style={[styles.dropZoneText, { color: theme === 'dark' ? 'grey' : 'darkgrey' }]}>Tap to select a .docx / .pdf / .txt file</Text>
+                                <Text style={[localStyles.inputFieldText]}>Tap to upload an employment contract</Text>
                             )}
                         </TouchableOpacity>
 
-                        <TextInput 
-                        ref={contractNameRef} 
-                        style={styles.input} 
-                        placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} 
-                        placeholder="Enter Contract Name" 
-                        value={contractName} 
-                        onChangeText={(value) => {
-                            setContractName(value);
-                            validateInput('contractName',
-                                value);
-                        }}
+                        <TextInput
+                            style={sharedStyles.inputField}
+                            placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
+                            placeholder="Enter Contract Name"
+                            value={contractName}
+                            onChangeText={(value) => {
+                                setContractName(value);
+                                validateInput('contractName',
+                                    value);
+                            }}
                         />
-                        <TextInput 
-                        ref={employerAddressRef} 
-                        style={styles.input} 
-                        placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} 
-                        placeholder="Set Employer's USDC Address" 
-                        value={employerAddress} 
-                        onChangeText={(value) => {
-                            setEmployerAddress(value);
-                            validateInput('employerAddress',
-                                value);
-                        }}
+                        <TextInput
+                            style={sharedStyles.inputField}
+                            placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
+                            placeholder="Set Employer's USDC Address"
+                            value={employerAddress}
+                            onChangeText={(value) => {
+                                setEmployerAddress(value);
+                                validateInput('employerAddress',
+                                    value);
+                            }}
                         />
-                        <TextInput 
-                        ref={authAppAddressRef} 
-                        style={styles.input} 
-                        placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} 
-                        placeholder="Set AuthApp's Address" value={authAppAddress} 
-                        onChangeText={(value) => {
-                            setAuthAppAddress(value);
-                            validateInput('authAppAddress',
-                                value);
-                        }}
+                        <TextInput
+                            style={sharedStyles.inputField}
+                            placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
+                            placeholder="Set AuthApp's Address" value={authAppAddress}
+                            onChangeText={(value) => {
+                                setAuthAppAddress(value);
+                                validateInput('authAppAddress',
+                                    value);
+                            }}
                         />
-                        <TextInput 
-                        ref={tokenContractInterfaceRef} 
-                        style={styles.input} 
-                        placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                        placeholder="Set USDC's Token Contract Interface" 
-                        value={tokenContractInterface} 
-                        onChangeText={(value) => {
-                            setTokenContractInterface(value);
-                            validateInput('tokenContractInterface',
-                                value);
-                        }}
+                        <TextInput
+                            style={sharedStyles.inputField}
+                            placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
+                            placeholder="Set USDC's Token Contract Interface"
+                            value={tokenContractInterface}
+                            onChangeText={(value) => {
+                                setTokenContractInterface(value);
+                                validateInput('tokenContractInterface',
+                                    value);
+                            }}
                         />
 
-                        <TouchableOpacity style={styles.button} onPress={uploadContractData}>
-                            <Text style={styles.buttonText}>Create Contract</Text>
+                        <TouchableOpacity style={sharedStyles.button} onPress={uploadContractData}>
+                            <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Create Contract</Text>
                         </TouchableOpacity>
 
                     </View>
 
                     {/* User's Smart Contracts */}
-                    <View style={styles.card}>
-                        <Text style={styles.cardHeader}>My Smart Contracts</Text>
+                    <View style={sharedStyles.cardContainer}>
+                        <View style={sharedStyles.centeredText}>
+                            <Text style={sharedStyles.cardHeaderText}>My Smart Contracts</Text>
+                        </View>
                         {savedContracts.length === 0 ? (
-                            <Text style={styles.noContractsText}>No saved contracts yet</Text>
+                            <Text style={localStyles.noContractsView}>No saved contracts yet</Text>
                         ) : (
                             savedContracts.map((contract, index) => (
                                 <ContractItem
@@ -202,21 +174,23 @@ const HomeScreen = ({ navigation }) => {
                     </View>
 
                     {/* Address Conversion */}
-                    <View style={styles.card}>
-                        <Text style={styles.cardHeader}>Address Checksum Conversion</Text>
-                        <TextInput 
-                        ref={addressConversionRef} 
-                        style={styles.input} 
-                        placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'} 
-                        placeholder="Set your token address" value={addressChecksum} 
-                        onChangeText={setAddressChecksum}
+                    <View style={sharedStyles.cardContainer}>
+                        <View style={sharedStyles.centeredText}>
+                            <Text style={sharedStyles.cardHeaderText}>Address Checksum Conversion</Text>
+                        </View>
+                        <TextInput
+                            style={sharedStyles.inputField}
+                            placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
+                            placeholder="Set your token address"
+                            value={addressChecksum}
+                            onChangeText={setAddressChecksum}
                         />
 
                         <TouchableOpacity
-                            style={styles.button}
+                            style={sharedStyles.button}
                             onPress={() => handleChecksumAddress()}
                         >
-                            <Text style={styles.buttonText}>Validate Address</Text>
+                            <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Validate Address</Text>
                         </TouchableOpacity>
                         <Modal
                             animationType="slide"
@@ -224,26 +198,24 @@ const HomeScreen = ({ navigation }) => {
                             visible={showAddressModal}
                             onRequestClose={() => setShowAddressModal(false)}
                         >
-                            <View style={styles.centeredView}>
-                                <View style={styles.modalView}>
-                                    <Text style={styles.modalText}>Validated Address:</Text>
-                                    <Text style={styles.modalText}>{validatedAddress}</Text>
+                            <View style={sharedStyles.centeredViewContainer}>
+                                <View style={sharedStyles.modalViewContainer}>
+                                    <Text style={sharedStyles.modalText}>Validated Address:</Text>
+                                    <Text style={sharedStyles.modalText}>{validatedAddress}</Text>
                                     <TouchableOpacity
-                                        style={styles.button}
+                                        style={sharedStyles.button}
                                         onPress={() => { copyToClipboard(); setShowAddressModal(false) }}
                                     >
-                                        <Text style={styles.textStyle}>Copy Address</Text>
+                                        <Text style={sharedStyles.textStyle}>Copy Address</Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity
-                                        style={styles.exitButton}
+                                        style={sharedStyles.exitButton}
                                         onPress={() => setShowAddressModal(false)}
                                     >
                                         <MaterialCommunityIcons
                                             name="close-circle"
                                             size={30}
                                             color='red'
-                                            onPress={() => setShowAddressModal(false)}
-                                            style={styles.exitButton}
                                         />
                                     </TouchableOpacity>
                                 </View>
@@ -253,15 +225,15 @@ const HomeScreen = ({ navigation }) => {
 
 
                     {/* Footer Section */}
-                    <View style={styles.footer}>
-                        <Text style={styles.footerText}>All rights reserved © Smart Contract Toolkit</Text>
+                    <View style={localStyles.footer}>
+                        <Text style={sharedStyles.generalText}>All rights reserved © Al-Slebi AI-Contracts</Text>
                     </View>
 
                 </View>
             </ScrollView>
 
             {/* Separator Line */}
-            <View style={[styles.separatorLine, {bottom: keyboardHeight + 90}]} />
+            <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight + 90 }]} />
 
         </View >
     );

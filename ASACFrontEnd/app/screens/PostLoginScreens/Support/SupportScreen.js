@@ -1,85 +1,93 @@
-import React, { useState, useContext } from 'react';
+import React, { useCallback, useRef, useState, useContext } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native';
-import getStyles from '../../../styles/SharedStyles';
+import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
 import { ThemeContext } from '../../../components/Theme';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import getLocallySharedStylesSupportScreens from '../../../styles/LocalSharedStylesSupportScreens';
+import { useKeyboard } from '../../../components/Keyboard';
+import { useFocusEffect } from '@react-navigation/native';
+
 
 const SupportScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
-    const styles = getStyles(theme); // Applying the theme to the styles
+    const sharedStyles = getGloballySharedStyles(theme);
+    const localStyles = getLocallySharedStylesSupportScreens(theme);
     const [message, setMessage] = useState('');
+    const viewRef = useRef(null);
 
-    // Dummy data for messages
+    const scrollViewPaddingBottom = keyboardHeight > 0 ? '0%' : '120%';
+    const { keyboardHeight, registerScrollViewRef, unregisterScrollViewRef } = useKeyboard();
+
     const messages = [
         { id: '1', text: 'Hi! How can I help you today?', isAssistant: true },
-        // ... other messages
     ];
 
-    // Handler for sending a message
     const handleSendMessage = () => {
         if (message.trim()) {
-            // Here, you'd normally append the message to your messages state or send it to your backend
             console.log('Sending message:', message);
-            setMessage(''); // Clear the input field after sending the message
+            setMessage('');
         }
     };
 
-    return (
-        <KeyboardAvoidingView 
-            style={styles.container} 
-            behavior="padding"
-        >
-            <Text style={styles.header}>Support Chat</Text>
+    useFocusEffect(
+        useCallback(() => {
+            const id = "SupportScreen";
+            registerScrollViewRef(id, viewRef);
 
-            <ScrollView
-                style={{ flex: 1, width: '100%' }}
-                contentContainerStyle={{ padding: 10 }}
-            >
+            return () => {
+                unregisterScrollViewRef(id);
+            };
+        }, [registerScrollViewRef, unregisterScrollViewRef])
+    );
+
+
+    return (
+        <View style={[sharedStyles.container, localStyles.zeroPadding, { paddingBottom: keyboardHeight }]} >
+            <Text style={sharedStyles.pageHeaderText}>Support Chat</Text>
+
+            <ScrollView ref={viewRef} style={[localStyles.maxWidth, sharedStyles.avoidingTabBarContainer, { flex: 1 }]} showsVerticalScrollIndicator={false}>
                 {/* Message bubbles */}
                 {messages.map((msg) => (
                     <View
                         key={msg.id}
                         style={[
-                            styles.card,
+                            sharedStyles.cardContainer,
                             {
+                                marginTop: '10%',
+                                padding: '5%',
+                              
                                 alignSelf: msg.isAssistant ? 'flex-start' : 'flex-end',
-                                backgroundColor: msg.isAssistant ? styles.card.backgroundColor : styles.tabBar.activeTintColor,
+                                backgroundColor: msg.isAssistant ? sharedStyles.cardContainer.backgroundColor : sharedStyles.tabBar.activeTintColor,
                             },
                         ]}
                     >
-                        <Text style={[styles.settingText, { color: theme === 'dark' ? '#FFF' : '#000' }]}>
+                        <Text style={[sharedStyles.generalText, sharedStyles.bigFont]}>
                             {msg.text}
                         </Text>
                     </View>
                 ))}
+
+                {/* Input area */}
+                <View style={[localStyles.inputAreaContainer, {paddingTop: scrollViewPaddingBottom, }]}>
+                    <TextInput
+                        value={message}
+                        onChangeText={setMessage}
+                        placeholder='Type your message here...'
+                        placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
+                        style={[sharedStyles.inputField, localStyles.inputFieldLocalContainer]}
+                        multiline
+                    />
+                    <TouchableOpacity onPress={handleSendMessage} style={[sharedStyles.button, localStyles.localButtonContainer]}>
+                        <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Send</Text>
+                    </TouchableOpacity>
+                </View>
+                
             </ScrollView>
-       
-            {/* Input area */}
-            <View style={{ flexDirection: 'row', alignItems: 'center', paddingBottom: 85 }}>
-                <TextInput
-                    value={message}
-                    onChangeText={setMessage}
-                    placeholder='Type your message here...'
-                    placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                    style={[
-                        styles.input,
-                        {
-                            flex: 1,
-                            marginRight: 10,
-                            marginTop: 18.5,
-                            height: 50, 
-                        }
-                    ]}
-                    multiline
-                />
-                <TouchableOpacity onPress={handleSendMessage} style={[styles.sendButton]}>
-                    <Text style={styles.buttonText}>Send</Text>
-                </TouchableOpacity>
-            </View>  
+
+            <View style={[sharedStyles.separatorLine, { bottom: 713 }]} />
 
             {/* Separator Line */}
-            <View style={{ position: 'absolute', height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey', bottom: 90, left: 0, right: 0 }} />
-        </KeyboardAvoidingView>
+            <View style={[sharedStyles.separatorLine,  { bottom: keyboardHeight + 90 }]} /> 
+        </View>
     )
 };
 
