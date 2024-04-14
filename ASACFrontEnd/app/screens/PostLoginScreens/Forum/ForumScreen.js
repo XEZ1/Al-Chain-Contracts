@@ -88,7 +88,7 @@ const ForumScreen = ({ navigation }) => {
                 data={posts}
                 renderItem={renderPost}
                 keyExtractor={item => item.id.toString()}
-                style={[sharedStyles.avoidingTabBarContainer, localStyles.mediumTopPadding]}
+                style={[sharedStyles.avoidingTabBarContainer, localStyles.mediumTopPadding, { width: '100%' }]}
                 showsVerticalScrollIndicator={false}
                 ListFooterComponent={<View style={localStyles.mediumBottomPadding}/>}
             />
