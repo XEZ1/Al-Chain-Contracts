@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext } from 'react';
-import { Alert } from 'react-native';
+import { LayoutAnimation, Alert } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import { BACKEND_URL } from '@env';
 import { WebSocketProvider } from './Notifications';
@@ -101,6 +101,7 @@ export const login = async (username, password) => {
 
 export const logout = async () => {
     try {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         await SecureStore.deleteItemAsync('authToken');
     } catch (error) {
         console.error('Error:', error);
@@ -121,6 +122,7 @@ export const AuthProvider = ({ children }) => {
     const handleLogin = async (username, password) => {
         const result = await login(username, password);
         if (result.success) {
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
             setIsLoggedIn(true);
         } else {
             Alert.alert('Login Failed', result.error);

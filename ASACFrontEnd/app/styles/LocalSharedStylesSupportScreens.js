@@ -17,6 +17,7 @@ const getLocallySharedStylesSupportScreens = (theme = 'light') => {
             marginRight: 10,
             marginTop: 18.5,
             height: 50, 
+            
         },
         localButtonContainer: {
             width: 'auto', 
