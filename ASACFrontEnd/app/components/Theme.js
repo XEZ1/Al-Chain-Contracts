@@ -7,7 +7,6 @@ export const ThemeProvider = ({ children }) => {
     const [theme, setTheme] = useState('light');
 
     useEffect(() => {
-        // Load the saved theme from storage when the app starts
         SecureStore.getItemAsync('theme').then(savedTheme => {
             if (savedTheme) {
                 setTheme(savedTheme);

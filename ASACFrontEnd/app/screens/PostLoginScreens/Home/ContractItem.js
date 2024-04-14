@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
 import { View, Text, TouchableOpacity,  Animated, Alert } from 'react-native';
-import getStyles from '../../../styles/SharedStyles';
+import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import getLocallySharedStylesHomeScreens from '../../../styles/LocallySharedStylesHomeScreens';
 
 
 export const ContractItem = ({ contract, openContract, openShareContract, deleteContract, theme }) => {
-    const styles = getStyles(theme);
+    const sharedStyles = getGloballySharedStyles(theme);
+    const localStyles = getLocallySharedStylesHomeScreens(theme); 
 
     const [expanded, setExpanded] = useState(false);
     const animationController = useRef(new Animated.Value(0)).current;
@@ -75,23 +77,23 @@ export const ContractItem = ({ contract, openContract, openShareContract, delete
     });
 
     return (
-        <TouchableOpacity onPress={toggleExpand} style={styles.contractItemAnimation}>
-            <View style={styles.contractHeader}>
-                <Text style={styles.generalText}>{contract.contract_name}.sol</Text>
+        <TouchableOpacity onPress={toggleExpand} style={localStyles.contractItemContainer}>
+            <View style={sharedStyles.rowCenteredContainer}>
+                <Text style={sharedStyles.generalText}>{contract.contract_name}.sol</Text>
                 <MaterialCommunityIcons name={expanded ? "chevron-up" : "chevron-down"} size={24} color={theme === 'dark' ? 'white' : 'black'} />
             </View>
-            <Animated.View style={[styles.expandedSection, { height: animatedHeight, overflow: 'hidden' }]}>
-                <TouchableOpacity onPress={() => openContract(contract.contract_name)} style={styles.smartContractButton}>
+            <Animated.View style={[localStyles.mediumTopPadding, { height: animatedHeight, overflow: 'hidden' }]}>
+                <TouchableOpacity onPress={() => openContract(contract.contract_name)} style={localStyles.smartContractButton}>
                     <MaterialCommunityIcons name="file-document-outline" size={24} color={theme === 'dark' ? 'white' : 'black'} />
-                    <Text style={styles.contractItemText}>Access Contract</Text>
+                    <Text style={[sharedStyles.generalText, localStyles.smallLeftMargin]}>Access Contract</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => openShareContract(contract.contract_name)} style={styles.smartContractButton}>
+                <TouchableOpacity onPress={() => openShareContract(contract.contract_name)} style={localStyles.smartContractButton}>
                     <MaterialCommunityIcons name="share-outline" size={24} color="green" />
-                    <Text style={[styles.contractItemText, {color: 'green' }]}>Share Contract</Text>
+                    <Text style={[sharedStyles.generalText, localStyles.smallLeftMargin, {color: 'green'}]}>Share Contract</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={initiateDeletion} style={styles.smartContractButton}>
+                <TouchableOpacity onPress={initiateDeletion} style={localStyles.smartContractButton}>
                     <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
-                    <Text style={[styles.contractItemText, {color: 'red' }]}>Delete Contract</Text>
+                    <Text style={[sharedStyles.generalText, localStyles.smallLeftMargin, {color: 'red'}]}>Delete Contract</Text>
                 </TouchableOpacity>
             </Animated.View>
         </TouchableOpacity>

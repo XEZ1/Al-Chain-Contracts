@@ -1,20 +1,23 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useCallback, useContext, useState, useEffect, useRef } from 'react';
 import { LayoutAnimation, View, Text, TextInput, TouchableOpacity, FlatList, findNodeHandle, Keyboard, Dimensions } from 'react-native';
 import { useCommentScreen } from './UseCommentScreen';
 import { useForumScreen } from './UseForumScreen';
 import { ThemeContext } from '../../../components/Theme';
-import getStyles from '../../../styles/SharedStyles';
+import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
 import { useFocusEffect } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import getLocallySharedStylesForumScreens from '../../../styles/LocallySharedStylesForumScreens';
+import { useKeyboard } from '../../../components/Keyboard';
 
 
 const CommentScreen = ({ route, navigation }) => {
     const { theme } = useContext(ThemeContext);
-    const styles = getStyles(theme);
+    const sharedStyles = getGloballySharedStyles(theme);
+    const localStyles = getLocallySharedStylesForumScreens(theme);
 
     const postCommentRef = useRef(null);
     const viewRef = useRef(null);
-    const [keyboardHeight, setKeyboardHeight] = useState(0);
+    const { keyboardHeight, registerScrollViewRef, unregisterScrollViewRef } = useKeyboard();
 
     const { postId } = route.params;
     const { posts, handleLikePost, handleDeletePost } = useForumScreen();
@@ -30,37 +33,14 @@ const CommentScreen = ({ route, navigation }) => {
     }, []);
 
     useFocusEffect(
-        React.useCallback(() => {
-            const handleKeyboardDidShow = (e) => {
-                const screenHeight = Dimensions.get('window').height;
-                const endY = e.endCoordinates.screenY;
-                LayoutAnimation.easeInEaseOut();
-                setKeyboardHeight(screenHeight - endY - 90);
-                const currentlyFocusedField = TextInput.State.currentlyFocusedInput();
-
-                if (currentlyFocusedField) {
-                    const nodeHandle = findNodeHandle(currentlyFocusedField);
-                    viewRef.current?.getScrollResponder().scrollResponderScrollNativeHandleToKeyboard(
-                        nodeHandle,
-                        160,
-                        true
-                    );
-                }
-            };
-
-            const handleKeyboardDidHide = () => {
-                LayoutAnimation.easeInEaseOut();
-                setKeyboardHeight(0);
-            };
-
-            const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', handleKeyboardDidShow);
-            const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
+        useCallback(() => {
+            const id = "ForumScreen";
+            registerScrollViewRef(id, viewRef);
 
             return () => {
-                keyboardDidShowListener.remove();
-                keyboardDidHideListener.remove();
+                unregisterScrollViewRef(id);
             };
-        }, [])
+        }, [registerScrollViewRef, unregisterScrollViewRef])
     );
 
     useEffect(() => {
@@ -75,61 +55,65 @@ const CommentScreen = ({ route, navigation }) => {
     }
 
     return (
-        <View style={[styles.containerCommentScreen, { paddingBottom: keyboardHeight }]}>
+        <View style={[sharedStyles.container, localStyles.zeroTopPadding, localStyles.stretchedContainer, {paddingBottom: keyboardHeight}]}>
             <FlatList
+                style={sharedStyles.avoidingTabBarContainer}
                 ref={viewRef}
                 data={comments}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
-                    <View style={styles.card}>
-                        <Text style={styles.comment}>{`${item.author_username}: ${item.content}`}</Text>
+                    <View style={[sharedStyles.container, localStyles.zeroPadding]}>
+                        <View style={sharedStyles.cardContainer}>
+                            <Text style={sharedStyles.generalText}>{`${item.author_username}: ${item.content}`}</Text>
+                        </View>
                     </View>
                 )}
-                style={styles.flatListCommentsContainer}
+                
                 ListHeaderComponent={
-                    <View style={styles.regularPadding}>
-                        <View style={styles.card}>
-                            <Text style={styles.cardHeader}>{postDetails.title}</Text>
-                            <Text style={styles.settingText}>{postDetails.description}</Text>
-                            <View style={styles.postsContainer}>
+                    <View style={[sharedStyles.container, localStyles.zeroPadding]}>
+                        <View style={[sharedStyles.cardContainer, localStyles.mediumTopMargin]}>
+                            <Text style={sharedStyles.cardHeaderText}>{postDetails.title}</Text>
+                            <Text style={[sharedStyles.generalText, sharedStyles.bigFont, localStyles.smallMargin]}>{postDetails.description}</Text>
+
+                            <View style={sharedStyles.rowCenteredContainer}>
                                 <TouchableOpacity
                                     onPress={() => handleLikePost(postDetails.id, postDetails.user_has_liked)}
-                                    style={styles.postsButtonText}>
-                                    <MaterialCommunityIcons
-                                        name={postDetails.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
-                                    <Text style={styles.buttonText}>Like ({postDetails.like_count})</Text>
+                                    style={sharedStyles.rowCenteredContainer}>
+                                    <MaterialCommunityIcons name={postDetails.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
+                                    <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Like ({postDetails.like_count})</Text>
                                 </TouchableOpacity>
                                 {postDetails.is_user_author && (
                                     <TouchableOpacity
                                         onPress={() => handleDeletePost(postDetails.id)}
-                                        style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        style={sharedStyles.rowCenteredContainer}>
                                         <MaterialCommunityIcons name="delete-outline" size={24} color="red" />
-                                        <Text style={styles.buttonText}>Delete</Text>
+                                        <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Delete</Text>
                                     </TouchableOpacity>
                                 )}
+
                             </View>
                         </View>
                     </View>
                 }
                 ListFooterComponent={
-                    <View style={styles.centeredContainer}>
+                    <View style={[sharedStyles.container, localStyles.zeroPadding]}>
                         <TextInput
                             ref={postCommentRef}
                             value={newComment}
                             onChangeText={setNewComment}
                             placeholder="Write a comment..."
                             placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                            style={styles.inputCommentsScreen}
+                            style={[sharedStyles.inputField, localStyles.adjustedWidth]}
                         />
-                        <TouchableOpacity title="Post Comment" style={styles.buttonCommentsScreen} onPress={() => { handleAddComment(newComment); setNewComment(''); }}>
-                            <Text style={styles.buttonText}>Post Comment</Text>
+                        <TouchableOpacity title="Post Comment" style={[sharedStyles.button, localStyles.adjustedWidth, localStyles.mediumMargin]} onPress={() => { handleAddComment(newComment); setNewComment(''); }}>
+                            <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Post Comment</Text>
                         </TouchableOpacity>
                     </View>
                 }
                 showsVerticalScrollIndicator={false}
             />
             {/* Separator Line */}
-            <View style={[styles.separatorLine, { bottom: keyboardHeight + 90 }]} />
+            <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight + 90 }]} />
         </View>
 
     );

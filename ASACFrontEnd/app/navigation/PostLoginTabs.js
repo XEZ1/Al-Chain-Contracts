@@ -10,25 +10,26 @@ import CommentScreen from '../screens/PostLoginScreens/Forum/CommentScreen';
 import SupportScreen from '../screens/PostLoginScreens/Support/SupportScreen';
 import EditorScreen from '../screens/PostLoginScreens/Home/EditorScreen';
 import { ThemeContext } from '../components/Theme';
-import getStyles from '../styles/SharedStyles';
+import getGloballySharedStyles from '../styles/GloballySharedStyles';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'react-native';
 import { PostProvider } from '../screens/PostLoginScreens/Forum/UseForumScreen';
+
 
 const Tab = createBottomTabNavigator();
 
 const PostLoginTabs = () => {
     const { theme } = useContext(ThemeContext);
-    const styles = getStyles(theme);
+    const sharedStyles = getGloballySharedStyles(theme);
 
     const HomeStack = createStackNavigator();
     const ForumStack = createStackNavigator();
 
     function HomeStackScreen() {
         return (
-            <HomeStack.Navigator screenOptions={{ headerShown: false }}>
-                <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
-                <HomeStack.Screen name="EditorScreen" component={EditorScreen} />
+            <HomeStack.Navigator initialRouteName="HomeScreen" screenOptions={{ headerShown: false }}>
+                <HomeStack.Screen name="HomeScreen" component={HomeScreen}/>
+                <HomeStack.Screen name="EditorScreen" component={EditorScreen}/>
             </HomeStack.Navigator>
         );
     }
@@ -36,15 +37,14 @@ const PostLoginTabs = () => {
     function ForumStackScreen() {
         return (
             <PostProvider>
-                <ForumStack.Navigator screenOptions={{ headerShown: false }}>
-                    <HomeStack.Screen name="ForumScreen" component={ForumScreen} />
-                    <HomeStack.Screen name="CommentScreen" component={CommentScreen} />
+                <ForumStack.Navigator initialRouteName="ForumScreen" screenOptions={{ headerShown: false }}>
+                    <HomeStack.Screen name="ForumScreen" component={ForumScreen}/>
+                    <HomeStack.Screen name="CommentScreen" component={CommentScreen}/>
                 </ForumStack.Navigator>
             </PostProvider>
         );
     }
 
-    // Define screenOptions for icons and tab bar styles if you're using them
     const screenOptions = ({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
             let iconName;
@@ -63,8 +63,7 @@ const PostLoginTabs = () => {
                 <Ionicons name={iconName} size={size} color={color} />
             );
         },
-        tabBarStyle: styles.tabBar,
-        tabBarLabelStyle: styles.tabBarLabel,
+        tabBarStyle: sharedStyles.tabBar,
         headerShown: false,
     });
 
@@ -74,12 +73,12 @@ const PostLoginTabs = () => {
                 <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
                 {/* Separator Line */}
                 <View style={{ height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey' }} />
-                <View style={{ flex: 1, Bottom: 80 }}>
-                    <Tab.Navigator screenOptions={screenOptions}>
-                        <Tab.Screen name="Home" component={HomeStackScreen} />
-                        <Tab.Screen name="Forum" component={ForumStackScreen} />
-                        <Tab.Screen name="Support" component={SupportScreen} />
-                        <Tab.Screen name="Settings" component={SettingsScreen} />
+                <View style={{ flex: 1 }}>
+                    <Tab.Navigator initialRouteName="Home" screenOptions={screenOptions}>
+                        <Tab.Screen name="Home" component={HomeStackScreen}/>
+                        <Tab.Screen name="Forum" component={ForumStackScreen}/>
+                        <Tab.Screen name="Support" component={SupportScreen}/>
+                        <Tab.Screen name="Settings" component={SettingsScreen}/>
                     </Tab.Navigator>
                 </View>
             </SafeAreaView>
