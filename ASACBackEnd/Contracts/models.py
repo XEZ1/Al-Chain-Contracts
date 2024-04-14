@@ -1,6 +1,5 @@
 from django.db import models
 from Accounts.models import User
-from django_ethereum.fields import EthereumAddressField
 from .validators import (validate_ethereum_address, validate_hexadecimal,
                          validate_contract_name, validate_json_format)
 

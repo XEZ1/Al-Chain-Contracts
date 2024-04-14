@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 from rest_framework import status
 from django.http import JsonResponse
 from rest_framework.views import APIView
-
 from Notifications.models import NotificationPushToken
 from Notifications.utils import send_push_notification
 from .models import SmartContract
@@ -15,6 +14,7 @@ from web3 import Web3
 
 # Load environment variables from .env file
 load_dotenv()
+
 
 class GenerateContractView(APIView):
     parser_classes = (MultiPartParser, FormParser)
@@ -72,7 +72,8 @@ class DeleteContractView(APIView):
     def delete(self, request, *args, **kwargs):
         try:
             # Attempt to retrieve the contract
-            contract = SmartContract.objects.get(user=request.user, contract_name=request.headers.get('X-Contract-Name'))
+            contract = SmartContract.objects.get(user=request.user,
+                                                 contract_name=request.headers.get('X-Contract-Name'))
         except SmartContract.DoesNotExist:
             # If the contract does not exist or does not belong to the user, return a 404 response
             return JsonResponse({"error": "Smart contract not found."}, status=status.HTTP_404_NOT_FOUND)

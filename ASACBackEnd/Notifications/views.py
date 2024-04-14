@@ -4,6 +4,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
+
 class SaveTokenView(views.APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -12,6 +13,7 @@ class SaveTokenView(views.APIView):
         token = request.data.get('token')
         NotificationPushToken.objects.update_or_create(user=request.user, defaults={'token': token})
         return Response({'status': 'success'}, status=status.HTTP_200_OK)
+
 
 class DeleteTokenView(views.APIView):
     authentication_classes = [TokenAuthentication]
