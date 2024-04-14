@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import { View, Text, Switch, TouchableOpacity } from 'react-native';
 import { AuthContext, logout } from '../../../components/Authentication';
+import { useSettingsScreen } from './UseSettingsScreen';
 import { ThemeContext } from '../../../components/Theme';
 import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
-import { useSettingsScreen } from './UseSettingsScreen';
 import getLocallySharedStylesSettingsScreens from '../../../styles/LocallySharedStylesSettingsScreens';
+
 
 const SettingsScreen = ({ navigation }) => {
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);

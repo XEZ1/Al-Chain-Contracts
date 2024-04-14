@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useContext }  from 'react';
 import PreLoginStack from './PreLoginStack';
 import PostLoginTabs from './PostLoginTabs';
-import { useContext } from 'react';
 import { AuthContext } from '../components/Authentication';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 

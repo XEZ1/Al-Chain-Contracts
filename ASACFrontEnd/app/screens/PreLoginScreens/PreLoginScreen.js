@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
-import getGloballySharedStyles from '../../styles/GloballySharedStyles';
+import { View, Text, TouchableOpacity, ImageBackground, StatusBar } from 'react-native';
 import { ThemeContext } from '../../components/Theme';
-import { StatusBar } from 'react-native';
+import getGloballySharedStyles from '../../styles/GloballySharedStyles';
 import getLocallySharedStylesPreLoginScreens from '../../styles/LocallySharedStylesPreLoginScreens';
+
 
 const PreLoginScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);

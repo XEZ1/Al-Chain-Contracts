@@ -1,13 +1,13 @@
-import React, { useCallback, useContext, useState, useEffect, useRef } from 'react';
-import { LayoutAnimation, View, Text, TextInput, TouchableOpacity, FlatList, findNodeHandle, Keyboard, Dimensions } from 'react-native';
-import { useCommentScreen } from './UseCommentScreen';
+import React, { useCallback, useContext, useEffect, useRef } from 'react';
+import { View, Text, TextInput, TouchableOpacity, FlatList } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import { useKeyboard } from '../../../components/Keyboard';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useForumScreen } from './UseForumScreen';
+import { useCommentScreen } from './UseCommentScreen';
 import { ThemeContext } from '../../../components/Theme';
 import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
-import { useFocusEffect } from '@react-navigation/native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import getLocallySharedStylesForumScreens from '../../../styles/LocallySharedStylesForumScreens';
-import { useKeyboard } from '../../../components/Keyboard';
 
 
 const CommentScreen = ({ route, navigation }) => {

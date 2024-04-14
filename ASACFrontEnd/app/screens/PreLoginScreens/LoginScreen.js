@@ -1,11 +1,11 @@
 import React, { useRef, useCallback, useState, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
-import { AuthContext } from '../../components/Authentication';
-import getGloballySharedStyles from '../../styles/GloballySharedStyles';
-import { ThemeContext } from '../../components/Theme';
-import getLocallySharedStylesPreLoginScreens from '../../styles/LocallySharedStylesPreLoginScreens';
 import { useFocusEffect } from '@react-navigation/native';
+import { AuthContext } from '../../components/Authentication';
 import { useKeyboard } from '../../components/Keyboard';
+import { ThemeContext } from '../../components/Theme';
+import getGloballySharedStyles from '../../styles/GloballySharedStyles';
+import getLocallySharedStylesPreLoginScreens from '../../styles/LocallySharedStylesPreLoginScreens';
 
 
 const LoginScreen = ({ navigation }) => {

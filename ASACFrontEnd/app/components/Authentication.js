@@ -1,8 +1,8 @@
+import React, { useState, useEffect, createContext } from 'react';
+import { Alert } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import { BACKEND_URL } from '@env';
-import React, { useState, useEffect, createContext } from 'react';
 import { WebSocketProvider } from './Notifications';
-import { Alert } from 'react-native';
 
 
 export const AuthContext = createContext();

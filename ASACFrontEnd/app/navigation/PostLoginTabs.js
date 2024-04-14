@@ -1,19 +1,19 @@
 import React, { useContext } from 'react';
 import { View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons'; // If you're using Expo or you can use any other icon library
 import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from '../screens/PostLoginScreens/Home/HomeScreen';
-import SettingsScreen from '../screens/PostLoginScreens/Settings/SettingsScreen';
-import ForumScreen from '../screens/PostLoginScreens/Forum/ForumScreen';
-import CommentScreen from '../screens/PostLoginScreens/Forum/CommentScreen';
-import SupportScreen from '../screens/PostLoginScreens/Support/SupportScreen';
-import EditorScreen from '../screens/PostLoginScreens/Home/EditorScreen';
-import { ThemeContext } from '../components/Theme';
-import getGloballySharedStyles from '../styles/GloballySharedStyles';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'react-native';
+import { Ionicons } from '@expo/vector-icons'; // If you're using Expo or you can use any other icon library
+import HomeScreen from '../screens/PostLoginScreens/Home/HomeScreen';
+import EditorScreen from '../screens/PostLoginScreens/Home/EditorScreen';
+import ForumScreen from '../screens/PostLoginScreens/Forum/ForumScreen';
 import { PostProvider } from '../screens/PostLoginScreens/Forum/UseForumScreen';
+import CommentScreen from '../screens/PostLoginScreens/Forum/CommentScreen';
+import SupportScreen from '../screens/PostLoginScreens/Support/SupportScreen';
+import SettingsScreen from '../screens/PostLoginScreens/Settings/SettingsScreen';
+import { ThemeContext } from '../components/Theme';
+import getGloballySharedStyles from '../styles/GloballySharedStyles';
 
 
 const Tab = createBottomTabNavigator();

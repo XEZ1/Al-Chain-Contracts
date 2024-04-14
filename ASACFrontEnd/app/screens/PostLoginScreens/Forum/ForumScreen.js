@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, FlatList, KeyboardAvoidingView } from 'react-native';
-import getGloballySharedStyles from '../../../styles/GloballySharedStyles'; // Make sure the path to your styles is correct
-import { ThemeContext } from '../../../components/Theme';
-import { useForumScreen } from './UseForumScreen';
+import React, { useContext } from 'react';
+import { View, Text, TouchableOpacity, TextInput, FlatList } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useForumScreen } from './UseForumScreen';
+import { ThemeContext } from '../../../components/Theme';
+import getGloballySharedStyles from '../../../styles/GloballySharedStyles'; 
 import getLocallySharedStylesForumScreens from '../../../styles/LocallySharedStylesForumScreens';
 
 

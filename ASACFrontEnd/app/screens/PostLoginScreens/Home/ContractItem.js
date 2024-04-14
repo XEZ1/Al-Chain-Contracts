@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, TouchableOpacity,  Animated, Alert } from 'react-native';
-import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
 import getLocallySharedStylesHomeScreens from '../../../styles/LocallySharedStylesHomeScreens';
 
 
