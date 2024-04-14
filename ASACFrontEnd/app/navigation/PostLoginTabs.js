@@ -15,6 +15,7 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'react-native';
 import { PostProvider } from '../screens/PostLoginScreens/Forum/UseForumScreen';
 
+
 const Tab = createBottomTabNavigator();
 
 const PostLoginTabs = () => {
@@ -26,7 +27,7 @@ const PostLoginTabs = () => {
 
     function HomeStackScreen() {
         return (
-            <HomeStack.Navigator screenOptions={{ headerShown: false }}>
+            <HomeStack.Navigator initialRouteName="HomeScreen" screenOptions={{ headerShown: false }}>
                 <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
                 <HomeStack.Screen name="EditorScreen" component={EditorScreen} />
             </HomeStack.Navigator>
@@ -36,7 +37,7 @@ const PostLoginTabs = () => {
     function ForumStackScreen() {
         return (
             <PostProvider>
-                <ForumStack.Navigator screenOptions={{ headerShown: false }}>
+                <ForumStack.Navigator initialRouteName="ForumScreen" screenOptions={{ headerShown: false }}>
                     <HomeStack.Screen name="ForumScreen" component={ForumScreen} />
                     <HomeStack.Screen name="CommentScreen" component={CommentScreen} />
                 </ForumStack.Navigator>
@@ -73,7 +74,7 @@ const PostLoginTabs = () => {
                 {/* Separator Line */}
                 <View style={{ height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey' }} />
                 <View style={{ flex: 1, Bottom: 80 }}>
-                    <Tab.Navigator screenOptions={screenOptions}>
+                    <Tab.Navigator initialRouteName="Home" screenOptions={screenOptions}>
                         <Tab.Screen name="Home" component={HomeStackScreen} />
                         <Tab.Screen name="Forum" component={ForumStackScreen} />
                         <Tab.Screen name="Support" component={SupportScreen} />
