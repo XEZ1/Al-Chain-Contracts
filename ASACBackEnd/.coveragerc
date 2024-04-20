@@ -3,11 +3,10 @@ omit =
     */migrations/*
     */tests/*
     *__init__.py
-    */ASACBackEnd/migrations/*
-    */Accounts/migrations/*
-    */Contracts/migrations/*
-    */Forums/migrations/*
-    */Notifications/migrations/*
+    */settings.py
+    */asgi.py
+    */wsgi.py
+
 
 [report]
 exclude_lines =
