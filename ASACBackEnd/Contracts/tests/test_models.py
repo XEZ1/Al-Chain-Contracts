@@ -5,11 +5,11 @@ from ..models import EmploymentContract, SmartContract
 from django.db.utils import IntegrityError
 
 
-class EmploymentContractModelTest(TestCase):
+class TestContractsModels(TestCase):
 
     @classmethod
-    def setUpTestData(cls):
-        cls.user = User.objects.create(
+    def setUpTestData(self):
+        self.user = User.objects.create(
             username='testuser',
             first_name='test',
             last_name='user',
@@ -17,8 +17,8 @@ class EmploymentContractModelTest(TestCase):
             password='123456789A!'
         )
 
-        cls.employment_contract = EmploymentContract.objects.create(
-            user=cls.user,
+        self.employment_contract = EmploymentContract.objects.create(
+            user=self.user,
             contract_name="Test Employment Contract",
             employer_address="0x99c805735C466c9B94762604612cfC961a48Eb03",
             auth_app_address="0x99c805735C466c9B94762604612cfC961a48Eb03",
@@ -26,9 +26,9 @@ class EmploymentContractModelTest(TestCase):
             contract_content="Sample contract content"
         )
 
-        cls.smart_contract = SmartContract.objects.create(
-            user=cls.user,
-            legal_contract=cls.employment_contract,
+        self.smart_contract = SmartContract.objects.create(
+            user=self.user,
+            legal_contract=self.employment_contract,
             code="function test() { return true; }",
             contract_name="Test Smart Contract",
             employer_address="0x99c805735C466c9B94762604612cfC961a48Eb03",
