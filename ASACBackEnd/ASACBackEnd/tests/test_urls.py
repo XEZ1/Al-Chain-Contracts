@@ -36,7 +36,7 @@ class TestUrls(SimpleTestCase):
         self.assertEqual(resolve(url).func.view_class, GenerateContractView)
 
     def test_delete_contract_url_resolves(self):
-        url = reverse('delete-contract')
+        url = reverse('delete-contract', kwargs={'contract_name': 'sample_contract'})
         self.assertEqual(resolve(url).func.view_class, DeleteContractView)
 
     def test_fetch_contracts_url_resolves(self):

@@ -35,8 +35,7 @@ SECRET_KEY = 'django-insecure-sd*6c$qhzhfw7k#ncii@3nnzxco@k&+n%fq0_=ze5hg7+j9k(z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.18', '172.20.10.4', '188d-82-8-95-71.ngrok-free.app']
-
+ALLOWED_HOSTS = ['192.168.0.18', '172.20.10.4', '5eba-193-61-207-163.ngrok-free.app']
 # Application definition
 INSTALLED_APPS = [
     'rest_framework',
@@ -78,12 +77,14 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
     'X-Token-Address',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:1234',
-    'http://localhost:8000',
-    'https://*.ngrok-free.app',
+CORS_ALLOW_ALL_ORIGINS = True
+
+# CORS_ALLOWED_ORIGINS = [
+    # 'http://localhost:1234',
+    # 'http://localhost:8000',
+    # 'https://*.ngrok-free.app',
     # to be added: production server
-]
+# ]
 
 #CORS_ALLOWED_ORIGINS_ALL = True
 
