@@ -20,12 +20,15 @@ class GenerateContractView(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def post(self, request, *args, **kwargs):
+        print("Inside post method")
         data = request.data.copy()
         data['user'] = request.user.id
 
         serializer = EmploymentContractSerialiser(data=data)
         if serializer.is_valid():
             employment_contract = serializer.save(user=request.user)
+
+            contract_text = employment_contract.contract_content
 
             # Send text to OpenAI to generate Solidity code
             # solidity_code = self.generate_solidity_code(contract_text)
@@ -69,11 +72,10 @@ class GenerateContractView(APIView):
 class DeleteContractView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def delete(self, request, *args, **kwargs):
+    def delete(self, request, contract_name, *args, **kwargs):
         try:
             # Attempt to retrieve the contract
-            contract = SmartContract.objects.get(user=request.user,
-                                                 contract_name=request.headers.get('X-Contract-Name'))
+            contract = SmartContract.objects.get(user=request.user, contract_name=contract_name)
         except SmartContract.DoesNotExist:
             # If the contract does not exist or does not belong to the user, return a 404 response
             return JsonResponse({"error": "Smart contract not found."}, status=status.HTTP_404_NOT_FOUND)
