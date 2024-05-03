@@ -5,7 +5,7 @@ from Accounts.models import User
 from ..serializers import SmartContractSerialiser, EmploymentContractSerialiser
 
 
-class SerializerTests(TestCase):
+class TestSerialisers(TestCase):
 
     def setUp(self):
         self.client = APIClient()
