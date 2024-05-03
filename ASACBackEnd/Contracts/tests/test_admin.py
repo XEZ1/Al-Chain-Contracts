@@ -38,7 +38,7 @@ class SmartContractAdminTest(TestCase):
         registered_admin = admin.site._registry[SmartContract]
         self.assertIsInstance(registered_admin, admin.ModelAdmin, "SmartContract should use ModelAdmin.")
 
-    def test_admin_changelist_view(self):
+    def test_smart_contract_admin_changelist_view(self):
         # Simulate a request to the admin interface to test the changelist page
         request = self.factory.get('/admin/Contracts/smartcontract/')
         request.user = self.user

@@ -37,7 +37,7 @@ class UserAdminTest(TestCase):
         registered_admin = admin.site._registry[User]
         self.assertIsInstance(registered_admin, admin.ModelAdmin, "User should use ModelAdmin.")
 
-    def test_admin_changelist_view(self):
+    def test_user_admin_changelist_view(self):
         request = self.factory.get('/admin/Accounts/user/')
         request.user = self.user
 
@@ -65,12 +65,12 @@ class AuthenticationPushTokenAdminTest(TestCase):
 
         self.site.register(AuthenticationPushToken, ModelAdmin)
 
-    def test_user_admin_registration(self):
+    def test_authentication_push_token_admin_registration(self):
         self.assertTrue(admin.site.is_registered(AuthenticationPushToken), "Authentication Push Token should be registered in the admin.")
         registered_admin = admin.site._registry[AuthenticationPushToken]
         self.assertIsInstance(registered_admin, admin.ModelAdmin, "Authentication Push Token should use ModelAdmin.")
 
-    def test_admin_changelist_view(self):
+    def test_authentication_push_token_admin_changelist_view(self):
         request = self.factory.get('/admin/Accounts/authenticationpushtoken/')
         request.user = self.user
 
