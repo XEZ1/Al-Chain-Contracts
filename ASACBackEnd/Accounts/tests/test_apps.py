@@ -1,9 +1,9 @@
 from django.apps import apps
 from django.test import TestCase
-from Contracts.apps import ContractsConfig
+from ..apps import AccountsConfig
 
 
-class ContractsConfigTest(TestCase):
+class AccountsConfigTest(TestCase):
     def test_app_config(self):
-        self.assertEqual(ContractsConfig.name, 'Accounts')
+        self.assertEqual(AccountsConfig.name, 'Accounts')
         self.assertEqual(apps.get_app_config('Accounts').name, 'Accounts')

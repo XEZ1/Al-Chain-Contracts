@@ -1,6 +1,6 @@
 from django.apps import apps
 from django.test import TestCase
-from Contracts.apps import ContractsConfig
+from ..apps import ContractsConfig
 
 
 class ContractsConfigTest(TestCase):

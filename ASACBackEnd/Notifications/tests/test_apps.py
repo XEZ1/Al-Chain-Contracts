@@ -1,9 +1,9 @@
 from django.apps import apps
 from django.test import TestCase
-from Contracts.apps import ContractsConfig
+from ..apps import NotificationsConfig
 
 
-class ContractsConfigTest(TestCase):
+class NotificationsConfigTest(TestCase):
     def test_app_config(self):
-        self.assertEqual(ContractsConfig.name, 'Notifications')
+        self.assertEqual(NotificationsConfig.name, 'Notifications')
         self.assertEqual(apps.get_app_config('Notifications').name, 'Notifications')
