@@ -11,38 +11,38 @@ from ..views import GenerateContractView
 
 
 class ViewTestCase(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        cls.user = User.objects.create(
+
+    def setUp(self):
+        self.user = User.objects.create(
             username='testuser',
             first_name='test',
             last_name='user',
             email='testuser@kcl.ac.uk',
             password='123456789A!'
         )
-        cls.employment_contract = EmploymentContract.objects.create(
-            user=cls.user,
+        self.contract_details = {
+            "employer_address": "0x99c805735C466c9B94762604612cfC961a48Eb03",
+            "auth_app_address": "0x99c805735C466c9B94762604612cfC961a48Eb03",
+            "token_contract_interface": "0x99c805735C466c9B94762604612cfC961a48Eb03",
+        }
+        self.employment_contract = EmploymentContract.objects.create(
+            user=self.user,
             contract_name="Test Employment Contract",
-            employer_address="0x99c805735C466c9B94762604612cfC961a48Eb03",
-            auth_app_address="0x99c805735C466c9B94762604612cfC961a48Eb03",
-            token_contract_interface="0x99c805735C466c9B94762604612cfC961a48Eb03",
-            contract_content="Sample contract content"
+            contract_content="Sample contract content",
+            **self.contract_details
         )
-        cls.smart_contract = SmartContract.objects.create(
-            user=cls.user,
-            legal_contract=cls.employment_contract,
+        self.smart_contract = SmartContract.objects.create(
+            user=self.user,
+            legal_contract=self.employment_contract,
             code="function test() { return true; }",
             contract_name="Test Smart Contract",
-            employer_address="0x99c805735C466c9B94762604612cfC961a48Eb03",
-            auth_app_address="0x99c805735C466c9B94762604612cfC961a48Eb03",
-            token_contract_interface="0x99c805735C466c9B94762604612cfC961a48Eb03"
+            **self.contract_details
         )
 
-    def setUp(self):
-        super().setUp()
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)
         self.maxDiff = None
+
 
 class TestGenerateContractView(ViewTestCase):
 
@@ -51,13 +51,8 @@ class TestGenerateContractView(ViewTestCase):
         NotificationPushToken.objects.create(user=self.user, token='ExponentPushToken[dummy-token]')
 
         url = reverse('generate-contract')
-        data = {
-            "contract_name": "New Test Contract",
-            "contract_content": "This is a new test contract content",
-            "employer_address": "0x99c805735C466c9B94762604612cfC961a48Eb03",
-            "auth_app_address": "0x99c805735C466c9B94762604612cfC961a48Eb03",
-            "token_contract_interface": "0x99c805735C466c9B94762604612cfC961a48Eb03"
-        }
+        data = self.contract_details.copy()
+        data.update({"contract_name": "New Test Contract", "contract_content": "This is a new test contract content"})
 
         response = self.client.post(url, data, format='multipart')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -74,13 +69,9 @@ class TestGenerateContractView(ViewTestCase):
 
     def test_post_successful_contract_generation_without_notification(self):
         url = reverse('generate-contract')
-        data = {
-            "contract_name": "New Test Contract",
-            "contract_content": "This is a new test contract content",
-            "employer_address": "0x99c805735C466c9B94762604612cfC961a48Eb03",
-            "auth_app_address": "0x99c805735C466c9B94762604612cfC961a48Eb03",
-            "token_contract_interface": "0x99c805735C466c9B94762604612cfC961a48Eb03"
-        }
+        data = self.contract_details.copy()
+        data.update({"contract_name": "New Test Contract", "contract_content": "This is a new test contract content"})
+
         response = self.client.post(url, data, format='multipart')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(SmartContract.objects.filter(contract_name="New Test Contract").exists())
@@ -93,10 +84,10 @@ class TestGenerateContractView(ViewTestCase):
 
     def test_post_invalid_data_contract_generation(self):
         url = reverse('generate-contract')
-        invalid_data = {
-            "contract_name": ""
-        }
-        response = self.client.post(url, invalid_data, format='multipart')
+        data = self.contract_details.copy()
+        data.update({"contract_name": ""})
+
+        response = self.client.post(url, data, format='multipart')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
         response_data = json.loads(response.content)
@@ -121,7 +112,8 @@ class TestGenerateContractView(ViewTestCase):
         self.assertEqual(result, 'simulated solidity code')
         mock_chat.completions.create.assert_called_once_with(
             messages=[{"role": "user",
-                       "content": f"Convert the following legal employment contract into a Solidity smart contract. You shall pass back only code! Here is the contract: {contract_text}"}],
+                       "content": f"Convert the following legal employment contract into a Solidity smart contract. "
+                                  f"You shall pass back only code! Here is the contract: {contract_text}"}],
             model="ft:gpt-3.5-turbo-0125:personal:asac:8yTaZJJl"
         )
 
