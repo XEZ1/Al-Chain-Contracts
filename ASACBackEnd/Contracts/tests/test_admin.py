@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.contrib.admin import ModelAdmin
+from rest_framework import status
 from ..models import SmartContract
 from django.contrib.auth import get_user_model
 from django.test import TestCase, RequestFactory
@@ -28,6 +30,8 @@ class SmartContractAdminTest(TestCase):
         self.user.is_superuser = True
         self.user.save()
 
+        self.site.register(SmartContract, ModelAdmin)
+
     def test_smart_contract_admin_registration(self):
         # Check if SmartContract is registered in the admin and uses the default ModelAdmin
         self.assertTrue(admin.site.is_registered(SmartContract), "SmartContract should be registered in the admin.")
@@ -36,10 +40,10 @@ class SmartContractAdminTest(TestCase):
 
     def test_admin_changelist_view(self):
         # Simulate a request to the admin interface to test the changelist page
-        request = self.factory.get('/admin/contracts/smartcontract/')
+        request = self.factory.get('/admin/Contracts/smartcontract/')
         request.user = self.user
 
         admin_class = self.site._registry[SmartContract]
 
         response = admin_class.changelist_view(request)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
