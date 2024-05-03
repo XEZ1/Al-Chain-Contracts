@@ -32,12 +32,12 @@ class PostAdminTest(TestCase):
 
         self.site.register(Post, ModelAdmin)
 
-    def test_user_admin_registration(self):
+    def test_post_admin_registration(self):
         self.assertTrue(admin.site.is_registered(Post), "Post should be registered in the admin.")
         registered_admin = admin.site._registry[Post]
         self.assertIsInstance(registered_admin, admin.ModelAdmin, "Post should use ModelAdmin.")
 
-    def test_admin_changelist_view(self):
+    def test_post_admin_changelist_view(self):
         request = self.factory.get('/admin/Forums/post/')
         request.user = self.user
 
@@ -65,12 +65,12 @@ class CommentTokenAdminTest(TestCase):
 
         self.site.register(Comment, ModelAdmin)
 
-    def test_user_admin_registration(self):
+    def test_comment_admin_registration(self):
         self.assertTrue(admin.site.is_registered(Comment), "Comment should be registered in the admin.")
         registered_admin = admin.site._registry[Comment]
         self.assertIsInstance(registered_admin, admin.ModelAdmin, "Comment should use ModelAdmin.")
 
-    def test_admin_changelist_view(self):
+    def test_comment_admin_changelist_view(self):
         request = self.factory.get('/admin/Forums/comment/')
         request.user = self.user
 
@@ -98,12 +98,12 @@ class LikeAdminTest(TestCase):
 
         self.site.register(Like, ModelAdmin)
 
-    def test_user_admin_registration(self):
+    def test_like_admin_registration(self):
         self.assertTrue(admin.site.is_registered(Like), "Like should be registered in the admin.")
         registered_admin = admin.site._registry[Like]
         self.assertIsInstance(registered_admin, admin.ModelAdmin, "Like should use ModelAdmin.")
 
-    def test_admin_changelist_view(self):
+    def test_like_admin_changelist_view(self):
         request = self.factory.get('/admin/Forums/like/')
         request.user = self.user
 
