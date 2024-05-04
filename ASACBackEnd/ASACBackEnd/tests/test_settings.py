@@ -1,42 +1,21 @@
+import pytest
 from django.test import TestCase, SimpleTestCase, override_settings
-from django.conf import settings
-from unittest.mock import patch
-import os
+from .. import settings
 
 
 class TestEnvironmentSettings(SimpleTestCase):
 
-    def test_debug_mode(self):
-        """ Test if DEBUG is set correctly based on environment. """
-        expected_debug = False  # Change based on your env setup logic
-        self.assertEqual(settings.DEBUG, expected_debug)
 
     def test_database_configuration(self):
         """ Ensure database configurations are loaded based on environment. """
+        print(settings.DEBUG)
         if settings.DEBUG:
-            self.assertIn('sqlite3', settings.DATABASES['default']['ENGINE'])
-        else:
-            self.assertIn('sqlite3', settings.DATABASES['default']['ENGINE'])  # Change to postgressql LATER!!
-
-
-class TestDatabaseConfig(TestCase):
-
-    @patch('sys.argv', ['manage.py', 'test'])
-    def test_database_config_for_tests(self):
-        """ Test that DATABASES setting is configured for tests """
-        with override_settings():
-            from django.conf import settings
-            settings._setup()
             self.assertEqual(settings.DATABASES['default']['ENGINE'], 'django.db.backends.sqlite3')
-            self.assertTrue("memory" in settings.DATABASES['default']['NAME'])
-
-    @patch('sys.argv', ['manage.py', 'runserver'])
-    def test_database_config_for_development(self):
-        """ Test that DATABASES setting is configured for development """
-        with override_settings():
-            from django.conf import settings
-            settings._setup()
-            self.assertNotEqual(settings.DATABASES['default']['NAME'], ':memory:')
+            print(str(settings.DATABASES['default']['NAME']))
+            self.assertTrue("memory" in str(settings.DATABASES['default']['NAME']))
+        else:
+            self.assertEqual(settings.DATABASES['default']['ENGINE'], 'django.db.backends.postgresql')
+            self.assertTrue("asacbackenddb" in str(settings.DATABASES['default']['NAME']))
 
 
 class TestInstalledAppsAndMiddleware(SimpleTestCase):
@@ -58,11 +37,10 @@ class TestSecuritySettings(SimpleTestCase):
 
     def test_secret_key(self):
         """ Check that the secret key is set and not default in production. """
-        if not settings.DEBUG:
-            pass
-            # self.assertNotEqual(settings.SECRET_KEY, 'django-insecure-sd*6c$qhzhfw7k#ncii@3nnzxco@k&+n%fq0_=ze5hg7+j9k(z')
+        if settings.DEBUG:
+            self.assertTrue(settings.SECRET_KEY == 'django-insecure-sd*6c$qhzhfw7k#ncii@3nnzxco@k&+n%fq0_=ze5hg7+j9k(z')
         else:
-            self.skipTest("Secret Key test is not applicable in debug mode.")
+            self.assertFalse(settings.SECRET_KEY == 'django-insecure-sd*6c$qhzhfw7k#ncii@3nnzxco@k&+n%fq0_=ze5hg7+j9k(z')
 
     def test_cors_settings(self):
         """ Test CORS headers configuration. """
