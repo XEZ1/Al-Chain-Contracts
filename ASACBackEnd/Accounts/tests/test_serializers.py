@@ -5,7 +5,7 @@ from ..models import *
 from ..serializers import *
 
 
-class SignUpSerialiserTests(APITestCase):
+class TestSignUpSerialiser(APITestCase):
     def test_valid_signup(self):
         data = {
             'username': 'testuser',
@@ -21,7 +21,7 @@ class SignUpSerialiserTests(APITestCase):
     def test_password_confirmation_mismatch(self):
         data = {
             'username': 'testuser',
-            'first_name': 'Test', 
+            'first_name': 'Test',
             'last_name': 'User',
             'email': 'test@example.com',
             'password': 'Complex@123',
@@ -47,17 +47,17 @@ class SignUpSerialiserTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
-class UserSerializerTests(APITestCase):
+class TestUserSerialiser(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', email='test@example.com')
 
-    def test_user_serialization(self):
+    def test_user_serialisation(self):
         data = UserSerialiser(self.user).data
         expected_keys = ['username', 'first_name', 'last_name', 'email']
         self.assertTrue(all(key in data for key in expected_keys))
 
 
-class AuthenticationPushTokenSerializerTests(APITestCase):
+class TestAuthenticationPushTokenSerialiser(APITestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', email='test@example.com')
         self.client.force_authenticate(user=self.user)
