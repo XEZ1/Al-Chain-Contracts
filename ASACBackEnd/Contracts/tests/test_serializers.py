@@ -35,7 +35,7 @@ class TestSerialisers(TestCase):
             token_contract_interface="0x99c805735C466c9B94762604612cfC961a48Eb03"
         )
 
-    def test_employment_contract_serializer(self):
+    def test_employment_contract_serialiser(self):
         serialiser = EmploymentContractSerialiser(instance=self.employment_contract)
         data = serialiser.data
         self.assertEqual(set(data.keys()), {'id', 'user', 'contract_name', 'employer_address', 'auth_app_address',
@@ -55,7 +55,7 @@ class TestSerialisers(TestCase):
         new_contract = serialiser.save()
         self.assertEqual(new_contract.contract_name, 'New Sample Contract')
 
-    def test_smart_contract_serializer(self):
+    def test_smart_contract_serialiser(self):
         serialiser = SmartContractSerialiser(instance=self.smart_contract)
         data = serialiser.data
         self.assertEqual(set(data.keys()), {'id', 'user', 'legal_contract', 'code', 'contract_name', 'employer_address',
@@ -71,7 +71,7 @@ class TestSerialisers(TestCase):
             'auth_app_address': '0x618dd342BcbF099cBa4d200CBdadfbd2c94258F3',
             'token_contract_interface': '0x618dd342BcbF099cBa4d200CBdadfbd2c94258F3'
         }
-        serializer = SmartContractSerialiser(data=new_data)
-        self.assertTrue(serializer.is_valid())
-        new_smart_contract = serializer.save()
+        serialiser = SmartContractSerialiser(data=new_data)
+        self.assertTrue(serialiser.is_valid())
+        new_smart_contract = serialiser.save()
         self.assertEqual(new_smart_contract.code, 'New Sample Code')
