@@ -1,10 +1,10 @@
+from django.contrib.auth.models import AnonymousUser
 from django.test import TestCase
 from rest_framework.test import APIClient, APIRequestFactory
 from Accounts.models import User
 from django.contrib.auth import get_user_model
 from ..models import *
 from ..serializers import *
-
 
 User = get_user_model()
 
@@ -19,17 +19,23 @@ class TestPostSerializer(TestCase):
             email='testuser@kcl.ac.uk',
             password='123456789A!'
         )
+        self.non_author = User.objects.create_user(
+            username='notauthor',
+            email='notauthor@example.com',
+            password='password123'
+        )
         self.factory = APIRequestFactory()
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)
         self.post = Post.objects.create(title='Sample Post', description='Sample Description', author=self.user)
+        Like.objects.create(post=self.post, user=self.non_author)
 
     def test_serialise_post(self):
         request = self.factory.get('/')
         request.user = self.user
         serialiser = PostSerialiser(self.post, context={'request': request})
         data = serialiser.data
-        self.assertEqual(data['like_count'], 0)
+        self.assertEqual(data['like_count'], 1)
         self.assertFalse(data['user_has_liked'])
         self.assertTrue(data['is_user_author'])
 
@@ -42,6 +48,45 @@ class TestPostSerializer(TestCase):
         post = serialiser.save()
         self.assertEqual(post.author, self.user)
         self.assertEqual(post.title, 'New Post')
+
+    def test_user_has_liked(self):
+        request = self.factory.get('/')
+        request.user = self.non_author
+        serializer = PostSerialiser(self.post, context={'request': request})
+        self.assertTrue(serializer.data['user_has_liked'], "User should have liked the post")
+
+    def test_user_has_not_liked(self):
+        request = self.factory.get('/')
+        request.user = self.user
+        serializer = PostSerialiser(self.post, context={'request': request})
+        self.assertFalse(serializer.data['user_has_liked'], "User should not have liked the post")
+
+    def test_user_has_not_liked_unauthorised(self):
+        request = self.factory.get('/')
+        request.user = AnonymousUser()
+        self.client.logout()
+        serializer = PostSerialiser(self.post, context={'request': request})
+        self.assertFalse(serializer.get_user_has_liked(self.post), "User should not have liked the post as they are "
+                                                                   "not authenticated")
+
+    def test_user_is_author(self):
+        request = self.factory.get('/')
+        request.user = self.user
+        serializer = PostSerialiser(self.post, context={'request': request})
+        self.assertTrue(serializer.data['is_user_author'], "User should be the author of the post")
+
+    def test_user_is_not_author(self):
+        request = self.factory.get('/')
+        request.user = self.non_author
+        serializer = PostSerialiser(self.post, context={'request': request})
+        self.assertFalse(serializer.data['is_user_author'], "User should not be the author of the post")
+
+    def test_user_is_not_author_unauthorised(self):
+        request = self.factory.get('/')
+        self.client.logout()
+        serializer = PostSerialiser(self.post, context={'request': request})
+        self.assertFalse(serializer.get_is_user_author(self.post), "User should not be permitted to call this method "
+                                                                   "as they are not authenticated")
 
 
 class TestCommentSerializer(TestCase):
