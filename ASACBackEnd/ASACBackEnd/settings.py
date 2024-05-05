@@ -15,14 +15,6 @@ from pathlib import Path
 import channels
 from corsheaders.defaults import default_headers
 
-# if 'test' in sys.argv or 'pytest' in sys.argv:
-#    DATABASES = {
-#        'default': {
-#            'ENGINE': 'django.db.backends.sqlite3',
-#            'NAME': ':memory:',
-#        }
-#    }
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -147,6 +139,14 @@ def get_database_config(debug):
 
 
 DATABASES = get_database_config(DEBUG)
+
+if 'test' in sys.argv or 'pytest' in sys.argv:
+   DATABASES = {
+       'default': {
+           'ENGINE': 'django.db.backends.sqlite3',
+           'NAME': ':memory:',
+       }
+   }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
