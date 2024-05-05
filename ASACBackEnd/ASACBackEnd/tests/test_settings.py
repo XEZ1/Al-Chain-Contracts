@@ -1,21 +1,29 @@
-import pytest
 from django.test import TestCase, SimpleTestCase, override_settings
 from .. import settings
+from ..settings import get_database_config
 
 
 class TestEnvironmentSettings(SimpleTestCase):
 
-
     def test_database_configuration(self):
         """ Ensure database configurations are loaded based on environment. """
-        print(settings.DEBUG)
         if settings.DEBUG:
+            print('\n\n\n')
+            print(settings.DATABASES)
+            print('\n\n\n')
             self.assertEqual(settings.DATABASES['default']['ENGINE'], 'django.db.backends.sqlite3')
             print(str(settings.DATABASES['default']['NAME']))
             self.assertTrue("memory" in str(settings.DATABASES['default']['NAME']))
         else:
             self.assertEqual(settings.DATABASES['default']['ENGINE'], 'django.db.backends.postgresql')
             self.assertTrue("asacbackenddb" in str(settings.DATABASES['default']['NAME']))
+
+    def test_database_config(self):
+        sqlite_config = get_database_config(True)
+        assert sqlite_config['default']['ENGINE'] == 'django.db.backends.sqlite3'
+
+        postgres_config = get_database_config(False)
+        assert postgres_config['default']['ENGINE'] == 'django.db.backends.postgresql'
 
 
 class TestInstalledAppsAndMiddleware(SimpleTestCase):
@@ -40,7 +48,8 @@ class TestSecuritySettings(SimpleTestCase):
         if settings.DEBUG:
             self.assertTrue(settings.SECRET_KEY == 'django-insecure-sd*6c$qhzhfw7k#ncii@3nnzxco@k&+n%fq0_=ze5hg7+j9k(z')
         else:
-            self.assertFalse(settings.SECRET_KEY == 'django-insecure-sd*6c$qhzhfw7k#ncii@3nnzxco@k&+n%fq0_=ze5hg7+j9k(z')
+            self.assertFalse(
+                settings.SECRET_KEY == 'django-insecure-sd*6c$qhzhfw7k#ncii@3nnzxco@k&+n%fq0_=ze5hg7+j9k(z')
 
     def test_cors_settings(self):
         """ Test CORS headers configuration. """
