@@ -74,7 +74,7 @@ class AuthenticationPushTokenSerialiser(serializers.ModelSerializer):
     class Meta:
         model = AuthenticationPushToken
         fields = ('token', 'created_at')
-        read_only_fields = ('created_at',)  # 'created_at' should not be editable
+        read_only_fields = ('created_at',)
 
     def create(self, validated_data):
         user = self.context['request'].user
