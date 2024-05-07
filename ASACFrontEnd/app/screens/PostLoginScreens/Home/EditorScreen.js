@@ -20,7 +20,7 @@ function EditorScreen({ route, navigation }) {
             {isLoading ? (
                 <ActivityIndicator size="large" color='rgba(1, 193, 219, 1)' style={localStyles.mediumTopPadding} /> 
             ) : (
-                <View style={{ flex: 1 }}>
+                <View style={[localStyles.backgroundContainer, { flex: 1 }]}>
                     <WebView
                         originWhitelist={['*']}
                         source={{ html: codeHtml }}

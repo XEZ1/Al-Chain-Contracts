@@ -9,10 +9,11 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+import sys
+import sys
 from pathlib import Path
 import channels
 from corsheaders.defaults import default_headers
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,8 +27,7 @@ SECRET_KEY = 'django-insecure-sd*6c$qhzhfw7k#ncii@3nnzxco@k&+n%fq0_=ze5hg7+j9k(z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.18', '172.20.10.4', '188d-82-8-95-71.ngrok-free.app']
-
+ALLOWED_HOSTS = ['192.168.0.18', '172.20.10.4', '5eba-193-61-207-163.ngrok-free.app']
 # Application definition
 INSTALLED_APPS = [
     'rest_framework',
@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 CORS_ALLOW_METHODS = [
@@ -69,14 +70,16 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
     'X-Token-Address',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:1234',
-    'http://localhost:8000',
-    'https://*.ngrok-free.app',
-    # to be added: production server
-]
+CORS_ALLOW_ALL_ORIGINS = True
 
-#CORS_ALLOWED_ORIGINS_ALL = True
+# CORS_ALLOWED_ORIGINS = [
+# 'http://localhost:1234',
+# 'http://localhost:8000',
+# 'https://*.ngrok-free.app',
+# to be added: production server
+# ]
+
+# CORS_ALLOWED_ORIGINS_ALL = True
 
 ROOT_URLCONF = 'ASACBackEnd.urls'
 
@@ -109,16 +112,41 @@ CHANNEL_LAYERS = {
     },
 }
 
+
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# Database configuration
+def get_database_config(debug):
+    if debug:
+        return {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
+    else:
+        return {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': 'asacbackenddb',
+                'USER': 'xez1',
+                'PASSWORD': 'g9hgim5A!!!',
+                'HOST': 'localhost',
+                'PORT': '',
+            }
+        }
 
+
+DATABASES = get_database_config(DEBUG)
+
+if 'test' in sys.argv or 'pytest' in sys.argv:
+   DATABASES = {
+       'default': {
+           'ENGINE': 'django.db.backends.sqlite3',
+           'NAME': ':memory:',
+       }
+   }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -160,11 +188,11 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -173,4 +201,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # User model for authentication purposes
 AUTH_USER_MODEL = 'Accounts.User'
-
