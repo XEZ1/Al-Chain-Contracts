@@ -204,17 +204,20 @@ export const useHomeScreen = (navigation) => {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         try {
             const token = await SecureStore.getItemAsync('authToken');
-            await fetch(`${BACKEND_URL}/contracts/delete-contract/`, {
+            console.log('reached 0');
+            await fetch(`${BACKEND_URL}/contracts/delete-contract/${encodeURIComponent(contractToDelete.contract_name)}/`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Token ${token}`,
-                    'X-Contract-Name': contractToDelete.contract_name,
                 },
             });
 
+            console.log('reached 1');
             const filePath = `${FileSystem.documentDirectory}${contractName}.sol`;
+            console.log('reached 2');
             await FileSystem.deleteAsync(filePath, { idempotent: true });
             console.log(`Deleted local file: ${filePath}`);
+            console.log('reached 3');
 
             // Update local state to reflect deletion
             setSavedContracts(currentContracts =>

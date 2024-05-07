@@ -1,7 +1,6 @@
 from exponent_server_sdk import PushClient, PushMessage
 
 
-
 def send_push_notification(token, title, body):
     message = PushMessage(to=token, title=title, body=body)
 
