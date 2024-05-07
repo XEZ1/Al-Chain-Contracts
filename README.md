@@ -1,5 +1,9 @@
 # Al-Slebi-AI-Contracts
 ---
+# Personal:
+```
+cd D:\Users\XEZ1\Main\10.Projects-Code\Al-Slebi-AI-Contracts-Git\Al-Slebi-AI-Contracts\
+```
 # Virtual Environment: 
 ```
 venv\Scripts\activate

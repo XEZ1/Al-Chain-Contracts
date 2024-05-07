@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
+from rest_framework.views import exception_handler
 from Notifications.models import NotificationPushToken
 from Notifications.utils import send_push_notification
 from .serializers import SignUpSerialiser, UserSerialiser, AuthenticationPushTokenSerialiser
@@ -15,15 +16,16 @@ class ValidateAuthenticationTokenView(views.APIView):
     authentication_classes = [TokenAuthentication]
 
     def get(self, request):
-        try:
-            # If authentication is successful, `request.user` will be set,
-            # and we'll enter this block.
-            if request.user and request.user.is_authenticated:
-                return Response({'token_valid': True})
-            else:
-                return Response({'token_valid': False}, status=status.HTTP_401_UNAUTHORIZED)
-        except AuthenticationFailed:
+        if request.user and request.user.is_authenticated:
+            return Response({'token_valid': True})
+        # else:
+        #     return Response({'token_valid': False}, status=status.HTTP_401_UNAUTHORIZED)
+
+    def handle_exception(self, exc):
+        response = exception_handler(exc, self.get_renderer_context())
+        if isinstance(exc, AuthenticationFailed):
             return Response({'token_valid': False}, status=status.HTTP_401_UNAUTHORIZED)
+        return response
 
 
 class LoginView(views.APIView):

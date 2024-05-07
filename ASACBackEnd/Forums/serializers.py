@@ -39,8 +39,12 @@ class PostSerialiser(serializers.ModelSerializer):
         return False
 
     def get_is_user_author(self, obj):
-        # self.context['request'] will be your current request object
         request = self.context.get('request', None)
         if request and hasattr(request, "user"):
             return obj.author == request.user
         return False
+
+        # user = self.context['request'].user
+        # if user.is_authenticated:
+        #     return obj.author == user
+        # return False

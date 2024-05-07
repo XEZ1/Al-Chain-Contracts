@@ -13,7 +13,8 @@ class User(AbstractUser):
         validators=[RegexValidator(
             regex=r'^(?=.*[a-zA-Z]{3,}).*$',
             message='Username must contain at least 3 alphabetical characters'
-        )]
+        )],
+        blank = False
     )
     first_name = models.CharField(
         max_length=15,
