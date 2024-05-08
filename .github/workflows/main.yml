@@ -3,12 +3,8 @@ name: Backend CI
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'ASACBackEnd/**'
   pull_request:
     branches: [ main ]
-    paths:
-      - 'ASACBackEnd/**'
 
 jobs:
   build:
