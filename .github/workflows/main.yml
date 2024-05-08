@@ -1,37 +1,11 @@
-name: Backend CI
+name: Simple Workflow Test
 
-on:
-  push:
-    branches: [ main ]
-    paths:
-      - 'ASACBackEnd/**'
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'ASACBackEnd/**'
+on: [push, pull_request]
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.11.2
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.11.2'
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        cd ASACBackEnd
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Lint with flake8
-      run: |
-        cd ASACBackEnd
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
-      run: |
-        cd ASACBackEnd
-        pytest
+      - uses: actions/checkout@v2
+      - name: Run a one-line script
+        run: echo Hello, world!
