@@ -8,10 +8,29 @@
         "ios": "expo start --ios",
         "web": "expo start --web",
         "test": "jest",
-        "test:watch": "jest --watch"
+        "test:watch": "jest --watch",
+        "test:coverage": "jest --coverage"
     },
     "jest": {
         "preset": "react-native",
+        "collectCoverage": true,
+        "collectCoverageFrom": [
+            "**/*.{js,jsx}",
+            "!**/node_modules/**",
+            "!**/coverage/**",
+            "!**/__tests__/**",
+            "!**/@(tests|test)/**",
+            "!<rootDir>/path/to/exclusions/**"
+        ],
+        "coverageReporters": ["json", "lcov", "text", "clover"],
+        "coverageThreshold": {
+            "global": {
+              "branches": 50,
+              "functions": 50,
+              "lines": 50,
+              "statements": 50
+            }
+        },
         "moduleFileExtensions": [
             "ts",
             "tsx",
