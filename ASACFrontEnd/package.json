@@ -43,8 +43,8 @@
             "node"
         ],
         "transformIgnorePatterns": [
-            "node_modules/(?!(react-native|expo|@react-navigation|@react-native|other)/)"
-        ],
+            "node_modules/(?!((jest-)?react-native|react-native|@react-navigation.*|expo(nent)?|@expo(nent)?/.*|react-navigation|@unimodules/.*|unimodules|sentry-expo|native-base|@react-native|expo-modules-core|expo-notifications|other)/)"
+        ],          
         "setupFilesAfterEnv": [
             "@testing-library/jest-native/extend-expect"
         ]
