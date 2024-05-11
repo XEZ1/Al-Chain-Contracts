@@ -51,6 +51,7 @@ const SignUpScreen = ({ navigation }) => {
                     <View style={[sharedStyles.cardContainer, localStyles.mediumPadding]}>
                         {Object.values(errors).some(error => error) && (
                             <TouchableOpacity
+                                testID="error-icon-container"
                                 style={sharedStyles.errorIconContainer}
                                 onPress={() => setShowErrorDetails(true)}>
                                 <MaterialCommunityIcons name="alert-circle" size={24} style={{ color: 'red' }} />
