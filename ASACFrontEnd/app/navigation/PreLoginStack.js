@@ -10,9 +10,9 @@ const Stack = createStackNavigator();
 const PreLoginStack = () => {
     return (
         <Stack.Navigator initialRouteName="PreLogin" screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="PreLogin" component={PreLoginScreen}/>
-            <Stack.Screen name="Login" component={LoginScreen}/>
-            <Stack.Screen name="SignUp" component={SignUpScreen}/>
+            <Stack.Screen name="PreLogin" component={PreLoginScreen} TestId="screen-PreLogin"/>
+            <Stack.Screen name="Login" component={LoginScreen} TestId="screen-Login"/>
+            <Stack.Screen name="SignUp" component={SignUpScreen}TestId="screen-SignUp"/>
         </Stack.Navigator>
     );
 };
