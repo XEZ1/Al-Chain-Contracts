@@ -58,6 +58,7 @@
         "@react-navigation/bottom-tabs": "^6.5.11",
         "@react-navigation/native": "^6.1.9",
         "@react-navigation/stack": "^6.3.18",
+        "deprecated-react-native-prop-types": "^5.0.0",
         "expo": "~49.0.13",
         "expo-clipboard": "~4.3.1",
         "expo-document-picker": "~11.5.4",

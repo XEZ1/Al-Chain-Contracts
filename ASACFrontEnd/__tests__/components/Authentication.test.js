@@ -4,33 +4,52 @@ import { AuthProvider, validateToken, login, signUp, logout } from '../../app/co
 import * as SecureStore from 'expo-secure-store';
 import { Alert, LayoutAnimation } from 'react-native';
 
-// Mocking the external modules
+
+console.warn = () => {};
+
+
+global.WebSocket = jest.fn(() => ({
+    onopen: jest.fn(),
+    onclose: jest.fn(),
+    onmessage: jest.fn(),
+    onerror: jest.fn(),
+    close: jest.fn(),
+}));
+
 jest.mock('expo-secure-store', () => ({
     getItemAsync: jest.fn(() => Promise.resolve('mocked_token')),
     setItemAsync: jest.fn(),
     deleteItemAsync: jest.fn()
 }));
 
+// Simplified React Native mock without deprecated components
 jest.mock('react-native', () => {
-    const actualRN = jest.requireActual('react-native');
+    const actualReactNative = jest.requireActual('react-native');
     return {
-        ...actualRN,
+        ...actualReactNative,
         Alert: { alert: jest.fn() },
         LayoutAnimation: {
             configureNext: jest.fn(),
+            Presets: {
+                easeInEaseOut: 'easeInEaseOut'
+            }
         },
     };
 });
+
 jest.mock('react-native/Libraries/Settings/Settings', () => ({
     get: jest.fn(),
     set: jest.fn(),
 }));
 
-
 global.fetch = jest.fn(() => Promise.resolve({
     json: () => Promise.resolve({ token_valid: true }),
     ok: true,
 }));
+
+beforeEach(() => {
+    jest.clearAllMocks();
+});
 
 describe('AuthProvider', () => {
     beforeEach(() => {
@@ -82,9 +101,14 @@ describe('AuthProvider', () => {
 
     it('AuthProvider initializes with token validation', async () => {
         SecureStore.getItemAsync.mockResolvedValue('valid-token');
-        const { getByText } = render(<AuthProvider><div>Child</div></AuthProvider>);
+        const { getByText, findByText } = render(<AuthProvider><div>Child</div></AuthProvider>);
         await act(async () => { });
-        expect(getByText('Child')).toBeTruthy();
+    
+        // Optionally check for loading indicators first if present
+        // await findByText('Loading...');
+    
+        const child = await findByText('Child');
+        expect(child).toBeTruthy();
     });
+    
 });
-
