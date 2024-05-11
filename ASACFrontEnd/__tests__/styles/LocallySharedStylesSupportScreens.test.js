@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import getLocallySharedStylesSupportScreens from '../../app/styles/LocalSharedStylesSupportScreens';
+import getLocallySharedStylesSupportScreens from '../../app/styles/LocallySharedStylesSupportScreens';
 
 describe('getLocallySharedStylesSupportScreens', () => {
     beforeEach(() => {

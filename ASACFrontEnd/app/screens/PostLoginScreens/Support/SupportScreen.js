@@ -4,7 +4,7 @@ import { useKeyboard } from '../../../components/Keyboard';
 import { useFocusEffect } from '@react-navigation/native';
 import { ThemeContext } from '../../../components/Theme';
 import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
-import getLocallySharedStylesSupportScreens from '../../../styles/LocalSharedStylesSupportScreens';
+import getLocallySharedStylesSupportScreens from '../../../styles/LocallySharedStylesSupportScreens';
 
 
 const SupportScreen = ({ navigation }) => {
