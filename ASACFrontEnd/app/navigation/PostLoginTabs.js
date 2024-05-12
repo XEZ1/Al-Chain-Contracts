@@ -33,8 +33,8 @@ const PostLoginTabs = () => {
     function HomeStackScreen() {
         return (
             <HomeStack.Navigator initialRouteName="HomeScreen" screenOptions={{ headerShown: false }}>
-                <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
-                <HomeStack.Screen name="EditorScreen" component={EditorScreen} />
+                <HomeStack.Screen name="HomeScreen" component={HomeScreen}/>
+                <HomeStack.Screen name="EditorScreen" component={EditorScreen}/>
             </HomeStack.Navigator>
         );
     }
@@ -43,8 +43,8 @@ const PostLoginTabs = () => {
         return (
             <PostProvider>
                 <ForumStack.Navigator initialRouteName="ForumScreen" screenOptions={{ headerShown: false }}>
-                    <HomeStack.Screen name="ForumScreen" component={ForumScreen} />
-                    <HomeStack.Screen name="CommentScreen" component={CommentScreen} />
+                    <HomeStack.Screen name="ForumScreen" component={ForumScreen}/>
+                    <HomeStack.Screen name="CommentScreen" component={CommentScreen}/>
                 </ForumStack.Navigator>
             </PostProvider>
         );
@@ -85,10 +85,10 @@ const PostLoginTabs = () => {
                 <View style={{ height: 0.3, backgroundColor: theme === 'dark' ? 'grey' : 'darkgrey' }} />
                 <View style={{ flex: 1 }}>
                     <Tab.Navigator initialRouteName="Home" screenOptions={screenOptions}>
-                        <Tab.Screen name="Home" component={HomeStackScreen} />
-                        <Tab.Screen name="Forum" component={ForumStackScreen} />
-                        <Tab.Screen name="Support" component={SupportScreen} />
-                        <Tab.Screen name="Settings" component={SettingsScreen} />
+                        <Tab.Screen name="Home" component={HomeStackScreen}/>
+                        <Tab.Screen name="Forum" component={ForumStackScreen}/>
+                        <Tab.Screen name="Support" component={SupportScreen}/>
+                        <Tab.Screen name="Settings" component={SettingsScreen}/>
                     </Tab.Navigator>
                 </View>
             </SafeAreaView>

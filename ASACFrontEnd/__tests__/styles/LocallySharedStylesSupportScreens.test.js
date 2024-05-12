@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import getLocallySharedStylesSupportScreens from '../../app/styles/LocallySharedStylesSupportScreens';
 
+
 describe('getLocallySharedStylesSupportScreens', () => {
     beforeEach(() => {
         StyleSheet.create = jest.fn(styles => styles);
