@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import getLocallySharedStylesPreLoginScreens from '../../app/styles/LocallySharedStylesPreLoginScreens';
 
+
 describe('getLocallySharedStylesPreLoginScreens', () => {
     beforeEach(() => {
         StyleSheet.create = jest.fn(styles => styles);

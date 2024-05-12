@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import getLocallySharedStylesForumScreens from '../../app/styles/LocallySharedStylesForumScreens';
 
+
 describe('getLocallySharedStylesForumScreens', () => {
     beforeEach(() => {
         StyleSheet.create = jest.fn(styles => styles);

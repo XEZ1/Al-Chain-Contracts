@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import getGloballySharedStyles from '../../app/styles/GloballySharedStyles';
 
+
 describe('getGloballySharedStyles', () => {
     beforeEach(() => {
         StyleSheet.create = jest.fn(styles => styles);

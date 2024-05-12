@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import getLocallySharedStylesHomeScreens from '../../app/styles/LocallySharedStylesHomeScreens';
 
+
 describe('getLocallySharedStylesHomeScreens', () => {
     beforeEach(() => {
         StyleSheet.create = jest.fn(styles => styles);
