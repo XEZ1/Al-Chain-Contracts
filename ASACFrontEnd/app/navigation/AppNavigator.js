@@ -10,7 +10,7 @@ const AppNavigator = () => {
 
     return (
         <SafeAreaProvider>
-            {isLoggedIn ? <PostLoginTabs /> : <PreLoginStack />}
+            {isLoggedIn ? <PostLoginTabs testID="postLoginTabsTestID"/> : <PreLoginStack testID="preLoginStackTestID"/>}
         </SafeAreaProvider>
     );
 };
