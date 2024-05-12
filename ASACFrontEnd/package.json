@@ -48,7 +48,7 @@
             "node"
         ],
         "transformIgnorePatterns": [
-            "node_modules/(?!(jest-)?react-native|react-native|@react-native|@react-navigation.*|expo(nent)?|@expo(nent)?/.*|react-navigation|@unimodules/.*|unimodules|sentry-expo|native-base|@react-native-community|expo-secure-store|expo-modules-core|expo-application|expo-notifications|expo-constants)"
+            "node_modules/(?!(jest-)?react-native|react-native|@react-native|@react-navigation.*|expo(nent)?|@expo(nent)?/.*|react-navigation|@unimodules/.*|unimodules|sentry-expo|native-base|@react-native-community|expo-secure-store|expo-modules-core|expo-application|expo-notifications|expo-constants|react-native-gesture-handler)"
         ],
         "setupFilesAfterEnv": [
             "@testing-library/jest-native/extend-expect"
@@ -80,6 +80,7 @@
         "@babel/preset-env": "^7.24.5",
         "@babel/preset-react": "^7.24.1",
         "@testing-library/jest-native": "^5.4.3",
+        "@testing-library/react-hooks": "^8.0.1",
         "@testing-library/react-native": "^12.5.0",
         "babel-jest": "^29.7.0",
         "jest": "^29.7.0",
