@@ -10,6 +10,7 @@ import getGloballySharedStyles from '../../styles/GloballySharedStyles';
 
 
 const SignUpScreen = ({ navigation }) => {
+  
     const { theme } = useContext(ThemeContext);
     const sharedStyles = getGloballySharedStyles(theme);
     const localStyles = getLocallySharedStylesPreLoginScreens(theme);
@@ -43,6 +44,7 @@ const SignUpScreen = ({ navigation }) => {
     // localStyles.mediumTopMargin
     // localStyles.mediumTopPadding
     // <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight + 90}]} />
+    console.log("Current errors: ", errors); 
 
     return (
         <View style={[localStyles.backgroundContainer, { flex: 1, paddingBottom: keyboardHeight - 91}]}>
