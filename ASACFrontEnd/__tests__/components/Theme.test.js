@@ -68,7 +68,6 @@ describe('ThemeProvider', () => {
         await act(async () => {
             const { result, waitForNextUpdate } = renderHook(() => React.useContext(ThemeContext), { wrapper });
             await waitForNextUpdate();
-            console.log('Checking dark mode:', result.current.isDarkMode);
             expect(result.current.isDarkMode).toBe(true);
         });
     });
