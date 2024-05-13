@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useRef } from 'r
 import { LayoutAnimation, Keyboard, Dimensions, findNodeHandle, TextInput } from 'react-native';
 
 
-const KeyboardContext = createContext();
+export const KeyboardContext = createContext();
 
 export const KeyboardProvider = ({ children }) => {
     const [keyboardHeight, setKeyboardHeight] = useState(0);
