@@ -4,12 +4,14 @@ import { BACKEND_URL } from '@env';
 import * as SecureStore from 'expo-secure-store';
 
 
-const WebSocketContext = createContext(null);
+export const WebSocketContext = createContext(null);
 
 export const useWebSocket = (url) => {
+    console.log('useWebSocket called with url:', url);
     const [socket, setSocket] = useState(null);
 
     useEffect(() => {
+        //console.log('Creating WebSocket with url:', url);
         const ws = new WebSocket(url);
         ws.onopen = () => console.log('WebSocket Connected');
         ws.onmessage = (e) => {
@@ -26,7 +28,10 @@ export const useWebSocket = (url) => {
         ws.onclose = (e) => console.log('WebSocket Disconnected', e.code, e.reason);
         setSocket(ws);
 
-        return () => ws && ws.close();
+        return () => {
+            //console.log('Closing WebSocket');
+            ws && ws.close();
+        };
     }, [url]);
 
     return socket;

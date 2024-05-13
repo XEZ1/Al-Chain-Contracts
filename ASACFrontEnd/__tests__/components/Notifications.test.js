@@ -1,9 +1,8 @@
-import { renderHook, act, fireEvent } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react-hooks';
+import { render, screen } from '@testing-library/react';
 import * as Notifications from 'expo-notifications';
 import * as SecureStore from 'expo-secure-store';
-import { useWebSocket, WebSocketProvider, useConnectToNotifications, savePushToken, deletePushToken, requestNotificationPermission } from '../../app/components/Notifications';
-import React from 'react';
-import { render } from '@testing-library/react';
+import { WebSocketContext, useWebSocket, WebSocketProvider, useConnectToNotifications, savePushToken, deletePushToken, requestNotificationPermission } from '../../app/components/Notifications';
 
 
 jest.mock('expo-notifications');
@@ -24,7 +23,6 @@ global.WebSocket = jest.fn().mockImplementation(() => ({
 }));
 
 describe('WebSocket and Notifications Handling', () => {
-    let originalUseWebSocket;
 
     beforeAll(() => {
         jest.spyOn(console, 'log').mockImplementation(() => { });
@@ -140,12 +138,3 @@ describe('WebSocket and Notifications Handling', () => {
         expect(permissionStatus).toBe(true);
     });
 });
-
-
-
-
-//describe('Placeholder test suite', () => {
-//    it('should always pass', () => {
-//        expect(true).toBeTruthy();
-//    });
-//});
