@@ -38,3 +38,7 @@ sudo systemctl enable redis-server
 ```
 Ngrok http 'port'
 ```
+# Database:
+```
+psql -U postgres -d postgres
+```
