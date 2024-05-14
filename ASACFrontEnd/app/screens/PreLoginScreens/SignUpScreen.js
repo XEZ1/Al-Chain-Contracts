@@ -32,9 +32,11 @@ const SignUpScreen = ({ navigation }) => {
     useFocusEffect(
         useCallback(() => {
             const id = "SignUpScreen";
+            console.log('Effect running: registering', id);
             registerScrollViewRef(id, scrollViewRef);
 
             return () => {
+                console.log('Cleanup running: unregistering', id);
                 unregisterScrollViewRef(id);
             };
         }, [registerScrollViewRef, unregisterScrollViewRef])
@@ -44,7 +46,6 @@ const SignUpScreen = ({ navigation }) => {
     // localStyles.mediumTopMargin
     // localStyles.mediumTopPadding
     // <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight + 90}]} />
-    console.log("Current errors: ", errors); 
 
     return (
         <View style={[localStyles.backgroundContainer, { flex: 1, paddingBottom: keyboardHeight - 91}]}>
@@ -64,6 +65,7 @@ const SignUpScreen = ({ navigation }) => {
                             transparent={true}
                             visible={showErrorDetails}
                             onRequestClose={() => setShowErrorDetails(false)}
+                            testID="error-modal"
                         >
                             <View style={sharedStyles.centeredViewContainer}>
                                 <View style={sharedStyles.modalViewContainer}>
@@ -77,7 +79,7 @@ const SignUpScreen = ({ navigation }) => {
                                     >
                                         <Text style={[sharedStyles.generalText, localStyles.boldAlignedText]}>Got it</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={sharedStyles.exitButton} onPress={() => setShowErrorDetails(false)}>
+                                    <TouchableOpacity style={sharedStyles.exitButton} onPress={() => setShowErrorDetails(false)} testID="closeModalButton">
                                         <MaterialCommunityIcons name="close-circle" size={30} color='red'/>
                                     </TouchableOpacity>
                                 </View>
