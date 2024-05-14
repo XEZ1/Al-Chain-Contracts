@@ -1,9 +1,12 @@
 import React from 'react';
-import { render, fireEvent, act, waitFor, debug } from '@testing-library/react-native';
+import { render, fireEvent, act, waitFor, focus, debug } from '@testing-library/react-native';
 import SignUpScreen from '../../../app/screens/PreLoginScreens/SignUpScreen';
 import { AuthContext } from '../../../app/components/Authentication';
 import { ThemeContext } from '../../../app/components/Theme';
 import { useKeyboard } from '../../../app/components/Keyboard';
+import PreLoginStack from '../../../app/navigation/PreLoginStack';
+import { NavigationContainer } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
 
 
@@ -20,6 +23,10 @@ jest.mock('@react-navigation/native', () => {
                 unsubscribe();
             };
         }),
+        useNavigation: () => ({
+            navigate: jest.fn(),
+            goBack: jest.fn(),
+        }),
     };
 });
 
@@ -32,6 +39,27 @@ jest.mock('../../../app/components/Keyboard', () => {
             registerScrollViewRef,
             unregisterScrollViewRef,
         })),
+    };
+});
+
+jest.mock('react-native-gesture-handler', () => {
+    const View = require('react-native/Libraries/Components/View/View');
+    return {
+        ScrollView: View,
+        Slider: View,
+        Switch: View,
+        TextInput: View,
+        DrawerLayoutAndroid: View,
+        WebView: View,
+        ViewPagerAndroid: View,
+        DrawerLayout: View,
+        WebView: View,
+        SafeAreaView: View,
+        FlatList: View,
+        SectionList: View,
+        GestureHandlerRootView: View,
+        PanGestureHandler: View,
+        Directions: {},
     };
 });
 
@@ -57,11 +85,23 @@ describe('SignUpScreen', () => {
     };
     const themeContextValue = { theme };
 
-    const renderComponent = (errors = {}) => {
+    const renderComponent = () => {
         return render(
             <AuthContext.Provider value={authContextValue}>
                 <ThemeContext.Provider value={themeContextValue}>
                     <SignUpScreen />
+                </ThemeContext.Provider>
+            </AuthContext.Provider>
+        );
+    };
+
+    const renderComponentWithNavigation = () => {
+        return render(
+            <AuthContext.Provider value={authContextValue}>
+                <ThemeContext.Provider value={themeContextValue}>
+                    <NavigationContainer>
+                        <PreLoginStack />
+                    </NavigationContainer>
                 </ThemeContext.Provider>
             </AuthContext.Provider>
         );
@@ -80,7 +120,7 @@ describe('SignUpScreen', () => {
     });
 
     it('shows error modal when errors exist and icon is pressed', async () => {
-        const { getByTestId, getByText, getByPlaceholderText, queryByText, debug } = renderComponent({});
+        const { getByTestId, getByText, getByPlaceholderText, queryByText, debug } = renderComponent();
 
         fireEvent.changeText(getByPlaceholderText('Username'), '');
         fireEvent.changeText(getByPlaceholderText('First Name'), '');
@@ -103,7 +143,7 @@ describe('SignUpScreen', () => {
     });
 
     it('closes error modal when got it button is pressed', async () => {
-        const { getByTestId, getByText, getByPlaceholderText, queryByText, debug } = renderComponent({});
+        const { getByTestId, getByText, getByPlaceholderText, queryByText, debug } = renderComponent();
 
         fireEvent.changeText(getByPlaceholderText('Username'), '');
         fireEvent.changeText(getByPlaceholderText('First Name'), '');
@@ -132,7 +172,7 @@ describe('SignUpScreen', () => {
     });
 
     it('closes error modal when close circle button is pressed', async () => {
-        const { getByTestId, getByText, getByPlaceholderText, queryByText, debug } = renderComponent({});
+        const { getByTestId, getByText, getByPlaceholderText, queryByText, debug } = renderComponent();
 
         fireEvent.changeText(getByPlaceholderText('Username'), '');
         fireEvent.changeText(getByPlaceholderText('First Name'), '');
@@ -161,7 +201,7 @@ describe('SignUpScreen', () => {
     });
 
     it('closes error modal when swiped left is used (onRequestClose)', async () => {
-        const { getByTestId, getByText, getByPlaceholderText, queryByText, debug } = renderComponent({});
+        const { getByTestId, getByText, getByPlaceholderText, queryByText, debug } = renderComponent();
 
         fireEvent.changeText(getByPlaceholderText('Username'), '');
         fireEvent.changeText(getByPlaceholderText('First Name'), '');
@@ -215,19 +255,23 @@ describe('SignUpScreen', () => {
         );
     });
 
-    //it('registers and unregisters the scroll view ref', async () => {
-    //    const { unmount } = renderComponent();
-//
-    //    await waitFor(() => expect(useKeyboard().registerScrollViewRef).toHaveBeenCalled());
-    //    
-    //    act(() => {
-    //        jest.runOnlyPendingTimers();
-    //        unmount();
-    //    });
-    //
-    //    await waitFor(() => {
-    //        expect(useKeyboard().unregisterScrollViewRef).toHaveBeenCalledWith('SignUpScreen');
-    //    });
-    //});
-    
+    it('registers and unregisters the scroll view ref', async () => {
+        const { findByText } = renderComponentWithNavigation();
+
+        const signUpButton = await findByText('Sign Up');
+        fireEvent.press(signUpButton);
+
+        await waitFor(() => expect(useKeyboard().registerScrollViewRef).toHaveBeenCalled());
+
+        act(() => {
+            useNavigation().goBack(); 
+            const cleanup = useFocusEffect.mock.calls[0][0]();
+            cleanup();
+        });
+
+        await waitFor(() => {
+            expect(useKeyboard().unregisterScrollViewRef).toHaveBeenCalledWith('SignUpScreen');
+        });
+    });
+
 });

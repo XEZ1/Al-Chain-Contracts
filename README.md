@@ -42,3 +42,6 @@ Ngrok http 'port'
 ```
 psql -U postgres -d postgres
 ```
+```
+psql -U xez1 -d asacbackenddb
+```
