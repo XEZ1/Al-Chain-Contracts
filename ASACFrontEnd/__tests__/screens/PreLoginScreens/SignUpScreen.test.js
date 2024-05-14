@@ -68,7 +68,6 @@ describe('SignUpScreen', () => {
         jest.clearAllMocks();
     });
 
-    const theme = 'light';
     const handleSignUp = jest.fn((username, firstName, lastName, email, password, passwordConfirmation, errors, setErrors) => {
         setErrors({
             username: 'Username is required',
@@ -83,12 +82,11 @@ describe('SignUpScreen', () => {
         setIsLoggedIn: jest.fn(),
         handleLogin: jest.fn(),
     };
-    const themeContextValue = { theme };
 
-    const renderComponent = () => {
+    const renderComponent = (theme = 'light') => {
         return render(
             <AuthContext.Provider value={authContextValue}>
-                <ThemeContext.Provider value={themeContextValue}>
+                <ThemeContext.Provider value={{ theme }}>
                     <SignUpScreen />
                 </ThemeContext.Provider>
             </AuthContext.Provider>
@@ -98,7 +96,7 @@ describe('SignUpScreen', () => {
     const renderComponentWithNavigation = () => {
         return render(
             <AuthContext.Provider value={authContextValue}>
-                <ThemeContext.Provider value={themeContextValue}>
+                <ThemeContext.Provider value={'light'}>
                     <NavigationContainer>
                         <PreLoginStack />
                     </NavigationContainer>
@@ -117,6 +115,29 @@ describe('SignUpScreen', () => {
         expect(getByPlaceholderText('Password')).toBeTruthy();
         expect(getByPlaceholderText('Confirm Password')).toBeTruthy();
         expect(getByText('Sign Up')).toBeTruthy();
+    });
+
+    it('renders correctly with light theme', () => {
+        const { getByPlaceholderText } = renderComponent('light');
+    
+        const usernameInput = getByPlaceholderText('Username');
+        const color = usernameInput.props.style.color;
+
+        expect(color).toEqual('rgb(57, 63, 67)');
+    });
+    
+    it('renders correctly with dark theme', () => {
+        const { getByPlaceholderText } = renderComponent('dark');
+    
+        const usernameInput = getByPlaceholderText('Username');
+        const color = usernameInput.props.style.color;
+       
+        expect(color).toEqual('rgb(255, 255, 255)');
+    });
+
+    it('does not show error modal when there are no errors', () => {
+        const { queryByTestId } = renderComponent();
+        expect(queryByTestId('error-icon-container')).toBeNull();
     });
 
     it('shows error modal when errors exist and icon is pressed', async () => {

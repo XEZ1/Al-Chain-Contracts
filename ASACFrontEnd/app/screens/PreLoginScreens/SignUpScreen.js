@@ -32,11 +32,9 @@ const SignUpScreen = ({ navigation }) => {
     useFocusEffect(
         useCallback(() => {
             const id = "SignUpScreen";
-            console.log('Effect running: registering', id);
             registerScrollViewRef(id, scrollViewRef);
 
             return () => {
-                console.log('Cleanup running: unregistering', id);
                 unregisterScrollViewRef(id);
             };
         }, [registerScrollViewRef, unregisterScrollViewRef])
@@ -71,7 +69,7 @@ const SignUpScreen = ({ navigation }) => {
                                 <View style={sharedStyles.modalViewContainer}>
                                     <Text style={sharedStyles.modalText}>Please fix the following errors:</Text>
                                     {Object.entries(errors).map(([key, value]) =>
-                                        value ? <Text key={key} style={sharedStyles.errorListItem}>{`${key}: ${value}`}</Text> : null
+                                        <Text key={key} style={sharedStyles.errorListItem}>{`${key}: ${value}`}</Text>
                                     )}
                                     <TouchableOpacity
                                         style={[sharedStyles.button]}
