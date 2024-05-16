@@ -24,12 +24,12 @@ describe('PreLoginStack', () => {
         );
     };
 
-    it('should render all initial screens correctly', async () => {
+    it('should render all screens correctly', () => {
         const { getByTestId } = renderPreLoginStack();
 
-        expect(await getByTestId('PreLoginTestID')).toBeTruthy();
-        expect(await getByTestId('LoginTestID')).toBeTruthy();
-        expect(await getByTestId('SignUpTestID')).toBeTruthy();
+        expect(getByTestId('PreLoginTestID')).toBeTruthy();
+        expect(getByTestId('LoginTestID')).toBeTruthy();
+        expect(getByTestId('SignUpTestID')).toBeTruthy();
     });
 });
 

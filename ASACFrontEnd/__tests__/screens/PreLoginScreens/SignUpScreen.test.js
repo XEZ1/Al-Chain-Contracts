@@ -83,7 +83,7 @@ describe('SignUpScreen', () => {
         handleLogin: jest.fn(),
     };
 
-    const renderComponent = (theme = 'light') => {
+    const renderSignUpScreen = (theme = 'light') => {
         return render(
             <AuthContext.Provider value={authContextValue}>
                 <ThemeContext.Provider value={{ theme }}>
@@ -93,7 +93,7 @@ describe('SignUpScreen', () => {
         );
     };
 
-    const renderComponentWithNavigation = () => {
+    const renderSignUpScreenWithNavigation = () => {
         return render(
             <AuthContext.Provider value={authContextValue}>
                 <ThemeContext.Provider value={'light'}>
@@ -106,7 +106,7 @@ describe('SignUpScreen', () => {
     };
 
     it('renders correctly', () => {
-        const { getByPlaceholderText, getByText } = renderComponent();
+        const { getByPlaceholderText, getByText } = renderSignUpScreen();
 
         expect(getByPlaceholderText('Username')).toBeTruthy();
         expect(getByPlaceholderText('First Name')).toBeTruthy();
@@ -118,7 +118,7 @@ describe('SignUpScreen', () => {
     });
 
     it('renders correctly with light theme', () => {
-        const { getByPlaceholderText } = renderComponent('light');
+        const { getByPlaceholderText } = renderSignUpScreen('light');
     
         const usernameInput = getByPlaceholderText('Username');
         const color = usernameInput.props.style.color;
@@ -127,7 +127,7 @@ describe('SignUpScreen', () => {
     });
     
     it('renders correctly with dark theme', () => {
-        const { getByPlaceholderText } = renderComponent('dark');
+        const { getByPlaceholderText } = renderSignUpScreen('dark');
     
         const usernameInput = getByPlaceholderText('Username');
         const color = usernameInput.props.style.color;
@@ -136,12 +136,12 @@ describe('SignUpScreen', () => {
     });
 
     it('does not show error modal when there are no errors', () => {
-        const { queryByTestId } = renderComponent();
+        const { queryByTestId } = renderSignUpScreen();
         expect(queryByTestId('error-icon-container')).toBeNull();
     });
 
     it('shows error modal when errors exist and icon is pressed', async () => {
-        const { getByTestId, getByText, findByTestId, getByPlaceholderText } = renderComponent();
+        const { getByTestId, getByText, findByTestId, getByPlaceholderText } = renderSignUpScreen();
 
         fireEvent.changeText(getByPlaceholderText('Username'), '');
         fireEvent.changeText(getByPlaceholderText('First Name'), '');
@@ -161,7 +161,7 @@ describe('SignUpScreen', () => {
     });
 
     it('closes error modal when got it button is pressed', async () => {
-        const { getByTestId, getByText, getByPlaceholderText, findByTestId, queryByText } = renderComponent();
+        const { getByTestId, getByText, getByPlaceholderText, findByTestId, queryByText } = renderSignUpScreen();
 
         fireEvent.changeText(getByPlaceholderText('Username'), '');
         fireEvent.changeText(getByPlaceholderText('First Name'), '');
@@ -185,7 +185,7 @@ describe('SignUpScreen', () => {
     });
 
     it('closes error modal when close circle button is pressed', async () => {
-        const { getByTestId, getByText, getByPlaceholderText, findByTestId, queryByText } = renderComponent();
+        const { getByTestId, getByText, getByPlaceholderText, findByTestId, queryByText } = renderSignUpScreen();
 
         fireEvent.changeText(getByPlaceholderText('Username'), '');
         fireEvent.changeText(getByPlaceholderText('First Name'), '');
@@ -208,7 +208,7 @@ describe('SignUpScreen', () => {
     });
 
     it('closes error modal when swiped left is used (onRequestClose)', async () => {
-        const { getByTestId, getByText, getByPlaceholderText, findByTestId, queryByText } = renderComponent();
+        const { getByTestId, getByText, getByPlaceholderText, findByTestId, queryByText } = renderSignUpScreen();
 
         fireEvent.changeText(getByPlaceholderText('Username'), '');
         fireEvent.changeText(getByPlaceholderText('First Name'), '');
@@ -236,7 +236,7 @@ describe('SignUpScreen', () => {
     });
 
     it('calls handleSignUp with correct parameters', () => {
-        const { getByPlaceholderText, getByText } = renderComponent();
+        const { getByPlaceholderText, getByText } = renderSignUpScreen();
 
         fireEvent.changeText(getByPlaceholderText('Username'), 'testuser');
         fireEvent.changeText(getByPlaceholderText('First Name'), 'Test');
@@ -260,7 +260,7 @@ describe('SignUpScreen', () => {
     });
 
     it('registers and unregisters the scroll view ref', async () => {
-        const { findByText } = renderComponentWithNavigation();
+        const { findByText } = renderSignUpScreenWithNavigation();
 
         const signUpButton = await findByText('Sign Up');
         fireEvent.press(signUpButton);
