@@ -19,7 +19,6 @@ jest.mock('@react-navigation/native', () => {
         useFocusEffect: jest.fn((callback) => {
             const unsubscribe = callback();
             return () => {
-                console.log('Cleanup called');
                 unsubscribe();
             };
         }),
