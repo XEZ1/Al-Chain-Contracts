@@ -18,21 +18,22 @@ jest.mock('../../../app/styles/LocallySharedStylesPreLoginScreens', () => () => 
 }));
 
 const mockNavigate = jest.fn();
-const mockTheme = 'light';
 
 describe('PreLoginScreen', () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
 
-    const wrapper = ({ children }) => (
-        <ThemeContext.Provider value={{ theme: mockTheme }}>
-            {children}
-        </ThemeContext.Provider>
-    );
+    const renderPreLoginScreen = (theme = 'light') => {
+        return render(
+            <ThemeContext.Provider value={{ theme }}>
+                <PreLoginScreen navigation={{ navigate: mockNavigate }} />
+            </ThemeContext.Provider>
+        );
+    };
 
     it('renders correctly with light theme', () => {
-        const { getByText } = render(<PreLoginScreen navigation={{ navigate: mockNavigate }} />, { wrapper });
+        const { getByText } = renderPreLoginScreen();
 
         expect(getByText('Login')).toBeTruthy();
         expect(getByText('Sign Up')).toBeTruthy();
@@ -40,21 +41,21 @@ describe('PreLoginScreen', () => {
     });
 
     it('navigates to Login on button press', () => {
-        const { getByText } = render(<PreLoginScreen navigation={{ navigate: mockNavigate }} />, { wrapper });
+        const { getByText } = renderPreLoginScreen();
 
         fireEvent.press(getByText('Login'));
         expect(mockNavigate).toHaveBeenCalledWith('Login');
     });
 
     it('navigates to SignUp on button press', () => {
-        const { getByText } = render(<PreLoginScreen navigation={{ navigate: mockNavigate }} />, { wrapper });
+        const { getByText } = renderPreLoginScreen();
 
         fireEvent.press(getByText('Sign Up'));
         expect(mockNavigate).toHaveBeenCalledWith('SignUp');
     });
 
     it('About Us button press does nothing', () => {
-        const { getByText } = render(<PreLoginScreen navigation={{ navigate: mockNavigate }} />, { wrapper });
+        const { getByText } = renderPreLoginScreen();
 
         fireEvent.press(getByText('About Us'));
         expect(mockNavigate).not.toHaveBeenCalled();
