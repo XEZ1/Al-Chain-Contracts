@@ -16,12 +16,16 @@ jest.mock('@react-navigation/stack', () => {
 });
 
 describe('PreLoginStack', () => {
-    it('should render all initial screens correctly', async () => {
-        const { getByTestId } = render(
+    const renderPreLoginStack = () => {
+        return render(
             <NavigationContainer>
                 <PreLoginStack />
             </NavigationContainer>
         );
+    };
+
+    it('should render all initial screens correctly', async () => {
+        const { getByTestId } = renderPreLoginStack();
 
         expect(await getByTestId('PreLoginTestID')).toBeTruthy();
         expect(await getByTestId('LoginTestID')).toBeTruthy();
