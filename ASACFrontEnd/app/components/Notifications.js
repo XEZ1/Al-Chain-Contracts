@@ -7,11 +7,10 @@ import * as SecureStore from 'expo-secure-store';
 export const WebSocketContext = createContext(null);
 
 export const useWebSocket = (url) => {
-    console.log('useWebSocket called with url:', url);
+    //console.log('useWebSocket called with url:', url);
     const [socket, setSocket] = useState(null);
 
     useEffect(() => {
-        //console.log('Creating WebSocket with url:', url);
         const ws = new WebSocket(url);
         ws.onopen = () => console.log('WebSocket Connected');
         ws.onmessage = (e) => {
@@ -29,7 +28,6 @@ export const useWebSocket = (url) => {
         setSocket(ws);
 
         return () => {
-            //console.log('Closing WebSocket');
             ws && ws.close();
         };
     }, [url]);

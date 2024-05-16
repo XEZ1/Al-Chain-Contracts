@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import { renderHook, act } from '@testing-library/react-hooks';
 import { render, screen } from '@testing-library/react';
 import * as Notifications from 'expo-notifications';
@@ -6,6 +10,7 @@ import { WebSocketContext, useWebSocket, WebSocketProvider, useConnectToNotifica
 
 
 jest.mock('expo-notifications');
+
 jest.mock('expo-secure-store');
 
 global.fetch = jest.fn(() =>
@@ -20,6 +25,7 @@ global.WebSocket = jest.fn().mockImplementation(() => ({
     onerror: jest.fn(),
     onclose: jest.fn(),
     close: jest.fn(),
+    useWebSocket: jest.fn(),
 }));
 
 describe('WebSocket and Notifications Handling', () => {
@@ -31,7 +37,7 @@ describe('WebSocket and Notifications Handling', () => {
 
     afterEach(() => {
         jest.clearAllMocks();
-       
+
     });
 
     it('should use the correct BACKEND_URL', () => {
@@ -54,6 +60,28 @@ describe('WebSocket and Notifications Handling', () => {
 
         expect(console.log).toHaveBeenCalledWith('WebSocket Disconnected', expect.any(Number), expect.any(String));
     });
+
+    //it('provides a WebSocket connection', () => {
+    //    const testUrl = 'wss://example.com/ws/notifications/';
+//
+    //    const mockUseWebSocket = jest.spyOn(require('../../app/components/Notifications'), 'useWebSocket');
+    //    mockUseWebSocket.mockImplementation(() => ({
+    //        send: jest.fn(),
+    //        close: jest.fn(),
+    //    }));
+//
+    //    const children = <div>Test Children</div>;
+    //    const { getByText } = render(
+    //        <WebSocketProvider>
+    //            {children}
+    //        </WebSocketProvider>
+    //    );
+//
+    //    expect(mockUseWebSocket).toHaveBeenCalledWith(testUrl);
+    //    expect(getByText('Test Children')).toBeInTheDocument();
+//
+    //    mockUseWebSocket.mockRestore();
+    //});
 
     it('handles incoming WebSocket messages and schedules notifications', async () => {
         const { result } = renderHook(() => useWebSocket('wss://example.com/ws/notifications/'));
