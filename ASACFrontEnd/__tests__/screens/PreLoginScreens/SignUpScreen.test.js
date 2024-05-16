@@ -141,7 +141,7 @@ describe('SignUpScreen', () => {
     });
 
     it('shows error modal when errors exist and icon is pressed', async () => {
-        const { getByTestId, getByText, getByPlaceholderText, queryByText, debug } = renderComponent();
+        const { getByTestId, getByText, findByTestId, getByPlaceholderText } = renderComponent();
 
         fireEvent.changeText(getByPlaceholderText('Username'), '');
         fireEvent.changeText(getByPlaceholderText('First Name'), '');
@@ -153,18 +153,15 @@ describe('SignUpScreen', () => {
         fireEvent.press(getByText('Sign Up'));
 
         await waitFor(() => {
-            expect(getByTestId('error-icon-container')).toBeTruthy();
+            expect(findByTestId('error-icon-container')).toBeTruthy();
         });
 
-        act(() => {
-            fireEvent.press(getByTestId('error-icon-container'));
-        });
-
+        fireEvent.press(getByTestId('error-icon-container'));
         expect(getByText('Please fix the following errors:')).toBeTruthy();
     });
 
     it('closes error modal when got it button is pressed', async () => {
-        const { getByTestId, getByText, getByPlaceholderText, queryByText, debug } = renderComponent();
+        const { getByTestId, getByText, getByPlaceholderText, findByTestId, queryByText } = renderComponent();
 
         fireEvent.changeText(getByPlaceholderText('Username'), '');
         fireEvent.changeText(getByPlaceholderText('First Name'), '');
@@ -174,26 +171,21 @@ describe('SignUpScreen', () => {
         fireEvent.changeText(getByPlaceholderText('Confirm Password'), '123456789A!!!');
 
         fireEvent.press(getByText('Sign Up'));
-
         await waitFor(() => {
-            expect(getByTestId('error-icon-container')).toBeTruthy();
+            expect(findByTestId('error-icon-container')).toBeTruthy();
         });
 
-        act(() => {
-            fireEvent.press(getByTestId('error-icon-container'));
-        });
-
+        
+        fireEvent.press(getByTestId('error-icon-container'));
         expect(getByText('Please fix the following errors:')).toBeTruthy();
 
-        act(() => {
-            fireEvent.press(getByText('Got it'));
-        });
-
+        
+        fireEvent.press(getByText('Got it'));
         expect(queryByText('Please fix the following errors:')).toBeNull();
     });
 
     it('closes error modal when close circle button is pressed', async () => {
-        const { getByTestId, getByText, getByPlaceholderText, queryByText, debug } = renderComponent();
+        const { getByTestId, getByText, getByPlaceholderText, findByTestId, queryByText } = renderComponent();
 
         fireEvent.changeText(getByPlaceholderText('Username'), '');
         fireEvent.changeText(getByPlaceholderText('First Name'), '');
@@ -205,24 +197,18 @@ describe('SignUpScreen', () => {
         fireEvent.press(getByText('Sign Up'));
 
         await waitFor(() => {
-            expect(getByTestId('error-icon-container')).toBeTruthy();
+            expect(findByTestId('error-icon-container')).toBeTruthy();
         });
 
-        act(() => {
-            fireEvent.press(getByTestId('error-icon-container'));
-        });
-
+        fireEvent.press(getByTestId('error-icon-container'));
         expect(getByText('Please fix the following errors:')).toBeTruthy();
 
-        act(() => {
-            fireEvent.press(getByTestId('closeModalButton'));
-        });
-
+        fireEvent.press(getByTestId('closeModalButton'));
         expect(queryByText('Please fix the following errors:')).toBeNull();
     });
 
     it('closes error modal when swiped left is used (onRequestClose)', async () => {
-        const { getByTestId, getByText, getByPlaceholderText, queryByText, debug } = renderComponent();
+        const { getByTestId, getByText, getByPlaceholderText, findByTestId, queryByText } = renderComponent();
 
         fireEvent.changeText(getByPlaceholderText('Username'), '');
         fireEvent.changeText(getByPlaceholderText('First Name'), '');
@@ -234,13 +220,10 @@ describe('SignUpScreen', () => {
         fireEvent.press(getByText('Sign Up'));
 
         await waitFor(() => {
-            expect(getByTestId('error-icon-container')).toBeTruthy();
+            expect(findByTestId('error-icon-container')).toBeTruthy();
         });
 
-        act(() => {
-            fireEvent.press(getByTestId('error-icon-container'));
-        });
-
+        fireEvent.press(getByTestId('error-icon-container'));
         expect(getByText('Please fix the following errors:')).toBeTruthy();
 
         const modalProps = getByTestId('error-modal').props;
@@ -283,13 +266,11 @@ describe('SignUpScreen', () => {
         fireEvent.press(signUpButton);
 
         await waitFor(() => expect(useKeyboard().registerScrollViewRef).toHaveBeenCalled());
-
-        act(() => {
-            useNavigation().goBack(); 
-            const cleanup = useFocusEffect.mock.calls[0][0]();
-            cleanup();
-        });
-
+        
+        useNavigation().goBack(); 
+        const cleanup = useFocusEffect.mock.calls[0][0]();
+        cleanup();
+        
         await waitFor(() => {
             expect(useKeyboard().unregisterScrollViewRef).toHaveBeenCalledWith('SignUpScreen');
         });
