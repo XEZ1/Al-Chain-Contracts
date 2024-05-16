@@ -4,7 +4,6 @@ import AppNavigator from '../../app/navigation/AppNavigator';
 import { AuthContext } from '../../app/components/Authentication';
 import { NavigationContainer } from '@react-navigation/native';
 import { ThemeContext } from '../../app/components/Theme';
-import { jest } from '@jest/globals';
 
 
 jest.mock('react-native-safe-area-context', () => ({
@@ -13,7 +12,7 @@ jest.mock('react-native-safe-area-context', () => ({
         top: 0, bottom: 0, left: 0, right: 0
     }),
     useSafeAreaFrame: () => ({
-        x: 0, y: 0, widghth: 0, height: 0
+        x: 0, y: 0, width: 0, height: 0
     }),
 }));
 
@@ -51,14 +50,12 @@ describe('AppNavigator', () => {
     };
 
     it('renders PostLoginTabs when isLoggedIn is true', async () => {
-        const { findByTestId, debug } = renderAppNavigator(true);
-        debug();
+        const { findByTestId } = renderAppNavigator(true);
         expect(await findByTestId('postLoginTabsTestID')).not.toBeNull();
     });
 
     it('renders PreLoginStack when isLoggedIn is false', async () => {
-        const { findByTestId, debug } = renderAppNavigator(false);
-        debug();
+        const { findByTestId } = renderAppNavigator(false);
         expect(await findByTestId('preLoginStackTestID')).not.toBeNull();
     });
 });
