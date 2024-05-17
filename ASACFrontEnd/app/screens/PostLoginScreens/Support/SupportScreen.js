@@ -14,16 +14,17 @@ const SupportScreen = ({ navigation }) => {
     const [message, setMessage] = useState('');
     const viewRef = useRef(null);
 
-    const scrollViewPaddingBottom = keyboardHeight > 0 ? '0%' : '120%';
+    const scrollViewPaddingBottom = '120%'; //keyboardHeight > 0 ? '0%' : '120%';
     const { keyboardHeight, registerScrollViewRef, unregisterScrollViewRef } = useKeyboard();
 
-    const messages = [
+    const [messages, setMessages] = useState([
         { id: '1', text: 'Hi! How can I help you today?', isAssistant: true },
-    ];
+    ]);
 
     const handleSendMessage = () => {
         if (message.trim()) {
-            console.log('Sending message:', message);
+            const newMessage = { id: String(messages.length + 1), text: message, isAssistant: false };
+            setMessages([...messages, newMessage]);
             setMessage('');
         }
     };
@@ -46,9 +47,10 @@ const SupportScreen = ({ navigation }) => {
 
             <ScrollView ref={viewRef} style={[localStyles.maxWidth, sharedStyles.avoidingTabBarContainer, { flex: 1 }]} showsVerticalScrollIndicator={false}>
                 {/* Message bubbles */}
-                {messages.map((msg) => (
+                {messages.map((msg, index) => (
                     <View
                         key={msg.id}
+                        testID={`messageView-${index}`}  
                         style={[
                             sharedStyles.cardContainer,
                             {
@@ -67,8 +69,9 @@ const SupportScreen = ({ navigation }) => {
                 ))}
 
                 {/* Input area */}
-                <View style={[localStyles.inputAreaContainer, {paddingTop: scrollViewPaddingBottom, }]}>
+                <View style={[localStyles.inputAreaContainer, {paddingTop: scrollViewPaddingBottom, }]} testID="viewTestID">
                     <TextInput
+                        testID='inputTextFieldTestID'
                         value={message}
                         onChangeText={setMessage}
                         placeholder='Type your message here...'

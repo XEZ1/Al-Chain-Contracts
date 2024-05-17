@@ -64,9 +64,7 @@ describe('LoginScreen', () => {
         return render(
             <AuthContext.Provider value={authContextValue}>
                 <ThemeContext.Provider value={{ theme }}>
-                   
                         <LoginScreen navigation={{ navigate: mockedNavigate }} />
-                 
                 </ThemeContext.Provider>
             </AuthContext.Provider>
         );
@@ -84,18 +82,18 @@ describe('LoginScreen', () => {
         const { getByPlaceholderText } = renderLoginScreen();
 
         const usernameInput = getByPlaceholderText('Username');
-        const color = usernameInput.props.style.color;
+        const colour = usernameInput.props.style.color;
 
-        expect(color).toEqual('rgb(57, 63, 67)');
+        expect(colour).toEqual('rgb(57, 63, 67)');
     });
 
     it('renders correctly with dark theme', () => {
         const { getByPlaceholderText } = renderLoginScreen('dark');;
 
         const usernameInput = getByPlaceholderText('Username');
-        const color = usernameInput.props.style.color;
+        const colour = usernameInput.props.style.color;
 
-        expect(color).toEqual('rgb(255, 255, 255)');
+        expect(colour).toEqual('rgb(255, 255, 255)');
     });
 
     it('handles text input changes', () => {
