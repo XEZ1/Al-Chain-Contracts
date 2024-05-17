@@ -10,7 +10,8 @@ export const useSettingsScreen = () => {
     useEffect(() => {
         const checkNotificationToken = async () => {
             const token = await SecureStore.getItemAsync('notificationToken');
-            setNotificationsEnabled(!!token); 
+            console.log(token);
+            setNotificationsEnabled(!!token)
         };
 
         checkNotificationToken();
@@ -22,10 +23,9 @@ export const useSettingsScreen = () => {
         setNotificationsEnabled(newStatus);
 
         if (newStatus) {
-            const token = await Notifications.getExpoPushTokenAsync();
-            savePushToken(token);
+            await savePushToken();
         } else {
-            deletePushToken();
+            await deletePushToken();
         }
     };
 
