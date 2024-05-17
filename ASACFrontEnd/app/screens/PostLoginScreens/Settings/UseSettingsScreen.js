@@ -10,7 +10,6 @@ export const useSettingsScreen = () => {
     useEffect(() => {
         const checkNotificationToken = async () => {
             const token = await SecureStore.getItemAsync('notificationToken');
-            console.log(token);
             setNotificationsEnabled(!!token)
         };
 
