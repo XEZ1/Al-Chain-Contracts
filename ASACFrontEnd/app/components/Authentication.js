@@ -139,8 +139,13 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const handleLogout = async () => {
+        await logout();
+        setIsLoggedIn(false);
+    };
+
     return (
-        <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, handleLogin, handleSignUp }}>
+        <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, handleLogin, handleSignUp, handleLogout }}>
             {isLoggedIn ? <WebSocketProvider>{children}</WebSocketProvider> : children}
         </AuthContext.Provider>
     );
