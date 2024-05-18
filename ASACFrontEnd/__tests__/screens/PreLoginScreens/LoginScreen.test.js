@@ -49,8 +49,6 @@ describe('LoginScreen', () => {
     });
 
     const mockedNavigate = jest.fn();
-    const mockRegisterScrollViewRef = jest.fn();
-    const mockUnregisterScrollViewRef = jest.fn();
     const mockHandleLogin = jest.fn();
 
     const authContextValue = {

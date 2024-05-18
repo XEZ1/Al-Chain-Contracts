@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { View, Text, Switch, TouchableOpacity } from 'react-native';
-import { AuthContext, logout } from '../../../components/Authentication';
+import { AuthContext } from '../../../components/Authentication';
 import { useSettingsScreen } from './UseSettingsScreen';
 import { ThemeContext } from '../../../components/Theme';
 import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
@@ -12,7 +12,7 @@ const SettingsScreen = ({ navigation }) => {
     const sharedStyles = getGloballySharedStyles(theme);
     const localStyles = getLocallySharedStylesSettingsScreens(theme);
 
-    const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+    const { handleLogout } = useContext(AuthContext);
     const { notificationsEnabled, setNotificationsEnabled, toggleNotifications } = useSettingsScreen();
 
 
@@ -23,8 +23,9 @@ const SettingsScreen = ({ navigation }) => {
             <View style={[sharedStyles.rowCenteredContainer, localStyles.maxWidthSmallMarginBottom]}>
                 <Text style={[sharedStyles.generalText, sharedStyles.bigFont]}>Dark Mode</Text>
                 <Switch
+                    testID='darkModeSwitchTestID'
                     trackColor={{ false: "#767577", true: "#81b0ff" }}
-                    thumbColor={theme === 'dark' ? "#f4f3f4" : "#f4f3f4"}
+                    thumbColor={"#f4f3f4"}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleTheme}
                     value={isDarkMode}
@@ -34,8 +35,9 @@ const SettingsScreen = ({ navigation }) => {
             <View style={[sharedStyles.rowCenteredContainer, localStyles.maxWidthSmallMarginBottom]}>
                 <Text style={[sharedStyles.generalText, sharedStyles.bigFont]}>Notifications</Text>
                 <Switch
+                    testID='notificationsSwitchTestID'
                     trackColor={{ false: "#767577", true: "#81b0ff" }}
-                    thumbColor={notificationsEnabled ? "#f4f3f4" : "#f4f3f4"}
+                    thumbColor={"#f4f3f4"}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleNotifications}
                     value={notificationsEnabled}
@@ -44,7 +46,7 @@ const SettingsScreen = ({ navigation }) => {
 
             <TouchableOpacity
                 style={sharedStyles.button}
-                onPress={() => { logout(); setIsLoggedIn(false) }}
+                onPress={() => handleLogout()}
             >
                 <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Log Out</Text>
             </TouchableOpacity>
