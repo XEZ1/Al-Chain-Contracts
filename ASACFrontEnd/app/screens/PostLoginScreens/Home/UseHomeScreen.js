@@ -336,5 +336,6 @@ export const useHomeScreen = (navigation) => {
         validateInput,
         handleChecksumAddress,
         copyToClipboard,
+        saveSolidityFile
     };
 };
