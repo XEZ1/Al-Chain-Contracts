@@ -1,6 +1,6 @@
 import { renderHook, act } from '@testing-library/react-hooks';
 import { useHomeScreen } from '../../../../app/screens/PostLoginScreens/Home/UseHomeScreen';
-import { Alert } from 'react-native';
+import { Alert, LayoutAnimation } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as SecureStore from 'expo-secure-store';
 import * as FileSystem from 'expo-file-system';
@@ -33,6 +33,11 @@ jest.mock('expo-clipboard', () => ({
     setStringAsync: jest.fn(() => Promise.resolve()),
 }));
 
+jest.mock('react-native/Libraries/LayoutAnimation/LayoutAnimation', () => ({
+    ...jest.requireActual('react-native/Libraries/LayoutAnimation/LayoutAnimation'),
+    configureNext: jest.fn(),
+}));
+
 global.fetch = jest.fn(() =>
     Promise.resolve({
         json: () => Promise.resolve({}),
@@ -60,11 +65,16 @@ describe('useHomeScreen', () => {
         });
 
         const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
+
+        act(() => {
+            result.current.setIsComponentMounted(true); // line 55
+        });
         await act(async () => {
             await result.current.handleFileSelectDropZone();
         });
 
         expect(result.current.selectedFile).toBeDefined();
+        expect(LayoutAnimation.configureNext).toHaveBeenCalled();
     });
 
     it('handles file selection cancel with previous file selected', async () => {
@@ -74,6 +84,7 @@ describe('useHomeScreen', () => {
 
         const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
         act(() => {
+            result.current.setIsComponentMounted(true); // line 45
             result.current.setSelectedFile({ assets: [{ uri: 'file-uri' }] });
         });
 
@@ -82,17 +93,20 @@ describe('useHomeScreen', () => {
         });
 
         expect(result.current.selectedFile).toBeNull();
+        expect(LayoutAnimation.configureNext).toHaveBeenCalled();
     });
 
     it('ignores cancel without a previous file selected', async () => {
         DocumentPicker.getDocumentAsync.mockResolvedValue({ canceled: true });
 
         const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
+
         await act(async () => {
             await result.current.handleFileSelectDropZone();
         });
 
         expect(result.current.selectedFile).toBeNull();
+        expect(LayoutAnimation.configureNext).not.toHaveBeenCalled();
     });
 
     it('does not select a file if MIME type is not text/plain', async () => {
@@ -108,6 +122,7 @@ describe('useHomeScreen', () => {
         });
 
         expect(result.current.selectedFile).toBeNull();
+        expect(LayoutAnimation.configureNext).not.toHaveBeenCalled();
     });
 
     it('handles errors during file selection', async () => {
@@ -284,13 +299,13 @@ describe('useHomeScreen', () => {
         });
 
         expect(Sharing.shareAsync).toHaveBeenCalledWith('mocked/document/directory/testContract.sol');
-        
+
         consoleLogSpy.mockRestore();
     });
 
     it('alerts user when sharing is not available on the device', async () => {
         consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
-        
+
         Sharing.isAvailableAsync.mockResolvedValue(false);
 
         const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
@@ -301,7 +316,7 @@ describe('useHomeScreen', () => {
 
         expect(Alert.alert).toHaveBeenCalledWith("Error", "Sharing not available on this device");
         expect(Sharing.shareAsync).not.toHaveBeenCalled();
-    
+
         consoleLogSpy.mockRestore();
     });
 
@@ -331,15 +346,15 @@ describe('useHomeScreen', () => {
     it('successfully navigates to the EditorScreen with the correct file path', async () => {
         consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
         consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
-        
+
         const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
-        
+
         act(() => {
             result.current.openContract('testContract');
         });
 
         expect(mockNavigate).toHaveBeenCalledWith('EditorScreen', { filePath: 'mocked/document/directory/testContract.sol' });
-    
+
         consoleErrorSpy.mockRestore();
         consoleLogSpy.mockRestore();
     });
@@ -357,16 +372,16 @@ describe('useHomeScreen', () => {
         });
 
         expect(Alert.alert).toHaveBeenCalledWith("Error", "Could not open the contract file");
-    
-        consoleErrorSpy.mockRestore(); 
+
+        consoleErrorSpy.mockRestore();
         consoleLogSpy.mockRestore();
     });
-    
+
 
     it('successfully fetches and synchronizes contracts', async () => {
         consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
         consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
-        
+
         const contractsMock = [{ contract_name: 'Contract1' }, { contract_name: 'Contract2' }];
         fetch.mockResolvedValue({
             json: () => Promise.resolve(contractsMock)
@@ -387,7 +402,7 @@ describe('useHomeScreen', () => {
             },
         });
 
-        consoleErrorSpy.mockRestore(); 
+        consoleErrorSpy.mockRestore();
         consoleLogSpy.mockRestore();
     });
 
@@ -407,8 +422,8 @@ describe('useHomeScreen', () => {
         expect(fetch).toHaveBeenCalled();
         expect(console.error).toHaveBeenCalledWith("Error fetching contracts:", error);
         expect(Alert.alert).toHaveBeenCalledWith("Error", "Failed to fetch contracts.");
-        
-        consoleErrorSpy.mockRestore(); 
+
+        consoleErrorSpy.mockRestore();
         consoleLogSpy.mockRestore();
     });
 
@@ -428,19 +443,18 @@ describe('useHomeScreen', () => {
         expect(SecureStore.getItemAsync).toHaveBeenCalled();
         expect(console.error).toHaveBeenCalledWith("Error fetching contracts:", error);
         expect(Alert.alert).toHaveBeenCalledWith("Error", "Failed to fetch contracts.");
-    
-        consoleErrorSpy.mockRestore(); 
+
+        consoleErrorSpy.mockRestore();
         consoleLogSpy.mockRestore();
     });
-    
-    
+
     it('does nothing if all contracts are already saved locally', async () => {
         consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
-        
+
         const contractsMock = [{ contract_name: 'Contract1' }];
         FileSystem.readDirectoryAsync.mockResolvedValue(['Contract1.sol']);
 
-        const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate  }));
+        const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
 
         await act(async () => {
             await result.current.syncContracts(contractsMock);
@@ -458,7 +472,7 @@ describe('useHomeScreen', () => {
         consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
 
         const contractsMock = [{ name: 'Contract1', contract_name: 'Contract1', code: 'code1' }];
-        FileSystem.readDirectoryAsync.mockResolvedValue([]); 
+        FileSystem.readDirectoryAsync.mockResolvedValue([]);
 
         const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
 
@@ -491,7 +505,7 @@ describe('useHomeScreen', () => {
         SecureStore.getItemAsync.mockResolvedValue('authToken');
 
         const { result } = renderHook(() => useHomeScreen(mockNavigate));
-        
+
         act(() => {
             result.current.setIsComponentMounted(true);
         });
@@ -524,12 +538,12 @@ describe('useHomeScreen', () => {
 
         expect(Alert.alert).toHaveBeenCalledWith('Error deleting the contract:', expect.anything());
 
-        consoleErrorSpy.mockRestore(); 
+        consoleErrorSpy.mockRestore();
     });
 
     it('handles local file deletion failure gracefully', async () => {
         consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
-        
+
         FileSystem.deleteAsync.mockRejectedValueOnce(new Error('File Deletion Failure'));
         const { result } = renderHook(() => useHomeScreen(mockNavigate));
 
@@ -538,14 +552,296 @@ describe('useHomeScreen', () => {
         });
 
         expect(Alert.alert).toHaveBeenCalledWith('Error deleting the contract:', expect.anything());
-    
+
         consoleErrorSpy.mockRestore();
     });
 
+    it('deletes all files in the directory when there are multiple files', async () => {
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
 
+        FileSystem.readDirectoryAsync.mockResolvedValue(['file1.sol', 'file2.sol', 'file3.sol']);
+        FileSystem.deleteAsync.mockResolvedValue();
+
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        await act(async () => {
+            await result.current.cleanExpoFolder();
+        });
+
+        expect(FileSystem.readDirectoryAsync).toHaveBeenCalledWith('mocked/document/directory/');
+        expect(FileSystem.deleteAsync).toHaveBeenCalledTimes(3);
+        expect(FileSystem.deleteAsync).toHaveBeenCalledWith('mocked/document/directory/file1.sol', { idempotent: true });
+        expect(FileSystem.deleteAsync).toHaveBeenCalledWith('mocked/document/directory/file2.sol', { idempotent: true });
+        expect(FileSystem.deleteAsync).toHaveBeenCalledWith('mocked/document/directory/file3.sol', { idempotent: true });
+
+        consoleLogSpy.mockRestore();
+    });
+
+    it('handles an empty directory gracefully', async () => {
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+
+        FileSystem.readDirectoryAsync.mockResolvedValue([]);
+
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        await act(async () => {
+            await result.current.cleanExpoFolder();
+        });
+
+        expect(FileSystem.readDirectoryAsync).toHaveBeenCalledWith('mocked/document/directory/');
+        expect(FileSystem.deleteAsync).not.toHaveBeenCalled();
+
+        consoleLogSpy.mockRestore();
+    });
+
+    it('returns true for valid JSON strings', () => {
+        const validJson = '{"name":"John", "age":30, "city":"New York"}';
+
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        expect(result.current.isValidJson(validJson)).toBeTruthy();
+    });
+
+    it('returns false for invalid JSON strings', () => {
+        const invalidJson = '{"name":"John", "age":30, "city":New York"}';
+
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        expect(result.current.isValidJson(invalidJson)).toBeFalsy();
+    });
+
+    it('returns false for non-string JSON like structures', () => {
+        const nonStringJson = { name: "John", age: 30, city: "New York" };
+
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        expect(result.current.isValidJson(JSON.stringify(nonStringJson))).toBeTruthy();
+        expect(result.current.isValidJson(nonStringJson)).toBeFalsy();
+    });
+
+    it('returns error for invalid Ethereum address for employer', () => {
+        const invalidAddress = '0x123';
+
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        const errorMessage = result.current.getValidationErrorMessage('employerAddress', invalidAddress);
+        expect(errorMessage).toBe('Invalid Ethereum address. Must start with 0x followed by 40 hexadecimal characters.');
+    });
+
+    it('returns no error for valid Ethereum address for employer', () => {
+        const validAddress = '0x99c805735C466c9B94762604612cfC961a48Eb03';
+
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        const errorMessage = result.current.getValidationErrorMessage('employerAddress', validAddress);
+        expect(errorMessage).toBe('');
+    });
+
+    it('returns error for invalid Ethereum address for authorised app', () => {
+        const invalidAddress = '0x123';
+
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        const errorMessage = result.current.getValidationErrorMessage('authAppAddress', invalidAddress);
+        expect(errorMessage).toBe('Invalid Ethereum address. Must start with 0x followed by 40 hexadecimal characters.');
+    });
+
+    it('returns no error for valid Ethereum address for authorised app', () => {
+        const validAddress = '0x99c805735C466c9B94762604612cfC961a48Eb03';
+
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        const errorMessage = result.current.getValidationErrorMessage('authAppAddress', validAddress);
+        expect(errorMessage).toBe('');
+    });
+
+    it('returns error for invalid contract name', () => {
+        const invalidContractName = '1a';
+
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        const errorMessage = result.current.getValidationErrorMessage('contractName', invalidContractName);
+        expect(errorMessage).toBe('Invalid contract name. Must be 3-100 characters long and contain only letters, numbers, and spaces.');
+    });
+
+    it('returns no error for valid contract name', () => {
+        const validContractName = 'ValidName';
+
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        const errorMessage = result.current.getValidationErrorMessage('contractName', validContractName);
+        expect(errorMessage).toBe('');
+    });
+
+    it('returns error for invalid Ethereum address for token interface', () => {
+        const invalidAddress = '0x123';
+
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        const errorMessage = result.current.getValidationErrorMessage('tokenContractInterface', invalidAddress);
+        expect(errorMessage).toBe('Invalid token contract interface. Must be valid JSON.');
+    });
+
+    it('returns no error for valid Ethereum address for token interface', () => {
+        const validAddress = '0x99c805735C466c9B94762604612cfC961a48Eb03';
+
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        const errorMessage = result.current.getValidationErrorMessage('tokenContractInterface', validAddress);
+        expect(errorMessage).toBe('');
+    });
+
+    it('returns error for invalid hexideciaml', () => {
+        const invalidAddress = '012345ABCDEF';
+
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        const errorMessage = result.current.getValidationErrorMessage('hexidecimal', invalidAddress);
+        expect(errorMessage).toBe('Invalid Hexidecimal. Must start with 0x followed by some hexadecimal characters.');
+    });
+
+    it('returns no error for invalid hexideciaml', () => {
+        const validAddress = '0x99c805735C466c9B94762604612cfC961a48Eb03';
+
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        const errorMessage = result.current.getValidationErrorMessage('hexidecimal', validAddress);
+        expect(errorMessage).toBe('');
+    });
+
+    it('returns default empty error message for unknown field', () => {
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        const errorMessage = result.current.getValidationErrorMessage('unknownField', 'someValue');
+        expect(errorMessage).toBe('');
+    });
+
+    it('Should set error message if validation fails', () => {
+        const invalidAddress = '0x123';
+
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        act(() => {
+            result.current.validateInput('tokenContractInterface', invalidAddress);
+        });
+
+        const { errors } = result.current;
+        expect(errors.tokenContractInterface).toBe('Invalid token contract interface. Must be valid JSON.');
+    });
+
+    it('Should not set error message if validation passes', () => {
+        const validAddress = '0x99c805735C466c9B94762604612cfC961a48Eb03';
+
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        act(() => {
+            result.current.validateInput('tokenContractInterface', validAddress);
+        });
+
+        const { errors } = result.current;
+        expect(errors.tokenContractInterface).toBe('');
+    });
+
+    it('should handle checksum address correctly', async () => {
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+        fetch.mockResolvedValueOnce({
+            json: () => Promise.resolve({ address: 'verifiedAddress' }),
+        });
+
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        act(() => {
+            result.current.setAddressChecksum('0x99c805735C466c9B94762604612cfC961a48Eb03');
+        });
+
+        await act(async () => {
+            await result.current.handleChecksumAddress();
+        });
+
+        expect(result.current.validatedAddress).toBe('verifiedAddress');
+        expect(result.current.showAddressModal).toBe(true);
+
+        consoleLogSpy.mockRestore();
+        fetch.mockClear();
+    });
+
+    it('should handle empty address checksum correctly', async () => {
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        act(() => {
+            result.current.setAddressChecksum('');
+        });
+
+        await act(async () => {
+            await result.current.handleChecksumAddress();
+        });
+
+        expect(Alert.alert).toHaveBeenCalledWith('Error: Please fill the input field');
+    });
+
+    it('should handle backend error correctly', async () => {
+        consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+        fetch.mockResolvedValueOnce({
+            json: () => Promise.resolve({ error: 'Backend Error' }),
+        });
+
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        act(() => {
+            result.current.setAddressChecksum('0x123');
+        });
+
+        await act(async () => {
+            await result.current.handleChecksumAddress();
+        });
+
+        expect(Alert.alert).toHaveBeenCalledWith('Error: Backend Error');
+
+        consoleErrorSpy.mockRestore();
+        consoleLogSpy.mockRestore();
+        fetch.mockClear();
+    });
+
+    it('should handle fetch error correctly', async () => {
+        consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+        fetch.mockRejectedValueOnce(new Error('Fetch Error'));
+
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        act(() => {
+            result.current.setAddressChecksum('0x123');
+        });
+
+        await act(async () => {
+            await result.current.handleChecksumAddress();
+        });
+
+        expect(Alert.alert).toHaveBeenCalledWith('Error verifying the address:', expect.any(Error));
+
+        consoleErrorSpy.mockRestore();
+        consoleLogSpy.mockRestore();
+        fetch.mockClear();
+    });
+
+    it('should copy validated address to clipboard', async () => {
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        act(() => {
+            result.current.setValidatedAddress('0x99c805735C466c9B94762604612cfC961a48Eb03');
+        });
+
+        act(() => {
+            result.current.copyToClipboard();
+        });
+
+        expect(Clipboard.setStringAsync).toHaveBeenCalledWith('0x99c805735C466c9B94762604612cfC961a48Eb03');
+        expect(Alert.alert).toHaveBeenCalledWith('Copied to clipboard!');
+    });
 });
 
-//  69.78 |    55.81 |      56 |   72.25
+//   99.43 |    93.75 |      96 |     100 | 46,55,99
 describe('Placeholder test suite', () => {
     it('should always pass', () => {
         expect(true).toBeTruthy();

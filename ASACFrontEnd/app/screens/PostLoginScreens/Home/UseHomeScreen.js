@@ -248,16 +248,24 @@ export const useHomeScreen = (navigation) => {
     const getValidationErrorMessage = (field, value) => {
         switch (field) {
             case 'employerAddress':
+                return isValidEthereumAddress(value) ? '' : 'Invalid Ethereum address. Must start with 0x followed by 40 hexadecimal characters.';
+                //if (!isValidEthereumAddress(value)) return 'Invalid Ethereum address. Must start with 0x followed by 40 hexadecimal characters.' else return ''; 
+                //break;
             case 'authAppAddress':
-                if (!isValidEthereumAddress(value)) return 'Invalid Ethereum address. Must start with 0x followed by 40 hexadecimal characters.';
-                break;
+                return isValidEthereumAddress(value) ? '' : 'Invalid Ethereum address. Must start with 0x followed by 40 hexadecimal characters.';
+                //if (!isValidEthereumAddress(value)) return 'Invalid Ethereum address. Must start with 0x followed by 40 hexadecimal characters.';
+                //break;
             case 'contractName':
-                if (!isValidContractName(value)) return 'Invalid contract name. Must be 3-100 characters long and contain only letters, numbers, and spaces.';
-                break;
+                return isValidContractName(value) ? '' : 'Invalid contract name. Must be 3-100 characters long and contain only letters, numbers, and spaces.';
+                //if (!isValidContractName(value)) return 'Invalid contract name. Must be 3-100 characters long and contain only letters, numbers, and spaces.';
+                //break;
             case 'tokenContractInterface':
-                //    if (!isValidJson(value)) return 'Invalid token contract interface. Must be valid JSON.';
-                if (!isValidHexadecimal(value)) return 'Invalid hexadecimal value.';
-                break;
+                return isValidEthereumAddress(value) ? '' : 'Invalid token contract interface. Must be valid JSON.';
+                //if (!isValidJson(value)) return 'Invalid token contract interface. Must be valid JSON.';
+                //if (!isValidHexadecimal(value)) return 'Invalid hexadecimal value.';
+                //break;
+            case 'hexidecimal':
+                return isValidHexadecimal(value) ? '' : 'Invalid Hexidecimal. Must start with 0x followed by some hexadecimal characters.';
             default:
                 return '';
         }
