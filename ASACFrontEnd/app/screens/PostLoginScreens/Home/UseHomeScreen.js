@@ -184,11 +184,12 @@ export const useHomeScreen = (navigation) => {
         const downloadPromises = contracts.map(async (contract) => {
             const localFilePath = `${documentDirectory}${contract.name}.sol`;
             if (!localFiles.includes(`${contract.contract_name}.sol`)) {
+                console.log(`${contract.contract_name}.sol`)
                 // Download and save file if it does not exist locally
                 console.log(`Downloading and saving ${contract.contract_name}...`);
                 saveSolidityFile(contract.code, contract.contract_name);
             } else {
-                //console.log("Everything has already been locally saved")
+                console.log("Everything has already been locally saved")
             }
             return { ...contract, localFilePath };
         });
@@ -204,7 +205,6 @@ export const useHomeScreen = (navigation) => {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         try {
             const token = await SecureStore.getItemAsync('authToken');
-            console.log('reached 0');
             await fetch(`${BACKEND_URL}/contracts/delete-contract/${encodeURIComponent(contractToDelete.contract_name)}/`, {
                 method: 'DELETE',
                 headers: {
@@ -212,12 +212,9 @@ export const useHomeScreen = (navigation) => {
                 },
             });
 
-            console.log('reached 1');
-            const filePath = `${FileSystem.documentDirectory}${contractName}.sol`;
-            console.log('reached 2');
+            const filePath = `${FileSystem.documentDirectory}${contractToDelete.contract_name}.sol`;
             await FileSystem.deleteAsync(filePath, { idempotent: true });
             console.log(`Deleted local file: ${filePath}`);
-            console.log('reached 3');
 
             // Update local state to reflect deletion
             setSavedContracts(currentContracts =>
@@ -225,7 +222,7 @@ export const useHomeScreen = (navigation) => {
             );
         } catch (error) {
             console.error(error);
-            alert('Error deleting the contract:', error);
+            Alert.alert('Error deleting the contract:', error);
         }
     };
 
@@ -274,7 +271,7 @@ export const useHomeScreen = (navigation) => {
     const handleChecksumAddress = async () => {
         try {
             if (!addressChecksum) {
-                alert(`Error: Please fill the input field`);
+                Alert.alert(`Error: Please fill the input field`);
                 return;
             }
             const token = await SecureStore.getItemAsync('authToken');
@@ -288,20 +285,20 @@ export const useHomeScreen = (navigation) => {
             verifiedAddress = await response.json();
             console.log(verifiedAddress);
             if (verifiedAddress.error) {
-                alert(`Error: ${verifiedAddress.error}`);
+                Alert.alert(`Error: ${verifiedAddress.error}`);
             } else {
                 setValidatedAddress(verifiedAddress.address);
                 setShowAddressModal(true);
             }
         } catch (error) {
             console.error(error);
-            alert('Error verifying the address:', error);
+            Alert.alert('Error verifying the address:', error);
         }
     };
 
     const copyToClipboard = () => {
         Clipboard.setStringAsync(validatedAddress);
-        alert('Copied to clipboard!');
+        Alert.alert('Copied to clipboard!');
     };
 
 
@@ -336,6 +333,16 @@ export const useHomeScreen = (navigation) => {
         validateInput,
         handleChecksumAddress,
         copyToClipboard,
-        saveSolidityFile
+
+        saveSolidityFile,
+        syncContracts,
+        isComponentMounted,
+        setIsComponentMounted,
+        cleanExpoFolder,
+        isValidJson,
+        getValidationErrorMessage,
+        validateInput,
+        handleChecksumAddress,
+        copyToClipboard,
     };
 };

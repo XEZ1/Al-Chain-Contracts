@@ -46,6 +46,12 @@ describe('useHomeScreen', () => {
         jest.clearAllMocks();
     });
 
+    afterEach(() => {
+        fetch.mockResolvedValue({
+            json: () => Promise.resolve({}) // Adjust this response as necessary for your tests
+        });
+    });
+
     it('handles successful file selection correctly', async () => {
         DocumentPicker.getDocumentAsync.mockResolvedValue({
             type: 'success',
@@ -200,7 +206,7 @@ describe('useHomeScreen', () => {
         const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
         act(() => {
             result.current.setSelectedFile({ assets: [{ uri: 'file-uri' }] });
-            SecureStore.getItemAsync.mockResolvedValue('dummy-token');
+            SecureStore.getItemAsync.mockResolvedValue('authToken');
             fetch.mockRejectedValue(new Error('Failed to fetch'));
         });
 
@@ -322,22 +328,224 @@ describe('useHomeScreen', () => {
     });
 
 
-    //it('fetches and syncs contracts', async () => {
-    //    const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
-    //    SecureStore.getItemAsync.mockResolvedValue('dummy-token');
-    //  
-    //    await act(async () => {
-    //      await result.current.fetchAndSyncContracts();
-    //    });
-    //  
-    //    expect(fetch).toHaveBeenCalled();
-    //    expect(FileSystem.readDirectoryAsync).toHaveBeenCalled();
-    //  });
+    it('successfully navigates to the EditorScreen with the correct file path', async () => {
+        consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+        
+        const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
+        
+        act(() => {
+            result.current.openContract('testContract');
+        });
+
+        expect(mockNavigate).toHaveBeenCalledWith('EditorScreen', { filePath: 'mocked/document/directory/testContract.sol' });
+    
+        consoleErrorSpy.mockRestore();
+        consoleLogSpy.mockRestore();
+    });
+
+    it('handles errors when trying to open a contract file', async () => {
+        consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+
+        const navigateMock = jest.fn(() => { throw new Error('Navigation error'); });
+
+        const { result } = renderHook(() => useHomeScreen({ navigate: navigateMock }));
+
+        act(() => {
+            result.current.openContract('testContract');
+        });
+
+        expect(Alert.alert).toHaveBeenCalledWith("Error", "Could not open the contract file");
+    
+        consoleErrorSpy.mockRestore(); 
+        consoleLogSpy.mockRestore();
+    });
+    
+
+    it('successfully fetches and synchronizes contracts', async () => {
+        consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+        
+        const contractsMock = [{ contract_name: 'Contract1' }, { contract_name: 'Contract2' }];
+        fetch.mockResolvedValue({
+            json: () => Promise.resolve(contractsMock)
+        });
+        const syncContractsMock = jest.fn(() => Promise.resolve());
+
+        const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate, syncContracts: syncContractsMock }));
+
+        await act(async () => {
+            await result.current.fetchAndSyncContracts();
+        });
+
+        expect(SecureStore.getItemAsync).toHaveBeenCalledWith('authToken');
+        expect(fetch).toHaveBeenCalledWith(`https://example.com/contracts/get-user-contracts/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Token authToken',
+            },
+        });
+
+        consoleErrorSpy.mockRestore(); 
+        consoleLogSpy.mockRestore();
+    });
+
+    it('handles errors if fetching contracts fails', async () => {
+        consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+
+        const error = new Error('Fetch failed');
+        fetch.mockRejectedValue(error);
+
+        const { result } = renderHook(() => useHomeScreen({ navigate: jest.fn() }));
+
+        await act(async () => {
+            await result.current.fetchAndSyncContracts();
+        });
+
+        expect(fetch).toHaveBeenCalled();
+        expect(console.error).toHaveBeenCalledWith("Error fetching contracts:", error);
+        expect(Alert.alert).toHaveBeenCalledWith("Error", "Failed to fetch contracts.");
+        
+        consoleErrorSpy.mockRestore(); 
+        consoleLogSpy.mockRestore();
+    });
+
+    it('handles errors if token retrieval fails', async () => {
+        consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+
+        const error = new Error('Token retrieval failed');
+        SecureStore.getItemAsync.mockRejectedValue(error);
+
+        const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
+
+        await act(async () => {
+            await result.current.fetchAndSyncContracts();
+        });
+
+        expect(SecureStore.getItemAsync).toHaveBeenCalled();
+        expect(console.error).toHaveBeenCalledWith("Error fetching contracts:", error);
+        expect(Alert.alert).toHaveBeenCalledWith("Error", "Failed to fetch contracts.");
+    
+        consoleErrorSpy.mockRestore(); 
+        consoleLogSpy.mockRestore();
+    });
+    
+    
+    it('does nothing if all contracts are already saved locally', async () => {
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+        
+        const contractsMock = [{ contract_name: 'Contract1' }];
+        FileSystem.readDirectoryAsync.mockResolvedValue(['Contract1.sol']);
+
+        const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate  }));
+
+        await act(async () => {
+            await result.current.syncContracts(contractsMock);
+        });
+
+        expect(FileSystem.readDirectoryAsync).toHaveBeenCalled();
+        expect(FileSystem.writeAsStringAsync).not.toHaveBeenCalled();
+        expect(result.current.savedContracts.length).toBe(1);
+
+        consoleLogSpy.mockRestore();
+    });
+
+    it('downloads missing contracts', async () => {
+        consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+
+        const contractsMock = [{ name: 'Contract1', contract_name: 'Contract1', code: 'code1' }];
+        FileSystem.readDirectoryAsync.mockResolvedValue([]); 
+
+        const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
+
+        await act(async () => {
+            await result.current.syncContracts(contractsMock);
+        });
+
+        expect(FileSystem.readDirectoryAsync).toHaveBeenCalled();
+        expect(FileSystem.writeAsStringAsync).toHaveBeenCalled();
+
+        consoleLogSpy.mockRestore();
+        consoleErrorSpy.mockRestore();
+    });
+
+    it('does nothing if component is unmounted during contracts deletion', async () => {
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+        act(() => {
+            result.current.setIsComponentMounted(false);
+        });
+
+        await act(async () => {
+            await result.current.handleDeleteContract({ contract_name: 'contract1' });
+        });
+
+        expect(SecureStore.getItemAsync).not.toHaveBeenCalled();
+    });
+
+    it('successfully deletes a contract', async () => {
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+        SecureStore.getItemAsync.mockResolvedValue('authToken');
+
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+        
+        act(() => {
+            result.current.setIsComponentMounted(true);
+        });
+
+        await act(async () => {
+            await result.current.handleDeleteContract({ contract_name: 'contract1' });
+        });
+
+        expect(fetch).toHaveBeenCalledWith(`https://example.com/contracts/delete-contract/contract1/`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Token authToken`,
+            },
+        });
+        expect(FileSystem.deleteAsync).toHaveBeenCalledWith('mocked/document/directory/contract1.sol', { idempotent: true });
+        expect(result.current.savedContracts).toEqual([]);
+
+        consoleLogSpy.mockRestore();
+    });
+
+    it('handles backend API failure gracefully for contracts deletion', async () => {
+        consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+
+        fetch.mockImplementationOnce(() => Promise.reject(new Error('API Failure')));
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        await act(async () => {
+            await result.current.handleDeleteContract({ contract_name: 'contract1' });
+        });
+
+        expect(Alert.alert).toHaveBeenCalledWith('Error deleting the contract:', expect.anything());
+
+        consoleErrorSpy.mockRestore(); 
+    });
+
+    it('handles local file deletion failure gracefully', async () => {
+        consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+        
+        FileSystem.deleteAsync.mockRejectedValueOnce(new Error('File Deletion Failure'));
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+
+        await act(async () => {
+            await result.current.handleDeleteContract({ contract_name: 'contract1' });
+        });
+
+        expect(Alert.alert).toHaveBeenCalledWith('Error deleting the contract:', expect.anything());
+    
+        consoleErrorSpy.mockRestore();
+    });
 
 
 });
 
-//46.99 |    41.86 |      32 |   48.27
+//  69.78 |    55.81 |      56 |   72.25
 describe('Placeholder test suite', () => {
     it('should always pass', () => {
         expect(true).toBeTruthy();
