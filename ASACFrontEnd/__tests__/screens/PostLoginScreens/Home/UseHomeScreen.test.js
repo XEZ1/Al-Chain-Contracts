@@ -53,11 +53,11 @@ describe('useHomeScreen', () => {
 
     afterEach(() => {
         fetch.mockResolvedValue({
-            json: () => Promise.resolve({}) // Adjust this response as necessary for your tests
+            json: () => Promise.resolve({})
         });
     });
 
-    it('handles successful file selection correctly', async () => {
+    it('handles successful file selection correctly with animation', async () => {
         DocumentPicker.getDocumentAsync.mockResolvedValue({
             type: 'success',
             canceled: false,
@@ -67,7 +67,7 @@ describe('useHomeScreen', () => {
         const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
 
         act(() => {
-            result.current.setIsComponentMounted(true); // line 55
+            result.current.setIsComponentMounted(true);
         });
         await act(async () => {
             await result.current.handleFileSelectDropZone();
@@ -77,14 +77,14 @@ describe('useHomeScreen', () => {
         expect(LayoutAnimation.configureNext).toHaveBeenCalled();
     });
 
-    it('handles file selection cancel with previous file selected', async () => {
+    it('handles file selection cancel with previous file selected with animation', async () => {
         DocumentPicker.getDocumentAsync.mockResolvedValue({
             canceled: true
         });
 
         const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
         act(() => {
-            result.current.setIsComponentMounted(true); // line 45
+            result.current.setIsComponentMounted(true);
             result.current.setSelectedFile({ assets: [{ uri: 'file-uri' }] });
         });
 
@@ -94,6 +94,45 @@ describe('useHomeScreen', () => {
 
         expect(result.current.selectedFile).toBeNull();
         expect(LayoutAnimation.configureNext).toHaveBeenCalled();
+    });
+
+    it('handles successful file selection correctly without animation', async () => {
+        DocumentPicker.getDocumentAsync.mockResolvedValue({
+            type: 'success',
+            canceled: false,
+            assets: [{ mimeType: 'text/plain', uri: 'file-uri' }],
+        });
+
+        const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
+
+        act(() => {
+            result.current.setIsComponentMounted(false);
+        });
+        await act(async () => {
+            await result.current.handleFileSelectDropZone();
+        });
+
+        expect(result.current.selectedFile).toBeDefined();
+        expect(LayoutAnimation.configureNext).not.toHaveBeenCalled();
+    });
+
+    it('handles file selection cancel with previous file selected without animation', async () => {
+        DocumentPicker.getDocumentAsync.mockResolvedValue({
+            canceled: true
+        });
+
+        const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
+        act(() => {
+            result.current.setIsComponentMounted(false);
+            result.current.setSelectedFile({ assets: [{ uri: 'file-uri' }] });
+        });
+
+        await act(async () => {
+            await result.current.handleFileSelectDropZone();
+        });
+
+        expect(result.current.selectedFile).toBeNull();
+        expect(LayoutAnimation.configureNext).not.toHaveBeenCalled();
     });
 
     it('ignores cancel without a previous file selected', async () => {
@@ -142,7 +181,6 @@ describe('useHomeScreen', () => {
         consoleSpy.mockRestore();
     });
 
-
     it('should prevent uploading when there are validation errors on various fields', async () => {
         const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
 
@@ -175,6 +213,63 @@ describe('useHomeScreen', () => {
         expect(Alert.alert).toHaveBeenCalledWith("Error", "Please select a file before creating a contract.");
     });
 
+    it('handles contract upload correctly with animation when all conditions are met', async () => {
+        FileSystem.readAsStringAsync.mockResolvedValue('file content');
+        SecureStore.getItemAsync.mockResolvedValue('authToken');
+        fetch.mockResolvedValueOnce({
+            json: () => Promise.resolve({ solidity_code: 'solidity code' })
+        });
+        LayoutAnimation.configureNext.mockImplementation((config) => {
+            
+        });
+
+        const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
+
+        act(() => {
+            result.current.setIsComponentMounted(true);
+            result.current.setSelectedFile({ assets: [{ uri: 'file-uri' }] });
+            result.current.setErrors({});
+        });
+
+        await act(async () => {
+            await result.current.uploadContractData();
+        });
+
+        expect(fetch).toHaveBeenCalledTimes(1);
+        expect(FileSystem.readAsStringAsync).toHaveBeenCalled();
+        expect(LayoutAnimation.configureNext).toHaveBeenCalled();
+        expect(result.current.selectedFile).toBeNull();
+        expect(result.current.contractName).toBe('');
+        expect(result.current.employerAddress).toBe('');
+        expect(result.current.authAppAddress).toBe('');
+        expect(result.current.tokenContractInterface).toBe('');
+    });
+
+    it('handles contract upload correctly without animation when all conditions are met', async () => {
+        FileSystem.readAsStringAsync.mockResolvedValue('file content');
+        SecureStore.getItemAsync.mockResolvedValue('authToken');
+        fetch.mockResolvedValueOnce({
+            json: () => Promise.resolve({ solidity_code: 'solidity code' })
+        });
+
+        const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
+
+        act(() => {
+            result.current.setIsComponentMounted(false);
+            result.current.setSelectedFile({ assets: [{ uri: 'file-uri' }] });
+            result.current.setErrors({});
+        });
+
+        await act(async () => {
+            await result.current.uploadContractData();
+        });
+
+        expect(fetch).toHaveBeenCalledTimes(1);
+        expect(FileSystem.readAsStringAsync).toHaveBeenCalled();
+        // we do not assert no call on animation because the subfunction saveSolidityFile actually calls another animation
+        expect(result.current.selectedFile).not.toBeNull();
+    });
+
     it('handles contract upload correctly when all conditions are met', async () => {
         FileSystem.readAsStringAsync.mockResolvedValue('file content');
         SecureStore.getItemAsync.mockResolvedValue('authToken');
@@ -182,7 +277,7 @@ describe('useHomeScreen', () => {
             json: () => Promise.resolve({ solidity_code: 'solidity code' })
         });
 
-        const { result } = renderHook(() => useHomeScreen({ navigate: jest.fn() }));
+        const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
 
         act(() => {
             result.current.setSelectedFile({ assets: [{ uri: 'file-uri' }] });
@@ -195,14 +290,13 @@ describe('useHomeScreen', () => {
 
         expect(fetch).toHaveBeenCalledTimes(1);
         expect(FileSystem.readAsStringAsync).toHaveBeenCalled();
-
     });
 
     it('handles errors during the upload process', async () => {
         const error = new Error('Upload failed');
         fetch.mockRejectedValueOnce(error);
 
-        const { result } = renderHook(() => useHomeScreen({ navigate: jest.fn() }));
+        const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
         act(() => {
             result.current.setSelectedFile({ assets: [{ uri: 'file-uri' }] });
             result.current.setErrors({});
@@ -342,7 +436,6 @@ describe('useHomeScreen', () => {
         consoleLogSpy.mockRestore();
     });
 
-
     it('successfully navigates to the EditorScreen with the correct file path', async () => {
         consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
         consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
@@ -376,7 +469,6 @@ describe('useHomeScreen', () => {
         consoleErrorSpy.mockRestore();
         consoleLogSpy.mockRestore();
     });
-
 
     it('successfully fetches and synchronizes contracts', async () => {
         consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
@@ -554,6 +646,37 @@ describe('useHomeScreen', () => {
         expect(Alert.alert).toHaveBeenCalledWith('Error deleting the contract:', expect.anything());
 
         consoleErrorSpy.mockRestore();
+    });
+
+    it('successfully deletes a contract and updates state', async () => {
+        const initialContracts = [
+            { contract_name: 'contract1' },
+            { contract_name: 'contract2' }
+        ];
+        SecureStore.getItemAsync.mockResolvedValue('authToken');
+        const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    
+        const { result } = renderHook(() => useHomeScreen(mockNavigate));
+    
+        act(() => {
+            result.current.setIsComponentMounted(true);
+            result.current.setSavedContracts(initialContracts);
+        });
+    
+        await act(async () => {
+            await result.current.handleDeleteContract({ contract_name: 'contract1' });
+        });
+    
+        expect(result.current.savedContracts).toEqual([{ contract_name: 'contract2' }]);
+        expect(fetch).toHaveBeenCalledWith(`https://example.com/contracts/delete-contract/contract1/`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Token authToken`,
+            },
+        });
+        expect(FileSystem.deleteAsync).toHaveBeenCalledWith('mocked/document/directory/contract1.sol', { idempotent: true });
+    
+        consoleLogSpy.mockRestore();
     });
 
     it('deletes all files in the directory when there are multiple files', async () => {
