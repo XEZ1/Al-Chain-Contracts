@@ -345,6 +345,7 @@ export const useHomeScreen = (navigation) => {
         saveSolidityFile,
         syncContracts,
         isComponentMounted,
+        setSavedContracts,
         setIsComponentMounted,
         cleanExpoFolder,
         isValidJson,
