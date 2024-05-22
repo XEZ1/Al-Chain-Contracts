@@ -47,14 +47,18 @@ global.fetch = jest.fn(() =>
 const mockNavigate = jest.fn();
 
 describe('useHomeScreen', () => {
+    let alertSpy;
+
     beforeEach(() => {
         jest.clearAllMocks();
+        alertSpy = jest.spyOn(Alert, 'alert');
     });
 
     afterEach(() => {
         fetch.mockResolvedValue({
             json: () => Promise.resolve({})
         });
+        alertSpy.mockRestore();
     });
 
     it('handles successful file selection correctly with animation', async () => {
@@ -169,7 +173,6 @@ describe('useHomeScreen', () => {
 
         DocumentPicker.getDocumentAsync.mockRejectedValue(new Error('Failed to select file'));
 
-        const alertSpy = jest.spyOn(Alert, 'alert');
         const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
 
         await act(async () => {
@@ -194,7 +197,7 @@ describe('useHomeScreen', () => {
         });
 
         expect(fetch).not.toHaveBeenCalled();
-        expect(Alert.alert).toHaveBeenCalledWith("Validation Errors", "Please fix the errors before proceeding.");
+        expect(alertSpy).toHaveBeenCalledWith("Validation Errors", "Please fix the errors before proceeding.");
     });
 
     it('alerts if no file is selected before uploading', async () => {
@@ -210,7 +213,7 @@ describe('useHomeScreen', () => {
         });
 
         expect(fetch).not.toHaveBeenCalled();
-        expect(Alert.alert).toHaveBeenCalledWith("Error", "Please select a file before creating a contract.");
+        expect(alertSpy).toHaveBeenCalledWith("Error", "Please select a file before creating a contract.");
     });
 
     it('handles contract upload correctly with animation when all conditions are met', async () => {
@@ -308,7 +311,7 @@ describe('useHomeScreen', () => {
         });
 
         expect(fetch).toHaveBeenCalled();
-        expect(Alert.alert).toHaveBeenCalledWith("Upload Error", "An error occurred while uploading contract data.");
+        expect(alertSpy).toHaveBeenCalledWith("Upload Error", "An error occurred while uploading contract data.");
     });
 
     it('should handle errors in contract upload', async () => {
@@ -338,7 +341,7 @@ describe('useHomeScreen', () => {
             'solidity code',
             { encoding: FileSystem.EncodingType.UTF8 }
         );
-        expect(Alert.alert).toHaveBeenCalledWith("Success", "Contract was generated and saved as newContract.sol to mocked/document/directory/newContract.sol");
+        expect(alertSpy).toHaveBeenCalledWith("Success", "Contract was generated and saved as newContract.sol to mocked/document/directory/newContract.sol");
     });
 
     it('overwrites an existing Solidity file', async () => {
@@ -356,7 +359,7 @@ describe('useHomeScreen', () => {
 
         expect(console.log).toHaveBeenCalledWith("existingContract.sol already exists. Overwriting...");
         expect(FileSystem.writeAsStringAsync).toHaveBeenCalled();
-        expect(Alert.alert).toHaveBeenCalledWith("Success", "Contract was generated and saved as existingContract.sol to mocked/document/directory/existingContract.sol");
+        expect(alertSpy).toHaveBeenCalledWith("Success", "Contract was generated and saved as existingContract.sol to mocked/document/directory/existingContract.sol");
 
         consoleLogSpy.mockRestore();
         consoleErrorSpy.mockRestore();
@@ -377,7 +380,7 @@ describe('useHomeScreen', () => {
         });
 
         expect(console.error).toHaveBeenCalledWith("Error saving Solidity file:", error.message);
-        expect(Alert.alert).toHaveBeenCalledWith("Error", "Failed to save the contract file.");
+        expect(alertSpy).toHaveBeenCalledWith("Error", "Failed to save the contract file.");
 
         consoleLogSpy.mockRestore();
         consoleErrorSpy.mockRestore();
@@ -408,7 +411,7 @@ describe('useHomeScreen', () => {
             await result.current.shareContract('testContract');
         });
 
-        expect(Alert.alert).toHaveBeenCalledWith("Error", "Sharing not available on this device");
+        expect(alertSpy).toHaveBeenCalledWith("Error", "Sharing not available on this device");
         expect(Sharing.shareAsync).not.toHaveBeenCalled();
 
         consoleLogSpy.mockRestore();
@@ -429,7 +432,7 @@ describe('useHomeScreen', () => {
             await result.current.shareContract('testContract');
         });
 
-        expect(Alert.alert).toHaveBeenCalledWith("Error", "Could not share the contract file.");
+        expect(alertSpy).toHaveBeenCalledWith("Error", "Could not share the contract file.");
         expect(console.error).toHaveBeenCalledWith(error);
 
         consoleErrorSpy.mockRestore();
@@ -464,7 +467,7 @@ describe('useHomeScreen', () => {
             result.current.openContract('testContract');
         });
 
-        expect(Alert.alert).toHaveBeenCalledWith("Error", "Could not open the contract file");
+        expect(alertSpy).toHaveBeenCalledWith("Error", "Could not open the contract file");
 
         consoleErrorSpy.mockRestore();
         consoleLogSpy.mockRestore();
@@ -513,7 +516,7 @@ describe('useHomeScreen', () => {
 
         expect(fetch).toHaveBeenCalled();
         expect(console.error).toHaveBeenCalledWith("Error fetching contracts:", error);
-        expect(Alert.alert).toHaveBeenCalledWith("Error", "Failed to fetch contracts.");
+        expect(alertSpy).toHaveBeenCalledWith("Error", "Failed to fetch contracts.");
 
         consoleErrorSpy.mockRestore();
         consoleLogSpy.mockRestore();
@@ -534,7 +537,7 @@ describe('useHomeScreen', () => {
 
         expect(SecureStore.getItemAsync).toHaveBeenCalled();
         expect(console.error).toHaveBeenCalledWith("Error fetching contracts:", error);
-        expect(Alert.alert).toHaveBeenCalledWith("Error", "Failed to fetch contracts.");
+        expect(alertSpy).toHaveBeenCalledWith("Error", "Failed to fetch contracts.");
 
         consoleErrorSpy.mockRestore();
         consoleLogSpy.mockRestore();
@@ -628,7 +631,7 @@ describe('useHomeScreen', () => {
             await result.current.handleDeleteContract({ contract_name: 'contract1' });
         });
 
-        expect(Alert.alert).toHaveBeenCalledWith('Error deleting the contract:', expect.anything());
+        expect(alertSpy).toHaveBeenCalledWith('Error deleting the contract:', expect.anything());
 
         consoleErrorSpy.mockRestore();
     });
@@ -643,7 +646,7 @@ describe('useHomeScreen', () => {
             await result.current.handleDeleteContract({ contract_name: 'contract1' });
         });
 
-        expect(Alert.alert).toHaveBeenCalledWith('Error deleting the contract:', expect.anything());
+        expect(alertSpy).toHaveBeenCalledWith('Error deleting the contract:', expect.anything());
 
         consoleErrorSpy.mockRestore();
     });
@@ -899,7 +902,7 @@ describe('useHomeScreen', () => {
             await result.current.handleChecksumAddress();
         });
 
-        expect(Alert.alert).toHaveBeenCalledWith('Error: Please fill the input field');
+        expect(alertSpy).toHaveBeenCalledWith('Error: Please fill the input field');
     });
 
     it('should handle backend error correctly', async () => {
@@ -919,7 +922,7 @@ describe('useHomeScreen', () => {
             await result.current.handleChecksumAddress();
         });
 
-        expect(Alert.alert).toHaveBeenCalledWith('Error: Backend Error');
+        expect(alertSpy).toHaveBeenCalledWith('Error: Backend Error');
 
         consoleErrorSpy.mockRestore();
         consoleLogSpy.mockRestore();
@@ -941,7 +944,7 @@ describe('useHomeScreen', () => {
             await result.current.handleChecksumAddress();
         });
 
-        expect(Alert.alert).toHaveBeenCalledWith('Error verifying the address:', expect.any(Error));
+        expect(alertSpy).toHaveBeenCalledWith('Error verifying the address:', expect.any(Error));
 
         consoleErrorSpy.mockRestore();
         consoleLogSpy.mockRestore();
@@ -960,7 +963,7 @@ describe('useHomeScreen', () => {
         });
 
         expect(Clipboard.setStringAsync).toHaveBeenCalledWith('0x99c805735C466c9B94762604612cfC961a48Eb03');
-        expect(Alert.alert).toHaveBeenCalledWith('Copied to clipboard!');
+        expect(alertSpy).toHaveBeenCalledWith('Copied to clipboard!');
     });
 });
 
