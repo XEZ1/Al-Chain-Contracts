@@ -211,7 +211,6 @@ export const useHomeScreen = (navigation) => {
                     'Authorization': `Token ${token}`,
                 },
             });
-
             const filePath = `${FileSystem.documentDirectory}${contractToDelete.contract_name}.sol`;
             await FileSystem.deleteAsync(filePath, { idempotent: true });
             console.log(`Deleted local file: ${filePath}`);

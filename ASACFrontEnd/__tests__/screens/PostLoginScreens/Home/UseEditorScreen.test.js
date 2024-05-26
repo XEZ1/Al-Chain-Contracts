@@ -4,11 +4,8 @@ import { Alert } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 import { waitFor } from '@testing-library/react-native';
 
-jest.mock('expo-file-system');
 
-//jest.mock('react-native', () => ({
-//    Alert: { alert: jest.fn() },
-//}));
+jest.mock('expo-file-system');
 
 jest.mock('react-native', () => {
     return {

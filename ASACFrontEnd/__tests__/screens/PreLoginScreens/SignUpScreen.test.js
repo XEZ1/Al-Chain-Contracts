@@ -206,7 +206,7 @@ describe('SignUpScreen', () => {
         expect(queryByText('Please fix the following errors:')).toBeNull();
     });
 
-    it('closes error modal when swiped left is used (onRequestClose)', async () => {
+    it('closes error modal when swipe left is used (onRequestClose)', async () => {
         const { getByTestId, getByText, getByPlaceholderText, findByTestId, queryByText } = renderSignUpScreen();
 
         fireEvent.changeText(getByPlaceholderText('Username'), '');

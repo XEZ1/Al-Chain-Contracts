@@ -44,7 +44,6 @@ useFocusEffect.mockImplementation((callback) => {
 
 const mockedNavigate = jest.fn();
 
-
 describe('SupportScreen', () => {
     beforeEach(() => {
         jest.clearAllMocks();
