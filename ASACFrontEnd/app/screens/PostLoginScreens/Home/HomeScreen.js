@@ -96,7 +96,7 @@ const HomeScreen = ({ navigation }) => {
                         </View>
                         {/* DropZone */}
                         <TouchableOpacity style={localStyles.dropZone} onPress={() => handleFileSelectDropZone()} testID='dropZoneButtonTestID'>
-                            {selectedFile && selectedFile.assets && selectedFile.assets.length > 0 ? (
+                            {selectedFile ? (
                                 <>
                                     <MaterialCommunityIcons name="file-document-outline" size={100} color={theme === 'dark' ? 'white' : 'black'} testID='dropZoneContractIconTestID'/>
                                     {console.log(selectedFile.assets[0].name)}

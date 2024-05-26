@@ -138,6 +138,13 @@ describe('HomeScreen', () => {
     });
 
     it('renders correctly with light theme', () => {
+        useHomeScreen.mockImplementation(() => ({
+            errors: {},
+            savedContracts: [],
+            selectedFile: { "assets": [{ "name": "legal employment contract.txt" }], "canceled": false },
+            fetchAndSyncContracts: jest.fn(),
+        }));
+
         const { getByPlaceholderText } = renderHomeScreen('light');
 
         const contractNameInputField = getByPlaceholderText("Enter Contract Name");
@@ -160,7 +167,14 @@ describe('HomeScreen', () => {
     });
 
     it('renders correctly with dark theme', () => {
-        const { getByPlaceholderText } = renderHomeScreen('dark');
+        useHomeScreen.mockImplementation(() => ({
+            errors: {},
+            savedContracts: [],
+            selectedFile: { "assets": [{ "name": "legal employment contract.txt" }], "canceled": false },
+            fetchAndSyncContracts: jest.fn(),
+        }));
+
+        const { getByPlaceholderText, getByTestId } = renderHomeScreen('dark');
 
         const contractNameInputField = getByPlaceholderText("Enter Contract Name");
         const employerAddressInputField = getByPlaceholderText("Set Employer's USDC Address");
@@ -246,13 +260,11 @@ describe('HomeScreen', () => {
         useHomeScreen.mockImplementation(() => ({
             errors: {},
             savedContracts: [],
-            selectedFile: { "assets": [], "canceled": false },
+            selectedFile: null,
             fetchAndSyncContracts: jest.fn(),
         }));
 
-        const { getByText, getByTestId, queryByText, queryByTestId, debug } = renderHomeScreen();
-
-        debug();
+        const { getByText, getByTestId, queryByText, queryByTestId } = renderHomeScreen();
         
         expect(queryByText('legal employment contract.txt')).toBeNull();
         //expect(queryByText('Tap to upload an employment contract')).toBeNull();
@@ -340,7 +352,63 @@ describe('HomeScreen', () => {
         expect(getByText('Validated Address:')).toBeTruthy();
     });
 
-    it('closes error modal when swipe left is used (onRequestClose)', async () => {
+    it('displays contract items properly if any are saved', async () => {
+        useHomeScreen.mockImplementation(() => ({
+            errors: {},
+            savedContracts: [{ contractName: 'Contract 1' }],
+            fetchAndSyncContracts: jest.fn(),
+        }));
+        
+        const { getByText } = renderHomeScreen();
+        
+        expect(getByText('Access Contract')).toBeTruthy();
+        expect(getByText('Share Contract')).toBeTruthy();
+        expect(getByText('Delete Contract')).toBeTruthy();
+    });
+    
+    it('copies the address properly on address checksum modal when the button is clicked', async () => {
+        useHomeScreen.mockImplementation(() => ({
+            errors: {},
+            savedContracts: [],
+            addressChecksum: '0x99c805735C466c9B94762604612cfC961a48Eb03',
+            copyToClipboard: jest.fn(),
+            setShowAddressModal: jest.fn(),
+            fetchAndSyncContracts: jest.fn(),
+            handleChecksumAddress: jest.fn(),
+        }));
+        
+        const { getByText, getByTestId } = renderHomeScreen();
+        fireEvent.press(getByTestId('validateAddressButtonTestID'));
+        
+        expect(getByText('Validated Address:')).toBeTruthy();
+        
+        fireEvent.press(getByTestId('copyAddressButtonTestID'));
+        
+        //expect(useHomeScreen.mockImplementation.copyToClipboard).toHaveBeenCalled();
+    });
+    
+    it('closes the address checksum modal when the exit button is clicked', async () => {
+        useHomeScreen.mockImplementation(() => ({
+            errors: {},
+            savedContracts: [],
+            addressChecksum: '0x99c805735C466c9B94762604612cfC961a48Eb03',
+            copyToClipboard: jest.fn(),
+            setShowAddressModal: jest.fn(),
+            fetchAndSyncContracts: jest.fn(),
+            handleChecksumAddress: jest.fn(),
+        }));
+        
+        const { getByText, getByTestId } = renderHomeScreen();
+        fireEvent.press(getByTestId('validateAddressButtonTestID'));
+        
+        expect(getByText('Validated Address:')).toBeTruthy();
+        
+        fireEvent.press(getByTestId('exitAddressButtonTestID'));
+        
+        //expect(useHomeScreen.mockImplementation.copyToClipboard).toHaveBeenCalled();
+    });
+    
+    it('closes the address checksum modal when swipe left is used (onRequestClose)', async () => {
         useHomeScreen.mockImplementation(() => ({
             errors: {},
             savedContracts: [],
@@ -363,62 +431,6 @@ describe('HomeScreen', () => {
         //expect(queryByText('Validated Address:')).toBeNull();
     });
 
-    it('displays contract items properly if any are saved', async () => {
-        useHomeScreen.mockImplementation(() => ({
-            errors: {},
-            savedContracts: [{ contractName: 'Contract 1' }],
-            fetchAndSyncContracts: jest.fn(),
-        }));
-
-        const { getByText } = renderHomeScreen();
-
-        expect(getByText('Access Contract')).toBeTruthy();
-        expect(getByText('Share Contract')).toBeTruthy();
-        expect(getByText('Delete Contract')).toBeTruthy();
-    });
-
-    it('copies the address properly on address checksum modal when the button is clicked', async () => {
-        useHomeScreen.mockImplementation(() => ({
-            errors: {},
-            savedContracts: [],
-            addressChecksum: '0x99c805735C466c9B94762604612cfC961a48Eb03',
-            copyToClipboard: jest.fn(),
-            setShowAddressModal: jest.fn(),
-            fetchAndSyncContracts: jest.fn(),
-            handleChecksumAddress: jest.fn(),
-        }));
-
-        const { getByText, getByTestId } = renderHomeScreen();
-        fireEvent.press(getByTestId('validateAddressButtonTestID'));
-
-        expect(getByText('Validated Address:')).toBeTruthy();
-
-        fireEvent.press(getByTestId('copyAddressButtonTestID'));
-
-        //expect(useHomeScreen.mockImplementation.copyToClipboard).toHaveBeenCalled();
-    });
-
-    it('closes the address checksum modal when the exit button is clicked', async () => {
-        useHomeScreen.mockImplementation(() => ({
-            errors: {},
-            savedContracts: [],
-            addressChecksum: '0x99c805735C466c9B94762604612cfC961a48Eb03',
-            copyToClipboard: jest.fn(),
-            setShowAddressModal: jest.fn(),
-            fetchAndSyncContracts: jest.fn(),
-            handleChecksumAddress: jest.fn(),
-        }));
-
-        const { getByText, getByTestId } = renderHomeScreen();
-        fireEvent.press(getByTestId('validateAddressButtonTestID'));
-
-        expect(getByText('Validated Address:')).toBeTruthy();
-
-        fireEvent.press(getByTestId('exitAddressButtonTestID'));
-
-        //expect(useHomeScreen.mockImplementation.copyToClipboard).toHaveBeenCalled();
-    });
-
     it('registers and unregisters the scroll view ref', async () => {
         const { getByPlaceholderText } = renderHomeScreen();
 
@@ -436,11 +448,4 @@ describe('HomeScreen', () => {
         });
     });
 
-});
-
-
-describe('Placeholder test suite', () => {
-    it('should always pass', () => {
-        expect(true).toBeTruthy();
-    });
 });
