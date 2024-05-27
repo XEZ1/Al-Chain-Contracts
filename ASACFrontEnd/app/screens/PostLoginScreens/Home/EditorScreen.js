@@ -18,13 +18,14 @@ function EditorScreen({ route, navigation }) {
     return (
         <View style={[localStyles.backgroundContainer, { flex: 1 }]}>
             {isLoading ? (
-                <ActivityIndicator size="large" color='rgba(1, 193, 219, 1)' style={localStyles.mediumTopPadding} /> 
+                <ActivityIndicator size="large" color='rgba(1, 193, 219, 1)' style={localStyles.mediumTopPadding} testID='activityIndicatorTestID'/> 
             ) : (
                 <View style={[localStyles.backgroundContainer, { flex: 1 }]}>
                     <WebView
                         originWhitelist={['*']}
                         source={{ html: codeHtml }}
                         style={sharedStyles.avoidingTabBarContainer}
+                        testID='webViewTestID'
                     />
                 </View>
             )}
