@@ -99,7 +99,6 @@ const HomeScreen = ({ navigation }) => {
                             {selectedFile ? (
                                 <>
                                     <MaterialCommunityIcons name="file-document-outline" size={100} color={theme === 'dark' ? 'white' : 'black'} testID='dropZoneContractIconTestID'/>
-                                    {console.log(selectedFile.assets[0].name)}
                                     <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>{selectedFile.assets[0].name}</Text>
                                 </>
                             ) : (

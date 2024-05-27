@@ -8,7 +8,6 @@ import { useHomeScreen } from '../../../../app/screens/PostLoginScreens/Home/Use
 import { useFocusEffect } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
-import { queryByTestId } from '@testing-library/react';
 
 
 jest.mock('@react-navigation/native', () => {
@@ -264,10 +263,10 @@ describe('HomeScreen', () => {
             fetchAndSyncContracts: jest.fn(),
         }));
 
-        const { getByText, getByTestId, queryByText, queryByTestId } = renderHomeScreen();
-        
+        const { queryByText } = renderHomeScreen();
+
         expect(queryByText('legal employment contract.txt')).toBeNull();
-        //expect(queryByText('Tap to upload an employment contract')).toBeNull();
+        expect(queryByText('Tap to upload an employment contract')).toBeTruthy();
     });
 
     it('displays error modal for contract creation when errors are present and closes it properly through get it button', () => {
@@ -324,17 +323,15 @@ describe('HomeScreen', () => {
             showErrorDetails: true,
             fetchAndSyncContracts: jest.fn(),
         }));
-        const { getByTestId, getByText, queryByText } = renderHomeScreen();
+        const { getByTestId, getByText, queryByText, debug } = renderHomeScreen();
 
         expect(getByText('Please fix the following errors:')).toBeTruthy();
 
         const modalProps = getByTestId('errorModalTestID').props;
 
-        act(() => {
-            modalProps.onRequestClose();
+        await act(async () => {
+            await modalProps.onRequestClose();
         });
-
-        //expect(queryByText('Please fix the following errors:')).toBeNull();
     });
 
     it('displays address checksum validaton modal when the button is clicked', async () => {
@@ -367,14 +364,18 @@ describe('HomeScreen', () => {
     });
     
     it('copies the address properly on address checksum modal when the button is clicked', async () => {
+        const copyToClipboard = jest.fn();
+        const setShowAddressModal = jest.fn();
+        const handleChecksumAddress = jest.fn();
+        const fetchAndSyncContracts = jest.fn();
         useHomeScreen.mockImplementation(() => ({
             errors: {},
             savedContracts: [],
             addressChecksum: '0x99c805735C466c9B94762604612cfC961a48Eb03',
-            copyToClipboard: jest.fn(),
-            setShowAddressModal: jest.fn(),
-            fetchAndSyncContracts: jest.fn(),
-            handleChecksumAddress: jest.fn(),
+            copyToClipboard,
+            setShowAddressModal,
+            fetchAndSyncContracts,
+            handleChecksumAddress,
         }));
         
         const { getByText, getByTestId } = renderHomeScreen();
@@ -384,18 +385,22 @@ describe('HomeScreen', () => {
         
         fireEvent.press(getByTestId('copyAddressButtonTestID'));
         
-        //expect(useHomeScreen.mockImplementation.copyToClipboard).toHaveBeenCalled();
+        expect(copyToClipboard).toHaveBeenCalled();
     });
     
     it('closes the address checksum modal when the exit button is clicked', async () => {
+        const copyToClipboard = jest.fn();
+        const setShowAddressModal = jest.fn();
+        const handleChecksumAddress = jest.fn();
+        const fetchAndSyncContracts = jest.fn();
         useHomeScreen.mockImplementation(() => ({
             errors: {},
             savedContracts: [],
             addressChecksum: '0x99c805735C466c9B94762604612cfC961a48Eb03',
-            copyToClipboard: jest.fn(),
-            setShowAddressModal: jest.fn(),
-            fetchAndSyncContracts: jest.fn(),
-            handleChecksumAddress: jest.fn(),
+            copyToClipboard,
+            setShowAddressModal,
+            fetchAndSyncContracts,
+            handleChecksumAddress,
         }));
         
         const { getByText, getByTestId } = renderHomeScreen();
@@ -405,7 +410,7 @@ describe('HomeScreen', () => {
         
         fireEvent.press(getByTestId('exitAddressButtonTestID'));
         
-        //expect(useHomeScreen.mockImplementation.copyToClipboard).toHaveBeenCalled();
+        expect(copyToClipboard).not.toHaveBeenCalled();
     });
     
     it('closes the address checksum modal when swipe left is used (onRequestClose)', async () => {
@@ -424,11 +429,9 @@ describe('HomeScreen', () => {
 
         const modalProps = getByTestId('addressModalTestID').props;
 
-        act(() => {
-            modalProps.onRequestClose();
+        await act(async () => {
+            await modalProps.onRequestClose();
         });
-
-        //expect(queryByText('Validated Address:')).toBeNull();
     });
 
     it('registers and unregisters the scroll view ref', async () => {
