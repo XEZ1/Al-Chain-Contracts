@@ -385,6 +385,7 @@ describe('HomeScreen', () => {
         
         fireEvent.press(getByTestId('copyAddressButtonTestID'));
         
+        expect(handleChecksumAddress).toHaveBeenCalled();
         expect(copyToClipboard).toHaveBeenCalled();
     });
     
@@ -410,6 +411,7 @@ describe('HomeScreen', () => {
         
         fireEvent.press(getByTestId('exitAddressButtonTestID'));
         
+        expect(handleChecksumAddress).toHaveBeenCalled();
         expect(copyToClipboard).not.toHaveBeenCalled();
     });
     
