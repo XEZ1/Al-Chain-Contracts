@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, TouchableOpacity,  Animated, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Animated, Alert } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
 import getLocallySharedStylesHomeScreens from '../../../styles/LocallySharedStylesHomeScreens';
@@ -23,7 +23,7 @@ export const ContractItem = ({ contract, openContract, openShareContract, delete
     }, []);
 
     const toggleExpand = () => {
-        if (!isMounted.current) return;
+        //if (!isMounted.current) return;
 
         setExpanded(!expanded);
 
@@ -44,7 +44,7 @@ export const ContractItem = ({ contract, openContract, openShareContract, delete
             "Are you sure you want to delete this contract?",
             [
                 { text: "Cancel" },
-                { text: "Delete", onPress: handleDeletionAnimation }, // Trigger animation here
+                { text: "Delete", onPress: handleDeletionAnimation },
             ],
             { cancelable: false }
         );
@@ -77,7 +77,7 @@ export const ContractItem = ({ contract, openContract, openShareContract, delete
     });
 
     return (
-        <TouchableOpacity onPress={toggleExpand} style={localStyles.contractItemContainer}>
+        <TouchableOpacity onPress={toggleExpand} style={localStyles.contractItemContainer} testID='chevronTestID'>
             <View style={sharedStyles.rowCenteredContainer}>
                 <Text style={sharedStyles.generalText}>{contract.contract_name}.sol</Text>
                 <MaterialCommunityIcons name={expanded ? "chevron-up" : "chevron-down"} size={24} color={theme === 'dark' ? 'white' : 'black'} />
@@ -99,5 +99,3 @@ export const ContractItem = ({ contract, openContract, openShareContract, delete
         </TouchableOpacity>
     );
 };
-
-export default ContractItem;
