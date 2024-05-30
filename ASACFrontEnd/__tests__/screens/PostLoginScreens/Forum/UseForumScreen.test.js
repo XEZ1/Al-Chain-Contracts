@@ -364,9 +364,6 @@ describe('UseForumScreen', () => {
         consoleErrorSpy.mockRestore();
     });
 
-
-
-
     it('successfully deletes a post and updates the posts list', async () => {
         consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
 
