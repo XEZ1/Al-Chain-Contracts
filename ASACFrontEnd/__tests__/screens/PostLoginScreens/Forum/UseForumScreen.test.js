@@ -462,13 +462,3 @@ describe('UseForumScreen', () => {
 
 
 });
-
-
-
-
-
-describe('Placeholder test suite', () => {
-    it('should always pass', () => {
-        expect(true).toBeTruthy();
-    });
-});
