@@ -98,6 +98,11 @@ export const PostProvider = ({ children }) => {
                 console.log('success');
             }
         } catch (error) {
+            setPosts(currentPosts =>
+                currentPosts.map(post =>
+                    post.id === postId ? { ...post, user_has_liked: userHasLiked, like_count: post.like_count - (userHasLiked ? -1 : 1) } : post
+                )
+            );
             console.error('Failed to like post:', error);
         }
     };
