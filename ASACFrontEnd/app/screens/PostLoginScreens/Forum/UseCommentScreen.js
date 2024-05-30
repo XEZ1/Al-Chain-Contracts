@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { LayoutAnimation } from 'react-native';
 import { validateToken } from '../../../components/Authentication';
 import * as SecureStore from 'expo-secure-store';
@@ -9,19 +9,25 @@ export const useCommentScreen = (postId) => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
 
+    useEffect(() => {
+        fetchComments();
+    }, []);
+
     const fetchComments = async () => {
-        const token = await SecureStore.getItemAsync('authToken');
-        const response = await fetch(`${BACKEND_URL}/forums/posts/${postId}/comments/list/`, {
-            headers: {
-                'Authorization': `Token ${token}`,
-            },
-        });
-        if (response.ok) {
+        try {
+            const token = await SecureStore.getItemAsync('authToken');
+            const response = await fetch(`${BACKEND_URL}/forums/posts/${postId}/comments/list/`, {
+                headers: {
+                    'Authorization': `Token ${token}`,
+                },
+            });
             const data = await response.json();
             setComments(data);
-        }
+        } catch (error) {
+            console.error('Failed to fetch comments:', error);
+        };
     };
-    
+
     const handleAddComment = async (commentText) => {
         try {
             const token = await SecureStore.getItemAsync('authToken');
