@@ -70,7 +70,7 @@ describe('useCommentScreen', () => {
             })
         );
     
-        const { result } = renderHook(() => useCommentScreen(1));
+        const { result, waitForNextUpdate } = renderHook(() => useCommentScreen(1));
 
         fetch.mockImplementationOnce(() =>
             Promise.resolve({
