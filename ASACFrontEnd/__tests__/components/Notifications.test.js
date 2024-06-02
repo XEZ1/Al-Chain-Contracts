@@ -9,9 +9,9 @@ import * as SecureStore from 'expo-secure-store';
 import { WebSocketContext, useWebSocket, WebSocketProvider, useConnectToNotifications, savePushToken, deletePushToken, requestNotificationPermission } from '../../app/components/Notifications';
 
 
-jest.mock('expo-notifications');
-
 jest.mock('expo-secure-store');
+
+jest.mock('expo-notifications');
 
 global.fetch = jest.fn(() =>
     Promise.resolve({
@@ -30,7 +30,7 @@ global.WebSocket = jest.fn().mockImplementation(() => ({
 
 describe('WebSocket and Notifications Handling', () => {
 
-    beforeAll(() => {
+    beforeEach(() => {
         jest.spyOn(console, 'log').mockImplementation(() => { });
         jest.spyOn(console, 'error').mockImplementation(() => { });
     });
@@ -60,28 +60,6 @@ describe('WebSocket and Notifications Handling', () => {
 
         expect(console.log).toHaveBeenCalledWith('WebSocket Disconnected', expect.any(Number), expect.any(String));
     });
-
-    //it('provides a WebSocket connection', () => {
-    //    const testUrl = 'wss://example.com/ws/notifications/';
-//
-    //    const mockUseWebSocket = jest.spyOn(require('../../app/components/Notifications'), 'useWebSocket');
-    //    mockUseWebSocket.mockImplementation(() => ({
-    //        send: jest.fn(),
-    //        close: jest.fn(),
-    //    }));
-//
-    //    const children = <div>Test Children</div>;
-    //    const { getByText } = render(
-    //        <WebSocketProvider>
-    //            {children}
-    //        </WebSocketProvider>
-    //    );
-//
-    //    expect(mockUseWebSocket).toHaveBeenCalledWith(testUrl);
-    //    expect(getByText('Test Children')).toBeInTheDocument();
-//
-    //    mockUseWebSocket.mockRestore();
-    //});
 
     it('handles incoming WebSocket messages and schedules notifications', async () => {
         const { result } = renderHook(() => useWebSocket('wss://example.com/ws/notifications/'));
@@ -117,14 +95,14 @@ describe('WebSocket and Notifications Handling', () => {
         await act(async () => {
             await deletePushToken();
         });
-
+        
         expect(consoleSpy).toHaveBeenCalledWith('Error deleting push token:', expect.any(Error));
     });
 
     it('saves push token correctly', async () => {
         Notifications.getExpoPushTokenAsync.mockResolvedValue({ data: 'token123' });
         SecureStore.getItemAsync.mockResolvedValue('authToken123');
-
+        
         await act(async () => {
             await savePushToken();
         });
@@ -158,11 +136,54 @@ describe('WebSocket and Notifications Handling', () => {
         expect(SecureStore.deleteItemAsync).toHaveBeenCalledWith('notificationToken');
         expect(console.log).toHaveBeenCalledWith('Push token deleted');
     });
-
+    
     it('requests notification permission and returns status', async () => {
         Notifications.requestPermissionsAsync.mockResolvedValue({ status: 'granted' });
 
         const permissionStatus = await requestNotificationPermission();
         expect(permissionStatus).toBe(true);
     });
+
+
+    it('provides the WebSocket context to children', () => {
+        const TestConsumerComponent = () => {
+            const websocket = useConnectToNotifications();
+    
+            return (
+                <div>
+                    {websocket ? 'WebSocket available' : 'No WebSocket'}
+                </div>
+            );
+        };
+    
+        const { getByText } = render(
+            <WebSocketProvider>
+                <TestConsumerComponent />
+            </WebSocketProvider>
+        );
+    
+        expect(getByText('WebSocket available')).toBeTruthy();
+    });
+
+    //it('provides a WebSocket connection', () => {
+    //    const testUrl = 'wss://example.com/ws/notifications/';
+    //
+    //    const mockUseWebSocket = jest.spyOn(require('../../app/components/Notifications'), 'useWebSocket');
+    //    mockUseWebSocket.mockImplementation(() => ({
+    //        send: jest.fn(),
+    //        close: jest.fn(),
+    //    }));
+    //
+    //    const children = <div>Test Children</div>;
+    //    const { getByText } = render(
+    //        <WebSocketProvider>
+    //            {children}
+    //        </WebSocketProvider>
+    //    );
+    //
+    //    expect(mockUseWebSocket).toHaveBeenCalledWith(testUrl);
+    //    expect(getByText('Test Children')).toBeInTheDocument();
+    //
+    //    mockUseWebSocket.mockRestore();
+    //});
 });
