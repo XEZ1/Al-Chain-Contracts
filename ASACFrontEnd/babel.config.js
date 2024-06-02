@@ -1,6 +1,6 @@
-module.exports = function (api) {
+module.exports = function (api, envSetting = process.env.BABEL_ENV) {
     api.cache(true);
-    const isTest = process.env.BABEL_ENV === 'test';
+    const isTest = envSetting === 'test';
 
     if (isTest) {
         return {
