@@ -77,6 +77,16 @@ describe('WebSocket and Notifications Handling', () => {
         });
     });
 
+    it('handles WebSocket errors correctly', async () => {
+        const { result } = renderHook(() => useWebSocket('wss://example.com/ws/notifications/'));
+    
+        act(() => {
+            result.current.onerror({ message: 'Error occurred' });
+        });
+    
+        expect(console.error).toHaveBeenCalledWith('Error occurred');
+    });
+    
     it('handles errors when saving push token', async () => {
         Notifications.getExpoPushTokenAsync.mockRejectedValue(new Error('Failed to get push token'));
         const consoleSpy = jest.spyOn(console, 'error');
@@ -164,26 +174,4 @@ describe('WebSocket and Notifications Handling', () => {
     
         expect(getByText('WebSocket available')).toBeTruthy();
     });
-
-    //it('provides a WebSocket connection', () => {
-    //    const testUrl = 'wss://example.com/ws/notifications/';
-    //
-    //    const mockUseWebSocket = jest.spyOn(require('../../app/components/Notifications'), 'useWebSocket');
-    //    mockUseWebSocket.mockImplementation(() => ({
-    //        send: jest.fn(),
-    //        close: jest.fn(),
-    //    }));
-    //
-    //    const children = <div>Test Children</div>;
-    //    const { getByText } = render(
-    //        <WebSocketProvider>
-    //            {children}
-    //        </WebSocketProvider>
-    //    );
-    //
-    //    expect(mockUseWebSocket).toHaveBeenCalledWith(testUrl);
-    //    expect(getByText('Test Children')).toBeInTheDocument();
-    //
-    //    mockUseWebSocket.mockRestore();
-    //});
 });

@@ -7,7 +7,6 @@ import * as SecureStore from 'expo-secure-store';
 export const WebSocketContext = createContext(null);
 
 export const useWebSocket = (url) => {
-    //console.log('useWebSocket called with url:', url);
     const [socket, setSocket] = useState(null);
 
     useEffect(() => {
