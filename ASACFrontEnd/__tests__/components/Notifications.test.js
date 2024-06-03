@@ -144,7 +144,7 @@ describe('WebSocket and Notifications Handling', () => {
         expect(permissionStatus).toBe(true);
     });
 
-
+    
     it('provides the WebSocket context to children', () => {
         const TestConsumerComponent = () => {
             const websocket = useConnectToNotifications();
