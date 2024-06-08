@@ -50,10 +50,10 @@ jobs:
 
     - name: Install npm dependencies
       run: |
-        cd ASACFrontkEnd
+        cd ASACFrontEnd
         npm install
 
     - name: Run React Native tests
       run: |
-        cd ASACFrontkEnd
+        cd ASACFrontEnd
         npx run test
