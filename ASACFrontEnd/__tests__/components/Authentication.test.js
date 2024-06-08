@@ -150,6 +150,8 @@ describe('Authentication', () => {
     });
 
     it('handles unsuccessful login with server error message', async () => {
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+
         fetch.mockResolvedValueOnce({
             ok: false,
             json: () => Promise.resolve({ error: 'Invalid credentials' }),
@@ -157,6 +159,8 @@ describe('Authentication', () => {
 
         const result = await login('username', 'password');
         expect(result).toEqual({ success: false, error: 'Invalid credentials' });
+
+        consoleLogSpy.mockRestore();
     });
 
     it('handles unsuccessful login without a specific server error message', async () => {

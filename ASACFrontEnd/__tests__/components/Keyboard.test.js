@@ -1,84 +1,123 @@
+import React from 'react';
+import { render, fireEvent } from '@testing-library/react-native';
+import { Keyboard, Dimensions, TextInput } from 'react-native';
+import { KeyboardProvider, useKeyboard } from './KeyboardProvider';
 
-//import { KeyboardProvider, useKeyboard } from '../../app/components/Keyboard';
-//import { render, fireEvent } from '@testing-library/react-native';
-//import { Text } from 'react-native';
-//import { renderHook, act } from '@testing-library/react-hooks';
-//import { Dimensions } from 'react-native';
-//
-//jest.mock('react-native/Libraries/Utilities/Dimensions', () => ({
-//    get: jest.fn().mockImplementation(dim => {
-//      if (dim === 'window') {
-//        return { height: 800, width: 360 };
-//      }
-//    }),
-//  }));
-//  
-//
-//jest.mock('react-native/Libraries/Components/Keyboard/Keyboard', () => ({
-//  addListener: jest.fn((event, callback) => {
-//    const mockEvent = event === 'keyboardDidShow' ? {
-//      endCoordinates: { screenY: 500 }
-//    } : {};
-//    callback(mockEvent);
-//    return { remove: jest.fn() };
-//  }),
-//  removeListener: jest.fn(),
-//}));
-//
-//const ConsumerComponent = () => {
-//  const { keyboardHeight, isKeyboardVisible } = useKeyboard();
-//  return (
-//    <>
-//      <Text testID="keyboardHeight">{keyboardHeight}</Text>
-//      <Text testID="isKeyboardVisible">{isKeyboardVisible ? 'visible' : 'hidden'}</Text>
-//    </>
-//  );
-//};
-//
-//describe('KeyboardProvider', () => {
-//  it('should render children correctly', () => {
-//    const { getByText } = render(
-//      <KeyboardProvider>
-//        <Text>Child component</Text>
-//      </KeyboardProvider>
-//    );
-//
-//    expect(getByText('Child component')).toBeTruthy();
-//  });
-//
-//  it('should handle keyboard show and hide', () => {
-//    const { getByTestId } = render(
-//      <KeyboardProvider>
-//        <ConsumerComponent />
-//      </KeyboardProvider>
-//    );
-//
-//    // Assertions after mock effect is applied automatically
-//    expect(getByTestId('keyboardHeight').props.children).toBeGreaterThan(0);
-//    expect(getByTestId('isKeyboardVisible').props.children).toBe('visible');
-//  });
-//
-//  it('should register and unregister scroll view references', () => {
-//    const { result } = renderHook(() => useKeyboard(), { wrapper: KeyboardProvider });
-//    const ref = { current: {} };
-//
-//    act(() => {
-//      result.current.registerScrollViewRef('testRef', ref);
-//    });
-//
-//    expect(result.current.scrollViewRefs.current.has('testRef')).toBe(true);
-//
-//    act(() => {
-//      result.current.unregisterScrollViewRef('testRef');
-//    });
-//
-//    expect(result.current.scrollViewRefs.current.has('testRef')).toBe(false);
-//  });
-//});
-//
 
-describe('Placeholder test suite', () => {
-    it('should always pass', () => {
-        expect(true).toBeTruthy();
+jest.mock('react-native', () => ({
+    ...jest.requireActual('react-native'),
+    Keyboard: {
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+    },
+    Dimensions: {
+        get: jest.fn(() => ({
+            height: 800,
+        })),
+    },
+    TextInput: {
+        State: {
+            currentlyFocusedInput: jest.fn(),
+        },
+    },
+}));
+
+const MockComponent = () => {
+    const { keyboardHeight, isKeyboardVisible, registerScrollViewRef, unregisterScrollViewRef } = useKeyboard();
+    return (
+        <>
+            <Text>Keyboard Height: {keyboardHeight}</Text>
+            <Text>Is Keyboard Visible: {isKeyboardVisible ? 'Yes' : 'No'}</Text>
+        </>
+    );
+};
+
+describe('KeyboardProvider', () => {
+    let keyboardDidShowListener;
+    let keyboardDidHideListener;
+
+    beforeEach(() => {
+        keyboardDidShowListener = jest.fn();
+        keyboardDidHideListener = jest.fn();
+        Keyboard.addListener.mockImplementation((event, callback) => {
+            if (event === 'keyboardDidShow') {
+                keyboardDidShowListener = callback;
+            } else if (event === 'keyboardDidHide') {
+                keyboardDidHideListener = callback;
+            }
+            return { remove: jest.fn() };
+        });
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it('should provide default context values', () => {
+        const { getByText } = render(
+            <KeyboardProvider>
+                <MockComponent />
+            </KeyboardProvider>
+        );
+
+        expect(getByText(/Keyboard Height: 0/i)).toBeTruthy();
+        expect(getByText(/Is Keyboard Visible: No/i)).toBeTruthy();
+    });
+
+    it('should update context values on keyboard show and hide', () => {
+        const { getByText } = render(
+            <KeyboardProvider>
+                <MockComponent />
+            </KeyboardProvider>
+        );
+
+        const endCoordinates = { screenY: 600 };
+
+        fireEvent(keyboardDidShowListener, { endCoordinates });
+
+        expect(getByText(/Keyboard Height: 110/i)).toBeTruthy();
+        expect(getByText(/Is Keyboard Visible: Yes/i)).toBeTruthy();
+
+        fireEvent(keyboardDidHideListener);
+
+        expect(getByText(/Keyboard Height: 0/i)).toBeTruthy();
+        expect(getByText(/Is Keyboard Visible: No/i)).toBeTruthy();
+    });
+
+    it('should register and unregister scroll view refs', () => {
+        const scrollViewRef = { current: { getScrollResponder: jest.fn(() => ({ scrollResponderScrollNativeHandleToKeyboard: jest.fn() })) } };
+        const { result } = renderHook(() => useKeyboard(), {
+            wrapper: ({ children }) => <KeyboardProvider>{children}</KeyboardProvider>,
+        });
+
+        act(() => {
+            result.current.registerScrollViewRef('scrollView1', scrollViewRef);
+        });
+
+        expect(result.current.scrollViewRefs.current.get('scrollView1')).toBe(scrollViewRef);
+
+        act(() => {
+            result.current.unregisterScrollViewRef('scrollView1');
+        });
+
+        expect(result.current.scrollViewRefs.current.get('scrollView1')).toBeUndefined();
+    });
+
+    it('should handle scrolling to the currently focused input', () => {
+        const scrollViewRef = { current: { getScrollResponder: jest.fn(() => ({ scrollResponderScrollNativeHandleToKeyboard: jest.fn() })) } };
+        const nodeHandle = 123;
+        TextInput.State.currentlyFocusedInput.mockReturnValue(nodeHandle);
+        const { result } = renderHook(() => useKeyboard(), {
+            wrapper: ({ children }) => <KeyboardProvider>{children}</KeyboardProvider>,
+        });
+
+        act(() => {
+            result.current.registerScrollViewRef('scrollView1', scrollViewRef);
+        });
+
+        const endCoordinates = { screenY: 600 };
+        fireEvent(keyboardDidShowListener, { endCoordinates });
+
+        expect(scrollViewRef.current.getScrollResponder().scrollResponderScrollNativeHandleToKeyboard).toHaveBeenCalledWith(nodeHandle, 160, true);
     });
 });
