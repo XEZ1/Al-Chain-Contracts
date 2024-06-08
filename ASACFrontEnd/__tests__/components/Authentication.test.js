@@ -247,6 +247,8 @@ describe('Authentication', () => {
     });
 
     it('handleLogin error on login', async () => {
+        consoleLogSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+
         fetch.mockResolvedValueOnce({
             ok: false,
             json: () => Promise.resolve({ token_valid: false }),
@@ -262,6 +264,8 @@ describe('Authentication', () => {
         await waitForNextUpdate();
 
         expect(result.current.success).not.toBeTruthy();
+
+        consoleLogSpy.mockRestore();
     });
 
     it('handleSignUp calls signUp properly', async () => {
