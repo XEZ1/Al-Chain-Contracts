@@ -160,6 +160,8 @@ describe('Authentication', () => {
     });
 
     it('handles unsuccessful login without a specific server error message', async () => {
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+        
         fetch.mockResolvedValueOnce({
             ok: false,
             json: () => Promise.resolve({}),
@@ -167,6 +169,8 @@ describe('Authentication', () => {
 
         const result = await login('username', 'password');
         expect(result).toEqual({ success: false, error: 'An error occurred during login' });
+    
+        consoleLogSpy.mockRestore();
     });
 
     it('handles exceptions thrown during login', async () => {
