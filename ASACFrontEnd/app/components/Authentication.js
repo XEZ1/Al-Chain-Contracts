@@ -62,6 +62,9 @@ export const signUp = async (username, firstName, lastName, email, password, pas
         } else if (response.status === 201) {
             Alert.alert('Success', 'Account created successfully');
             return { success: true };
+        } else {
+            console.error('Unknown error:', data);
+            return { success: false, error: data };
         }
     } catch (error) {
         console.error('Error:', error);
@@ -153,7 +156,15 @@ export const AuthProvider = ({ children }) => {
 
 export const auth_request = async (url, body = null, headers = {}, method) => {
     let token = await SecureStore.getItemAsync('authToken')
-    return await fetchAPI(url, body, { ...headers, 'Authorization': 'Token ' + token }, method);
+    const options = {
+        method: method,
+        headers: {
+            ...headers,
+            'Authorization': `Token ${token}`
+        },
+        body: body
+    };
+    return await fetch(url, options);
 }
 
 export const auth_get = async (url, body = null, headers = {},) => {
