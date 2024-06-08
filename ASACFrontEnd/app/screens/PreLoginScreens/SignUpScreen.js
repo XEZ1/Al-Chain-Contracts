@@ -10,6 +10,7 @@ import getGloballySharedStyles from '../../styles/GloballySharedStyles';
 
 
 const SignUpScreen = ({ navigation }) => {
+  
     const { theme } = useContext(ThemeContext);
     const sharedStyles = getGloballySharedStyles(theme);
     const localStyles = getLocallySharedStylesPreLoginScreens(theme);
@@ -51,6 +52,7 @@ const SignUpScreen = ({ navigation }) => {
                     <View style={[sharedStyles.cardContainer, localStyles.mediumPadding]}>
                         {Object.values(errors).some(error => error) && (
                             <TouchableOpacity
+                                testID="error-icon-container"
                                 style={sharedStyles.errorIconContainer}
                                 onPress={() => setShowErrorDetails(true)}>
                                 <MaterialCommunityIcons name="alert-circle" size={24} style={{ color: 'red' }} />
@@ -61,12 +63,13 @@ const SignUpScreen = ({ navigation }) => {
                             transparent={true}
                             visible={showErrorDetails}
                             onRequestClose={() => setShowErrorDetails(false)}
+                            testID="error-modal"
                         >
                             <View style={sharedStyles.centeredViewContainer}>
                                 <View style={sharedStyles.modalViewContainer}>
                                     <Text style={sharedStyles.modalText}>Please fix the following errors:</Text>
                                     {Object.entries(errors).map(([key, value]) =>
-                                        value ? <Text key={key} style={sharedStyles.errorListItem}>{`${key}: ${value}`}</Text> : null
+                                        <Text key={key} style={sharedStyles.errorListItem}>{`${key}: ${value}`}</Text>
                                     )}
                                     <TouchableOpacity
                                         style={[sharedStyles.button]}
@@ -74,7 +77,7 @@ const SignUpScreen = ({ navigation }) => {
                                     >
                                         <Text style={[sharedStyles.generalText, localStyles.boldAlignedText]}>Got it</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={sharedStyles.exitButton} onPress={() => setShowErrorDetails(false)}>
+                                    <TouchableOpacity style={sharedStyles.exitButton} onPress={() => setShowErrorDetails(false)} testID="closeModalButton">
                                         <MaterialCommunityIcons name="close-circle" size={30} color='red'/>
                                     </TouchableOpacity>
                                 </View>

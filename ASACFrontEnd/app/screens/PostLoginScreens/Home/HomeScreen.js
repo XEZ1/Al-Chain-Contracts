@@ -62,12 +62,14 @@ const HomeScreen = ({ navigation }) => {
                     <View style={[sharedStyles.cardContainer]}>
                         {Object.values(errors).some(error => error) && (
                             <TouchableOpacity
+                                testID='errorIconTestID'
                                 style={sharedStyles.errorIconContainer}
                                 onPress={() => setShowErrorDetails(true)}>
                                 <MaterialCommunityIcons name="alert-circle" size={24} style={{ color: 'red' }} />
                             </TouchableOpacity>
                         )}
                         <Modal
+                            testID='errorModalTestID'
                             animationType="slide"
                             transparent={true}
                             visible={showErrorDetails}
@@ -82,7 +84,7 @@ const HomeScreen = ({ navigation }) => {
                                     <TouchableOpacity style={[sharedStyles.button]} onPress={() => setShowErrorDetails(false)}>
                                         <Text style={sharedStyles.textStyle}>Got it</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={sharedStyles.exitButton} onPress={() => setShowErrorDetails(false)}>
+                                    <TouchableOpacity style={sharedStyles.exitButton} onPress={() => setShowErrorDetails(false)} testID='exitButtonTestID'>
                                         <MaterialCommunityIcons name="close-circle" size={30} color='red'/>
                                     </TouchableOpacity>
                                 </View>
@@ -93,10 +95,10 @@ const HomeScreen = ({ navigation }) => {
                             <Text style={sharedStyles.cardHeaderText}>Build a Solidity Smart Contract</Text>
                         </View>
                         {/* DropZone */}
-                        <TouchableOpacity style={localStyles.dropZone} onPress={() => handleFileSelectDropZone()}>
+                        <TouchableOpacity style={localStyles.dropZone} onPress={() => handleFileSelectDropZone()} testID='dropZoneButtonTestID'>
                             {selectedFile ? (
                                 <>
-                                    <MaterialCommunityIcons name="file-document-outline" size={100} color={theme === 'dark' ? 'white' : 'black'} />
+                                    <MaterialCommunityIcons name="file-document-outline" size={100} color={theme === 'dark' ? 'white' : 'black'} testID='dropZoneContractIconTestID'/>
                                     <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>{selectedFile.assets[0].name}</Text>
                                 </>
                             ) : (
@@ -180,6 +182,7 @@ const HomeScreen = ({ navigation }) => {
                             <Text style={sharedStyles.cardHeaderText}>Address Checksum Conversion</Text>
                         </View>
                         <TextInput
+                            testID='addressChecksumInputFieldTestID'
                             style={sharedStyles.inputField}
                             placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
                             placeholder="Set your token address"
@@ -188,12 +191,14 @@ const HomeScreen = ({ navigation }) => {
                         />
 
                         <TouchableOpacity
+                            testID='validateAddressButtonTestID'
                             style={sharedStyles.button}
                             onPress={() => handleChecksumAddress()}
                         >
                             <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Validate Address</Text>
                         </TouchableOpacity>
                         <Modal
+                            testID='addressModalTestID'
                             animationType="slide"
                             transparent={true}
                             visible={showAddressModal}
@@ -204,12 +209,14 @@ const HomeScreen = ({ navigation }) => {
                                     <Text style={sharedStyles.modalText}>Validated Address:</Text>
                                     <Text style={sharedStyles.modalText}>{validatedAddress}</Text>
                                     <TouchableOpacity
+                                        testID='copyAddressButtonTestID'
                                         style={sharedStyles.button}
                                         onPress={() => { copyToClipboard(); setShowAddressModal(false) }}
                                     >
                                         <Text style={sharedStyles.textStyle}>Copy Address</Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity
+                                        testID='exitAddressButtonTestID'
                                         style={sharedStyles.exitButton}
                                         onPress={() => setShowAddressModal(false)}
                                     >

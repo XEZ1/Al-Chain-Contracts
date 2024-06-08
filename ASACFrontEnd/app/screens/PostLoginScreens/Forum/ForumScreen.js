@@ -30,6 +30,7 @@ const ForumScreen = ({ navigation }) => {
                 <Text style={[sharedStyles.generalText, { fontSize: 18 }]}>{item.description}</Text>
                 <View style={[sharedStyles.rowCenteredContainer, { marginTop: '3.5%' }]}>
                     <TouchableOpacity
+                        testID='likeButtonTestID'
                         onPress={() => handleLikePost(item.id, item.user_has_liked)}
                         style={sharedStyles.rowCenteredContainer}>
                         <MaterialCommunityIcons

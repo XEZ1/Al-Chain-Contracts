@@ -1,21 +1,31 @@
 # Al-Slebi-AI-Contracts
 ---
+
+
 # Personal:
 ```
 cd D:\Users\XEZ1\Main\10.Projects-Code\Al-Slebi-AI-Contracts-Git\Al-Slebi-AI-Contracts\
 ```
+
+
 # Virtual Environment: 
 ```
 venv\Scripts\activate
 ```
+
+
 # Backend:
 ```
 daphne ASACBackEnd.asgi:application --bind 0.0.0.0 --port 8000
 ```
+
+
 # Frontend:
 ```
 npx expo start
 ```
+
+
 ## .env file in the forntend:
 prompt in cmd: 
 ```
@@ -25,6 +35,8 @@ then create a .env file in ASACFrontEnd folder and input inside:
 ```
 BACKEND_URL=the IPv4 address of your machine:8000
 ```
+
+
 # Notifications Server:
 ```
 sudo systemctl status redis-server
@@ -34,7 +46,37 @@ Configure Redis to Start on Boot (Optional): If you want Redis to automatically 
 ```
 sudo systemctl enable redis-server
 ```
+
+
 # Ngrok:
 ```
 Ngrok http 'port'
+```
+
+
+# Database:
+```
+psql -U postgres -d postgres
+```
+```
+psql -U xez1 -d asacbackenddb
+```
+
+
+# Testing:
+
+## Backend:
+```
+cd ASACBackEnd
+pytest
+```
+
+## Frontend:
+```
+npm run test
+```
+
+# Check ports in use:
+```
+netstat -anob
 ```

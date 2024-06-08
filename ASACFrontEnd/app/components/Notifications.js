@@ -4,7 +4,7 @@ import { BACKEND_URL } from '@env';
 import * as SecureStore from 'expo-secure-store';
 
 
-const WebSocketContext = createContext(null);
+export const WebSocketContext = createContext(null);
 
 export const useWebSocket = (url) => {
     const [socket, setSocket] = useState(null);
@@ -26,7 +26,9 @@ export const useWebSocket = (url) => {
         ws.onclose = (e) => console.log('WebSocket Disconnected', e.code, e.reason);
         setSocket(ws);
 
-        return () => ws && ws.close();
+        return () => {
+            ws && ws.close();
+        };
     }, [url]);
 
     return socket;

@@ -34,7 +34,7 @@ const CommentScreen = ({ route, navigation }) => {
 
     useFocusEffect(
         useCallback(() => {
-            const id = "ForumScreen";
+            const id = "CommentScreen";
             registerScrollViewRef(id, viewRef);
 
             return () => {
@@ -77,9 +77,10 @@ const CommentScreen = ({ route, navigation }) => {
 
                             <View style={sharedStyles.rowCenteredContainer}>
                                 <TouchableOpacity
+                                    testID='likeButtonTestID'
                                     onPress={() => handleLikePost(postDetails.id, postDetails.user_has_liked)}
                                     style={sharedStyles.rowCenteredContainer}>
-                                    <MaterialCommunityIcons name={postDetails.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" />
+                                    <MaterialCommunityIcons name={postDetails.user_has_liked ? "heart" : "heart-outline"} size={24} color="rgba(1, 193, 219, 1)" testID='likeIconTestID'/>
                                     <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Like ({postDetails.like_count})</Text>
                                 </TouchableOpacity>
                                 {postDetails.is_user_author && (
