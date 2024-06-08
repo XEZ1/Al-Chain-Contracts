@@ -1,4 +1,4 @@
-name: Backend CI
+name: CI/CD
 
 on:
   push:
@@ -42,3 +42,18 @@ jobs:
       run: |
         cd ASACBackEnd
         pytest
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18.14.0'
+
+    - name: Install npm dependencies
+      run: |
+        cd ASACFrontkEnd
+        npm install
+
+    - name: Run React Native tests
+      run: |
+        cd ASACFrontkEnd
+        npx run test
