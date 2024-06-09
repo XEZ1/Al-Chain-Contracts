@@ -18,10 +18,6 @@ class SaveTokenView(views.APIView):
         else:
             return Response(serialiser.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        # token = request.data.get('token')
-        # NotificationPushToken.objects.update_or_create(user=request.user, defaults={'token': token})
-        # return Response({'status': 'success'}, status=status.HTTP_200_OK)
-
 
 class DeleteTokenView(views.APIView):
     authentication_classes = [TokenAuthentication]

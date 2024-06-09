@@ -69,8 +69,7 @@ class CommentListView(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get(self, request, pk, *args, **kwargs):
-        comments = Comment.objects.filter(post=pk).order_by(
-            '-created_at')
+        comments = Comment.objects.filter(post=pk).order_by('-created_at')
         serialiser = CommentSerialiser(comments, many=True, context={'request': request})
         return Response(serialiser.data)
 
