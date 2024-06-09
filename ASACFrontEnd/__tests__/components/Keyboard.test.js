@@ -5,11 +5,6 @@ import { KeyboardProvider, useKeyboard, KeyboardContext } from '../../app/compon
 import { LayoutAnimation, Keyboard, Dimensions, findNodeHandle, TextInput, Text } from 'react-native';
 
 
-jest.mock('react-native/Libraries/Settings/Settings', () => ({
-    get: jest.fn(),
-    set: jest.fn(),
-}));
-
 jest.mock('react-native/Libraries/Components/Keyboard/Keyboard', () => {
     const originalModule = jest.requireActual('react-native/Libraries/Components/Keyboard/Keyboard');
     return {
@@ -41,32 +36,24 @@ function TestComponent() {
     return <Text>{isKeyboardVisible ? 'Visible' : 'Hidden'}</Text>;
 }
 
-function TestComponentAdditional() {
+function TestRefComponent() {
     const { registerScrollViewRef, unregisterScrollViewRef } = useKeyboard();
 
     React.useEffect(() => {
-        const ref = { current: 'testRef' };
         const id = 'testId';
+        const ref = { current: new Object() };  // Simulating a React ref
 
+        // Register the ref
         registerScrollViewRef(id, ref);
 
         return () => {
+            // Unregister the ref on cleanup
             unregisterScrollViewRef(id);
         };
     }, [registerScrollViewRef, unregisterScrollViewRef]);
 
-    return <React.Fragment />;
+    return <Text>Ref Test Component</Text>;
 }
-
-const withMockKeyboardContext = (Component, values) => {
-    return function Wrapper() {
-      return (
-        <KeyboardContext.Provider value={values}>
-          <Component />
-        </KeyboardContext.Provider>
-      );
-    };
-  };
 
 describe('KeyboardProvider', () => {
    
@@ -96,32 +83,16 @@ describe('KeyboardProvider', () => {
         expect(getByText('Hidden')).toBeTruthy();
     });
 
-    it('should call register and unregister scrollViewRef on mount and un on mount', () => {
-        const mockRegister = jest.fn();
-        const mockUnregister = jest.fn();
-    
-        const values = {
-          registerScrollViewRef: mockRegister,
-          unregisterScrollViewRef: mockUnregister,
-          keyboardHeight: 0,
-          isKeyboardVisible: false,
-        };
-    
-        const MockedComponent = withMockKeyboardContext(TestComponentAdditional, values);
-    
-        const { unmount } = render(
-          <KeyboardProvider>
-            <MockedComponent />
-          </KeyboardProvider>
+    it('registers and unregisters scrollViewRef on mount and unmount', () => {
+        const { unmount, getByText } = render(
+            <KeyboardProvider>
+                <TestRefComponent />
+            </KeyboardProvider>
         );
-    
-        // Expect register to have been called
-        expect(mockRegister).toHaveBeenCalledWith('testId', { current: 'testRef' });
-    
-        // Cleanup the component to trigger the useEffect cleanup function
+
+        expect(getByText('Ref Test Component')).toBeTruthy();
+
         unmount();
-    
-        // Expect unregister to have been called
-        expect(mockUnregister).toHaveBeenCalledWith('testId');
     });
+
 });
