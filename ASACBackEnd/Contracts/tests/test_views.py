@@ -47,7 +47,10 @@ class ViewTestCase(TestCase):
 class TestGenerateContractView(ViewTestCase):
 
     @patch('Contracts.views.send_push_notification')
-    def test_post_successful_contract_generation_with_notification(self, mock_send_notification):
+    @patch('Contracts.views.GenerateContractView.generate_solidity_code')
+    def test_post_successful_contract_generation_with_notification(self, mock_generate_solidity_code, mock_send_notification):
+        mock_generate_solidity_code.return_value = "test solidity code"
+
         NotificationPushToken.objects.create(user=self.user, token='ExponentPushToken[dummy-token]')
 
         url = reverse('generate-contract')
@@ -67,7 +70,10 @@ class TestGenerateContractView(ViewTestCase):
         self.assertTrue(SmartContract.objects.filter(contract_name="New Test Contract").exists())
         self.assertTrue(NotificationPushToken.objects.filter(user=self.user).exists())
 
-    def test_post_successful_contract_generation_without_notification(self):
+    @patch('Contracts.views.GenerateContractView.generate_solidity_code')
+    def test_post_successful_contract_generation_without_notification(self, mock_generate_solidity_code):
+        mock_generate_solidity_code.return_value = "test solidity code"
+
         url = reverse('generate-contract')
         data = self.contract_details.copy()
         data.update({"contract_name": "New Test Contract", "contract_content": "This is a new test contract content"})
