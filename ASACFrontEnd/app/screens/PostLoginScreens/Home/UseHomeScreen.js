@@ -298,6 +298,7 @@ export const useHomeScreen = (navigation) => {
             } else {
                 setValidatedAddress(verifiedAddress.address);
                 setShowAddressModal(true);
+                setAddressChecksum('');
             }
         } catch (error) {
             console.error(error);
