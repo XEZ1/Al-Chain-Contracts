@@ -200,7 +200,7 @@ describe('useHomeScreen', () => {
         expect(alertSpy).toHaveBeenCalledWith("Validation Errors", "Please fix the errors before proceeding.");
     });
 
-    it('alerts if no file is selected before uploading', async () => {
+    it('alerts if no file is selected before uploading or any of the fields is missing', async () => {
         const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
 
         act(() => {
