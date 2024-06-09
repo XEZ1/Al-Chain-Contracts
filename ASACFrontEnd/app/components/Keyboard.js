@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
-import { LayoutAnimation, Keyboard, Dimensions, findNodeHandle, TextInput } from 'react-native';
+import { LayoutAnimation, Keyboard, Dimensions, findNodeHandle, TextInput, Text } from 'react-native';
 
 
 export const KeyboardContext = createContext();
