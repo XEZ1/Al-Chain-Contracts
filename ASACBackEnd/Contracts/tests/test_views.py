@@ -117,6 +117,11 @@ class TestGenerateContractView(ViewTestCase):
             model="ft:gpt-3.5-turbo-0125:personal:asac:8yTaZJJl"
         )
 
+    def test_generate_fake_code(self):
+        view = GenerateContractView()
+        result = view.generate_fake_code_for_testing()
+        self.assertEqual(type(result), str)
+
 
 class TestDeleteContractView(ViewTestCase):
     def test_delete_successful_contract_deletion(self):
