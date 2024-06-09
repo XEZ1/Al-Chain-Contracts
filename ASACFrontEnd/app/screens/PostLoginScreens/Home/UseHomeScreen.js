@@ -87,6 +87,16 @@ export const useHomeScreen = (navigation) => {
         try {
             const token = await SecureStore.getItemAsync('authToken');
 
+            if (isComponentMounted) {
+                LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+                setSelectedFile(null);
+                setContractName('');
+                setEmployerAddress('');
+                setAuthAppAddress('');
+                setTokenContractInterface('');
+                Alert.alert("Success, Please wait", "Contract data was uploaded successfully. Please allow some time for the contract to be generated. We will notify you when it is ready.");
+            }
+
             const response = await fetch(`${BACKEND_URL}/contracts/generate-contract/`, {
                 method: 'POST',
                 headers: {
@@ -96,14 +106,6 @@ export const useHomeScreen = (navigation) => {
             });
             const responseJson = await response.json();
             saveSolidityFile(responseJson.solidity_code, contractName);
-            if (isComponentMounted) {
-                LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-                setSelectedFile(null);
-                setContractName('');
-                setEmployerAddress('');
-                setAuthAppAddress('');
-                setTokenContractInterface('');
-            }
         } catch (error) {
             Alert.alert("Upload Error", "An error occurred while uploading contract data.");
         }
