@@ -69,8 +69,8 @@ export const useHomeScreen = (navigation) => {
             return;
         }
 
-        if (!selectedFile) {
-            Alert.alert("Error", "Please select a file before creating a contract.");
+        if (!selectedFile || !contractName || !employerAddress || !authAppAddress || !tokenContractInterface) {
+            Alert.alert("Error", "Please select a file before creating a contract and fill in all the fields.");
             return;
         }
 
