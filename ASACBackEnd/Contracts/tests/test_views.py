@@ -117,9 +117,9 @@ class TestGenerateContractView(ViewTestCase):
             model="ft:gpt-3.5-turbo-0125:personal:asac:8yTaZJJl"
         )
 
-    def test_generate_fake_code(self):
+    def test_generate_fake_solidity_code(self):
         view = GenerateContractView()
-        result = view.generate_fake_code_for_testing()
+        result = view.generate_fake_solidity_code_for_testing()
         self.assertEqual(type(result), str)
 
 

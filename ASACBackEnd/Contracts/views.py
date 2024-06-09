@@ -69,7 +69,7 @@ class GenerateContractView(APIView):
         content = chat_completion.choices[0].message.content
         return content
 
-    def generate_fake_code_for_testing(self):
+    def generate_fake_solidity_code_for_testing(self):
         solidity_code = """// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\nimport 
         \"node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol\"; // Interface for ERC20 tokens\nimport 
         \"node_modules/@openzeppelin/contracts/utils/ReentrancyGuard.sol\"; // Prevent re-entrancy 
