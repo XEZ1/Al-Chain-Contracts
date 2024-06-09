@@ -129,7 +129,7 @@ export const AuthProvider = ({ children }) => {
             setIsLoggedIn(true);
         } else {
             Alert.alert('Login Failed', result.error);
-            console.log(result.error);
+            console.error(result.error);
         }
     };
 
@@ -138,7 +138,7 @@ export const AuthProvider = ({ children }) => {
         if (result.success) {
             handleLogin(username, password);
         } else {
-            console.log(result.error);
+            console.error(result.error);
         }
     };
 

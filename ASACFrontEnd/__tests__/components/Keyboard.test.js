@@ -41,13 +41,11 @@ function TestRefComponent() {
 
     React.useEffect(() => {
         const id = 'testId';
-        const ref = { current: new Object() };  // Simulating a React ref
+        const ref = { current: new Object() };
 
-        // Register the ref
         registerScrollViewRef(id, ref);
 
         return () => {
-            // Unregister the ref on cleanup
             unregisterScrollViewRef(id);
         };
     }, [registerScrollViewRef, unregisterScrollViewRef]);

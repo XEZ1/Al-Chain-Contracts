@@ -150,8 +150,6 @@ describe('Authentication', () => {
     });
 
     it('handles unsuccessful login with server error message', async () => {
-        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
-
         fetch.mockResolvedValueOnce({
             ok: false,
             json: () => Promise.resolve({ error: 'Invalid credentials' }),
@@ -159,13 +157,9 @@ describe('Authentication', () => {
 
         const result = await login('username', 'password');
         expect(result).toEqual({ success: false, error: 'Invalid credentials' });
-
-        consoleLogSpy.mockRestore();
     });
 
-    it('handles unsuccessful login without a specific server error message', async () => {
-        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
-        
+    it('handles unsuccessful login without a specific server error message', async () => { 
         fetch.mockResolvedValueOnce({
             ok: false,
             json: () => Promise.resolve({}),
@@ -173,8 +167,6 @@ describe('Authentication', () => {
 
         const result = await login('username', 'password');
         expect(result).toEqual({ success: false, error: 'An error occurred during login' });
-    
-        consoleLogSpy.mockRestore();
     });
 
     it('handles exceptions thrown during login', async () => {
@@ -255,7 +247,7 @@ describe('Authentication', () => {
     });
 
     it('handleLogin error on login', async () => {
-        consoleLogSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+        consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
 
         fetch.mockResolvedValueOnce({
             ok: false,
@@ -273,7 +265,7 @@ describe('Authentication', () => {
 
         expect(result.current.success).not.toBeTruthy();
 
-        consoleLogSpy.mockRestore();
+        consoleErrorSpy.mockRestore();
     });
 
     it('handleSignUp calls signUp properly', async () => {
@@ -295,7 +287,9 @@ describe('Authentication', () => {
         expect(Alert.alert).toHaveBeenCalledWith('Success', 'Account created successfully');
     });
 
-    it('handleSignUp errors on handleSignUp', async () => {
+    it('handleSignUp errors on sign up', async () => {
+        consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => { });
+
         const wrapper = ({ children }) => <AuthProvider>{children}</AuthProvider>;
         const { result, waitForNextUpdate } = renderHook(() => useContext(AuthContext), { wrapper });
 
@@ -312,6 +306,8 @@ describe('Authentication', () => {
         await waitForNextUpdate();
 
         expect(Alert.alert).toHaveBeenCalledWith('Error', 'Please fix the errors');
+
+        consoleErrorSpy.mockRestore();
     });
 
     it('handleLogout calls logout properly', async () => {
