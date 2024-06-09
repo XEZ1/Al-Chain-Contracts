@@ -213,7 +213,7 @@ describe('useHomeScreen', () => {
         });
 
         expect(fetch).not.toHaveBeenCalled();
-        expect(alertSpy).toHaveBeenCalledWith("Error", "Please select a file before creating a contract.");
+        expect(alertSpy).toHaveBeenCalledWith("Error", "Please select a file before creating a contract and fill in all the fields.");
     });
 
     it('handles contract upload correctly with animation when all conditions are met', async () => {
@@ -231,6 +231,10 @@ describe('useHomeScreen', () => {
         act(() => {
             result.current.setIsComponentMounted(true);
             result.current.setSelectedFile({ assets: [{ uri: 'file-uri' }] });
+            result.current.setContractName('FakeContractName');
+            result.current.setEmployerAddress('0x99c805735C466c9B94762604612cfC961a48Eb03');
+            result.current.setAuthAppAddress('0x99c805735C466c9B94762604612cfC961a48Eb03');
+            result.current.setTokenContractInterface('0x99c805735C466c9B94762604612cfC961a48Eb03');
             result.current.setErrors({});
         });
 
@@ -260,6 +264,10 @@ describe('useHomeScreen', () => {
         act(() => {
             result.current.setIsComponentMounted(false);
             result.current.setSelectedFile({ assets: [{ uri: 'file-uri' }] });
+            result.current.setContractName('FakeContractName');
+            result.current.setEmployerAddress('0x99c805735C466c9B94762604612cfC961a48Eb03');
+            result.current.setAuthAppAddress('0x99c805735C466c9B94762604612cfC961a48Eb03');
+            result.current.setTokenContractInterface('0x99c805735C466c9B94762604612cfC961a48Eb03');
             result.current.setErrors({});
         });
 
@@ -284,6 +292,10 @@ describe('useHomeScreen', () => {
 
         act(() => {
             result.current.setSelectedFile({ assets: [{ uri: 'file-uri' }] });
+            result.current.setContractName('FakeContractName');
+            result.current.setEmployerAddress('0x99c805735C466c9B94762604612cfC961a48Eb03');
+            result.current.setAuthAppAddress('0x99c805735C466c9B94762604612cfC961a48Eb03');
+            result.current.setTokenContractInterface('0x99c805735C466c9B94762604612cfC961a48Eb03');
             result.current.setErrors({});
         });
 
@@ -302,6 +314,10 @@ describe('useHomeScreen', () => {
         const { result } = renderHook(() => useHomeScreen({ navigate: mockNavigate }));
         act(() => {
             result.current.setSelectedFile({ assets: [{ uri: 'file-uri' }] });
+            result.current.setContractName('FakeContractName');
+            result.current.setEmployerAddress('0x99c805735C466c9B94762604612cfC961a48Eb03');
+            result.current.setAuthAppAddress('0x99c805735C466c9B94762604612cfC961a48Eb03');
+            result.current.setTokenContractInterface('0x99c805735C466c9B94762604612cfC961a48Eb03');
             result.current.setErrors({});
             SecureStore.getItemAsync.mockResolvedValue('authToken');
         });
