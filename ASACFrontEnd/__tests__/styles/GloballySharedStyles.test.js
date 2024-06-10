@@ -29,12 +29,12 @@ describe('getGloballySharedStyles', () => {
                 height: '7%', 
                 paddingVertical: '2%', 
                 paddingBottom: '2.5%',
-                borderRadius: '30%',  
+                borderRadius: 30,  
                 shadowColor: '#000',
                 shadowOffset: { width: 0, height: 2 },
                 shadowOpacity: '0.4%',
                 shadowRadius: '8%',
-                elevation: '1%'
+                elevation: 1
             },
             container: { 
                 flex: 1,
@@ -48,14 +48,14 @@ describe('getGloballySharedStyles', () => {
                 //padding: '8%',
                 width: '96%', 
                 backgroundColor: 'white',
-                borderRadius: '10%',
+                borderRadius: 10,
                 padding: '6%',
                 marginBottom: '8%',
                 shadowColor: '#000',
                 shadowOffset: { width: 0, height: 2 },
                 shadowOpacity: '0.4%',
                 shadowRadius: '4%',
-                elevation: '1%',
+                elevation: 1,
                 margin: '1%',
             },
             centeredViewContainer: {
@@ -74,7 +74,7 @@ describe('getGloballySharedStyles', () => {
                 shadowOffset: { width: 0, height: 2 },
                 shadowOpacity: '0.4%',
                 shadowRadius: '4%',
-                elevation: '1%'
+                elevation: 1
             },
             errorIconContainer: {
                 position: 'absolute',
@@ -196,12 +196,12 @@ describe('getGloballySharedStyles', () => {
                 height: '7%', 
                 paddingVertical: '2%', 
                 paddingBottom: '2.5%',
-                borderRadius: '30%',  
+                borderRadius: 30,  
                 shadowColor: '#3A3A3A',
                 shadowOffset: { width: 0, height: 2 },
                 shadowOpacity: '0.8%',
                 shadowRadius: '8%',
-                elevation: '1%'
+                elevation: 1
             },
             container: {
                 flex: 1,
@@ -215,14 +215,14 @@ describe('getGloballySharedStyles', () => {
                 //padding: '8%',
                 width: '96%', 
                 backgroundColor: 'rgb(50, 50, 52)',
-                borderRadius: '10%',
+                borderRadius: 10,
                 padding: '6%',
                 marginBottom: '8%',
                 shadowColor: '#3A3A3A',
                 shadowOffset: { width: 0, height: 2 },
                 shadowOpacity: '0.8%',
                 shadowRadius: '4%',
-                elevation: '1%',
+                elevation: 1,
                 margin: '1%',
             },
             centeredViewContainer: {
@@ -241,7 +241,7 @@ describe('getGloballySharedStyles', () => {
                 shadowOffset: { width: 0, height: 2 },
                 shadowOpacity: '0.8%',
                 shadowRadius: '4%',
-                elevation: '1%'
+                elevation: 1
             },
             errorIconContainer: {
                 position: 'absolute',
