@@ -40,11 +40,6 @@ const SignUpScreen = ({ navigation }) => {
         }, [registerScrollViewRef, unregisterScrollViewRef])
     );
 
-    // <View style={[sharedStyles.separatorLine, localStyles.topSeparatorLine]} /> 
-    // localStyles.mediumTopMargin
-    // localStyles.mediumTopPadding
-    // <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight + 90}]} />
-
     return (
         <View style={[localStyles.backgroundContainer, { flex: 1, paddingBottom: keyboardHeight - 91}]}>
             <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />

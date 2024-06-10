@@ -31,12 +31,6 @@ const LoginScreen = ({ navigation }) => {
         }, [registerScrollViewRef, unregisterScrollViewRef])
     );
 
-
-    // <View style={[sharedStyles.separatorLine, localStyles.topSeparatorLine]} />
-    // localStyles.bigTopMargin 
-    // localStyles.bigTopPadding 
-    // <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight + 90}]} />
-
     return (
         <View style={[localStyles.backgroundContainer, { flex: 1, paddingBottom: keyboardHeight }]}>
             <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />

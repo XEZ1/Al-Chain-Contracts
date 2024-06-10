@@ -15,12 +15,12 @@ const getGloballySharedStyles = (theme = 'light') => {
             height: '7%', 
             paddingVertical: '2%', 
             paddingBottom: '2.5%',
-            borderRadius: '30%',  
+            borderRadius: 30,  
             shadowColor: themeStyles[theme].shadowColor,
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: themeStyles[theme].shadowOpacity,
             shadowRadius: '8%',
-            elevation: '1%'
+            elevation: 1
         },
 
         container: { // general container
@@ -35,14 +35,14 @@ const getGloballySharedStyles = (theme = 'light') => {
             //padding: '8%',
             width: '96%', 
             backgroundColor: themeStyles[theme].cardBackground,
-            borderRadius: '10%',
+            borderRadius: 10,
             padding: '6%',
             marginBottom: '8%',
             shadowColor: themeStyles[theme].shadowColor,
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: themeStyles[theme].shadowOpacity,
             shadowRadius: '4%',
-            elevation: '1%',
+            elevation: 1,
             margin: '1%',
         },
         centeredViewContainer: { // used for modals
@@ -61,7 +61,7 @@ const getGloballySharedStyles = (theme = 'light') => {
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: themeStyles[theme].shadowOpacity,
             shadowRadius: '4%',
-            elevation: '1%'
+            elevation: 1
         },
         errorIconContainer: {
             position: 'absolute',
