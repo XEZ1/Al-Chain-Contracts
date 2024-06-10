@@ -32,21 +32,21 @@ const PostLoginTabs = () => {
 
     function HomeStackScreen() {
         return (
-                <HomeStack.Navigator initialRouteName="HomeScreen" screenOptions={{ headerShown: false }}>
-                    <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
-                    <HomeStack.Screen name="EditorScreen" component={EditorScreen} />
-                </HomeStack.Navigator>
+            <HomeStack.Navigator initialRouteName="HomeScreen" screenOptions={{ headerShown: false }}>
+                <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
+                <HomeStack.Screen name="EditorScreen" component={EditorScreen} />
+            </HomeStack.Navigator>
         );
     }
 
     function ForumStackScreen() {
         return (
-                <PostProvider>
-                    <ForumStack.Navigator initialRouteName="ForumScreen" screenOptions={{ headerShown: false }}>
-                        <ForumStack.Screen name="ForumScreen" component={ForumScreen} />
-                        <ForumStack.Screen name="CommentScreen" component={CommentScreen} />
-                    </ForumStack.Navigator>
-                </PostProvider>
+            <PostProvider>
+                <ForumStack.Navigator initialRouteName="ForumScreen" screenOptions={{ headerShown: false }}>
+                    <ForumStack.Screen name="ForumScreen" component={ForumScreen} />
+                    <ForumStack.Screen name="CommentScreen" component={CommentScreen} />
+                </ForumStack.Navigator>
+            </PostProvider>
         );
     }
 
