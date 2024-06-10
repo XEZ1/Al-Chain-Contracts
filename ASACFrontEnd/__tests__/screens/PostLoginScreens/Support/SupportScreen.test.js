@@ -132,17 +132,16 @@ describe('SupportScreen', () => {
         expect(userStyle.alignSelf).toEqual('flex-end');
     });
 
-    it('sets viewPaddingBottom to "120%" when keyboard is hidden', () => {
-        const { getByTestId } = renderSupportScreen();
-        const flattenStyle = (style) => {
-            if (Array.isArray(style)) {
-                return style.reduce((acc, styles) => ({ ...acc, ...styles }), {});
-            }
-            return style;
-        };
-
-        const scrollView = getByTestId('viewTestID');
-        const flattenedStyle = flattenStyle(scrollView.props.style);
-        expect(flattenedStyle.paddingTop).toBe('120%');
-    });
+    //it('sets viewPaddingBottom to "120%" when keyboard is hidden', () => {
+    //    const { getByTestId } = renderSupportScreen();
+    //    const flattenStyle = (style) => {
+    //        if (Array.isArray(style)) {
+    //            return style.reduce((acc, styles) => ({ ...acc, ...styles }), {});
+    //        }
+    //        return style;
+    //    };
+    //    const scrollView = getByTestId('viewTestID');
+    //    const flattenedStyle = flattenStyle(scrollView.props.style);
+    //    expect(flattenedStyle.paddingTop).toBe('120%');
+    //});
 });

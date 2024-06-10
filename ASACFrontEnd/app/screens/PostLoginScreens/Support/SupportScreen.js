@@ -14,7 +14,7 @@ const SupportScreen = ({ navigation }) => {
     const [message, setMessage] = useState('');
     const viewRef = useRef(null);
 
-    const scrollViewPaddingBottom = '120%'; //keyboardHeight > 0 ? '0%' : '120%';
+    //const scrollViewPaddingBottom = '120%'; //keyboardHeight > 0 ? '0%' : '120%';
     const { keyboardHeight, registerScrollViewRef, unregisterScrollViewRef } = useKeyboard();
 
     const [messages, setMessages] = useState([

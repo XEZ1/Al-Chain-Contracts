@@ -23,6 +23,7 @@ describe('getLocallySharedStylesSupportScreens', () => {
             inputAreaContainer: {
                 flexDirection: 'row', 
                 alignItems: 'center', 
+                margin: "5%",
             },
             inputFieldLocalContainer: {
                 flex: 1,
@@ -56,6 +57,7 @@ describe('getLocallySharedStylesSupportScreens', () => {
             inputAreaContainer: {
                 flexDirection: 'row', 
                 alignItems: 'center', 
+                margin: "5%",
             },
             inputFieldLocalContainer: {
                 flex: 1,
