@@ -45,20 +45,20 @@ const SupportScreen = ({ navigation }) => {
         <View style={[sharedStyles.container, localStyles.zeroPadding, { paddingBottom: keyboardHeight }]} >
             <Text style={sharedStyles.pageHeaderText}>Support Chat</Text>
 
-            <ScrollView ref={viewRef} style={[localStyles.maxWidth, sharedStyles.avoidingTabBarContainer, { flex: 1 }]} showsVerticalScrollIndicator={false}>
+            <ScrollView style={[localStyles.maxWidth, { flex: 1 }]} showsVerticalScrollIndicator={false}>
                 {/* Message bubbles */}
                 {messages.map((msg, index) => (
                     <View
                         key={msg.id}
-                        testID={`messageView-${index}`}  
+                        testID={`messageView-${index}`}
                         style={[
                             sharedStyles.cardContainer,
                             {
                                 marginTop: '10%',
                                 padding: '5%',
-                              
+
                                 alignSelf: msg.isAssistant ? 'flex-start' : 'flex-end',
-                                backgroundColor: msg.isAssistant ? sharedStyles.cardContainer.backgroundColor : sharedStyles.tabBar.activeTintColor,
+                                //backgroundColor: msg.isAssistant ? sharedStyles.cardContainer.backgroundColor : sharedStyles.tabBar.activeTintColor,
                             },
                         ]}
                     >
@@ -67,29 +67,29 @@ const SupportScreen = ({ navigation }) => {
                         </Text>
                     </View>
                 ))}
-
-                {/* Input area */}
-                <View style={[localStyles.inputAreaContainer, {paddingTop: scrollViewPaddingBottom, }]} testID="viewTestID">
-                    <TextInput
-                        testID='inputTextFieldTestID'
-                        value={message}
-                        onChangeText={setMessage}
-                        placeholder='Type your message here...'
-                        placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
-                        style={[sharedStyles.inputField, localStyles.inputFieldLocalContainer]}
-                        multiline
-                    />
-                    <TouchableOpacity onPress={handleSendMessage} style={[sharedStyles.button, localStyles.localButtonContainer]}>
-                        <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Send</Text>
-                    </TouchableOpacity>
-                </View>
-                
             </ScrollView>
+            
+            <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight + 177.6 }]} />
+            {/* Input area */}
+            <View ref={viewRef} style={[localStyles.inputAreaContainer, sharedStyles.avoidingTabBarContainer, { marginTop: 0 }]} testID="viewTestID">
+                <TextInput
+                    testID='inputTextFieldTestID'
+                    value={message}
+                    onChangeText={setMessage}
+                    placeholder='Type your message here...'
+                    placeholderTextColor={theme === 'dark' ? 'grey' : 'darkgrey'}
+                    style={[sharedStyles.inputField, localStyles.inputFieldLocalContainer]}
+                    multiline
+                />
+                <TouchableOpacity onPress={handleSendMessage} style={[sharedStyles.button, localStyles.localButtonContainer]}>
+                    <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Send</Text>
+                </TouchableOpacity>
+            </View>
 
             <View style={[sharedStyles.separatorLine, { bottom: 713 }]} />
 
             {/* Separator Line */}
-            <View style={[sharedStyles.separatorLine,  { bottom: keyboardHeight + 90 }]} /> 
+            <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight + 90 }]} />
         </View>
     )
 };

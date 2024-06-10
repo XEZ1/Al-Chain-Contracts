@@ -10,14 +10,13 @@ const getLocallySharedStylesSupportScreens = (theme = 'light') => {
         inputAreaContainer: {
             flexDirection: 'row', 
             alignItems: 'center', 
-            //padding: '5%'
+            margin: '5%'
         },
         inputFieldLocalContainer: {
             flex: 1,
             marginRight: 10,
             marginTop: 18.5,
             height: 50, 
-            
         },
         localButtonContainer: {
             width: 'auto', 
