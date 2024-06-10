@@ -1,5 +1,5 @@
 import React, { useRef, useCallback, useState, useContext } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { AuthContext } from '../../components/Authentication';
 import { useKeyboard } from '../../components/Keyboard';
@@ -39,6 +39,7 @@ const LoginScreen = ({ navigation }) => {
 
     return (
         <View style={[localStyles.backgroundContainer, { flex: 1, paddingBottom: keyboardHeight }]}>
+            <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
             <ScrollView ref={scrollViewRef} style={[sharedStyles.avoidingTabBarContainer, ]} showsVerticalScrollIndicator={false}> 
                 <View style={[localStyles.container, { flex: 1 }]}> 
                     <View style={[sharedStyles.cardContainer]}>

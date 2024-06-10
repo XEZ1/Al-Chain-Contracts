@@ -1,5 +1,5 @@
 import React, { useRef, useCallback, useState, useContext } from 'react';
-import { View, Modal, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Modal, Text, TextInput, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useKeyboard } from '../../components/Keyboard';
@@ -47,6 +47,7 @@ const SignUpScreen = ({ navigation }) => {
 
     return (
         <View style={[localStyles.backgroundContainer, { flex: 1, paddingBottom: keyboardHeight - 91}]}>
+            <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
             <ScrollView ref={scrollViewRef} style={[sharedStyles.avoidingTabBarContainer, localStyles.bigTopMargin]} showsVerticalScrollIndicator={false}>
                 <View style={[sharedStyles.container, localStyles.mediumTopPadding]}>
                     <View style={[sharedStyles.cardContainer, localStyles.mediumPadding]}>

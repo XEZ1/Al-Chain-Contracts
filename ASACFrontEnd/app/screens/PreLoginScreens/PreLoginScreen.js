@@ -16,7 +16,7 @@ const PreLoginScreen = ({ navigation }) => {
             style={[sharedStyles.centeredViewContainer, { paddingTop: StatusBar.currentHeight }]}
             resizeMode="cover"
         >
-            <StatusBar barStyle={theme === 'light-content'} />
+            <StatusBar barStyle={'light-content'} />
             <View>
                 <TouchableOpacity style={[sharedStyles.button, localStyles.localButtonContainer]} onPress={() => navigation.navigate('Login')}>
                     <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Login</Text>
