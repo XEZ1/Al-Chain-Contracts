@@ -9,7 +9,7 @@ import { ThemeProvider } from './app/components/Theme';
 import ErrorBoundary from './ErrorBoundary'
 
 
-LogBox.ignoreAllLogs();
+//LogBox.ignoreAllLogs();
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
