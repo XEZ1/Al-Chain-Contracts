@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { UIManager, Platform } from 'react-native';
+import { UIManager, Platform,LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import * as Notifications from 'expo-notifications';
 import { AuthProvider } from './app/components/Authentication';
@@ -8,6 +8,8 @@ import { KeyboardProvider } from './app/components/Keyboard';
 import { ThemeProvider } from './app/components/Theme';
 import ErrorBoundary from './ErrorBoundary'
 
+
+LogBox.ignoreAllLogs();
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);

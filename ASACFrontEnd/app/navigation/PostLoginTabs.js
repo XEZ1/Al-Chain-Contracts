@@ -22,11 +22,6 @@ const PostLoginTabs = () => {
     const { theme } = useContext(ThemeContext);
     const sharedStyles = getGloballySharedStyles(theme);
 
-    /* const handleTabPress = () => {
-        //LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-        //LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    }; */
-
     const HomeStack = createStackNavigator();
     const ForumStack = createStackNavigator();
 
@@ -80,11 +75,6 @@ const PostLoginTabs = () => {
         },
         tabBarStyle: sharedStyles.tabBar,
         headerShown: false,
-        /* tabBarButton: (props) => (
-            <TouchableOpacity {...props} onPress={() => { handleTabPress(); props.onPress(); }}>
-                <View>{props.children}</View>
-            </TouchableOpacity>
-        ), */
     });
 
     return (

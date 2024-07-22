@@ -35,7 +35,8 @@ class PostDetailView(APIView):
     def put(self, request, pk, *args, **kwargs):
         post = get_object_or_404(Post, pk=pk)
         if post.author != request.user:
-            return Response({'detail': 'You do not have permission to edit this post.'}, status=status.HTTP_403_FORBIDDEN)
+            return Response({'detail': 'You do not have permission to edit this post.'},
+                            status=status.HTTP_403_FORBIDDEN)
         serialiser = PostSerialiser(post, data=request.data, context={'request': request})
         if serialiser.is_valid():
             serialiser.save()
