@@ -77,7 +77,7 @@
        		\textbf{Originality Avowal}\\*
                         \begin{flushleft}
 			I verify that I am the sole author of this report, except where explicitly stated to the contrary.
-			I grant the right to King's College London to make paper and electronic copies of the submitted work for purposes of marking, plagiarism detection and archival, and to upload a copy of the work to Turnitin or another trusted plagiarism detection service. I confirm this report does not exceed 25,000 words.\\
+			I grant the right to King's College London to make paper and electronic copies of the submitted work for purposes of marking, plagiarism detection and archival, and to upload a copy of the work to Turnitin or another trusted plagiarism detection service. I confirm this report does not exceed 25,500 words.\\
 			\end{flushleft}
   		\begin{flushright}
         		      \normalsize{\@author}\\*

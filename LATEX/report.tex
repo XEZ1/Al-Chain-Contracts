@@ -1,23 +1,66 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 6CCS3PRJ Final Year Individual Project Report
-% luke.day@kcl.ac.uk
+% ezzat.alsalibi@kcl.ac.uk
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[11pt]{informatics-report}
 \usepackage{color}
-\usepackage[square,sort,comma,numbers]{natbib} %References
+\usepackage[square,sort,comma,numbers]{natbib} % References
+\usepackage{listings}
+\usepackage{xcolor} % For coloring code
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+
+\setcounter{tocdepth}{2}
+
+\geometry{
+    % Adjusting margins
+    a4paper,
+    left=25mm,
+    right=25mm,
+    top=25mm,
+    bottom=25mm
+}
+
+% Configuring the appearance of the listing
+\lstset{
+    basicstyle=\ttfamily\small\linespread{1.1}\selectfont, % Code font, uses monospace
+    commentstyle=\color{olive}, % Comment color
+    keywordstyle=\color{blue}, % Keyword color
+    stringstyle=\color{red}, % String literal color
+    numbers=left, % Line numbers on the left
+    numberstyle=\tiny\color{gray}, % Style of line numbers
+    stepnumber=1, % Line number step
+    numbersep=5pt, % How far the line numbers are from the code
+    backgroundcolor=\color{white}, % Background color for the code block
+    frame=single, % Frame around the code
+    tabsize=2, % Default tab size
+    captionpos=b, % Caption position at the bottom
+    breaklines=true, % Automatic line breaking
+    breakatwhitespace=false, % Break lines at whitespace
+    showspaces=false, % Don't show spaces
+    showstringspaces=false, % Don't show spaces in strings
+    showtabs=false, % Don't show tabs
+    morekeywords={uint256, address, contract, function, require, emit, external, view, public, private, if, else, modifier, pragma, solidity, import, true, false, return, assert, event, constructor}, % Add more keywords
+    keywordstyle=[2]\color{teal}, % Additional keywords styling
+    keywords=[2]{pragma, solidity, import, modifier}, % Additional keywords
+    morecomment=[l][\color{magenta}]{//}, % Single line comment style
+    morecomment=[s][\color{magenta}]{/*}{*/}, % Multi-line comment style
+    morestring=[b]" % Strings are in double quotes
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Front Matter - project title, name, supervisor name and date
+% Front Matter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{6CCS3PRJ Final Year\\\vspace{0.2cm}Individual Project Report Title}
-\author{Your Name}
-\studentID{000000}
-\supervisor{Name}
+\title{6CCS3PRJ Final Year\\\vspace{0.2cm}Transforming the Future of Work: Generative AI and Smart Contracts in Employment, in Collaboration with IBM}
+\author{Ezzat Alsalibi}
+\studentID{20047135}
+\supervisor{Hector Menendez Benito}
 
 \date{\today}
 
 \abstractFile{FrontMatter/abstract.tex}
-\ackFile{FrontMatter/acknowledgements.tex} %Remove line if you do not want acknowledgements
+\ackFile{FrontMatter/acknowledgements.tex}
 
 \begin{document}
 \createFrontMatter
@@ -28,20 +71,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Report Content
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% You can write each chapter directly here or in a separate .tex file and use the include command.
 
-\chapter{Introduction}
-This is one of the most important components of the report. It should begin with a clear statement of what the project is about so that the nature and scope of the project can be understood by a lay reader. It should summarise everything that you set out to achieve, provide a clear summary of the project's background and relevance to other work, and give pointers to the remaining sections of the report, which will contain the bulk of the technical material.
-
-\section{Report Structure}
-
-\include{Chapters/Background}
-\include{Chapters/Body}
-\include{Chapters/DesignSpecification}
-\include{Chapters/Implementation}
-\include{Chapters/ProfessionalIssues}
-\include{Chapters/Evaluation}
-\include{Chapters/Conclusion}
+\include{LATEX/Chapters/Introduction}
+\include{LATEX/Chapters/Background}
+\include{LATEX/Chapters/DesignSpecification}
+\include{LATEX/Chapters/Implementation}
+\include{LATEX/Chapters/Evaluation}
+\include{LATEX/Chapters/ProfessionalIssues}
+\include{LATEX/Chapters/Conclusion}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % References
@@ -54,7 +91,8 @@ This is one of the most important components of the report. It should begin with
 % Appendices
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
-\include{Appendices/appendix}
-\include{Appendices/UserGuide}
-\include{Appendices/SourceCode}
+% \include{LATEX/Appendices/Appendix} %
+\include{LATEX/Appendices/UserGuide}
+\include{LATEX/Appendices/SourceCode}
+
 \end{document}

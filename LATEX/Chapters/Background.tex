@@ -1,4 +1,228 @@
 \chapter{Background}
-The background should set the project into context by motivating the subject matter and relating it to existing published work. The background will include a critical evaluation of the existing literature in the area in which your project work is based and should lead the reader to understand how your work is motivated by and related to existing work.
 
-\section{Section Heading}
+\section{Introduction to Smart Contracts}
+
+Smart contracts have opened a new paradigm in the structure and conduct of legal agreements. Essentially, a smart contract is a set of promises, including protocols that guide its execution \cite{ZhengEtAl2020}. Unlike traditional contracts, smart contracts operate digitally. Their execution is automated after preset conditions have been met. These digital contracts are stored and executed on a distributed database ledger, which is supervised by a network of computers running the blockchain, essentially making them computer programs \cite{Mik2017}. This guarantees that a contract will be executed once the required conditions are met. Additionally, this ensures high security and tamper-proof integrity through its immutability, making it reliable \cite{Durovic2021}. It is an innovative concept that changes traditional legal jurisdictions in line with the greater trend of automation in contract law during the Fourth Industrial Revolution \cite{Durovic2021}. 
+
+The core functionality of smart contracts lies in initiating, verifying, and enforcing parts or entire agreements between parties with minimal human intervention. Such a transition of the conventional contract law to the blockchain-centric approach illustrates remarkable changes in the perception and execution of agreements after the technological gain \cite{Durovic2021}.
+
+\section{Historical Development}
+
+The history of smart contracts can be traced back to founding computer scientist and legal scholar Nick Szabo. His development of the concept in the 1990s predated the modern blockchain technology by many years. Szabo's idea was to use computerised transaction protocols to run enforceable contract clauses, embedding their nature within the code. To illustrate this, he used an analogy of a vending machine: it operates as programmed, dispensing items when supplied with the correct input — money — entirely without human intervention \cite{Szabo1997}.
+
+The feasibility of smart contracts was, as Szabo had foreseen, largely theoretical until the advent of blockchain technology. Blockchain evolution, especially post-Ethereum, provided the infrastructure that would support the deployment of smart contracts in real life. Ethereum, designed by Vitalik Buterin, introduced a decentralised platform on which smart contracts could be deployed and securely run \cite{Buterin2014}. It became the defining moment: smart contracts moved from an esoteric theory to a practical instrument for complex decentralised transactions.
+
+\section{Technical Overview of Smart Contracts}
+
+The execution of smart contracts occurs locally at each participant node connected to the blockchain. This decentralisation of execution is a defining characteristic for applications that need cross-entity coordination \cite{MagazzeniEtAl2017}, such as the automatic execution of business workflows across multiple organisations. For example, legal logistics management associated with physical goods crossing national borders involves a series of complex coordination amongst various parties: vendors, buyers, transporters, financial institutions, and government departments. Smart contracts consolidate these processes with the automatic execution of tasks, as and when predetermined milestones are met.
+
+Moreover, embedded programmable logic rendered by smart contracts on distributed ledgers enables ``real-time settlement'' of assets. When a blockchain records the ownership of a cryptocurrency, smart contracts can be programmed for its instantaneous transfer. Similarly, for dematerialised assets, they can ensure that transactions take place with the support of the medium in which they are held. Notably, in the financial industry, this capability has made smart contracts so disruptive \cite{MagazzeniEtAl2017, Smith2020}.
+
+% Add some explanation here on how entities are verfied in the blockchain %
+
+Smart contract technology has significantly evolved since its creation, which led to some variations according to different needs and applications. These are distinguished by architecture, the programming language used, and dedicated features that are most adaptable to different sectors, from finance to solutions for large companies. The choices and preferences that have truly captured the landscape of smart contracts today include:
+
+\paragraph{Ethereum Smart Contracts}
+
+Ethereum is the primary platform for smart contracts. It utilises its own programming language, \texttt{Solidity}, playing a key role in decentralised application development in finance and gaming \cite{Buterin2014, KushwahaEtAl2022, ZhouEtAl2022}.
+
+\paragraph{Hyperledger Fabric Smart Contracts (Chaincode)}
+
+\textit{Hyperledger Fabric} has an adaptable architecture and, hence, perfectly caters to enterprise applications. Chaincode can be developed in popular languages like \texttt{Go}, \texttt{Java}, or \texttt{Node.js}, enabling customisation for diverse business needs \cite{ZandEtAl2021}. 
+
+\paragraph{EOS Smart Contracts}
+
+\textit{EOS} is known to be scalable, allowing great performance for applications with smart contracts developed in \texttt{C++}, a platform built for efficiency and sophisticated transactional operations \cite{Elrom2019}.
+
+\paragraph{Cardano Smart Contracts (Plutus)}
+
+\textit{Cardano} stands out with a dual-layer architecture that amplifies security in transactions. The heart of these improvements consists of powerful smart contract mechanisms written in \texttt{Haskell}, rendering the application high-assurance \cite{BartolettiEtAl2024, OrozcoEtAl2022}.
+
+\paragraph{Tezos Smart Contracts (Michelson)}
+
+\textit{Tezos} ensures high security of its smart contracts through formal verification means enabled by its development language, \texttt{Michelson}. Thus, it is compatible with critical or high-stake applications \cite{NishidaEtAl20}.
+
+\paragraph{Stellar Smart Contracts (SSC)}
+
+\textit{Stellar} focuses on security through simplicity with its smart contracts, which combine several basic operations to construct secure and effective transactional protocols. Stellar is a good choice for scalability and low fees \cite{MokdadEtAl2022}.
+
+\section{Current Landscape in Smart Contract Usage}
+
+While functional concepts of smart contracts were briefly introduced in the previous sections, their practical implications and real-world applications deserve a deeper investigation, as smart contracts have been changing traditional methodologies across a large number of sectors, impacting how agreements are executed and enforced \cite{MagazzeniEtAl2017}.
+
+\subsection{Finance and Cryptocurrency}
+
+Smart contracts have probably found their most potentially disruptive application in the financial sector, notably related to cryptocurrencies. They enable peer-to-peer transactions and more transparent financial operations, reducing dependence on traditional banking systems \cite{AlmahirahEtAl2021, MagazzeniEtAl2017} by bypassing them and directly processing transactions on the blockchain \cite{Smith2020}. In practice, smart contracts automate this by executing predefined rules encoded into the blockchain. When conditions such as confirmation of delivery or payment terms are met, the agreed-upon amount of cryptocurrency is transferred to the recipient’s digital wallet.
+
+Moreover, cryptocurrencies can be exchanged or withdrawn globally through peer-to-peer (P2P) transactions. Users around the globe can exchange their digital assets for local currencies through online exchanges, facilitating direct cross-border transactions without the involvement of traditional financial institutions. There are many such exchanges available, including \texttt{Binance}, \texttt{Coinbase}, \texttt{Huobi}, \texttt{Gate.io}, and many others. To give an example of how it works, imagine a user in Palestine purchasing a cryptocurrency stablecoin with their local currency through an exchange. Later on, they could sell it for British pounds in the UK (or any other country and currency of their choice) to other users willing to acquire the digital assets they own. The decentralised approach therefore means improved liquidity and easier access to funds worldwide, complemented by improved security and reduced transaction times — from days down to just minutes or seconds \cite{DelgadoSeguraEtAl2018}.
+
+Although numerous jurisdictions try to regulate and control cryptocurrency transactions at some level, their reach is usually contained to certain exchanges. In fact, many users avoid tax obligations through the anonymity provided by blockchain technology, as it obscures the origin of money and allows for fund withdrawal in batches across a multitude of cryptocurrency wallets, not necessarily linked to a single identity, if not linked to any at all. The ability to disguise and distribute transactions makes it quite difficult for any tax authority to keep track of and tax such financial movements effectively \cite{CongEtAl2023}.
+
+\subsection{International Trade and Logistics}
+
+Smart contracts have also significantly impacted international trade and logistics by providing the following advantageous: 
+
+\begin{itemize}
+    \item \textbf{Improved Coordination Across Borders}: As was discussed earlier, smart contracts execute terms in a predefined manner once certain conditions are met. This is extremely useful in international trade, since transactions there involve multiple parties based in different countries. Hence, parties suffer from fluctuating legal systems and standards. Smart contracts provide a platform that each party can rely on. This happens because terms are clear, immutable, and, most importantly, enforceable \cite{AlqarniEtAl2023, MagazzeniEtAl2017}.
+    \item \textbf{Simplified Customs Processes}: Customs clearance remains one of the main problems in international logistics. This is due to the involvement of cumbersome paperwork, which often leads to significant delays. Smart contracts can automate a number of these processes by bringing data records into the blockchain system. For example, they can automate the verification of goods, i.e. meeting the regulatory requirements or calculating appropriate duties. This thereby accelerates customs procedures \cite{Law2017, AlqarniEtAl2023}.
+    \item \textbf{Independence of Financial Services}: Payment processes are critical in international trade. Moreover, they are prone to errors due to the involvement of multiple financial institutions. Smart contracts aid these processes by automatically initiating payments upon the occurrence of predefined events, such as confirmation of shipment or receipt of goods. This brings about timely payments and additionally reduces the possibility of fraud \cite{AlqarniEtAl2023, MagazzeniEtAl2017}.
+    \item \textbf{Traceability}: Smart contracts in logistics provide transparency to all parties by allowing them to track the progress of goods in real-time \cite{AlqarniEtAl2023}.
+\end{itemize}
+
+\subsection{Regulatory Compliance}
+
+Another area of smart contract usage lies in regulatory technology. Smart contracts help in adhering to regulatory provisions more easily through:
+
+\begin{itemize}
+    \item \textbf{Automated Regulatory Reporting}: Smart contracts can easily automate the generation and submission of reports required by institutions to adhere to reporting obligations. For example, transactions crossing a threshold can be automatically reported to the appropriate regulatory authority \cite{BarberisEtAl2019}.
+    \item \textbf{Compliance Checks}: Smart contracts with compliance rules directly coded into them enable verification against the regulatory requirements, ensuring full compliance of transactions before they are executed. This significantly reduces the risk of regulatory breaches \cite{BarberisEtAl2019}.
+    \item \textbf{Enforceability}: Smart contracts can also be programmed to execute enforcement actions autonomously, such as automatically calculating and applying fines once a certain regulatory infraction takes place \cite{MagazzeniEtAl2017}.
+\end{itemize}
+
+\subsection{Business Process Automation}
+
+Moreover, smart contracts have found their place in the automation of business processes. These usually consist of a sequence of activities that may occur sequentially or in parallel. Smart contracts can facilitate such interactions by providing a structured framework through which execution and handling of tasks will be automatised \cite{MagazzeniEtAl2017}. They use major design tools like action and message sequence charts for smart contracts, showing their utility in modeling and managing complex operational flows within distributed ledger environments. The business rules are directly encoded into blockchain contracts, which support efficiency, compliance, and streamlining of operations across multiple parties involved in a business process. This reduces latency and errors due to the reduction of manual interventions \cite{ChikovEtAl2023}.
+
+\subsection{Real Estate Transactions}
+
+Smart contracts in the real estate sector bring a lot of advantages. They can potentially automate the execution of critical aspects of real estate dealings, such as executing lease agreements, facilitating property sales, and ensuring proper record-keeping. These include:
+
+\begin{itemize}
+    \item \textbf{Transparency}: Smart contracts provide an opportunity for transparent audit trails \cite{LaarabiEtAl2022}. This visibility defines that all parties have access to the same information, which increases trust and reduces discrepancies \cite{MohantaEtAl2018}.
+    \item \textbf{Security}: In high-stake transactions, security is one of the main concerns. Blockchain prevents unauthorised changes to the contract, leading to better safety measures \cite{UllahEtAl2023, LaarabiEtAl2022}.
+    \item \textbf{Cost}: Smart contracts eliminate the need for intermediaries, lowering the associated fees \cite{UzairEtAl2018, MohantaEtAl2018}.
+\end{itemize}
+
+The real estate market, however, still looks at the new technology with suspicion. This is due to huge financial risks associated with it. Nevertheless, with the continuous success of distributed ledger technologies in other sectors, their applications in real estate are bound to grow as time goes by.
+
+\subsection{Healthcare Data Management}
+
+Blockchain-enabled smart contracts in the healthcare industry bring about a new way of managing patient data. They automate patient consent management, access control to sensitive medical records, and data sharing across healthcare providers.
+
+In the healthcare sector, smart contracts introduce a new approach to managing patient data. They automate patient consent management, access control to sensitive medical records, and data sharing across healthcare providers. Compliance with regulations such as the Health Insurance Portability and Accountability Act is ensured by embedding data handling rules directly into the blockchain \cite{Khatoon2020}.
+
+Smart contracts in the healthcare sector enable complex medical workflows — for instance, those required for surgical procedures, clinical trials, and prescription management. All the events that together form a patient's medical journey can be securely yet efficiently managed through smart contracts right from the beginning, that is, initial intake and consent of patients, to post-treatment follow-up and billing. Automation provides up-to-date data throughout treatment to authorised personnel \cite{Khatoon2020}.
+
+\subsection{Other Industries}
+
+\paragraph{Auditable Access Control Systems}
+
+The blockchain definition of an auditable access control system results from the basic characteristics of blockchain for secure and transparent access rights management. In this respect, smart contracts act in some form as autonomous agents for access permission control based on predefined encoded rules \cite{DamianoEtAl2019}. This setup grants total traceability of access to sensitive information or systems, where every access request and its approval are irreversibly recorded on the blockchain. This traceability provides improved security and an auditable footprint for compliance. 
+
+\paragraph{Intellectual Property}
+
+Smart contracts in the entertainment sector provide artists with new ways of enforcing monetisation, allowing them to be in control of their intellectual property. They provide an avenue for the tokenisation of content and automatisation of royalty payment procedures \cite{Hauck2021}. Content creators encode their ownership rights by leveraging smart contracts directly on the blockchain. The approach eases the administration of copyrights and strengthens their enforcement, since the blockchain's immutable ledgers allow for the clear documentation of ownership and transactions \cite{Hauck2021}.
+
+\paragraph{Conclusion}
+
+As the technology keeps evolving, smart contracts find new use cases every day. For example, the recent integration with the Internet of Things, where they stimulate more autonomous and secure systems, ranging from smart homes to connected urban infrastructures \cite{SchmittEtAl2019}. New applications will keep emerging continuously, driven by ongoing advancements in the field.
+
+\section{Limitations of Smart Contracts}
+
+While smart contracts open up unprecedented potential for many industries, they bring severe challenges that must be factored into the conversation.
+
+\subsection{Complex Conditions Handling}
+
+One major challenge that smart contracts bring revolves around managing complex contractual conditions. Smart contracts operate with limitations, requiring explicitness and lack of nuanced understanding inherent to human judgment. Currently, they are more suitable for simple transactions with uncomplicated ``if-then'' scenarios \cite{Durovic2021}. However, in the case of complicated transactions where conditions might include ambiguity, smart contracts are not in a position to develop workable solutions independently of third-party intervention for metrics tracking \cite{Borselli2020}. Indeed, many technical details of such transactions often elude the rigorous structure of smart contract code, hence challenging their practical application.
+
+An applicable example of this situation can be noticed in the processing of insurance claims, which often undergoes an evaluation process that is subjective to human expertise. For instance, to assess the level of damage after a car accident, one would need an adjuster's assessment, which involves a discretion hard to encode into a smart contract. Thus, this often requires third-party involvement. However, with the advancement of technology, a few emerging automation solutions seem to be quite promising. For example, Liberty Mutual is currently working on the development of an app with the aid of which car damages can be estimated in real-time through the camera of a smartphone \cite{Borselli2020}. Over time, this software will develop, integrating more automated solutions that track the metrics automatically without human intervention.
+
+\textbf{State of the Art Solutions:}
+
+Several new approaches are being considered in tackling such complexities:
+
+\begin{itemize}
+    \item \textbf{Hybrid Smart Contracts}:
+    The architecture combines on and off-chain components, thereby reinforcing the execution of contracts. In such a framework, the most important activities that involve issues of trust and necessary immutability (like payment validations or source tracing of assets) would run on the blockchain. On the other hand, decision-making processes related to either a complex computation or subjective judgment of events, for instance, according to event validation, execute off-chain through conventional computing resources. For example, the Drools Rules Engine. The setup provides the required efficiency during processing and ensures that benefits from blockchain technology are gained \cite{SolaimanEtAl2021}.
+    \item \textbf{Oracles}: Oracles are essentially middlemen that pull and verify external data from sources, propagating authenticated information securely to smart contracts. This enables them to be executed in conditions that are dependant on external and timely factors (for example, market prices or weather). The reliability of data is maintained through an incentivisation system coined by the Oracle Mechanism itself, which encourages accuracy and authenticity amongst data providers \cite{WangEtAl2020}.
+    \item \textbf{Artificial Intelligence (AI)}: 
+    AI can offer a degree of decision-making that emulates human judgment, which might fill the gap where ordinary smart contract logic falls short. Added to this, there is another proposition for the utilisation of a Naive Bayes predictive model, which can, in turn, empower smart contracts performing on blockchain platforms to execute dynamic tasks. In this regard, AI integration solves the limitation of smart contracts, traditionally being static and unable to make any decisions autonomously without dynamic data \cite{BadruddojaEtAl2021}.
+\end{itemize}
+
+These developments speak to a future of more agile smart contract systems — better equipped to accommodate a far greater variety of transactions variety and bridge the gap between automated execution and human oversight.
+
+\subsection{Legal Enforceability}
+
+The legal status of smart contracts remains one of the major concerns, since their ability to be treated as legally binding agreements varies from jurisdiction to jurisdiction. 
+
+For instance, in the USA, Arizona State considers cryptographic signatures secured via blockchain as valid \cite{GilcrestEtAl2018}. Moreover, Nevada extends it, requiring that no local government impose taxes or restrictions on the use of the technology \cite{GilcrestEtAl2018}. Additionally, the European approach, taking Italy as the case, baptises smart contract into their existing legal frameworks. Still, they require them to act within the established standards of Digital Identity Regulative Provisions to be legally enforceable \cite{Ferreira2021}. Another very interesting case is Belarus, which created a specialised legal status for smart contracts within the ``Park of High Technologies'' that provides more of an experimental regulatory framework \cite{Ferreira2021}.
+
+In contrast, Singapore and Japan seem to have made minimal effort to deal with the legal status of smart contracts within their legislation \cite{Ferreira2021}. Moreover, Malaysia and India are known as pro-arbitration countries that may be willing to enforce foreign arbitral awards related to smart contracts \cite{Goh2022}. However,  Chinese and Indonesian laws may have a wider range of considerations concerning public policy acting to prevent the enforcement of arbitral decisions on smart contracts, suggesting an unclear legal status \cite{Goh2022}. Furthermore, in Kazakhstan, smart contracts are not particularly recognised as a different form of transaction under the Civil Code. The transactions require a written form signed with an approved digital signature. While the laws allow for electronic transactions that could theoretically include smart contracts on blockchain platforms, these are not distinctly regulated, which is needed for legal enforceability \cite{LegalAdvisoryKazakhstanLtd}. 
+
+The legal systems across the world have still not reconciled the integration of these digital contracts into the traditional legal frameworks. This discrepancy is what causes problems when parties involved need to appeal for legal redress outside of the blockchain domain. Therefore, smart contract enforcement remains subject to evolving legal interpretations.
+
+\subsection{Cybersecurity Risks}
+
+Cybersecurity remains one of the key concerns in smart contracts deployment. The immutability of blockchain technology is, at times, a double-edged sword, particularly if a smart contract hosts vulnerabilities. These include flaws in the logic of the contract, possibly exposing them to attacks. Perhaps the most famous incident is the \texttt{DAO} attack, where a bug related to a recursive call has been exploited to drain funds, leading to huge financial losses \cite{DamianoEtAl2019, Durovic2021, KaiEtAl2021}. Additionally, it is worth bearing in mind that the decentralisation of blockchain systems poses some unique security challenges. The technology still remains vulnerable to sophisticated cyber-attacks, such as the \textit{reentrancy} ones, where an attacker might manipulate the intermediate states of transactions \cite{KaiEtAl2021}. Furthermore, the \textit{eclipse} ones, where an attacker isolates a node from the rest of the network, manipulating its view of the blockchain \cite{KaiEtAl2021}. Both classes of attacks can easily result in enormous financial losses and data breaches, thus creating the need for further security measures in smart contract implementation.
+
+\subsection{Potential for Coding Errors}
+
+As with any software, there is an immense potential for coding errors in smart contracts. Their immutability makes correcting these errors post-deployment extremely challenging, if not impossible at all \cite{Durovic2021}. It means that a flaw in the contract potentially opens the door to perpetual exploitation, which can yield unintended consequences. In addition, the challenge becomes more prominent given that smart contracts usually deal with financial transactions and sensitive data. 
+
+A good example of such peril brought by a vulnerability is the Parity Wallet Hack, which exploited vulnerabilities related to the improper handling of function visibility \cite{ZhouEtAl2022}. In July 2017, the attackers were able to exploit the flawed \textit{delegatecall} function within the multi-signature contract. \textit{Delegatecall} is a low-level function that calls another contract while running the code in the context of the original contract's state. In fact, it was designed to be called only from within the contract by an external library, but by mistake, it was left with a public modifier i.e. without the correct access permissions. This provided the opportunity for the attacker to reinitialise the wallet, overwriting the owner's address. Hence, it means that they took ownership of all funds contained within, effectively enabling the theft of approximately 30 million dollars worth of Ether \cite{ZhouEtAl2022}. 
+
+Tools like \textit{SmartCheck}, \textit{Securify}, and \textit{Oyente} can address this. They can identify known vulnerabilities in smart contracts, including improper access controls and transaction order dependencies. The tools offer good coverage that will significantly aid in the preemption of security breaches \cite{ZhouEtAl2022}. Another solution is to apply formal verification methods for the mathematical proof of the correctness of contract logic. Essentially, this can model and verify smart contracts behaviour under all possible conditions \cite{ZhouEtAl2022}.
+
+\subsection{Scalability and Performance Issues}
+
+Another significant challenge is the scalability of blockchain, alongside the performance of smart contracts. As the number of transactions on a blockchain increases over time, the required resources for transaction processing also increase, thereby inhibiting performance \cite{Scherer2017, UllahEtAl2023}. This scalability problem has created some concerns for large-scale applications where thousands of transactions might need to be processed simultaneously.
+
+\subsection{Dealing with Limitations}
+
+The community needs to develop more advanced ways in which intelligent contracts may handle complex scenarios to solve these challenges. This may be through AI integration that will bring flexibility in decision-making that is currently not present in smart contracts.
+
+Moreover, the community needs a concerted effort from legal scholars to develop an effective governance system for smart contracts that will result in a harmonised legal framework beyond national boundaries.
+
+Lastly, to mitigate the risks of vulnerabilities, the community needs to adhere to continuous advancements in cybersecurity measures specific to blockchain technology. Additionally, implementing strict testing standards might help solve the issue. The plan should include devising standard guidelines for developing and releasing smart contracts.
+
+In conclusion, smart contracts have enormous potential for development, but this potential can only be realised when the obstacles discussed are overcome. This, in turn, will require much work not just from computer scientists but also from legal experts.
+
+\section{Case Studies of Smart Contracts in Employment}
+
+The University of Cagliari has developed a decentralised application (DApp) for managing temporary workers through smart contracts. This was achieved by using the Blockchain Oriented Software Engineering approach, alongside the ABCDE methodology \cite{lallaiETAL2020software}. The system allows for protection of both employers and employees against misbehaviour.
+
+\subsection{System Design and Functionality}
+
+The key components of the system's design include:
+
+\begin{itemize}
+    \item \textbf{Role Definitions:} The system defines multiple actors including employers, temporary workers, and work inspectors. Each actor has distinct roles and interactions within the system, provided by the user interface of the web platform.
+    \item \textbf{Web and Blockchain Interactions:} There is a frontend web interface that interacts with the backend system developed to work with the Ethereum blockchain. 
+    \item \textbf{Smart Contracts:} Developed with the \textit{ERC721} token, there are two key types of smart contract implementations: \textit{JobOfferManager} and \textit{Employment}. These contracts handle the creation of job offers, applications management and verification of job fulfillment. Moreover, they facilitate payments, making sure all activities on the platform are enforced automatically.
+    \item \textbf{Security and Privacy:} The blockchain infrastructure ensures the integrity of data, as smart contracts are executed within a tamper-proof environment. This provides a higher level of security compared to traditional systems.
+    \item \textbf{Regulatory Access:} The design of the system has naturally incorporated certain features that allow easy access for regulatory bodies to monitor compliance with the law. This is because of the transparency offered by the blockchain technology. The features provide a reliable history of all interactions, which is highly important for dispute resolution and auditing purposes.
+\end{itemize}
+
+\subsection{Capabilities}
+
+\begin{itemize}
+    \item \textbf{Transparency:} The blockchain verifies that all data is recorded transparently. This includes job offers, employment terms, and payment conditions, helping to maintain honest declarations of job conditions. In fact, this provides workers with access to information about average salaries, helping to ensure fair compensation \cite{lallaiETAL2020software}.
+    \item \textbf{Automatic Enforcement:} The likelihood of delayed payments is reduced since smart contracts automate the enforcement of agreements \cite{lallaiETAL2020software}.
+    \item \textbf{Lowered Administrative Costs:} The automation smart contracts provide also brings another advantage: a reduction in the need for manual supervision, since verification of contract terms is managed now by the system \cite{lallaiETAL2020software}.
+    \item \textbf{Better Security:} The use of blockchain increases security. Both employers and employees benefit from an immutable record of agreements that cannot be altered once written to the blockchain \cite{lallaiETAL2020software}.
+    \item \textbf{Government regulation:} The system design allows for easy access by public regulatory bodies, enabling them to monitor compliance with labour laws \cite{lallaiETAL2020software}.
+\end{itemize}
+
+\subsection{Limitations}
+
+While the DApp presents numerous advantages, there are also limitations, which include:
+
+\begin{itemize}
+    \item \textbf{Complex Employment Laws:}
+    The employment laws are hugely divergent across jurisdictions, meaning they change frequently. This makes it almost impossible to update a smart contract post-deployment \cite{MagazzeniEtAl2017} in response to new changes in the law. The only solution to this would be the full redeployment of a new contract, which is very time-consuming and, most importantly, expensive.
+    \item \textbf{Ethereum Dependence:} 
+    As the \textit{DApp} was developed using \textit{ERC721} tokens, it is dependent on the Ethereum blockchain, essentially inheriting all its limitations and scalability issues. The nature of the employment contracts would involve a large volume of computation occurring in the smart contract, which is, again, extremely expensive \cite{Buterin2014}. This would also increase the gas (transaction) fees, making it financially an ineffective solution \cite{Buterin2014}.
+    \item \textbf{Privacy Concerns:} Meanwhile blockchain provides high security, it also brings some challenges. It is designed to make all data inside itself transparent \cite{Mik2017}, and while this can be an advantage, it might also be a problem for some, as this exposes all the employment details to the outside world.  
+    \item \textbf{Integration:} The vast majority of employers already use well-established systems for HR management. Integrating these systems with a blockchain-based DApp can be complex. Furthermore, the need for customised integration solutions can be a big barrier to adoption \cite{AllenEtAl2022}.
+    \item \textbf{Complexity:} Although the DApp was developed with an ``intuitive frontend'', as developers called it, personally, it was found to be challenging even for users with technical knowledge, not to mention those who do not possess any knowledge in the field. It is worth bearing in mind that this software is supposed to be used directly by HR and employees, who are not always computer scientists. Hence this is a big limitation. 
+\end{itemize}
+
+\subsection{Personal Commentary}
+
+To sum up, the DApp developed by the University of Cagliari represents a giant step toward innovative employment management through smart contracts. What is reassuring and quite fascinating is that others are also attempting to tackle the complexities in the employment field using blockchain technologies. It is obvious now that this application brings many benefits like transparency and safety — hence, core advantages of blockchain technology. However, one should consider the opposing sides mentioned in the case study: legal adaptability issues, dependence on the Ethereum blockchain, privacy concerns, integration complexities, and user interface challenges. In our implementation, the aim would be at tackling these issues. Above all, the user experience; the frontend should be powerful, accessible, and easy to use. This ideal balance, hopefully, will lead us to the development of a system that leverages the advantages while effectively mitigating the disadvantages highlighted.
+
+\section{Conclusion}
+
+Summarising all of the above, given the nature of this technology, smart contracts make a perfect fit for automating employment interactions. By applying blockchain technology, employment agreements can be precisely executed based on predefined conditions. These can include, but are not limited to, payments upon task completion, milestone achievements, or sales target accomplishments. This automation would reduce the need for intermediaries. In addition, it would ensure timely payments, providing a clear, transparent way of seeing how decisions are reached based on employees' job performance metrics.
+
+Additionally, while the implementation of the system involves training an AI model to facilitate the translation of legal employment contract text into code, the focus is not on evaluating different AI models. Instead, AI serves as a tool for achieving accurate contract translations. Consequently, exploring AI technologies is not a component of the background research for this work, as the primary goal is to utilise these tools rather than to assess their comparative merits.
