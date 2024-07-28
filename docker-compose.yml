@@ -19,6 +19,7 @@ services:
       - DB_USER=admin
       - DB_PASS=admin123!!!
       - DB_PORT=5432
+      - DEBUG=False
 
   redis:
     image: "redis:alpine"
