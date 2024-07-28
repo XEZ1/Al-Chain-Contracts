@@ -6,7 +6,7 @@ services:
       context: ./ASACBackEnd
     command: daphne ASACBackEnd.asgi:application --bind 0.0.0.0 --port 8000
     volumes:
-      - ./ASACBackEnd:/app
+      - ./ASACBackEnd:/ASACImage
     ports:
       - "8000:8000"
     depends_on:
