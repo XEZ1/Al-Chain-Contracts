@@ -2,7 +2,7 @@
 
 \section{AI Model}
 
-As mentioned in Chapter 3, \texttt{ChatGPT-3.5 Turbo} was chosen as the main AI model for converting legal employment contracts into Solidity code. To train it, two datasets are required: one for training and the other for validation. A problem faced was the absence of pre-existing datasets for this specific task, as no prior attempts to address this conversion process were found in existing literature or online resources. Consequently, the only solution is to create a custom dataset manually. This dataset should include pairs of documents:  each containing a legal employment contract alongside its corresponding smart contract. To grasp the structure of these contracts, an analysis of a general-purpose smart contract developed will be done first. % Or "To understand the structure of these contracts, we will first examine the general-purpose smart contract developed." %
+As mentioned in Chapter 3, \texttt{ChatGPT-3.5 Turbo} was chosen as the main AI model for converting legal employment contracts into Solidity code. To train it, two datasets are required: one for training and the other for validation. One problem encountered was the absence of pre-existing datasets for this specific task, as no prior attempts to address this conversion process were found in existing literature or online resources. Consequently, the only solution was to create a custom dataset manually. This dataset should include pairs of documents:  each containing a legal employment contract alongside its corresponding smart contract. To grasp the structure of these contracts, an analysis of a general-purpose smart contract developed will be done first. % Or "To understand the structure of these contracts, we will first examine the general-purpose smart contract developed." %
 
 \subsection{General Purpose Smart Contract}
 
@@ -198,8 +198,7 @@ These functions collectively ensure that the \texttt{``EmploymentContract''} aut
 
 \subsection{Training and Testing the AI Model}
 
-After developing a general-purpose smart contract in the previous section, the next step is training the AI model. To achieve this, 100 smart contracts were created alongside their corresponding legal counterparts through fuzzing. While we produced the solidity code, generative AI was used to produce legal contracts in plain text format.
-These contracts include essential details like the employee's \textit{USDC} address, salary, start date, end date, and payment frequency. This dataset provided all the necessary inputs for our model, focusing on extracting key points from the legal contracts to convert them into smart contracts. While some may argue that a dataset of 100 entries is insufficient, results indicate this is more than adequate for \textit{ChatGPT-3.5 Turbo}. Each smart contract comprised approximately 200 lines of code, whereas each legal employment contract spanned about one page in a Word document. Despite the challenges of generating a large number of data entries, extensive data was not needed in view of the fact that the model trained and generalised well with the available dataset.
+After developing a general-purpose smart contract in the previous section, the next step is training the AI model. To achieve this, 100 smart contracts were created alongside their corresponding legal counterparts through fuzzing. While the \textit{Solidity} code was produced manually, generative AI was used to produce legal contracts in plain text format. These contracts include essential details like the employee's \textit{USDC} address, salary, start date, end date, and payment frequency. This dataset provided all the necessary inputs for our model, focusing on extracting key points from the legal contracts to convert them into smart contracts. While some may argue that a dataset of 100 entries is insufficient, results indicate this is more than adequate for \textit{ChatGPT-3.5 Turbo}. Each smart contract comprised approximately 200 lines of code, whereas each legal employment contract spanned about one page in a Word document. Despite the challenges of generating a large number of data entries, extensive data was not needed in view of the fact that the model trained and generalised well with the available dataset.
 
 As previously mentioned, tasks such as counting job performance metrics, setting performance thresholds, and calling various functions within the smart contract are delegated to the backend, alleviating concerns in this area. The data was partitioned into 80\% for training and 20\% for validation. The dataset was encoded into a \texttt{JSONL} file format with the following structure:
 
@@ -232,7 +231,7 @@ The training process demonstrated a significant reduction in both training and v
 
 \section{Backend}
 
-Since we have trained the AI model for contract conversions, the next part is to proceed with backend implementation. As mentioned in the previous chapter, this will be done using \texttt{Django REST API}. 
+Since the training of the AI model for contract conversions has concluded, the next step is to proceed with the backend implementation. As mentioned in the previous chapter, this will be done using \texttt{Django REST API}. 
 
 \subsection{Project Structure}
 
@@ -256,7 +255,7 @@ Additionally, every \textit{Django app} of the project includes a directory call
 
 \subsection{Root Application}
 
-The root application, \texttt{ASACBackEnd}, serves as the core of our backend architecture and includes several key configuration files that define the operational settings and the application's entry points. The naming similarity with the Django project's root follows from the adherence to Django naming conventions.
+The root application, \texttt{``ASACBackEnd''}, serves as the core of our backend architecture and includes several key configuration files that define the operational settings and the application's entry points. The naming similarity with the Django project's root follows from the adherence to Django naming conventions.
 
 \subsubsection{Django Application Settings}
 
@@ -265,7 +264,7 @@ The \texttt{settings.py} includes the following key configurations:
     \item \textbf{SECRET\_KEY:} A key used for cryptographic signing, crucial for maintaining security in production.
     \item \textbf{DEBUG:} A flag that turns on/off debug mode. It is enabled here for development purposes but will be disabled in a production environment later during deployment.
     \item \textbf{DATABASES:} The development configuration uses SQLite, while the production uses PostgreSQL.
-    \item \textbf{STATIC and MEDIA SETTINGS:} Define how static files and uploaded media are handled by the application. Those are primarily used for the admin site. 
+    \item \textbf{STATIC and MEDIA SETTINGS:} Define how static files and uploaded media are handled by the application. These are primarily used for the admin site. 
     \item \textbf{CORS SETTINGS:} Configured to allow cross-origin requests from predefined origins, essential for API interactions in a distributed environment.
 \end{itemize}
 
@@ -275,27 +274,27 @@ The \textit{Django} application is configured for \textit{WSGI} in the \texttt{w
 
 \subsubsection{Asynchronous Server Gateway Interface (asgi) and Channels Configuration}
 
-An instance of the \textit{ASGI} application is set up to receive \texttt{asynchronous} \textit{HTTP} and web socket protocols in the \texttt{asgi.py} file. This is important for real-time features like notifications and live updates for the forums.
+An instance of the \textit{ASGI} application is set up to receive \texttt{asynchronous} \textit{HTTP} and \textit{WebSocket} protocols in the \texttt{asgi.py} file. This is important for real-time features like notifications and live updates for the forums.
 
 \subsubsection{URL Routing}
 
-\texttt{urls.py} file manages URL patterns accross the entire application, directing requests to appropriate views.
+\texttt{urls.py} file manages URL patterns across the entire application, directing requests to appropriate views.
 
 \subsection{Accounts Application}
 
-The \texttt{Accounts} module within \texttt{ASACBackEnd} handles all functionalities related to user management, including registration, authentication, and the management of authentication tokens.
+The \texttt{``Accounts''} module within \texttt{ASACBackEnd} handles all functionalities related to user management, including registration, authentication, and the management of authentication tokens.
 
 \subsubsection{Admin} 
 
-The \textit{admin.py} file facilitates administration management by establishing a connection between the Django admin interface and the user \& token models.
+The \textit{admin.py} file facilitates administrative management by establishing a connection between the Django admin interface and the user \& token models.
 
 \subsubsection{Apps} 
 
-This \textit{apps.py} file Defines the \texttt{Accounts} application configuration, setting up essential application properties and metadata.
+This \textit{apps.py} file defines the \texttt{Accounts} application configuration, setting up essential application properties and metadata.
 
 \subsubsection{Models} 
 
-the \textit{models.py} file contains the \textit{User} and \textit{AuthenticationPushToken} models. The User model extends \textit{Django's} \textit{AbstractUser}, adding extra fields and validations for them. The \textit{AuthenticationPushToken} model links users to their unique push tokens.
+The \textit{models.py} file contains the \textit{User} and \textit{AuthenticationPushToken} models. The User model extends \textit{Django's} \textit{AbstractUser}, adding extra fields and validations for them. The \textit{AuthenticationPushToken} model links users to their unique push tokens.
 
 \subsubsection{Serialisers}
 
@@ -323,19 +322,15 @@ The URL configuration for the \texttt{Accounts} application defines the endpoint
 The \textit{Accounts} application's views manage user interactions within the system:
 
 \begin{itemize}
-    \item \textbf{ValidateAuthenticationTokenView:} This view verifies the validity of a user's authentication token. It uses \textit{TokenAuthentication} permission to ensure that each request is made by an authenticated user. If authenticated, it returns a confirmation of token validity. Otherwise, it handles exceptions, particularly \textit{AuthenticationFailed}, by returning a token invalid response, indicating the need for re-authentication.
-
-    \item \textbf{LoginView:}
-     Open to all users (\textit{AllowAny} permission), this view manages user login. Upon receiving a username and password, it attempts to authenticate the user. In the case of success, it retrieves or creates a new authentication token for the session and optionally sends a push notification via the associated token. Incorrect credentials will return an error response, maintaining security by denying access.
-
+    \item \textbf{ValidateAuthenticationTokenView:} This view verifies the validity of a user's authentication token. It uses \textit{TokenAuthentication} permission to ensure that each request is made by an authenticated user. If authenticated, it returns a confirmation of token validity. Otherwise, it handles exceptions, particularly \textit{AuthenticationFailed}, by returning an invalid token response, indicating the need for re-authentication.
+    \item \textbf{LoginView:} Open to all users (\textit{AllowAny} permission), this view manages user login. Upon receiving a username and password, it attempts to authenticate the user. In the case of success, it retrieves or creates a new authentication token for the session and optionally sends a push notification via the associated token. Incorrect credentials will return an error response, maintaining security by denying access.
     \item \textbf{SignUpView:} Also open to all users, this view manages user registration using the \textit{SignUpSerialiser}. It validates the incoming data, creates a new user record, and sets up initial authentication details. The view ensures that all data conforms to predefined security and integrity standards before creating the user record.
-
     \item \textbf{AuthenticationPushTokenView:} Restricted to authenticated users (\textit{IsAuthenticated} permission), this view manages the lifecycle of authentication tokens. Through \textit{POST}, \textit{GET}, and \textit{DELETE} requests, respectively, users can generate, obtain, and delete tokens. Before proceeding with any operations, the view verifies user's identity. To help with troubleshooting, it provides detailed error messages.
 \end{itemize}
 
 \subsection{Contracts Application}
 
-The entire contract handling process, including the creation, validation, and deletion of employment and smart contracts, is handled by the \texttt{``Contracts''} module of \texttt{ASACBackEnd}. Users can generate their contracts directly through our AI model, which we've fine-tuned earlier.
+The entire contract handling process, including the creation, validation, and deletion of employment and smart contracts, is handled by the \texttt{``Contracts''} module of \texttt{ASACBackEnd}. Users can generate their contracts directly through our AI model, which we have fine-tuned earlier.
 
 \subsubsection{Admin} 
 
@@ -347,7 +342,7 @@ This file sets up the application configuration with Django, defining it within 
 
 \subsubsection{Models} 
 
-The \textit{models.py} file defines models like \textit{EmploymentContract} and \textit{SmartContract}, which include fields for managing contract details such as names, blockchain addresses, and content (the legal text of the employment contract and solidity code respectively), along with custom validators.
+The \textit{models.py} file defines models like \textit{EmploymentContract} and \textit{SmartContract}, which include fields for managing contract details such as names, blockchain addresses, and content (the legal text of the employment contract and \textit{Solidity} code respectively), along with custom validators.
 
 \subsubsection{Serialisers}
 
@@ -368,10 +363,10 @@ The URL configuration for the \textit{Contracts} application is designed to mana
 
 Custom validators in \texttt{validators.py} improve data integrity:
 \begin{itemize}
-    \item \textbf{validate\_ethereum\_address:} Makes sure Ethereum addresses are correctly check-summed to prevent errors in blockchain transactions.
-    \item \textbf{validate\_hexadecimal:} Confirms if entries are valid hexadecimal values.
+    \item \textbf{validate\_ethereum\_address:} Makes sure Ethereum addresses are correctly checksummed to prevent errors in blockchain transactions.
+    \item \textbf{validate\_hexadecimal:} Confirms whether entries are valid hexadecimal values.
     \item \textbf{validate\_contract\_name:} Ensures the contract name is within the allowed character limits and uses only permitted characters.
-    \item \textbf{validate\_json\_format:} Checks if the JSON format for contract content is correct. This is used for token interfaces that are passed to the smart contract.
+    \item \textbf{validate\_json\_format:} Checks that the JSON format for contract content is correct. This is used for token interfaces that are passed to the smart contract.
 \end{itemize}
 
 \subsubsection{Views}
@@ -379,18 +374,18 @@ Custom validators in \texttt{validators.py} improve data integrity:
 Functionalities of views defined in \texttt{views.py} are as follows:
 \begin{itemize}
     \item \textbf{GenerateContractView:} Handles the \textit{POST} request to generate a new smart contract, transforming legal text into Solidity code. It verifies user input, communicates with our optimised AI model via the \textit{OpenAI API}, and stores the newly created smart contract in the database. Users receive notifications when their contracts are successfully generated.
-    \item \textbf{DeleteContractView:} Offers users the ability to remove their contracts. After confirming the user's identity e.g. who owns the contract, it permits the contract to be deleted.
+    \item \textbf{DeleteContractView:} Offers users the ability to remove their contracts. After confirming the user's identity i.e. who owns the contract, it permits the contract to be deleted.
     \item \textbf{FetchContractsView:}  Allows users to retrieve a list of their contracts. It filters contracts by the authenticated user and serialises them for the response.
     \item \textbf{CheckSumAddressView:} Verifies user-provided Ethereum addresses to make sure they are accurate and suitable for blockchain transactions.
 \end{itemize}
 
 \subsection{Forums Application}
 
-The \texttt{Forums} module within \texttt{ASACBackEnd} manages community interactions such as posts, comments, and likes. This application allows users to engage with each other, fostering a community environment within the app.
+The \texttt{``Forums''} module within \texttt{ASACBackEnd} manages community interactions such as posts, comments, and likes. This application allows users to engage with each other, fostering a community environment within the app.
 
 \subsubsection{Admin}
 
-The file is responsible for configuring the Django admin panel to manage \textit{Post}, \textit{Comment}, and \textit{Like} models.
+This file is responsible for configuring the Django admin panel to manage \textit{Post}, \textit{Comment}, and \textit{Like} models.
 
 \subsubsection{Apps}
 
@@ -398,7 +393,7 @@ This file defines the \textit{Forums} app configuration, registering it within t
 
 \subsubsection{Models} 
 
-This file includes models for \textit{Post}, \textit{Comment}, and \textit{Like}. Each model is tied to the \textit{User} model from the \textit{Accounts} module,  making sure all activities are user-specific.
+This file includes models for \textit{Post}, \textit{Comment}, and \textit{Like}. Each model is tied to the \textit{User} model from the \textit{Accounts} module, making sure all activities are user-specific.
 
 \subsubsection{Serialisers}
 
@@ -441,7 +436,7 @@ The views within the \texttt{Forums} module are designed to use \texttt{IsAuthen
 
     \item \textbf{CommentCreateView:}
     \begin{itemize}
-        \item This view Contributes to the addition of comments to posts. It ensures that each comment is linked to both the user making it and the post under which it is made. User authentication is mandatory, reinforcing that comments can only be created by logged-in users, thereby associating each comment with a specific user identity.
+        \item This view contributes to the addition of comments to posts. It ensures that each comment is linked to both the user making it and the post under which it is made. User authentication is mandatory, reinforcing that comments can only be created by logged-in users, thereby associating each comment with a specific user identity.
     \end{itemize}
 
     \item \textbf{CommentListView:}
@@ -459,7 +454,7 @@ The views within the \texttt{Forums} module are designed to use \texttt{IsAuthen
 
 \subsection{Notifications Application}
 
-The \texttt{``Notifications''} application within \texttt{ASACBackEnd} manages everything related to notifications. This includes the registration and deletion of push tokens and the real-time delivery of notifications.
+The \texttt{``Notifications''} module within \texttt{ASACBackEnd} manages everything related to notifications. This includes the registration and deletion of push tokens and the real-time delivery of notifications.
 
 \subsubsection{Admin} 
 
@@ -471,14 +466,14 @@ This file defines the application configuration for the \textit{Notifications} m
 
 \subsubsection{Consumers}
 
-\textit{NotificationConsumer} is included in the  \textit{consumers.py} file. It manages \textit{WebSocket} connections using \textit{Django Channels} for real-time asynchronous communication between the client and the server. Implementation in the \textit{NotificationConsumer} includes the following functions:
+\textit{NotificationConsumer} is included in the \textit{consumers.py} file. It manages \textit{WebSocket} connections using \textit{Django Channels} for real-time asynchronous communication between the client and the server. Implementation in the \textit{NotificationConsumer} includes the following functions:
 
 \begin{itemize}
     \item \textbf{connect:}
     \begin{itemize}
         \item Purpose: Establishes the \textit{WebSocket} connection between the client and the server.
-        \item Process: When a client attempts to connect, this method is invoked. The consumer adds the connection to a group named \textit{'notification\_group'}. Groups in \textit{Django Channels} are a way to organise multiple connections, allowing messages to be sent to all of them simultaneously.
-        \item \textbf{self.channel\_layer.group\_add}: The connect function calls this one to add the current channel to the specified group for broadcasting messages to all clients within it.
+        \item Process: When a client attempts to connect, this method is invoked. The consumer adds the connection to a group named \textit{``notification\_group''}. Groups in \textit{Django Channels} are a way to organise multiple connections, allowing messages to be sent to all of them simultaneously.
+        \item \textbf{self.channel\_layer.group\_add}: The connect function calls this method to add the current channel to the specified group for broadcasting messages to all clients within it.
         \item \textbf{self.accept}: The connect function calls this method to finalise the \textit{WebSocket} connection, allowing data to be exchanged between the client and the server.
     \end{itemize}
 
@@ -486,7 +481,7 @@ This file defines the application configuration for the \textit{Notifications} m
     \begin{itemize}
         \item Purpose: Handles the disconnection of a client from the server.
         \item Process: When a client disconnects, whether due to closing the mobile application or losing connection, this method removes the channel from the group, cleaning up resources and preventing further communication to a non-existent connection.
-        \item \textbf{self.channel\_layer.group\_discard}: The disconnect function calls this one passing it the group and channel to remove the latter from the former.
+        \item \textbf{self.channel\_layer.group\_discard}: The disconnect function calls this method passing it the group and channel to remove the latter from the former.
     \end{itemize}
 
     \item \textbf{receive:}
@@ -514,7 +509,7 @@ The \textit{models.py} file defines the \textit{NotificationPushToken} model. It
 Web socket URL patterns are defined in \textit{routing.py} to route notification-related \textit{WebSocket} connections to the appropriate consumer.
 
 \begin{itemize}
-    \item \textit{ws/notifications/} is routed to \textit{NotificationConsumer.as\_asgi()}. The use of \textit{.as\_asgi} method dictates that the consumer is prepared to handle asynchronous gateway interface applications, suitable for real-time \textit{WebSocket} communications.
+    \item \textit{ws/notifications/} is routed to \textit{NotificationConsumer.as\_asgi()}. The use of the \textit{.as\_asgi} method dictates that the consumer is prepared to handle asynchronous gateway interface applications, suitable for real-time \textit{WebSocket} communications.
 \end{itemize}
 
 \subsubsection{Serialisers}
@@ -548,7 +543,7 @@ Views in the \textit{Notifications} module handle API requests related to notifi
 The database is configured as follows:
 
 \begin{itemize}
-    \item \textbf{Database Engine:} As previously outlined, PostgreSQL was selected as the main database system for the ASACBackEnd project because of its capabilities for complicated queries and data integrity.
+    \item \textbf{Database Engine:} As previously outlined, \textit{PostgreSQL} was selected as the main database system for the \textit{ASACBackEnd} project because of its capabilities for complex queries and data integrity.
     \item \textbf{Database Name:} The database for the production environment is named \textit{``asacbackenddb''}.
     \item \textbf{Credentials:} Access to the database is secured with a username and password.
     \item \textbf{Host and Port:} The database is hosted locally on the deployment server with the default PostgreSQL port. With this configuration, database operations have quick access and reduced latency within the internal network.
@@ -567,8 +562,8 @@ In the root directory we have the following configuration files:
 \begin{itemize}
     \item \textbf{App.js:} Serves as the root component of our application. It initialises the navigation container and global providers such as authentication, theme, and keyboard handling. Additionally, it configures platform-specific intensifications and notification settings.
     \item \textbf{app.json:} Contains metadata for the application such as the name, version, and configuration specifics for iOS, Android and web. Additionally, it lists the plugins, assets, and other resources that must be included when the app is built.
-    \item \textbf{babel.config.js:} Configures the Babel compiler for JavaScript with environment-specific settings for testing and production. This setup is specifying how modern JavaScript features are translated into versions that are backward-compatible with older engines..
-    \item \textbf{ErrorBoundary.js:} A higher-order component used to catch JavaScript errors anywhere in the child component tree, log those errors, and display a fallback UI instead of the component tree that crashed. This component was extensively used during the development phase for errors tracking.
+    \item \textbf{babel.config.js:} Configures the Babel compiler for JavaScript with environment-specific settings for testing and production. This setup specifies how modern JavaScript features are translated into versions that are backward-compatible with older engines.
+    \item \textbf{ErrorBoundary.js:} A higher-order component used to catch JavaScript errors anywhere in the child component tree, log those errors, and display a fallback UI instead of the component tree that crashed. This component was extensively used during the development phase for error tracking.
     \item \textbf{package.json:} Defines the project’s dependencies, scripts, and Jest configuration for testing.
     \item \textbf{package-lock.json:} This file is automatically generated when Node packages are installed (using npm) in the project. It serves to lock the versions of each package and its dependencies which were installed, ensuring that every npm install results in the exact same set of dependencies.
 \end{itemize}
@@ -588,7 +583,7 @@ The project also includes a folder named \texttt{assets} in the root directory, 
 
 \subsection{Components Directory}
 
-The \texttt{components} directory is organised to group essential utility components, it includes the following files:
+The \texttt{components} directory is organised to group essential utility components. It includes the following files:
 
 \begin{enumerate}
     \item \texttt{Authentication.js}
@@ -604,9 +599,9 @@ The \texttt{components} directory is organised to group essential utility compon
     \item \textbf{Token Validation:} \textit{validateToken} function checks the validity of the stored authentication token by making a \textit{GET} request to the backend. This is in place to make sure the user remains logged in even if the application restarts.
     \item \textbf{User Registration and Login:} Functions \textit{signUp} and \textit{login} interact with the backend to register new users or authenticate existing ones and manage the authentication token received from the backend.
     \item \textbf{Logout Functionality:} The \textit{logout} function erases the authentication token from storage, effectively logging out the user.
-    \item \textbf{Animation and Alerts:} \textit{LayoutAnimation} is used to provide smooth login and logout transitions, while \textit{Alert} is used to give feedback on authentication procedures
+    \item \textbf{Animation and Alerts:} \textit{LayoutAnimation} is used to provide smooth login and logout transitions, while \textit{Alert} is used to give feedback on authentication procedures.
     \item \textbf{Error Handling:} Includes robust error handling to manage issues during authentication processes, easing troubleshooting and preventing the entire UI from crashing.
-    \item \textbf{Higher-Order Component Usage:} Wraps the children components with \textit{WebSocketProvider} if the user is logged in, enabling \textit{WebSocket} connections for notifications.
+    \item \textbf{Higher-Order Component Usage:} Wraps the child components with \textit{WebSocketProvider} if the user is logged in, enabling \textit{WebSocket} connections for notifications.
 \end{itemize}
 
 \subsubsection{Keyboard Component}
@@ -624,13 +619,13 @@ The \texttt{Keyboard} component is a custom utility developed to manage keyboard
 
 \subsubsection{Notifications Component}
 
-The \texttt{useWebSocket} hook manages a \textit{WebSocket} connection for real-time asynchronous notification functionalities. Here is how it is set up:
+The \texttt{useWebSocket} hook manages a \textit{WebSocket} connection for real-time asynchronous notification functionality. Here is how it is set up:
 
 \begin{itemize}
     \item Connection is initiated with \textit{WebSocket(url)}, which switches between \textit{wss://} and \textit{ws://} based on the backend's \textit{URL} schema for secure connections.
     \item \textbf{Event Listeners:}
         \begin{itemize}
-            \item \textit{onopen:} Confirms the connection has been successfully opened and logs it out to the console.
+            \item \textit{onopen:} Confirms the connection has been successfully opened and logs it to the console.
             \item \textit{onmessage:} Listens for incoming messages, then parses them, and finally triggers a notification using \textit{Expo's notification API}. This is in place to make sure that users receive alerts even when the application is not actively in use.
             \item \textit{onerror:} Handles any errors that occur during the web socket communication.
             \item \textit{onclose:} Records reasons for web socket disconnections.
@@ -652,12 +647,12 @@ To make the web socket functionality accessible throughout the application, the 
 
 \begin{itemize}
     \item \textbf{Context Setup:} Spreads the theme state across the component hierarchy by utilising \textit{React's Context API}.
-    \item \textbf{Persistent Theme option:} The user's theme preference is stored persistently using \textit{expo-secure-store}, maintaining the preferred option across sessions.
-    \item \textbf{Theme Switching:} Provides a \textit{toggleTheme} function, which allows users to switch between 'light' and 'dark' modes, updating the state within the context accordingly.
+    \item \textbf{Persistent Theme Option:} The user's theme preference is stored persistently using \textit{expo-secure-store}, maintaining the preferred option across sessions.
+    \item \textbf{Theme Switching:} Provides a \textit{toggleTheme} function, which allows users to switch between ``light'' and ``dark'' modes, updating the state within the context accordingly.
     \item \textbf{Dark Mode Support:} The \textit{isDarkMode} flag enables a check that components can use to determine if the dark mode is currently enabled, allowing for conditional styling.
 \end{itemize}
 
-The \texttt{ThemeProvider} attempts to retrieve the stored theme from safe storage when it first initialises. If a theme is saved, it sets this as the current one; otherwise, it defaults to textit{``light''}. This setup is handled within a \textit{useEffect} hook to ensure it runs once when the component mounts.
+The \texttt{ThemeProvider} attempts to retrieve the stored theme from safe storage when it first initialises. If a theme is saved, it sets this as the current one; otherwise, it defaults to \textit{``light''}. This setup is handled within a \textit{useEffect} hook to ensure it runs once when the component mounts.
 
 \subsection{Navigation Directory}
 
@@ -726,7 +721,7 @@ The code snippet in this file defines a JavaScript object, \texttt{themeStyles},
 
 \subsubsection{GloballySharedStyles Component}
 
-All of the application's screens make considerable use of style definitions, which are stored in the \texttt{GloballySharedStyles} component. The styles are dynamically generated based on the current theme, which is passed as a parameter through the \textit{ThemeStyles} component. The styles are defined using \textit{React Native's} \textit{StyleSheet.create method}. Important Style Categories consist of:
+All of the application's screens make considerable use of style definitions, which are stored in the \texttt{GloballySharedStyles} component. The styles are dynamically generated based on the current theme, which is passed as a parameter through the \textit{ThemeStyles} component. The styles are defined using \textit{React Native's} \textit{StyleSheet.create} method. Important Style Categories consist of:
 
 \begin{itemize}
     \item \textbf{Navigation and Layout:} The component defines styles for the tab bar and various containers. The tab bar style, for instance, includes customised active and inactive tint colours, background colour, and positioning to create a floating effect at the bottom of the screen. Container styles are adjusted for general use and, in certain circumstances, for particular contexts like modals and card views. They include settings for alignment, padding, and background colours.
@@ -739,7 +734,7 @@ All of the application's screens make considerable use of style definitions, whi
 
 The \texttt{LocallySharedStyles} components are utilised to:
 \begin{itemize}
-    \item Provide custom styling for particular screens within the application that require specific aesthetic not covered by global styles.
+    \item Provide custom styling for particular screens within the application that require specific aesthetics not covered by global styles.
     \item Improve maintainability of style code by segregating local styles into dedicated modules. This reduces clutter in main component files.
     \item Allow each screen to independently control its visual elements without impacting other parts of the application, thereby easing more focused style adjustments.
 \end{itemize}
@@ -801,7 +796,7 @@ All the UI components below will perform the functionalities discussed in this s
 
 \subsubsection{PreLoginScreens: PreLoginScreen.js}
 
-The \texttt{PreLoginScreen.js} uses the \textit{ImageBackground} component to make the screen more engaging.  It is divided into three primary interactive sections, which include:
+The \texttt{PreLoginScreen.js} uses the \textit{ImageBackground} component to make the screen more engaging. It is divided into three primary interactive sections, which include:
 
 \begin{enumerate}
     \item \textbf{Login Button:} Directs users to the \textit{LoginScreen}.
@@ -847,7 +842,7 @@ The rendering of the sign-up screen is managed by the \texttt{SignUpScreen} func
 
 \begin{itemize}
     \item A \textit{View} component that serves as the main container, with styles adjusted based on the keyboard height. 
-    \item A \textit{StatusBar} component to manage the appearance of the status bar based on the current theme. It is important to note that this component is repeatedly added at the individual level of the pre-login screens since it could not be added to the root container, \textit{PreLoginStack}. The \textit{PreLoginScreen} is an exception, as the background image there is too dark, making its components invisible in case of a dark mode. Hence, this component is manually added to each individual screen, contrary to the \textit{PostLoginTabs}, where is was added once at the root component.
+    \item A \textit{StatusBar} component to manage the appearance of the status bar based on the current theme. It is important to note that this component is repeatedly added at the individual level of the pre-login screens since it could not be added to the root container, \textit{PreLoginStack}. The \textit{PreLoginScreen} is an exception, as the background image there is too dark, making its components invisible in case of a dark mode. Hence, this component is manually added to each individual screen, contrary to the \textit{PostLoginTabs}, where it was added once at the root component.
     \item A \textit{ScrollView} component, which is referenced to manage keyboard interactions, that allows for scrolling when the content exceeds the screen height. 
     \item Inside the \textit{ScrollView}, a nested \textit{View} component contains:
     \begin{itemize}
@@ -931,8 +926,8 @@ The component returns a view hierarchy structured as follows:
     \item A \textit{ScrollView} for overflow content. It is referenced to manage keyboard interactions.
     \item Inside the \textit{ScrollView}, a nested \textit{View} component contains:
     \begin{itemize}
-        \item A header Label for the page.
-        \item Contract creation section, styled as a card, with:
+        \item A header label for the page.
+        \item A Contract creation section, styled as a card, with:
         \begin{itemize}
             \item An error icon and modal for displaying input validation errors.
             \item A card header for the contract creation section.
@@ -971,7 +966,7 @@ The file defines the \texttt{useHomeScreen} custom hook, which is used to contro
         \item \textit{isComponentMounted} is a flag to check if the component is mounted.
         \item \textit{showAddressModal} and \textit{validatedAddress} manage the state for displaying and storing the validated Ethereum address.
         \item \textit{errors} and \textit{showErrorDetails} handle validation errors and their visibility.
-        \item The Ethereum address that the users input to be validated is stored by \textit{addressChecksum} variable.
+        \item The Ethereum address that users input to be validated is stored by \textit{addressChecksum} variable.
     \end{itemize}
 
     \item \textbf{File Selection:}
@@ -1067,7 +1062,7 @@ The file defines the \texttt{useHomeScreen} custom hook, which is used to contro
     \end{itemize}
 \end{itemize}
 
-When everything said, the \textit{useHomeScreen} custom hook simplifies and modularises the code by encapsulating the state management and necessary functionalities needed for the \textit{HomeScreen} UI component.
+In summary, the \textit{useHomeScreen} custom hook simplifies and modularises the code by encapsulating the state management and necessary functionalities needed for the \textit{HomeScreen} UI component.
 
 \subsubsection{PostLoginScreens: ContractItem.js}
 
@@ -1078,7 +1073,7 @@ Users can open, share, delete, and expand contract details through this componen
     \begin{itemize}
         \item \textit{expanded}: A state variable to track whether the contract details are expanded or collapsed.
         \item \textit{animationController}: An animated value to control the height of the contract details section.
-        \item \textit{opacityAnimation and heightAnimation}: During the deletion, the opacity and height are controlled by these states.
+        \item \textit{opacityAnimation} and \textit{heightAnimation}: During deletion, the opacity and height are controlled by these states.
         \item \textit{isMounted}: A reference for detecting animations and halting them.
     \end{itemize}
 
@@ -1096,7 +1091,7 @@ Users can open, share, delete, and expand contract details through this componen
     \item \textbf{initiateDeletion:}
     \begin{itemize}
         \item This method shows an alert to confirm the deletion of a contract.
-        \item If the user confirms, it triggers \texttt{handleDeletionAnimation}.
+        \item If the user confirms, it triggers the \texttt{handleDeletionAnimation}.
     \end{itemize}
 
     \item \textbf{handleDeletionAnimation:}
@@ -1140,7 +1135,7 @@ The \texttt{EditorScreen} is a functional component that uses \textit{navigation
 
     \item \textbf{Return Statement:}
     \begin{itemize}
-        \item A View container with conditional rendering based on the \textit{isLoading} state is returned by the component.
+        \item A view container with conditional rendering based on the \textit{isLoading} state is returned by the component.
         \begin{itemize}
             \item If \textit{isLoading} is true, an \textit{ActivityIndicator} is displayed.
             \item If \textit{isLoading} is false, a \textit{WebView} component is rendered to display the HTML content of the code.
@@ -1204,7 +1199,7 @@ A customised hook that loads and formats contract file content for \textit{web v
     \label{fig:forum screen}
 \end{figure} 
 
-The \textit{ForumScreen} is a functional component that takes navigation as a prop. Post management features and state variables are provided by the \textit{useForumScreen} hook.
+The \textit{ForumScreen} is a functional component that takes \textit{navigation} as a prop. Post management features and state variables are provided by the \textit{useForumScreen} hook.
 
 \begin{itemize}
     \item \textbf{Loading State:}
@@ -1289,7 +1284,7 @@ The \texttt{UseForumScreen.js} file defines a custom hook, \textit{useForumScree
             \item it validates that the title and description are not empty.
             \item Resets the \textit{newPostTitle} and \textit{newPostDescription} states after validation.
             \item Makes a \textit{POST} request to the backend with the new post's title and description.
-            \item If the request is successful, adds the new post to the \textit{posts} state using \textit{LayoutAnimation} for a smooth transition.
+            \item If the request is successful, it adds the new post to the \textit{posts} state using \textit{LayoutAnimation} for a smooth transition.
             \item Logs any errors encountered during the post creation.
         \end{itemize}
     \end{itemize}
@@ -1364,7 +1359,7 @@ The \texttt{CommentScreen} component is defined as a functional component that t
 
 \subsubsection{PostLoginScreens: UseCommentScreen.js}
 
-The \texttt{UseCommentScreen.js} file defines a custom hook which manages the state and functionality of the comments screen.
+The \texttt{UseCommentScreen.js} file defines a custom hook that manages the state and functionality of the comments screen.
 
 \begin{itemize}
     \item \textbf{State Variables:}
@@ -1414,7 +1409,7 @@ The \texttt{UseCommentScreen.js} file defines a custom hook which manages the st
     \label{fig:support screen}
 \end{figure}
 
-The \texttt{SupportScreen.js} file defines a component, which is responsible for providing a chat interface where users can interact with support agents.
+The \texttt{SupportScreen.js} file defines a component responsible for providing a chat interface where users can interact with support agents.
 
 \begin{itemize}
     \item \textbf{State Variables:}
@@ -1425,9 +1420,9 @@ The \texttt{SupportScreen.js} file defines a component, which is responsible for
 
     \item \textbf{Sending Messages:}
     \begin{itemize}
-        \item \textit{handleSendMessage} handles sending a message when the user presses the send button.
+        \item \textit{handleSendMessage} handles sending a message when the user presses the \textit{``send''} button.
         \begin{itemize}
-            \item If the message is not empty, it creates a new message object with the user's input.
+            \item If the message is not empty, a new object is created with the user's input.
             \item The new message is added to the \textit{messages} array, and the input field is cleared.
         \end{itemize}
     \end{itemize}
@@ -1440,7 +1435,7 @@ The \texttt{SupportScreen.js} file defines a component, which is responsible for
             \item A \textit{ScrollView} component to display the list of messages.
             \begin{itemize}
                 \item Each message is rendered as a \textit{View} containing a \textit{Text} component with the message content.
-                \item The message bubbles are styled differently based on whether the message is from the assistant or the user.
+                \item The message bubbles are styled differently based on whether the message is from an assistant or a user.
             \end{itemize}
             \item An input area at the bottom for the user to type and send messages.
             \begin{itemize}
@@ -1463,7 +1458,7 @@ Initially, it was planned to fine-tune another AI model to answer queries relate
     \label{fig:settings screen}
 \end{figure}
 
-The \texttt{SettingsScreen.js} file defines a component, which is responsible for providing a UI for adjusting application settings.
+The \texttt{SettingsScreen.js} file defines a component responsible for providing a UI for adjusting application settings.
 
 \begin{itemize}
     \item \textbf{Authentication and Notifications:}
@@ -1487,7 +1482,7 @@ The \texttt{SettingsScreen.js} file defines a component, which is responsible fo
             \end{itemize}
             \item A \textit{TouchableOpacity} button for logging out the user.
             \begin{itemize}
-                \item The button triggers the \textit{handleLogout} function.
+                \item This button triggers the \textit{handleLogout} function.
             \end{itemize}
             \item A separator line at the bottom for visual separation.
         \end{itemize}
@@ -1496,7 +1491,7 @@ The \texttt{SettingsScreen.js} file defines a component, which is responsible fo
 
 \subsubsection{PostLoginScreens: UseSettingsScreen.js}
 
-The \texttt{UseSettingsScreen.js} file defines a custom hook which manages the state and functionality of the settings screen.
+The \texttt{UseSettingsScreen.js} file defines a custom hook that manages the state and functionality of the settings screen.
 
 \begin{itemize}
     \item \textbf{State Variables:}
