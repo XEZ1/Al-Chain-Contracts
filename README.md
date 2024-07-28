@@ -159,6 +159,7 @@ git@github.com:XEZ1/Al-Slebi-AI-Contracts.git
 docker-compose build
 docker-compose up
 docker-compose up -d
+docker-compose up --build 
 ```
 
 ## Configure the VM Firewall

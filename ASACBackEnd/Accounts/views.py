@@ -18,7 +18,7 @@ class ValidateAuthenticationTokenView(views.APIView):
     def get(self, request):
         if request.user and request.user.is_authenticated:
             return Response({'token_valid': True})
-        # return Response({'token_valid': False}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({'token_valid': False}, status=status.HTTP_401_UNAUTHORIZED)
 
     def handle_exception(self, exc):
         response = exception_handler(exc, self.get_renderer_context())
