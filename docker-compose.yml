@@ -11,10 +11,32 @@ services:
       - "8000:8000"
     depends_on:
       - redis
+      - db
     environment:
       - REDIS_HOST=redis
+      - DB_HOST=db
+      - DB_NAME=asacbackenddb
+      - DB_USER=admin
+      - DB_PASS=admin123!!!
+      - DB_PORT=5432
 
   redis:
     image: "redis:alpine"
     ports:
       - "6379:6379"
+
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=asacbackenddb
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin123!!!
+      - POSTGRES_DB=databasename
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
+

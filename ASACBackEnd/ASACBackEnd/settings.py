@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-sd*6c$qhzhfw7k#ncii@3nnzxco@k&+n%fq0_=ze5hg7+j9k(z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '34.38.89.1', '192.168.0.18', '192.168.56.1', '172.20.10.4', '91b6-193-61-74-10.ngrok-free.app']
+ALLOWED_HOSTS = ['localhost', '34.38.89.1', '192.168.0.18']
 # Application definition
 INSTALLED_APPS = [
     'rest_framework',
@@ -129,11 +129,11 @@ def get_database_config(debug):
         return {
             'default': {
                 'ENGINE': 'django.db.backends.postgresql',
-                'NAME': 'asacbackenddb',
-                'USER': 'xez1',
-                'PASSWORD': 'g9hgim5A!!!',
-                'HOST': 'localhost',
-                'PORT': '',
+                'NAME': os.getenv('DB_NAME', 'asacbackenddb'),
+                'USER': os.getenv('DB_USER', 'admin'),
+                'PASSWORD': os.getenv('DB_PASS', 'defaultpassword'),
+                'HOST': os.getenv('DB_HOST', 'localhost'),
+                'PORT': os.getenv('DB_PORT', '5432'),
             }
         }
 
