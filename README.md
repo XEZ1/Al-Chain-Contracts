@@ -168,6 +168,9 @@ docker-compose down
 docker-compose down -v
 docker-compose up -d
 docker-compose exec web python manage.py migrate
+docker-compose exec web python manage.py collectstatic
+docker-compose exec web ls /ASACBackEnd/staticfiles
+docker-compose exec web chmod -R 777 /ASACBackEnd/staticfiles
 ```
 
 ## Configure the VM Firewall

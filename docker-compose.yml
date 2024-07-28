@@ -6,7 +6,8 @@ services:
       context: ./ASACBackEnd
     command: daphne ASACBackEnd.asgi:application --bind 0.0.0.0 --port 8000
     volumes:
-      - ./ASACBackEnd:/ASACImage
+      - ./ASACBackEnd:/ASACBackEnd
+      - static_volume:/ASACBackEnd/staticfiles
     ports:
       - "8000:8000"
     depends_on:
@@ -20,6 +21,18 @@ services:
       - DB_PASS=admin123!!!
       - DB_PORT=5432
       - DEBUG=False
+
+  nginx:
+    build: 
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - web
+    volumes:
+      - static_volume:/ASACBackEnd/staticfiles
 
   redis:
     image: "redis:alpine"
@@ -39,4 +52,4 @@ services:
 
 volumes:
   postgres_data:
-
+  static_volume:

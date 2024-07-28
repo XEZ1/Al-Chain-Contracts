@@ -8,7 +8,7 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
     && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
 # Set the working directory
-WORKDIR /ASACImage
+WORKDIR /ASACBackEnd
 
 # Copy requirements.txt first to leverage Docker cache
 COPY requirements.txt .
@@ -19,8 +19,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the remaining project files
 COPY . .
 
+# Install static files for the borwsable API and admin panel
+RUN python manage.py collectstatic --no-input
+
 # Run migrations
-RUN python manage.py migrate
+RUN sleep 120 && python manage.py migrate
 
 # Expose the port Django and Daphne run on
 EXPOSE 8000

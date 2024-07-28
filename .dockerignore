@@ -1,0 +1,9 @@
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/*.pyd
+ASACBackEnd/db.sqlite3
+ASACBackEnd/venv
+node_modules
+logs
+tmp

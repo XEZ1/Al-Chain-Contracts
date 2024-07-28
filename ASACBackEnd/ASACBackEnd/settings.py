@@ -148,6 +148,12 @@ if 'test' in sys.argv or 'pytest' in sys.argv:
        }
    }
 
+# Adding headers to handle HTTPS
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE = True  # Secure cookies
+CSRF_COOKIE_SECURE = True  # Secure CSRF cookie
+
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
