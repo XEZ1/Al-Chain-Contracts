@@ -25,9 +25,16 @@ COPY . .
 # Expose the port Django and Daphne run on
 EXPOSE 8000
 
-# Run Daphne server and migrations
-CMD ["sh", "-c", "dockerize -wait tcp://db:5432 -timeout 120s && python manage.py migrate && daphne ASACBackEnd.asgi:application --bind 0.0.0.0 --port 8000"]
-
 # Run Daphne server
 # CMD ["daphne", "ASACBackEnd.asgi:application", "--bind", "0.0.0.0", "--port", "8000"]
 
+
+
+CMD ["sh", "-c", "apt-get update && apt-get install -y netcat && nc -zv db 5432"]
+CMD ["sh", "-c", "dockerize -wait tcp://db:5432 -timeout 180s && echo 'DB is ready!' && python manage.py migrate && daphne ASACBackEnd.asgi:application --bind 0.0.0.0 --port 8000"]
+
+# Run Daphne server and migrations
+CMD ["sh", "-c", "dockerize -wait tcp://db:5432 -timeout 120s && python manage.py migrate && daphne ASACBackEnd.asgi:application --bind 0.0.0.0 --port 8000"]
+
+# Check Dockerize installation
+RUN dockerize -version
