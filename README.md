@@ -163,6 +163,13 @@ docker-compose up --build
 docker-compose down
 ```
 
+## Migrations
+```
+docker-compose down -v
+docker-compose up -d
+docker-compose exec web python manage.py migrate
+```
+
 ## Configure the VM Firewall
 
 You must ensure the port your backend is using is open through the Google Cloud firewall:
@@ -174,3 +181,8 @@ Set the source IP ranges. If you want to allow access from any IP (be cautious w
 Specify the protocols and ports. For example, for port 8000, you would enter tcp:8000.
 Give the rule a name and description, then click Create.
 
+# From HTTP to HTTPS
+```
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
+
+```
