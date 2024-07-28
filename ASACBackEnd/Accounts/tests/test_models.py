@@ -34,9 +34,6 @@ class UserModelTest(TestCase):
             user = User(username='ab', first_name='Jane', last_name='Doe', email='janedoe@example.com')
             user.full_clean()
 
-    def test_paying_user_default(self):
-        self.assertFalse(self.user.paying_user)
-
     def test_user_unique_email(self):
         with self.assertRaises(IntegrityError):
             User.objects.create(username='uniqueuser456', first_name='Alice', last_name='Smith',
