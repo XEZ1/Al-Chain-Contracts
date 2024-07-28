@@ -26,7 +26,7 @@ COPY . .
 EXPOSE 8000
 
 # Run Daphne server and migrations
-CMD dockerize -wait tcp://db:5432 -timeout 60s \
+CMD dockerize -wait tcp://db:5432 -timeout 120s \
     && python manage.py migrate \
     && daphne ASACBackEnd.asgi:application --bind 0.0.0.0 --port 8000
 
