@@ -29,9 +29,6 @@ class User(AbstractUser):
         max_length=35,
         blank=False
     )
-    paying_user = models.BooleanField(
-        default=False
-    )
 
 
 class AuthenticationPushToken(models.Model):
