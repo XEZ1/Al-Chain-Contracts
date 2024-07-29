@@ -59,6 +59,12 @@ describe('getLocallySharedStylesPreLoginScreens', () => {
             bigTopPadding: {
                 paddingTop: '70%',
             },
+            fullWidth: {
+                width: '100%',
+            },
+            zeroMargin: {
+                margin: 0,
+            },
         });
     });
 
@@ -107,6 +113,12 @@ describe('getLocallySharedStylesPreLoginScreens', () => {
             },
             bigTopPadding: {
                 paddingTop: '70%',
+            },
+            fullWidth: {
+                width: '100%',
+            },
+            zeroMargin: {
+                margin: 0,
             },
         });
     });
