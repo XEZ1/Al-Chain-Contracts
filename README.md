@@ -42,7 +42,7 @@ BACKEND_URL=your IPv4 address:8000
 ```
 npm install
 ```
-# Ngrok
+### Ngrok
 Use Ngrok to expose your locally deployed backend over an isolated WiFi connection:
 ```
 Ngrok http <port>
@@ -53,7 +53,7 @@ Ngrok http <port>
 npx expo start
 ```
 
-# Database Setup
+### Database Setup
 Connect to the database using:
 ```
 psql -U postgres -d postgres
