@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, StatusBar, LayoutAnimation, TouchableOpacity } from 'react-native';
+import { View, StatusBar, Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -75,6 +75,7 @@ const PostLoginTabs = () => {
         },
         tabBarStyle: sharedStyles.tabBar,
         headerShown: false,
+        tabBarHideOnKeyboard: Platform.OS === 'android',
     });
 
     return (

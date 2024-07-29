@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
-import { LayoutAnimation, Keyboard, Dimensions, findNodeHandle, TextInput, Text } from 'react-native';
+import { LayoutAnimation, Keyboard, Dimensions, findNodeHandle, TextInput, Platform  } from 'react-native';
 
 
 export const KeyboardContext = createContext();
@@ -14,8 +14,13 @@ export const KeyboardProvider = ({ children }) => {
             setIsKeyboardVisible(true);
             const screenHeight = Dimensions.get('window').height;
             const endY = e.endCoordinates.screenY;
-            LayoutAnimation.easeInEaseOut(); 
-            setKeyboardHeight(screenHeight - endY - 90);
+            LayoutAnimation.easeInEaseOut();
+
+            if (Platform.OS === 'ios') {
+                setKeyboardHeight(screenHeight - endY - 90);
+            } else {
+                setKeyboardHeight(screenHeight - endY - 255);
+            }
 
             const currentlyFocusedField = TextInput.State.currentlyFocusedInput();
             if (currentlyFocusedField) {
