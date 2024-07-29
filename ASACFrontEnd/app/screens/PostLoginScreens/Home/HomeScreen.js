@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react';
-import { Modal, View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { Modal, View, Text, TextInput, TouchableOpacity, ScrollView, Platform } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ContractItem } from './ContractItem';
@@ -241,7 +241,7 @@ const HomeScreen = ({ navigation }) => {
             </ScrollView>
 
             {/* Separator Line */}
-            <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight + 90 }]} />
+            <View style={[sharedStyles.separatorLine, { bottom: Platform.OS === 'android' ? 0 : keyboardHeight + 90  }]} />
 
         </View >
     );
