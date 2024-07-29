@@ -173,6 +173,10 @@ const getGloballySharedStyles = (theme = 'light') => {
             justifyContent: 'center',
             alignItems: 'center',
         },
+
+        mediumMarginBottom: {
+            marginBottom: 90,
+        },
     });
 };
 

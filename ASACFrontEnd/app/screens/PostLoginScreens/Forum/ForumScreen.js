@@ -92,7 +92,7 @@ const ForumScreen = ({ navigation }) => {
                 data={posts}
                 renderItem={renderPost}
                 keyExtractor={item => item.id.toString()}
-                style={[keyboardHeight > 0 ? sharedStyles.avoidingTabBarContainer: localStyles.mediumMarginBottom, localStyles.mediumTopPadding, { width: '100%' }]}
+                style={[keyboardHeight > 0 ? sharedStyles.avoidingTabBarContainer: sharedStyles.mediumMarginBottom, localStyles.mediumTopPadding, { width: '100%' }]}
                 showsVerticalScrollIndicator={false}
                 ListFooterComponent={<View style={localStyles.mediumBottomPadding}/>}
             />

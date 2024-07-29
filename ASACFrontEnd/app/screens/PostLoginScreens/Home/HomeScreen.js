@@ -54,7 +54,7 @@ const HomeScreen = ({ navigation }) => {
 
     return (
         <View style={[localStyles.backgroundContainer, { paddingBottom: keyboardHeight }]}>
-            <ScrollView ref={scrollViewRef} style={sharedStyles.avoidingTabBarContainer} showsVerticalScrollIndicator={false}>
+            <ScrollView ref={scrollViewRef} style={keyboardHeight > 0 && Platform.OS === 'android' ? sharedStyles.avoidingTabBarContainer : sharedStyles.mediumMarginBottom } showsVerticalScrollIndicator={false}>
                 <View style={sharedStyles.container}>
                     <Text style={sharedStyles.pageHeaderText}>Smart Contract Toolkit</Text>
 
@@ -241,7 +241,7 @@ const HomeScreen = ({ navigation }) => {
             </ScrollView>
 
             {/* Separator Line */}
-            <View style={[sharedStyles.separatorLine, { bottom:  Platform.OS === 'android' ? 0 : keyboardHeight + 90  }]} />
+            <View style={[sharedStyles.separatorLine, { bottom:  keyboardHeight > 0 && Platform.OS === 'android' ? 0 : keyboardHeight + 90  }]} />
 
         </View >
     );
