@@ -45,6 +45,12 @@ const getLocallySharedStylesPreLoginScreens = (theme = 'light') => {
         bigTopPadding: {
             paddingTop: '70%',
         },
+        fullWidth: {
+            width: '100%',
+        },
+        zeroMargin: {
+            margin: 0,
+        },
     });
 };
 

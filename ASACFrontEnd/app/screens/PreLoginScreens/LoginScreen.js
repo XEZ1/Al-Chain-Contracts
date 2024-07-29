@@ -36,7 +36,7 @@ const LoginScreen = ({ navigation }) => {
             <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
             <ScrollView ref={scrollViewRef} style={[sharedStyles.avoidingTabBarContainer, ]} showsVerticalScrollIndicator={false}> 
                 <View style={[localStyles.container, { flex: 1 }]}> 
-                    <View style={[sharedStyles.cardContainer]}>
+                    <View style={[sharedStyles.cardContainer, localStyles.fullWidth, localStyles.zeroMargin]}>
                         <TextInput
                             placeholder="Username"
                             style={sharedStyles.inputField}
