@@ -23,7 +23,7 @@ COPY . .
 RUN python manage.py collectstatic --no-input
 
 # Run migrations
-RUN sleep 120 && python manage.py migrate
+RUN python manage.py migrate
 
 # Expose the port Django and Daphne run on
 EXPOSE 8000

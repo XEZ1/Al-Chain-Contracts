@@ -32,9 +32,9 @@ services:
     depends_on:
       - web
     volumes:
-      - static_volume:/ASACBackEnd/staticfiles
-      - ./nginx/certbot/conf:/etc/letsencrypt
+      - /etc/letsencrypt:/etc/letsencrypt
       - ./nginx/certbot/www:/var/www/certbot
+      - static_volume:/ASACBackEnd/staticfiles
 
   certbot:
     image: certbot/certbot
