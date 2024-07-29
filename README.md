@@ -112,7 +112,8 @@ sudo chmod +x /usr/local/bin/docker-compose
 sudo systemctl status docker
 sudo systemctl start docker
 sudo systemctl enable docker
-sudo usermod -aG docker $USER
+sudo usermod -aG docker ${USER}
+newgrp docker
 ```
 
 ## Download Docker Again
@@ -187,5 +188,6 @@ Give the rule a name and description, then click Create.
 # From HTTP to HTTPS
 ```
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
-
+sudo certbot certonly --nginx --dry-run -d alsalibiaicontracts.co.uk -d www.alsalibiaicontracts.co.uk
+sudo certbot certonly --nginx -d alsalibiaicontracts.co.uk -d www.alsalibiaicontracts.co.uk
 ```

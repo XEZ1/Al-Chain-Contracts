@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-sd*6c$qhzhfw7k#ncii@3nnzxco@k&+n%fq0_=ze5hg7+j9k(z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '34.38.89.1', '192.168.0.18']
+ALLOWED_HOSTS = ['localhost', '35.205.90.226', '192.168.0.18', 'alsalibiaicontracts.co.uk', 'www.alsalibiaicontracts.co.uk']
 # Application definition
 INSTALLED_APPS = [
     'rest_framework',
