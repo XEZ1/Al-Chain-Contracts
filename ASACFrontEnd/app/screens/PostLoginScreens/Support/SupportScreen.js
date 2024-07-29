@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState, useContext } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, TextInput, Platform } from 'react-native';
 import { useKeyboard } from '../../../components/Keyboard';
 import { useFocusEffect } from '@react-navigation/native';
 import { ThemeContext } from '../../../components/Theme';
@@ -71,7 +71,7 @@ const SupportScreen = ({ navigation }) => {
             
             <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight + 177.6 }]} />
             {/* Input area */}
-            <View ref={viewRef} style={[localStyles.inputAreaContainer, sharedStyles.avoidingTabBarContainer, { marginTop: 0 }]} testID="viewTestID">
+            <View ref={viewRef} style={[localStyles.inputAreaContainer, sharedStyles.mediumMarginBottom, { marginTop: 0 }]} testID="viewTestID">
                 <TextInput
                     testID='inputTextFieldTestID'
                     value={message}
