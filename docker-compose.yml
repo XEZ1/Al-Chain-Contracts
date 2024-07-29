@@ -33,6 +33,18 @@ services:
       - web
     volumes:
       - static_volume:/ASACBackEnd/staticfiles
+      - ./nginx/certbot/conf:/etc/letsencrypt
+      - ./nginx/certbot/www:/var/www/certbot
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./nginx/certbot/conf:/etc/letsencrypt
+      - ./nginx/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    depends_on:
+      - nginx
+    command: certonly --webroot --webroot-path=/var/www/certbot --email ezzat.alsalibi@kcl.ac.uk --agree-tos --no-eff-email --force-renewal -d alsalibiaicontracts.co.uk -d www.alsalibiaicontracts.co.uk
 
   redis:
     image: "redis:alpine"
