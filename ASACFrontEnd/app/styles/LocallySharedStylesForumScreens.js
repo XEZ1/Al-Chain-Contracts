@@ -42,9 +42,6 @@ const getLocallySharedStylesForumScreens = (theme = 'light') => {
         stretchedContainer: {
             alignItems: 'stretch',
         },
-        mediumMarginBottom: {
-            marginBottom: 90,
-        },
     });
 };
 

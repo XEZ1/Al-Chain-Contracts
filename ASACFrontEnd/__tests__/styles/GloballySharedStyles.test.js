@@ -177,6 +177,9 @@ describe('getGloballySharedStyles', () => {
                 justifyContent: 'center',
                 alignItems: 'center',
             },
+            mediumMarginBottom: {
+                marginBottom: 90,
+            },
         });
     });
 
@@ -341,6 +344,9 @@ describe('getGloballySharedStyles', () => {
             centeredText: {
                 justifyContent: 'center',
                 alignItems: 'center',
+            },
+            mediumMarginBottom: {
+                marginBottom: 90,
             },
         });
     });

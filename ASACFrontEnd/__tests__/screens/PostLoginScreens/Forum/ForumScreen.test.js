@@ -5,6 +5,7 @@ import ForumScreen from '../../../../app/screens/PostLoginScreens/Forum/ForumScr
 import { useForumScreen } from '../../../../app/screens/PostLoginScreens/Forum/UseForumScreen';
 import { ThemeContext } from '../../../../app/components/Theme';
 import { NavigationContainer } from '@react-navigation/native';
+import { useKeyboard } from '../../../../app/components/Keyboard';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 jest.mock('@react-navigation/native', () => {
@@ -15,6 +16,18 @@ jest.mock('@react-navigation/native', () => {
             navigate: jest.fn(),
             goBack: jest.fn(),
         }),    
+    };
+});
+
+jest.mock('../../../../app/components/Keyboard', () => {
+    const registerScrollViewRef = jest.fn();
+    const unregisterScrollViewRef = jest.fn();
+    return {
+        useKeyboard: jest.fn(() => ({
+            keyboardHeight: 100,
+            registerScrollViewRef,
+            unregisterScrollViewRef,
+        })),
     };
 });
 
