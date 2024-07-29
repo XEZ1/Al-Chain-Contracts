@@ -241,7 +241,7 @@ const HomeScreen = ({ navigation }) => {
             </ScrollView>
 
             {/* Separator Line */}
-            <View style={[sharedStyles.separatorLine, { bottom: Platform.OS === 'android' ? 0 : keyboardHeight + 90  }]} />
+            <View style={[sharedStyles.separatorLine, { bottom:  Platform.OS === 'android' ? 0 : keyboardHeight + 90  }]} />
 
         </View >
     );

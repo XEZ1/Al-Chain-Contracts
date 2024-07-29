@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity, TextInput, FlatList, Platform } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useForumScreen } from './UseForumScreen';
+import { useKeyboard } from '../../../components/Keyboard';
 import { ThemeContext } from '../../../components/Theme';
 import getGloballySharedStyles from '../../../styles/GloballySharedStyles'; 
 import getLocallySharedStylesForumScreens from '../../../styles/LocallySharedStylesForumScreens';
@@ -11,6 +12,8 @@ const ForumScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
     const sharedStyles = getGloballySharedStyles(theme);
     const localStyles = getLocallySharedStylesForumScreens(theme);
+
+    const { keyboardHeight, registerScrollViewRef, unregisterScrollViewRef } = useKeyboard();
 
     const { posts, loading, createPost, handleLikePost, handleDeletePost,
         newPostTitle, setNewPostTitle,
@@ -100,5 +103,6 @@ const ForumScreen = ({ navigation }) => {
 
     );
 };
+//keyboardHeight + 90
 
 export default ForumScreen;
