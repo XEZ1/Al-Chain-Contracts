@@ -162,7 +162,7 @@ sudo certbot certonly --nginx --dry-run -d alsalibiaicontracts.co.uk -d www.alsa
 sudo certbot certonly --nginx -d alsalibiaicontracts.co.uk -d www.alsalibiaicontracts.co.uk
 ```
 
-# CAUTION
+### CAUTION
 Even though docker is configured to run migrations, the build sometimes skips this step for some reason. In order to be safe, execute the following command:
 ```
 docker-compose exec web python manage.py migrate
