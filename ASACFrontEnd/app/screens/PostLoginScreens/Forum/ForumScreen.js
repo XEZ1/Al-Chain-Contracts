@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, Text, TouchableOpacity, TextInput, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, FlatList, Platform } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useForumScreen } from './UseForumScreen';
 import { ThemeContext } from '../../../components/Theme';
@@ -95,7 +95,7 @@ const ForumScreen = ({ navigation }) => {
             />
 
             {/* Separator Line */}
-            <View style={sharedStyles.separatorLine} />
+            <View style={[sharedStyles.separatorLine, { bottom: Platform.OS === 'android' ? 0 : 90 }]} />
         </View>
 
     );
