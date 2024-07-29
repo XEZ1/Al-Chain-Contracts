@@ -33,7 +33,7 @@ daphne ASACBackEnd.asgi:application --bind 0.0.0.0 --port 8000
 ```
 
 ### Connect Backend and Frontend
-Run `ipconfig` or ``ifconfig` in bash, then create a `.env` file in the root directory of the frontend, with the IPv4 address inside.
+Run `ipconfig` or `ifconfig` in bash, then create a `.env` file in the root directory of the frontend, with the IPv4 address inside.
 ```
 BACKEND_URL=your IPv4 address:8000
 ```
