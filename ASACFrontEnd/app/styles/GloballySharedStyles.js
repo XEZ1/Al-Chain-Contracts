@@ -148,7 +148,6 @@ const getGloballySharedStyles = (theme = 'light') => {
             paddingLeft: '4%',
         },
 
-        
         separatorLine: {
             position: 'absolute',
             height: 0.3, 

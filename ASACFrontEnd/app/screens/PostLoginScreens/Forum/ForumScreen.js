@@ -92,13 +92,13 @@ const ForumScreen = ({ navigation }) => {
                 data={posts}
                 renderItem={renderPost}
                 keyExtractor={item => item.id.toString()}
-                style={[sharedStyles.avoidingTabBarContainer, localStyles.mediumTopPadding, { width: '100%' }]}
+                style={[keyboardHeight > 0 ? sharedStyles.avoidingTabBarContainer: localStyles.mediumMarginBottom, localStyles.mediumTopPadding, { width: '100%' }]}
                 showsVerticalScrollIndicator={false}
                 ListFooterComponent={<View style={localStyles.mediumBottomPadding}/>}
             />
 
             {/* Separator Line */}
-            <View style={[sharedStyles.separatorLine, { bottom: Platform.OS === 'android' ? 0 : 90 }]} />
+            <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight > 0 && Platform.OS === 'android' ? 0 : 90 }]} />
         </View>
 
     );
