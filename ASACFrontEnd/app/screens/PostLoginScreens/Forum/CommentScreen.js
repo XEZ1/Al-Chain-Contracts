@@ -57,7 +57,7 @@ const CommentScreen = ({ route, navigation }) => {
     return (
         <View style={[sharedStyles.container, localStyles.zeroTopPadding, localStyles.stretchedContainer, {paddingBottom: keyboardHeight}]}>
             <FlatList
-                style={sharedStyles.avoidingTabBarContainer}
+                style={localStyles.mediumMarginBottom}
                 ref={viewRef}
                 data={comments}
                 keyExtractor={(item) => item.id.toString()}
