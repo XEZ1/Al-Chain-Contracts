@@ -98,7 +98,7 @@ const ForumScreen = ({ navigation }) => {
             />
 
             {/* Separator Line */}
-            <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight > 0 && Platform.OS === 'android' ? 0 : 90 }]} />
+            <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight > 0 && Platform.OS === 'android' ? 0 : 90 }]} testID='testIDSeparatorLine'/>
         </View>
 
     );

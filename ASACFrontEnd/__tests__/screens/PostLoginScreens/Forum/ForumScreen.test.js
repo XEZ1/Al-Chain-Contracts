@@ -7,6 +7,7 @@ import { ThemeContext } from '../../../../app/components/Theme';
 import { NavigationContainer } from '@react-navigation/native';
 import { useKeyboard } from '../../../../app/components/Keyboard';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Platform } from 'react-native';
 
 jest.mock('@react-navigation/native', () => {
     const actualNav = jest.requireActual('@react-navigation/native');
@@ -66,7 +67,14 @@ describe('ForumScreen', () => {
         
     });
 
-    const renderForumScreen = (theme = 'light') => {
+    const renderForumScreen = (theme = 'light', keyboardHeight = 0, os = 'ios') => {
+        useKeyboard.mockReturnValue({
+            keyboardHeight,
+            registerScrollViewRef: jest.fn(),
+            unregisterScrollViewRef: jest.fn(),
+        });
+        Platform.OS = os;
+
         return render(
             <ThemeContext.Provider value={{ theme }}>
                 <NavigationContainer>
@@ -83,6 +91,18 @@ describe('ForumScreen', () => {
         expect(getByText('Post')).toBeTruthy();
     });
 
+    it('renders with keyboard visible on iOS', () => {
+        const { getByTestId } = renderForumScreen('light', 100, 'ios');
+        // Verify that iOS specific styles are applied
+        expect(getByTestId('testIDSeparatorLine').props.style).toContainEqual({ bottom: 90 });
+    });
+
+    it('renders with keyboard visible on Android', () => {
+        const { getByTestId } = renderForumScreen('light', 100, 'android');
+        // Verify that Android specific styles are applied
+        expect(getByTestId('testIDSeparatorLine').props.style).toContainEqual({ bottom: 0 });
+    });
+
     it('renders correctly with light theme', () => {
         const { getByPlaceholderText } = renderForumScreen('light');
 
@@ -94,7 +114,6 @@ describe('ForumScreen', () => {
 
         expect(postTitleColour).toEqual('darkgrey');
         expect(postDescriptionColour).toEqual('darkgrey');
-
     });
 
     it('renders correctly with dark theme', () => {
