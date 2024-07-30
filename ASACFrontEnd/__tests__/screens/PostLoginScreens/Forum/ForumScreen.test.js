@@ -132,9 +132,9 @@ describe('ForumScreen', () => {
     it('displays a loading indicator when data is loading', () => {
         useForumScreen.mockReturnValueOnce({ ...useForumScreen(), loading: true });
 
-        const { getByText } = renderForumScreen();
+        const { getByTestId } = renderForumScreen();
 
-        expect(getByText('Loading...')).toBeTruthy();
+        expect(getByTestId('activityIndicatorTestID')).toBeTruthy();
     });
 
     it('renders posts when provided', () => {
