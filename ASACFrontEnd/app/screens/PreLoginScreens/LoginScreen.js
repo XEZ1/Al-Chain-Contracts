@@ -32,10 +32,10 @@ const LoginScreen = ({ navigation }) => {
     );
 
     return (
-        <View style={[localStyles.backgroundContainer, { flex: 1, paddingBottom: keyboardHeight }]}>
+        <View style={[localStyles.backgroundContainer, { flex: 1, paddingBottom: keyboardHeight - 91}]}>
             <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
-            <ScrollView ref={scrollViewRef} style={[sharedStyles.avoidingTabBarContainer, ]} showsVerticalScrollIndicator={false}> 
-                <View style={[localStyles.container, { flex: 1 }]}> 
+            <ScrollView ref={scrollViewRef} contentContainerStyle={sharedStyles.scrollViewContentContainer} style={[keyboardHeight > 0 ? sharedStyles.avoidingTabBarContainer : 0, localStyles.bigTopMargin]} showsVerticalScrollIndicator={false}> 
+                <View style={[{ padding: '5%' }]}> 
                     <View style={[sharedStyles.cardContainer, localStyles.fullWidth, localStyles.zeroMargin]}>
                         <TextInput
                             placeholder="Username"
