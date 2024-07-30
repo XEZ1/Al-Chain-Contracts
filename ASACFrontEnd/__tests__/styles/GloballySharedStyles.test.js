@@ -353,7 +353,7 @@ describe('getGloballySharedStyles', () => {
     });
 });
 
-describe('Platform-specific Styles', () => {
+describe('Platform-specific styles', () => {
     describe('iOS specific styles', () => {
         beforeEach(() => {
             jest.resetModules();
