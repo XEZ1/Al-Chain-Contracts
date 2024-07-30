@@ -1,13 +1,14 @@
 {
   "expo": {
-    "name": "ASACFrontEnd",
-    "slug": "ASACFrontEnd",
+    "name": "AI Chain Contracts",
+    "slug": "ai-chain-contracts",
+    "description": "This application converts legal employment contracts into smart contracts to automatically enforce and manage the contractual obligations of both employers and employees.",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/Logo.png",
+    "icon": "./assets/icon-3.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/Logo.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
