@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, FlatList, Platform } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { useKeyboard } from '../../../components/Keyboard';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -57,7 +57,7 @@ const CommentScreen = ({ route, navigation }) => {
     return (
         <View style={[sharedStyles.container, localStyles.zeroTopPadding, localStyles.stretchedContainer, {paddingBottom: keyboardHeight}]}>
             <FlatList
-                style={sharedStyles.avoidingTabBarContainer}
+                style={sharedStyles.mediumMarginBottom}
                 ref={viewRef}
                 data={comments}
                 keyExtractor={(item) => item.id.toString()}

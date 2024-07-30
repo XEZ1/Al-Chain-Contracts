@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
-import { View, Text, TouchableOpacity, TextInput, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, FlatList, Platform, ActivityIndicator } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useForumScreen } from './UseForumScreen';
+import { useKeyboard } from '../../../components/Keyboard';
 import { ThemeContext } from '../../../components/Theme';
 import getGloballySharedStyles from '../../../styles/GloballySharedStyles'; 
 import getLocallySharedStylesForumScreens from '../../../styles/LocallySharedStylesForumScreens';
@@ -12,6 +13,8 @@ const ForumScreen = ({ navigation }) => {
     const sharedStyles = getGloballySharedStyles(theme);
     const localStyles = getLocallySharedStylesForumScreens(theme);
 
+    const { keyboardHeight, registerScrollViewRef, unregisterScrollViewRef } = useKeyboard();
+
     const { posts, loading, createPost, handleLikePost, handleDeletePost,
         newPostTitle, setNewPostTitle,
         newPostDescription, setNewPostDescription
@@ -19,7 +22,9 @@ const ForumScreen = ({ navigation }) => {
 
     if (loading) {
         return (
-            <View style={sharedStyles.container}><Text>Loading...</Text></View>
+            <View style={sharedStyles.container}>
+            	<ActivityIndicator size="large" color='rgba(1, 193, 219, 1)' testID='activityIndicatorTestID'/> 
+            </View>
         );
     }
 
@@ -89,16 +94,17 @@ const ForumScreen = ({ navigation }) => {
                 data={posts}
                 renderItem={renderPost}
                 keyExtractor={item => item.id.toString()}
-                style={[sharedStyles.avoidingTabBarContainer, localStyles.mediumTopPadding, { width: '100%' }]}
+                style={[keyboardHeight > 0 ? sharedStyles.avoidingTabBarContainer: sharedStyles.mediumMarginBottom, localStyles.mediumTopPadding, { width: '100%' }]}
                 showsVerticalScrollIndicator={false}
                 ListFooterComponent={<View style={localStyles.mediumBottomPadding}/>}
             />
 
             {/* Separator Line */}
-            <View style={sharedStyles.separatorLine} />
+            <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight > 0 && Platform.OS === 'android' ? 0 : 90 }]} testID='testIDSeparatorLine'/>
         </View>
 
     );
 };
+//keyboardHeight + 90
 
 export default ForumScreen;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Platform } from 'react-native';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { act } from '@testing-library/react-hooks';
 import HomeScreen from "../../../../app/screens/PostLoginScreens/Home/HomeScreen";
@@ -113,7 +114,14 @@ describe('HomeScreen', () => {
         }));
     });
 
-    const renderHomeScreen = (theme = 'light') => {
+    const renderHomeScreen = (theme = 'light', keyboardHeight = 0, os = 'ios') => {
+        useKeyboard.mockReturnValue({
+            keyboardHeight,
+            registerScrollViewRef: jest.fn(),
+            unregisterScrollViewRef: jest.fn(),
+        });
+        Platform.OS = os;
+
         return render(
             <ThemeContext.Provider value={{ theme }}>
                 <NavigationContainer>
@@ -134,6 +142,26 @@ describe('HomeScreen', () => {
         expect(getByText('Address Checksum Conversion')).toBeTruthy();
         expect(getByText('Validate Address')).toBeTruthy();
         expect(getByText('All rights reserved © Al-Slebi AI-Contracts')).toBeTruthy();
+    });
+
+    it('applies styles correctly on Android with keyboard visible', () => {
+        const { getByTestId } = renderHomeScreen('light', 100, 'android');
+        const scrollView = getByTestId('scrollViewTestID');
+        const marginBottomScrollView = scrollView.props.style.marginBottom;
+        const separatorView = getByTestId('separatorLineTestID');
+
+        expect(marginBottomScrollView).toBe(0); 
+        expect(separatorView.props.style).toContainEqual({ bottom: 0 });
+    });
+
+    it('applies styles correctly on iOS with keyboard visible', () => {
+        const { getByTestId } = renderHomeScreen('light', 100, 'ios');
+        const scrollView = getByTestId('scrollViewTestID');
+        const marginBottomScrollView = scrollView.props.style.marginBottom;
+        const separatorView = getByTestId('separatorLineTestID');
+
+        expect(marginBottomScrollView).toBe(90); 
+        expect(separatorView.props.style).toContainEqual({ bottom: 190 });
     });
 
     it('renders correctly with light theme', () => {

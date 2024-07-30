@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { Platform } from 'react-native';
 import getGloballySharedStyles from '../../app/styles/GloballySharedStyles';
 
 
@@ -177,6 +178,9 @@ describe('getGloballySharedStyles', () => {
                 justifyContent: 'center',
                 alignItems: 'center',
             },
+            mediumMarginBottom: {
+                marginBottom: 90,
+            },
         });
     });
 
@@ -342,6 +346,43 @@ describe('getGloballySharedStyles', () => {
                 justifyContent: 'center',
                 alignItems: 'center',
             },
+            mediumMarginBottom: {
+                marginBottom: 90,
+            },
+        });
+    });
+});
+
+describe('Platform-specific styles', () => {
+    describe('iOS specific styles', () => {
+        beforeEach(() => {
+            jest.resetModules();
+            jest.doMock('react-native/Libraries/Utilities/Platform', () => ({
+                OS: 'ios',
+                select: jest.fn(spec => spec.ios),
+            }));
+        });
+
+        it('should adjust styles based on iOS platform', () => {
+            const styles = getGloballySharedStyles('light');
+            expect(styles.tabBar.bottom).toEqual('2.5%');
+            expect(styles.avoidingTabBarContainer.marginBottom).toEqual(90);
+        });
+    });
+
+    describe('Android specific styles', () => {
+        beforeEach(() => {
+            jest.resetModules();
+            jest.doMock('react-native/Libraries/Utilities/Platform', () => ({
+                OS: 'android',
+                select: jest.fn(spec => spec.android),
+            }));
+        });
+
+        it('should adjust styles based on Android platform', () => {
+            const styles = getGloballySharedStyles('light');
+            expect(styles.tabBar.bottom).toEqual(0);
+            expect(styles.avoidingTabBarContainer.marginBottom).toEqual(0);
         });
     });
 });

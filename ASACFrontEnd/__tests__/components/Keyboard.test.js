@@ -83,7 +83,6 @@ function TestComponentWithTextInput() {
 }
 
 describe('KeyboardProvider', () => {
-
     it('updates keyboard visibility on keyboardDidShow and keyboardDidHide', async () => {
         let showCallback;
         let hideCallback;
@@ -157,5 +156,80 @@ describe('KeyboardProvider', () => {
 
         unmount();
         nodeHandleMock.mockRestore();
+    });
+});
+
+
+describe('Platform-specific behaviour', () => {
+    describe('iOS specific provider', () => {
+        beforeEach(() => {
+            jest.resetModules();
+            jest.doMock('react-native/Libraries/Utilities/Platform', () => ({
+                OS: 'ios',
+                select: jest.fn(spec => spec.ios),
+            }));
+        });
+
+        it('updates keyboard visibility on keyboardDidShow and keyboardDidHide', async () => {
+            let showCallback;
+            let hideCallback;
+
+            Keyboard.addListener.mockImplementation((event, callback) => {
+                if (event === 'keyboardDidShow') {
+                    showCallback = callback;
+                } else if (event === 'keyboardDidHide') {
+                    hideCallback = callback;
+                }
+                return { remove: jest.fn() };
+            });
+
+            const { getByText } = render(
+                <KeyboardProvider>
+                    <TestComponent />
+                </KeyboardProvider>
+            );
+
+            act(() => showCallback({ endCoordinates: { screenY: 500 } }));
+            expect(getByText('Visible')).toBeTruthy();
+
+            act(() => hideCallback());
+            expect(getByText('Hidden')).toBeTruthy();
+        });
+    });
+
+    describe('Android specific provider', () => {
+        beforeEach(() => {
+            jest.resetModules();
+            jest.doMock('react-native/Libraries/Utilities/Platform', () => ({
+                OS: 'android',
+                select: jest.fn(spec => spec.android),
+            }));
+        });
+
+        it('updates keyboard visibility on keyboardDidShow and keyboardDidHide', async () => {
+            let showCallback;
+            let hideCallback;
+
+            Keyboard.addListener.mockImplementation((event, callback) => {
+                if (event === 'keyboardDidShow') {
+                    showCallback = callback;
+                } else if (event === 'keyboardDidHide') {
+                    hideCallback = callback;
+                }
+                return { remove: jest.fn() };
+            });
+
+            const { getByText } = render(
+                <KeyboardProvider>
+                    <TestComponent />
+                </KeyboardProvider>
+            );
+
+            act(() => showCallback({ endCoordinates: { screenY: 500 } }));
+            expect(getByText('Visible')).toBeTruthy();
+
+            act(() => hideCallback());
+            expect(getByText('Hidden')).toBeTruthy();
+        });
     });
 });

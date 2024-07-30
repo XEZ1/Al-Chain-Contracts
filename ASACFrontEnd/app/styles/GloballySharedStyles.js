@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import themeStyles from './ThemeStyles';
+import { Platform } from 'react-native';
 
 const getGloballySharedStyles = (theme = 'light') => {
     return StyleSheet.create({
@@ -9,7 +10,7 @@ const getGloballySharedStyles = (theme = 'light') => {
             backgroundColor: themeStyles[theme].backgroundColor,  
             borderColor: theme === 'dark' ? 'black' : 'white', 
             position: 'absolute', 
-            bottom: '2.5%', 
+            bottom: Platform.OS === 'android' ? 0 : '2.5%',
             left: '5%', 
             right: '5%',
             height: '7%', 
@@ -69,7 +70,7 @@ const getGloballySharedStyles = (theme = 'light') => {
             top: 5,
         },
         avoidingTabBarContainer: {
-            marginBottom: 90,
+            marginBottom: Platform.OS === 'android' ? 0 : 90,
         },
         rowCenteredContainer: {
             flexDirection: 'row',
@@ -147,7 +148,6 @@ const getGloballySharedStyles = (theme = 'light') => {
             paddingLeft: '4%',
         },
 
-        
         separatorLine: {
             position: 'absolute',
             height: 0.3, 
@@ -172,6 +172,10 @@ const getGloballySharedStyles = (theme = 'light') => {
         centeredText: {
             justifyContent: 'center',
             alignItems: 'center',
+        },
+
+        mediumMarginBottom: {
+            marginBottom: 90,
         },
     });
 };
