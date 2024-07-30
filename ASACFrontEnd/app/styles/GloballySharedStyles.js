@@ -77,6 +77,11 @@ const getGloballySharedStyles = (theme = 'light') => {
             justifyContent: 'space-between',
             alignItems: 'center',
         },
+        scrollViewContentContainer: {
+            flexGrow: 1,
+            justifyContent: 'center', 
+            
+        },
 
         pageHeaderText: {
             fontSize: 28,
