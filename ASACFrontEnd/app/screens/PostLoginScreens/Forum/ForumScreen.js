@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, Text, TouchableOpacity, TextInput, FlatList, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, FlatList, Platform, ActivityIndicator } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useForumScreen } from './UseForumScreen';
 import { useKeyboard } from '../../../components/Keyboard';
@@ -22,7 +22,9 @@ const ForumScreen = ({ navigation }) => {
 
     if (loading) {
         return (
-            <View style={sharedStyles.container}><Text>Loading...</Text></View>
+            <View style={sharedStyles.container}>
+            	<ActivityIndicator size="large" color='rgba(1, 193, 219, 1)' testID='activityIndicatorTestID'/> 
+            </View>
         );
     }
 
