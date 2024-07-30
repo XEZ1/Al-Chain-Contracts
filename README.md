@@ -1,5 +1,18 @@
-# Al-Slebi-AI-Contracts
+# AIChain Contracts
 ---
+
+
+
+
+
+
+To simply use the application scan this QR code:
+
+
+Use this link:
+```
+https://expo.dev/preview/update?message=Initial%20deployment&updateRuntimeVersion=1.0.0&createdAt=2024-07-30T22%3A35%3A02.562Z&slug=exp&projectId=032f6af8-bb36-47b5-80a0-f6f070705b75&group=eaba016b-e770-4648-992f-09ca0c3ab69e
+```
 
 # Personal Setup
 Navigate to your project directory
