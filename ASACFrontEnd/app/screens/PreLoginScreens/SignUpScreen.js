@@ -41,9 +41,9 @@ const SignUpScreen = ({ navigation }) => {
     );
 
     return (
-        <View style={[localStyles.backgroundContainer, { flex: 1, paddingBottom: keyboardHeight - 91}]}>
+        <View style={[localStyles.backgroundContainer, { flex: 1, paddingBottom: keyboardHeight}]}>
             <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
-            <ScrollView ref={scrollViewRef} contentContainerStyle={sharedStyles.scrollViewContentContainer} style={[keyboardHeight > 0 ? sharedStyles.avoidingTabBarContainer : 0, localStyles.bigTopMargin]} showsVerticalScrollIndicator={false}>
+            <ScrollView ref={scrollViewRef} contentContainerStyle={sharedStyles.scrollViewContentContainer} style={[localStyles.bigTopMargin]} showsVerticalScrollIndicator={false}>
                 <View style={[{ padding: '5%' }]}>
                     <View style={[sharedStyles.cardContainer, localStyles.mediumPadding]}>
                         {Object.values(errors).some(error => error) && (
