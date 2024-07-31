@@ -11,7 +11,7 @@ To simply use the application scan this QR code:
 
 Use this link:
 ```
-https://expo.dev/preview/update?message=Initial%20deployment&updateRuntimeVersion=1.0.0&createdAt=2024-07-30T22%3A35%3A02.562Z&slug=exp&projectId=032f6af8-bb36-47b5-80a0-f6f070705b75&group=eaba016b-e770-4648-992f-09ca0c3ab69e
+https://expo.dev/preview/update?message=Unify%20the%20view%20across%20platforms&updateRuntimeVersion=1.0.0&createdAt=2024-07-31T02%3A45%3A02.169Z&slug=exp&projectId=032f6af8-bb36-47b5-80a0-f6f070705b75&group=c7a72e9e-3651-4f15-b8f0-4b4a83e6957c
 ```
 
 # Personal Setup
