@@ -12,20 +12,20 @@ const PreLoginScreen = ({ navigation }) => {
 
     return (
         <ImageBackground
-            source={require('../../../assets/PreLoginScreenBackground.png')}
+            source={require('../../../assets/PreLoginScreenBackground.jpg')}
             style={[sharedStyles.centeredViewContainer, { paddingTop: StatusBar.currentHeight }]}
             resizeMode="cover"
         >
             <StatusBar barStyle={'light-content'} />
             <View>
                 <TouchableOpacity style={[sharedStyles.button, localStyles.localButtonContainer]} onPress={() => navigation.navigate('Login')}>
-                    <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Login</Text>
+                    <Text style={[sharedStyles.boldMediumText, { color: 'rgb(57, 63, 67)' }]}>Login</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[sharedStyles.button, localStyles.localButtonContainer]} onPress={() => navigation.navigate('SignUp')}>
-                    <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>Sign Up</Text>
+                    <Text style={[sharedStyles.boldMediumText, { color: 'rgb(57, 63, 67)' }]}>Sign Up</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[sharedStyles.button, localStyles.localButtonContainer]}>
-                    <Text style={[sharedStyles.generalText, sharedStyles.boldMediumText]}>About Us</Text>
+                    <Text style={[sharedStyles.boldMediumText, { color: 'rgb(57, 63, 67)' }]}>About Us</Text>
                 </TouchableOpacity>
             </View>
         </ImageBackground>
