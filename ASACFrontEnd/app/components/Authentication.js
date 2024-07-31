@@ -10,7 +10,7 @@ export const AuthContext = createContext();
 export const validateToken = async () => {
     try {
         const token = await SecureStore.getItemAsync('authToken');
-        const response = await fetch(`${BACKEND_URL}/validate_token/`, {
+        const response = await fetch(`${BACKEND_URL}/validate-token/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ export const signUp = async (username, firstName, lastName, email, password, pas
             return;
         }
 
-        const response = await fetch(`${BACKEND_URL}/sign_up/`, {
+        const response = await fetch(`${BACKEND_URL}/sign-up/`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

@@ -26,20 +26,20 @@ class ViewTestCase(TestCase):
 
 class TestValidateAuthenticationTokenView(ViewTestCase):
     def test_validate_token_valid(self):
-        response = self.client.get(reverse('validate_token'))
+        response = self.client.get(reverse('validate-token'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, {'token_valid': True})
 
     def test_validate_token_unauthenticated(self):
         self.client.logout()
-        response = self.client.get(reverse('validate_token'))
+        response = self.client.get(reverse('validate-token'))
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertEqual(response.data, {'detail': 'Authentication credentials were not provided.'})
 
     @patch('rest_framework.authentication.TokenAuthentication.authenticate')
     def test_validate_token_with_authentication_failure_exception(self, mock_auth):
         mock_auth.side_effect = AuthenticationFailed('Invalid token.')
-        response = self.client.get(reverse('validate_token'))
+        response = self.client.get(reverse('validate-token'))
         self.assertTrue(mock_auth.called, "The authenticate method was not called.")
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertEqual(response.data, {'token_valid': False})
@@ -76,7 +76,7 @@ class TestLoginView(ViewTestCase):
 
 class TestSignUpView(ViewTestCase):
     def test_signup_success(self):
-        response = self.client.post(reverse('sign_up'), {
+        response = self.client.post(reverse('sign-up'), {
             'username': 'newuser',
             'password': 'newpassWORD123!',
             'password_confirmation': 'newpassWORD123!',
@@ -88,7 +88,7 @@ class TestSignUpView(ViewTestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_signup_failure(self):
-        response = self.client.post(reverse('sign_up'), {
+        response = self.client.post(reverse('sign-up'), {
             'password': 'fakePassword123',
             'email': 'newuser@example'
         })
@@ -99,27 +99,28 @@ class TestAuthenticationPushTokenView(ViewTestCase):
 
     def test_get_push_token_found(self):
         AuthenticationPushToken.objects.create(user=self.user, token='push_token_test')
-        response = self.client.get(reverse('push_token'))
+        response = self.client.get(reverse('push-token'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['token'], 'push_token_test')
 
     def test_get_push_token_not_found(self):
-        response = self.client.get(reverse('push_token'))
+        response = self.client.get(reverse('push-token'))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_create_push_token_success(self):
-        response = self.client.post(reverse('push_token'), {'token': 'push_token_test'})
+        response = self.client.post(reverse('push-token'), {'token': 'push_token_test'})
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data['token'], 'push_token_test')
 
     def test_create_push_token_failure(self):
-        response = self.client.post(reverse('push_token'), {})
+        response = self.client.post(reverse('push-token'), {})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_delete_push_token_found(self):
         AuthenticationPushToken.objects.create(user=self.user, token='push_token_test')
-        response = self.client.delete(reverse('push_token'))
+        response = self.client.delete(reverse('push-token'))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
     def test_delete_push_token_not_found(self):
-        response = self.client.delete(reverse('push_token'))
+        response = self.client.delete(reverse('push-token'))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

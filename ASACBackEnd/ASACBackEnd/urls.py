@@ -19,9 +19,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('Accounts.urls')),
-    path('notifications/', include('Notifications.urls')),
-    path('contracts/', include('Contracts.urls')),
-    path('forums/', include('Forums.urls')),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+                  path('admin/', admin.site.urls),
+                  path('', include('Accounts.urls')),
+                  path('notifications/', include('Notifications.urls')),
+                  path('contracts/', include('Contracts.urls')),
+                  path('forums/', include('Forums.urls')),
+              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

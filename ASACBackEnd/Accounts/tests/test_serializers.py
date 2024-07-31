@@ -15,7 +15,7 @@ class TestSignUpSerialiser(APITestCase):
             'password': 'Complex@123',
             'password_confirmation': 'Complex@123'
         }
-        response = self.client.post(reverse('sign_up'), data)
+        response = self.client.post(reverse('sign-up'), data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_password_confirmation_mismatch(self):
@@ -27,7 +27,7 @@ class TestSignUpSerialiser(APITestCase):
             'password': 'Complex@123',
             'password_confirmation': 'Different@123'
         }
-        response = self.client.post(reverse('sign_up'), data)
+        response = self.client.post(reverse('sign-up'), data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn('new_password', response.data)
 
@@ -38,12 +38,12 @@ class TestSignUpSerialiser(APITestCase):
             'password': 'weak',
             'password_confirmation': 'weak'
         }
-        response = self.client.post(reverse('sign_up'), data)
+        response = self.client.post(reverse('sign-up'), data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_missing_fields(self):
         data = {}
-        response = self.client.post(reverse('sign_up'), data)
+        response = self.client.post(reverse('sign-up'), data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
@@ -64,6 +64,6 @@ class TestAuthenticationPushTokenSerialiser(APITestCase):
 
     def test_token_creation(self):
         data = {'token': 'abc123'}
-        response = self.client.post(reverse('push_token'), data)
+        response = self.client.post(reverse('push-token'), data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(AuthenticationPushToken.objects.filter(user=self.user).exists())
