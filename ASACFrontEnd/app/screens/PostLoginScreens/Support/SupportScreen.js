@@ -69,9 +69,10 @@ const SupportScreen = ({ navigation }) => {
                 ))}
             </ScrollView>
             
-            <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight + 177.6 }]} />
+            <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight + 177 }]} />
             {/* Input area */}
-            <View ref={viewRef} style={[localStyles.inputAreaContainer, sharedStyles.mediumMarginBottom, { marginTop: 0 }]} testID="viewTestID">
+            {/* ref={viewRef} */}
+            <View style={[localStyles.inputAreaContainer, keyboardHeight > 0 && Platform.OS === 'android' ? sharedStyles.avoidingTabBarContainer : sharedStyles.mediumMarginBottom, { marginTop: 0 }]} testID="viewTestID">
                 <TextInput
                     testID='inputTextFieldTestID'
                     value={message}
