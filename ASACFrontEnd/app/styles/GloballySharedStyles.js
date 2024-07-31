@@ -80,7 +80,6 @@ const getGloballySharedStyles = (theme = 'light') => {
         scrollViewContentContainer: {
             flexGrow: 1,
             justifyContent: 'center', 
-            
         },
 
         pageHeaderText: {

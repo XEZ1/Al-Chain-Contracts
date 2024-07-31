@@ -45,7 +45,7 @@ const SignUpScreen = ({ navigation }) => {
             <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
             <ScrollView ref={scrollViewRef} contentContainerStyle={sharedStyles.scrollViewContentContainer} style={[localStyles.bigTopMargin]} showsVerticalScrollIndicator={false}>
                 <View style={[{ padding: '5%' }]}>
-                    <View style={[sharedStyles.cardContainer, localStyles.mediumPadding]}>
+                    <View style={[sharedStyles.cardContainer, localStyles.mediumPadding, {width: '98%'}]}>
                         {Object.values(errors).some(error => error) && (
                             <TouchableOpacity
                                 testID="error-icon-container"
