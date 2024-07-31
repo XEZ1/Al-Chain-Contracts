@@ -1,8 +1,8 @@
-from rest_framework import serializers
+from rest_framework import serializers as serialisers
 from .models import SmartContract, EmploymentContract
 
 
-class EmploymentContractSerialiser(serializers.ModelSerializer):
+class EmploymentContractSerialiser(serialisers.ModelSerializer):
     class Meta:
         model = EmploymentContract
         fields = '__all__'
@@ -12,8 +12,8 @@ class EmploymentContractSerialiser(serializers.ModelSerializer):
         return employment_contract
 
 
-class SmartContractSerialiser(serializers.ModelSerializer):
-    legal_contract = serializers.PrimaryKeyRelatedField(queryset=EmploymentContract.objects.all())
+class SmartContractSerialiser(serialisers.ModelSerializer):
+    legal_contract = serialisers.PrimaryKeyRelatedField(queryset=EmploymentContract.objects.all())
 
     class Meta:
         model = SmartContract

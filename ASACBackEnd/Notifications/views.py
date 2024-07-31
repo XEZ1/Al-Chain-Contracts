@@ -3,7 +3,7 @@ from rest_framework import status, views
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .serializers import NotificationPushTokenSerialiser
+from .serialisers import NotificationPushTokenSerialiser
 
 
 class SaveTokenView(views.APIView):

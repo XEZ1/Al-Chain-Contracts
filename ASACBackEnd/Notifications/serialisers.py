@@ -1,8 +1,8 @@
-from rest_framework import serializers
+from rest_framework import serializers as serialisers
 from .models import NotificationPushToken
 
 
-class NotificationPushTokenSerialiser(serializers.ModelSerializer):
+class NotificationPushTokenSerialiser(serialisers.ModelSerializer):
     class Meta:
         model = NotificationPushToken
         fields = ('token', 'created_at')

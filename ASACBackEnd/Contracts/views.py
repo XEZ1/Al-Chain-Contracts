@@ -8,7 +8,7 @@ from Notifications.models import NotificationPushToken
 from Notifications.utils import send_push_notification
 from .models import SmartContract
 from rest_framework.parsers import MultiPartParser, FormParser
-from .serializers import EmploymentContractSerialiser, SmartContractSerialiser
+from .serialisers import EmploymentContractSerialiser, SmartContractSerialiser
 from rest_framework.permissions import IsAuthenticated
 from web3 import Web3
 
@@ -23,9 +23,9 @@ class GenerateContractView(APIView):
         data = request.data.copy()
         data['user'] = request.user.id
 
-        serializer = EmploymentContractSerialiser(data=data)
-        if serializer.is_valid():
-            employment_contract = serializer.save(user=request.user)
+        serialiser = EmploymentContractSerialiser(data=data)
+        if serialiser.is_valid():
+            employment_contract = serialiser.save(user=request.user)
 
             contract_text = employment_contract.contract_content
 
@@ -53,8 +53,8 @@ class GenerateContractView(APIView):
 
             return JsonResponse({"solidity_code": smart_contract.code}, status=status.HTTP_201_CREATED)
         else:
-            print(serializer.errors)
-        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            print(serialiser.errors)
+        return JsonResponse(serialiser.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def generate_solidity_code(self, contract_text):
         client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -167,8 +167,8 @@ class FetchContractsView(APIView):
 
     def get(self, request, *args, **kwargs):
         user_contracts = SmartContract.objects.filter(user=request.user)
-        serializer = SmartContractSerialiser(user_contracts, many=True)
-        return JsonResponse(serializer.data, safe=False, status=status.HTTP_200_OK)
+        serialiser = SmartContractSerialiser(user_contracts, many=True)
+        return JsonResponse(serialiser.data, safe=False, status=status.HTTP_200_OK)
 
 
 class CheckSumAddressView(APIView):

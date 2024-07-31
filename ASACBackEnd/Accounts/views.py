@@ -8,7 +8,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.views import exception_handler
 from Notifications.models import NotificationPushToken
 from Notifications.utils import send_push_notification
-from .serializers import SignUpSerialiser, UserSerialiser, AuthenticationPushTokenSerialiser
+from .serialisers import SignUpSerialiser, UserSerialiser, AuthenticationPushTokenSerialiser
 from Accounts.models import User, AuthenticationPushToken
 
 

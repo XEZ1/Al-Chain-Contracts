@@ -1,18 +1,18 @@
-from rest_framework import serializers
+from rest_framework import serializers as serialisers
 from .models import User, AuthenticationPushToken
 from django.core.validators import RegexValidator
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 
 
-class SignUpSerialiser(serializers.ModelSerializer):
+class SignUpSerialiser(serialisers.ModelSerializer):
     """Serialiser enabling unregistered users to sign up."""
 
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password', 'password_confirmation']
 
-    email = serializers.EmailField(
+    email = serialisers.EmailField(
         required=True,
         validators=[UniqueValidator(
             queryset=User.objects.all()
@@ -20,7 +20,7 @@ class SignUpSerialiser(serializers.ModelSerializer):
         ]
     )
 
-    password = serializers.CharField(
+    password = serialisers.CharField(
         label='Password',
         write_only=True,
         required=True,
@@ -34,7 +34,7 @@ class SignUpSerialiser(serializers.ModelSerializer):
         ]
     )
 
-    password_confirmation = serializers.CharField(
+    password_confirmation = serialisers.CharField(
         label='Confirm password',
         write_only=True,
         required=True
@@ -45,7 +45,7 @@ class SignUpSerialiser(serializers.ModelSerializer):
 
         super().validate(attrs)
         if attrs['password'] != attrs['password_confirmation']:
-            raise serializers.ValidationError({"new_password": "Password fields didn't match."})
+            raise serialisers.ValidationError({"new_password": "Password fields didn't match."})
 
         return attrs
 
@@ -64,13 +64,13 @@ class SignUpSerialiser(serializers.ModelSerializer):
         return user
 
 
-class UserSerialiser(serializers.ModelSerializer):
+class UserSerialiser(serialisers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email']
 
 
-class AuthenticationPushTokenSerialiser(serializers.ModelSerializer):
+class AuthenticationPushTokenSerialiser(serialisers.ModelSerializer):
     class Meta:
         model = AuthenticationPushToken
         fields = ('token', 'created_at')

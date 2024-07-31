@@ -1,26 +1,26 @@
-from rest_framework import serializers
+from rest_framework import serializers as serialisers
 from .models import Post, Comment, Like
 
 
-class CommentSerialiser(serializers.ModelSerializer):
-    author_username = serializers.ReadOnlyField(source='author.username')
+class CommentSerialiser(serialisers.ModelSerializer):
+    author_username = serialisers.ReadOnlyField(source='author.username')
 
     class Meta:
         model = Comment
         fields = ['id', 'post', 'author', 'author_username', 'content', 'created_at']
 
 
-class LikeSerialiser(serializers.ModelSerializer):
+class LikeSerialiser(serialisers.ModelSerializer):
     class Meta:
         model = Like
         fields = ['id', 'post', 'user']
 
 
-class PostSerialiser(serializers.ModelSerializer):
+class PostSerialiser(serialisers.ModelSerializer):
     comments = CommentSerialiser(many=True, read_only=True)
-    like_count = serializers.ReadOnlyField(source='likes.count')
-    user_has_liked = serializers.SerializerMethodField()
-    is_user_author = serializers.SerializerMethodField()
+    like_count = serialisers.ReadOnlyField(source='likes.count')
+    user_has_liked = serialisers.SerializerMethodField()
+    is_user_author = serialisers.SerializerMethodField()
 
     class Meta:
         model = Post
@@ -43,8 +43,3 @@ class PostSerialiser(serializers.ModelSerializer):
         if request and hasattr(request, "user"):
             return obj.author == request.user
         return False
-
-        # user = self.context['request'].user
-        # if user.is_authenticated:
-        #     return obj.author == user
-        # return False

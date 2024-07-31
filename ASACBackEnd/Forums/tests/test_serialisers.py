@@ -4,12 +4,12 @@ from rest_framework.test import APIClient, APIRequestFactory
 from Accounts.models import User
 from django.contrib.auth import get_user_model
 from ..models import *
-from ..serializers import *
+from ..serialisers import *
 
 User = get_user_model()
 
 
-class TestPostSerializer(TestCase):
+class TestPostSerialiser(TestCase):
 
     def setUp(self):
         self.user = User.objects.create(
@@ -52,44 +52,44 @@ class TestPostSerializer(TestCase):
     def test_user_has_liked(self):
         request = self.factory.get('/')
         request.user = self.non_author
-        serializer = PostSerialiser(self.post, context={'request': request})
-        self.assertTrue(serializer.data['user_has_liked'], "User should have liked the post")
+        serialiser = PostSerialiser(self.post, context={'request': request})
+        self.assertTrue(serialiser.data['user_has_liked'], "User should have liked the post")
 
     def test_user_has_not_liked(self):
         request = self.factory.get('/')
         request.user = self.user
-        serializer = PostSerialiser(self.post, context={'request': request})
-        self.assertFalse(serializer.data['user_has_liked'], "User should not have liked the post")
+        serialiser = PostSerialiser(self.post, context={'request': request})
+        self.assertFalse(serialiser.data['user_has_liked'], "User should not have liked the post")
 
     def test_user_has_not_liked_unauthorised(self):
         request = self.factory.get('/')
         request.user = AnonymousUser()
         self.client.logout()
-        serializer = PostSerialiser(self.post, context={'request': request})
-        self.assertFalse(serializer.get_user_has_liked(self.post), "User should not have liked the post as they are "
+        serialiser = PostSerialiser(self.post, context={'request': request})
+        self.assertFalse(serialiser.get_user_has_liked(self.post), "User should not have liked the post as they are "
                                                                    "not authenticated")
 
     def test_user_is_author(self):
         request = self.factory.get('/')
         request.user = self.user
-        serializer = PostSerialiser(self.post, context={'request': request})
-        self.assertTrue(serializer.data['is_user_author'], "User should be the author of the post")
+        serialiser = PostSerialiser(self.post, context={'request': request})
+        self.assertTrue(serialiser.data['is_user_author'], "User should be the author of the post")
 
     def test_user_is_not_author(self):
         request = self.factory.get('/')
         request.user = self.non_author
-        serializer = PostSerialiser(self.post, context={'request': request})
-        self.assertFalse(serializer.data['is_user_author'], "User should not be the author of the post")
+        serialiser = PostSerialiser(self.post, context={'request': request})
+        self.assertFalse(serialiser.data['is_user_author'], "User should not be the author of the post")
 
     def test_user_is_not_author_unauthorised(self):
         request = self.factory.get('/')
         self.client.logout()
-        serializer = PostSerialiser(self.post, context={'request': request})
-        self.assertFalse(serializer.get_is_user_author(self.post), "User should not be permitted to call this method "
+        serialiser = PostSerialiser(self.post, context={'request': request})
+        self.assertFalse(serialiser.get_is_user_author(self.post), "User should not be permitted to call this method "
                                                                    "as they are not authenticated")
 
 
-class TestCommentSerializer(TestCase):
+class TestCommentSerialiser(TestCase):
 
     def setUp(self):
         self.user = User.objects.create(
@@ -102,7 +102,7 @@ class TestCommentSerializer(TestCase):
         self.post = Post.objects.create(title='Test Post', description='Test Description', author=self.user)
         self.comment = Comment.objects.create(post=self.post, author=self.user, content='A test comment')
 
-    def test_serialize_comment(self):
+    def test_serialise_comment(self):
         serialiser = CommentSerialiser(self.comment)
         data = serialiser.data
         self.assertEqual(data['author_username'], self.user.username)
@@ -139,7 +139,7 @@ class TestLikeSerialiser(TestCase):
         self.assertIsInstance(like, Like)
         self.assertEqual(like.user, self.user)
 
-    def test_serialize_like(self):
+    def test_serialise_like(self):
         like = Like.objects.create(post=self.post, user=self.user)
         serialiser = LikeSerialiser(like)
         self.assertEqual(serialiser.data['user'], self.user.id)

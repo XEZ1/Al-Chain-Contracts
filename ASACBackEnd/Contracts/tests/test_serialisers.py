@@ -2,7 +2,7 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 from ..models import SmartContract, EmploymentContract
 from Accounts.models import User
-from ..serializers import SmartContractSerialiser, EmploymentContractSerialiser
+from ..serialisers import SmartContractSerialiser, EmploymentContractSerialiser
 
 
 class TestSerialisers(TestCase):
@@ -41,7 +41,7 @@ class TestSerialisers(TestCase):
         self.assertEqual(set(data.keys()), {'id', 'user', 'contract_name', 'employer_address', 'auth_app_address',
                                             'token_contract_interface', 'contract_content'})
 
-        # Deserialize and create new instance
+        # Deserialise and create new instance
         new_data = {
             'user': self.user.id,
             'contract_name': 'New Sample Contract',
@@ -61,7 +61,7 @@ class TestSerialisers(TestCase):
         self.assertEqual(set(data.keys()), {'id', 'user', 'legal_contract', 'code', 'contract_name', 'employer_address',
                                             'auth_app_address', 'token_contract_interface'})
 
-        # Deserialize and create new instance
+        # Deserialise and create new instance
         new_data = {
             'user': self.user.id,
             'legal_contract': self.employment_contract.id,
