@@ -90,6 +90,11 @@ describe('getGloballySharedStyles', () => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
             },
+            scrollViewContentContainer: {
+                flexGrow: 1,
+                justifyContent: 'center', 
+                
+            },
             pageHeaderText: {
                 fontSize: 28,
                 fontWeight: 'bold',
@@ -259,6 +264,11 @@ describe('getGloballySharedStyles', () => {
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
+            },
+            scrollViewContentContainer: {
+                flexGrow: 1,
+                justifyContent: 'center', 
+                
             },
             pageHeaderText: {
                 fontSize: 28,
