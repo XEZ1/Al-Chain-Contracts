@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 import sys
-import sys
 from pathlib import Path
 import channels
 from corsheaders.defaults import default_headers
@@ -23,12 +22,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-sd*6c$qhzhfw7k#ncii@3nnzxco@k&+n%fq0_=ze5hg7+j9k(z'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '35.205.90.226', '192.168.0.18', 'alsalibiaicontracts.co.uk', 'www.alsalibiaicontracts.co.uk']
+# Allowed hosts for the application
+ALLOWED_HOSTS = ['localhost', '35.205.90.226', '192.168.0.18', 'alsalibiaicontracts.co.uk',
+                 'www.alsalibiaicontracts.co.uk']
+
 # Application definition
 INSTALLED_APPS = [
     'rest_framework',
@@ -47,6 +49,7 @@ INSTALLED_APPS = [
     'Forums'
 ]
 
+# Middleware configuration
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -58,6 +61,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
+# CORS configuration
 CORS_ALLOW_METHODS = [
     'GET',
     'POST',
@@ -65,22 +69,20 @@ CORS_ALLOW_METHODS = [
     'PUT',
 ]
 
-CORS_ALLOW_HEADERS = list(default_headers)
+# CORS configuration
+CORS_ALLOWED_ORIGINS = [
+    # Allow local development
+    'http://localhost:8000',
 
-CORS_ALLOW_ALL_ORIGINS = True
+    # Allow the production domains
+    'www.alsalibiaicontracts.co.uk',
+    'alsalibiaicontracts.co.uk',
+]
 
-# CORS_ALLOWED_ORIGINS = [
-# 'http://localhost:1234',
-# 'http://localhost:8000',
-# 'https://*.ngrok-free.app',
-# 'www.alsalibiaicontracts.co.uk',
-# 'alsalibiaicontracts.co.uk',
-# ]
-
-# CORS_ALLOWED_ORIGINS_ALL = True
-
+# Root URL configuration
 ROOT_URLCONF = 'ASACBackEnd.urls'
 
+# Template configuration
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -97,10 +99,13 @@ TEMPLATES = [
     },
 ]
 
+# Location of the WSGI application
 WSGI_APPLICATION = 'ASACBackEnd.wsgi.application'
 
+# Location of the ASGI application
 ASGI_APPLICATION = 'ASACBackEnd.asgi.application'
 
+# Channel layer configuration (Redis for Notifications)
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
@@ -116,6 +121,11 @@ CHANNEL_LAYERS = {
 
 # Database configuration
 def get_database_config(debug):
+    """
+    Get the database configuration based on the application's debug mode.
+    @param debug: A boolean indicating whether the application is in debug mode.
+    @return: A dictionary containing the database configuration.
+    """
     if debug:
         return {
             'default': {
@@ -136,15 +146,17 @@ def get_database_config(debug):
         }
 
 
+# Call the function to get the dynamic database configuration
 DATABASES = get_database_config(DEBUG)
 
+# Test database configuration
 if 'test' in sys.argv or 'pytest' in sys.argv:
-   DATABASES = {
-       'default': {
-           'ENGINE': 'django.db.backends.sqlite3',
-           'NAME': ':memory:',
-       }
-   }
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+        }
+    }
 
 # Adding headers to handle HTTPS
 USE_X_FORWARDED_HOST = True
@@ -155,6 +167,7 @@ CSRF_COOKIE_SECURE = True  # Secure CSRF cookie
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
+# Password validation configuration
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -170,6 +183,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Authentication backends
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -181,7 +195,7 @@ REST_FRAMEWORK = {
     ]
 }
 
-# Internationalization
+# Internationalisation
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-uk'
@@ -201,6 +215,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
+# Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # User model for authentication purposes
