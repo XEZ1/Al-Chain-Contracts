@@ -161,19 +161,19 @@ class TestFetchContractsView(ViewTestCase):
 
 class TestCheckSumAddressView(ViewTestCase):
     def test_post_successful_checksum_address(self):
-        url = reverse('get-valid-checksum-address')
-        response = self.client.get(url, HTTP_X_TOKEN_ADDRESS='0x618dd342BcbF099cBa4d200CBdadfbd2c94258F3')
+        url = reverse('get-valid-checksum-address', args=['0x618dd342BcbF099cBa4d200CBdadfbd2c94258F3'])
+        response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_post_failure_checksum_address(self):
-        url = reverse('get-valid-checksum-address')
-        response = self.client.get(url, HTTP_X_TOKEN_ADDRESS='0xInvalid')
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
-    def test_missing_token_address_header(self):
-        url = reverse('get-valid-checksum-address')
+        url = reverse('get-valid-checksum-address', args=['0xInvalid'])
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-        response_data = json.loads(response.content)
-        self.assertIn('error', response_data)
+    # def test_missing_token_address_header(self):
+    #     url = reverse('get-valid-checksum-address')
+    #     response = self.client.get(url)
+    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    #
+    #     response_data = json.loads(response.content)
+    #     self.assertIn('error', response_data)

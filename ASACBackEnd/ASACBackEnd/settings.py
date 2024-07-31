@@ -65,10 +65,7 @@ CORS_ALLOW_METHODS = [
     'PUT',
 ]
 
-CORS_ALLOW_HEADERS = list(default_headers) + [
-    'X-Contract-Name',
-    'X-Token-Address',
-]
+CORS_ALLOW_HEADERS = list(default_headers)
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -76,7 +73,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 # 'http://localhost:1234',
 # 'http://localhost:8000',
 # 'https://*.ngrok-free.app',
-# to be added: production server
+# 'www.alsalibiaicontracts.co.uk',
+# 'alsalibiaicontracts.co.uk',
 # ]
 
 # CORS_ALLOWED_ORIGINS_ALL = True

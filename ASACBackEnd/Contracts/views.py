@@ -173,11 +173,7 @@ class FetchContractsView(APIView):
 
 class CheckSumAddressView(APIView):
 
-    def get(self, request, *args, **kwargs):
-        address = request.headers.get('X-Token-Address')
-        if not address:
-            return JsonResponse({"error": "Address header parameter is required."}, status=status.HTTP_400_BAD_REQUEST)
-
+    def get(self, request, address, *args, **kwargs):
         try:
             valid_address = Web3.to_checksum_address(address)
             print(f"address: {valid_address}")

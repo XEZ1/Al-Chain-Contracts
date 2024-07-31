@@ -284,11 +284,10 @@ export const useHomeScreen = (navigation) => {
                 return;
             }
             const token = await SecureStore.getItemAsync('authToken');
-            const response = await fetch(`${BACKEND_URL}/contracts/get-valid-checksum-address/`, {
+            const response = await fetch(`${BACKEND_URL}/contracts/get-valid-checksum-address/${encodeURIComponent(addressChecksum)}/`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Token ${token}`,
-                    'X-Token-Address': addressChecksum,
                 },
             });
             verifiedAddress = await response.json();

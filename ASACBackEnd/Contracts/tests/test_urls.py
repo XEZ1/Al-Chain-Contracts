@@ -17,5 +17,5 @@ class TestUrls(SimpleTestCase):
         self.assertEqual(resolve(url).func.view_class, FetchContractsView)
 
     def test_checksum_address_url_resolves(self):
-        url = reverse('get-valid-checksum-address')
+        url = reverse('get-valid-checksum-address', kwargs={'address': '0x618dd342BcbF099cBa4d200CBdadfbd2c94258F3'})
         self.assertEqual(resolve(url).func.view_class, CheckSumAddressView)
