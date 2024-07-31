@@ -68,8 +68,9 @@ const SupportScreen = ({ navigation }) => {
                     </View>
                 ))}
             </ScrollView>
+
+            <View style={[sharedStyles.separatorLine, { bottom: Platform.OS === 'android' ? 0 : keyboardHeight + 177 }]} testID='separatorLineTestID'/>
             
-            <View style={[sharedStyles.separatorLine, { bottom: keyboardHeight + 177 }]} />
             {/* Input area */}
             {/* ref={viewRef} */}
             <View style={[localStyles.inputAreaContainer, keyboardHeight > 0 && Platform.OS === 'android' ? sharedStyles.avoidingTabBarContainer : sharedStyles.mediumMarginBottom, { marginTop: 0 }]} testID="viewTestID">

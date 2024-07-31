@@ -1,4 +1,5 @@
 import React from 'react';
+import { Platform } from 'react-native';
 import { render, fireEvent } from '@testing-library/react-native';
 import { waitFor } from '@testing-library/react-native';
 import ForumScreen from '../../../../app/screens/PostLoginScreens/Forum/ForumScreen';
@@ -7,7 +8,7 @@ import { ThemeContext } from '../../../../app/components/Theme';
 import { NavigationContainer } from '@react-navigation/native';
 import { useKeyboard } from '../../../../app/components/Keyboard';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Platform } from 'react-native';
+
 
 jest.mock('@react-navigation/native', () => {
     const actualNav = jest.requireActual('@react-navigation/native');

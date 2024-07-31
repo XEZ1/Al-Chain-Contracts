@@ -1,4 +1,5 @@
 import React from 'react';
+import { Platform } from 'react-native';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import SupportScreen from "../../../../app/screens/PostLoginScreens/Support/SupportScreen";
 import { ThemeContext } from '../../../../app/components/Theme';
@@ -51,7 +52,15 @@ describe('SupportScreen', () => {
 
     sharedStyles = getGloballySharedStyles();
 
-    const renderSupportScreen = (theme = 'light') => {
+    const renderSupportScreen = (theme = 'light', keyboardHeight = 0, os = 'ios') => {
+        useKeyboard.mockReturnValue({
+            keyboardHeight,
+            registerScrollViewRef: jest.fn(),
+            unregisterScrollViewRef: jest.fn(),
+        });
+        Platform.OS = os;
+
+
         return render(
             <ThemeContext.Provider value={{ theme }}>
                 <SupportScreen navigation={{ navigate: mockedNavigate }} />
@@ -63,6 +72,20 @@ describe('SupportScreen', () => {
         const { getByText } = renderSupportScreen();
 
         expect(getByText('Send')).toBeTruthy();
+    });
+
+    it('renders with keyboard visible on iOS', () => {
+        const { getByTestId } = renderSupportScreen('light', 100, 'ios');
+        bottomStyling = getByTestId('separatorLineTestID').props.style[0].bottom;
+        // Verify that iOS specific styles are applied
+        expect(bottomStyling).toBe(90);
+    });
+
+    it('renders with keyboard visible on Android', () => {
+        const { getByTestId } = renderSupportScreen('light', 100, 'android');
+        bottomStyling = getByTestId('separatorLineTestID').props.style[0].bottom;
+        // Verify that Android specific styles are applied
+        expect(bottomStyling).toBe(90);
     });
 
     it('renders correctly with light theme', () => {
