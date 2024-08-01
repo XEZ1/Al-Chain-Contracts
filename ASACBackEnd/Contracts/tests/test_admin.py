@@ -10,12 +10,25 @@ User = get_user_model()
 
 
 class MockRequest:
+    """
+    A mock request object to simulate a user request.
+    """
     def __init__(self):
         self.user = None
 
 
 class SmartContractAdminTest(TestCase):
+    """
+    Test case for the SmartContract admin interface.
+    Ensures that the SmartContract model is correctly registered and accessible in the admin interface.
+    """
     def setUp(self):
+        """
+        Set up the test environment.
+
+        This method creates a test user, sets the user as staff and superuser,
+        and registers the SmartContract model with the admin site.
+        """
         self.site = AdminSite()
         self.factory = RequestFactory()
 
@@ -33,13 +46,21 @@ class SmartContractAdminTest(TestCase):
         self.site.register(SmartContract, ModelAdmin)
 
     def test_smart_contract_admin_registration(self):
-        # Check if SmartContract is registered in the admin and uses the default ModelAdmin
+        """
+        Test that SmartContract is registered in the admin interface.
+
+        This method checks if the SmartContract model is registered and uses the default ModelAdmin.
+        """
         self.assertTrue(admin.site.is_registered(SmartContract), "SmartContract should be registered in the admin.")
         registered_admin = admin.site._registry[SmartContract]
         self.assertIsInstance(registered_admin, admin.ModelAdmin, "SmartContract should use ModelAdmin.")
 
     def test_smart_contract_admin_changelist_view(self):
-        # Simulate a request to the admin interface to test the changelist page
+        """
+        Test the changelist view of the SmartContract model in the admin interface.
+
+        This method simulates a request to the changelist page and checks if the response is successful.
+        """
         request = self.factory.get('/admin/Contracts/smartcontract/')
         request.user = self.user
 

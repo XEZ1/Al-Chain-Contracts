@@ -6,8 +6,17 @@ from ..serialisers import SmartContractSerialiser, EmploymentContractSerialiser
 
 
 class TestSerialisers(TestCase):
+    """
+    Test case for the EmploymentContract and SmartContract serialisers.
+    Ensures that serialisation and deserialisation processes work correctly.
+    """
 
     def setUp(self):
+        """
+        Set up the test environment.
+
+        This method creates a test user, an employment contract, and a smart contract for use in the tests.
+        """
         self.client = APIClient()
         self.user = User.objects.create(
             username='testuser',
@@ -36,6 +45,12 @@ class TestSerialisers(TestCase):
         )
 
     def test_employment_contract_serialiser(self):
+        """
+        Test the EmploymentContract serialiser.
+
+        This method checks if the EmploymentContract serialiser correctly serialises an instance
+        and deserialises data to create a new EmploymentContract instance.
+        """
         serialiser = EmploymentContractSerialiser(instance=self.employment_contract)
         data = serialiser.data
         self.assertEqual(set(data.keys()), {'id', 'user', 'contract_name', 'employer_address', 'auth_app_address',
@@ -56,6 +71,12 @@ class TestSerialisers(TestCase):
         self.assertEqual(new_contract.contract_name, 'New Sample Contract')
 
     def test_smart_contract_serialiser(self):
+        """
+        Test the SmartContract serialiser.
+
+        This method checks if the SmartContract serialiser correctly serialises an instance
+        and deserialises data to create a new SmartContract instance.
+        """
         serialiser = SmartContractSerialiser(instance=self.smart_contract)
         data = serialiser.data
         self.assertEqual(set(data.keys()), {'id', 'user', 'legal_contract', 'code', 'contract_name', 'employer_address',

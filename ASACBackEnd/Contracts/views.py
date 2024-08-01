@@ -17,9 +17,23 @@ load_dotenv()
 
 
 class GenerateContractView(APIView):
+    """
+    API view to handle the generation of smart contracts.
+    Uses MultiPartParser and FormParser to handle multipart form data.
+    """
+
     parser_classes = (MultiPartParser, FormParser)
 
     def post(self, request, *args, **kwargs):
+        """
+        Handle POST requests to generate a smart contract.
+
+        This method validates the input data, generates Solidity code using OpenAI,
+        creates a SmartContract instance, and sends a notification to the user.
+
+        @param request: The request object containing data and user information.
+        @return: JsonResponse with the generated Solidity code or validation errors.
+        """
         data = request.data.copy()
         data['user'] = request.user.id
 
@@ -46,6 +60,7 @@ class GenerateContractView(APIView):
                 token_contract_interface=data['token_contract_interface'],
             )
 
+            # Retrieve the user's notification push token and send a notification
             notification_push_token = NotificationPushToken.objects.filter(user=data['user']).first()
             if notification_push_token:
                 send_push_notification(notification_push_token.token, "Your Smart Contract Was Successfully Generated!",
@@ -57,6 +72,12 @@ class GenerateContractView(APIView):
         return JsonResponse(serialiser.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def generate_solidity_code(self, contract_text):
+        """
+        Generate Solidity code from the given contract text using OpenAI.
+
+        @param contract_text: The text of the legal employment contract.
+        @return: The generated Solidity code.
+        """
         client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
         prompt = (f"Convert the following legal employment contract into a Solidity smart contract. You shall pass "
                   f"back only code! Here is the contract: {contract_text}")
@@ -70,6 +91,11 @@ class GenerateContractView(APIView):
         return content
 
     def generate_fake_solidity_code_for_testing(self):
+        """
+        Generate fake Solidity code for testing purposes.
+
+        @return: A string containing fake Solidity code.
+        """
         solidity_code = """// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\nimport 
         \"node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol\"; // Interface for ERC20 tokens\nimport 
         \"node_modules/@openzeppelin/contracts/utils/ReentrancyGuard.sol\"; // Prevent re-entrancy 
@@ -146,9 +172,22 @@ class GenerateContractView(APIView):
 
 
 class DeleteContractView(APIView):
+    """
+    API view to handle the deletion of smart contracts.
+    Requires user authentication.
+    """
     permission_classes = [IsAuthenticated]
 
     def delete(self, request, contract_name, *args, **kwargs):
+        """
+        Handle DELETE requests to delete a smart contract by its name.
+
+        This method attempts to retrieve and delete the smart contract belonging to the user.
+
+        @param request: The request object containing user information.
+        @param contract_name: The name of the contract to be deleted.
+        @return: JsonResponse indicating the success or failure of the deletion.
+        """
         try:
             # Attempt to retrieve the contract
             contract = SmartContract.objects.get(user=request.user, contract_name=contract_name)
@@ -164,16 +203,39 @@ class DeleteContractView(APIView):
 
 
 class FetchContractsView(APIView):
+    """
+    API view to handle fetching of smart contracts for the authenticated user.
+    """
 
     def get(self, request, *args, **kwargs):
+        """
+        Handle GET requests to fetch all smart contracts for the authenticated user.
+
+        This method retrieves all smart contracts associated with the user and returns them in JSON format.
+
+        @param request: The request object containing user information.
+        @return: JsonResponse with the user's smart contracts.
+        """
         user_contracts = SmartContract.objects.filter(user=request.user)
         serialiser = SmartContractSerialiser(user_contracts, many=True)
         return JsonResponse(serialiser.data, safe=False, status=status.HTTP_200_OK)
 
 
 class CheckSumAddressView(APIView):
+    """
+    API view to handle the validation and checksumming of Ethereum addresses.
+    """
 
     def get(self, request, address, *args, **kwargs):
+        """
+        Handle GET requests to validate and checksum an Ethereum address.
+
+        This method validates the provided Ethereum address and returns its checksummed version.
+
+        @param request: The request object.
+        @param address: The Ethereum address to be checksummed.
+        @return: JsonResponse with the checksummed address or an error message.
+        """
         try:
             valid_address = Web3.to_checksum_address(address)
             print(f"address: {valid_address}")

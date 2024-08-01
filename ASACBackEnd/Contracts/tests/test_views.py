@@ -11,8 +11,18 @@ from ..views import GenerateContractView
 
 
 class ViewTestCase(TestCase):
+    """
+    Base test case for setting up the test environment.
+    Creates a user, employment contract, and smart contract for use in the tests.
+    """
 
     def setUp(self):
+        """
+        Set up the test environment.
+
+        This method creates a test user, an employment contract, and a smart contract.
+        It also authenticates the test client with the created user.
+        """
         self.user = User.objects.create(
             username='testuser',
             first_name='test',
@@ -45,10 +55,20 @@ class ViewTestCase(TestCase):
 
 
 class TestGenerateContractView(ViewTestCase):
+    """
+    Test case for the GenerateContractView.
+    Ensures that contract generation works correctly, including handling notifications.
+    """
 
     @patch('Contracts.views.send_push_notification')
     @patch('Contracts.views.GenerateContractView.generate_solidity_code')
     def test_post_successful_contract_generation_with_notification(self, mock_generate_solidity_code, mock_send_notification):
+        """
+        Test successful contract generation with notification.
+
+        This method mocks the Solidity code generation and notification sending.
+        It checks if a new contract is created and if the notification is sent correctly.
+        """
         mock_generate_solidity_code.return_value = "test solidity code"
 
         NotificationPushToken.objects.create(user=self.user, token='ExponentPushToken[dummy-token]')
@@ -72,6 +92,12 @@ class TestGenerateContractView(ViewTestCase):
 
     @patch('Contracts.views.GenerateContractView.generate_solidity_code')
     def test_post_successful_contract_generation_without_notification(self, mock_generate_solidity_code):
+        """
+        Test successful contract generation without notification.
+
+        This method mocks the Solidity code generation.
+        It checks if a new contract is created when no notification push token is present.
+        """
         mock_generate_solidity_code.return_value = "test solidity code"
 
         url = reverse('generate-contract')
@@ -84,11 +110,21 @@ class TestGenerateContractView(ViewTestCase):
         self.assertFalse(NotificationPushToken.objects.filter(user=self.user).exists())
 
     def test_post_failure_contract_generation(self):
+        """
+        Test failure of contract generation due to missing data.
+
+        This method checks that an error is returned when no data is provided.
+        """
         url = reverse('generate-contract')
         response = self.client.post(url, {}, format='multipart')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_post_invalid_data_contract_generation(self):
+        """
+        Test failure of contract generation due to invalid data.
+
+        This method checks that an error is returned when invalid data is provided.
+        """
         url = reverse('generate-contract')
         data = self.contract_details.copy()
         data.update({"contract_name": ""})
@@ -103,6 +139,11 @@ class TestGenerateContractView(ViewTestCase):
 
     @patch('Contracts.views.OpenAI')
     def test_generate_solidity_code(self, mock_openai_class):
+        """
+        Test the generate_solidity_code method.
+
+        This method mocks the OpenAI API call and checks if the Solidity code generation works correctly.
+        """
         mock_response = MagicMock()
         mock_response.choices = [MagicMock(message=MagicMock(content='simulated solidity code'))]
         mock_chat = MagicMock()
@@ -124,26 +165,56 @@ class TestGenerateContractView(ViewTestCase):
         )
 
     def test_generate_fake_solidity_code(self):
+        """
+        Test the generate_fake_solidity_code method.
+
+        This method checks if the fake Solidity code generation method returns a string.
+        """
         view = GenerateContractView()
         result = view.generate_fake_solidity_code_for_testing()
         self.assertEqual(type(result), str)
 
 
 class TestDeleteContractView(ViewTestCase):
+    """
+    Test case for the DeleteContractView.
+    Ensures that contract deletion works correctly.
+    """
+
     def test_delete_successful_contract_deletion(self):
+        """
+        Test successful contract deletion.
+
+        This method checks that a contract is deleted when it exists and belongs to the user.
+        """
         url = reverse('delete-contract', kwargs={'contract_name': self.smart_contract.contract_name})
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(SmartContract.objects.filter(id=self.smart_contract.id).exists())
 
     def test_delete_failure_contract_deletion(self):
+        """
+        Test failure of contract deletion due to non-existent contract.
+
+        This method checks that an error is returned when the contract does not exist.
+        """
         url = reverse('delete-contract', kwargs={'contract_name': 'nonexistent_contract'})
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
 class TestFetchContractsView(ViewTestCase):
+    """
+    Test case for the FetchContractsView.
+    Ensures that fetching contracts works correctly.
+    """
+
     def test_get_successful_contract_fetch(self):
+        """
+        Test successful fetching of contracts.
+
+        This method checks that the user's contracts are fetched correctly.
+        """
         url = reverse('get-user-contracts')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -151,6 +222,11 @@ class TestFetchContractsView(ViewTestCase):
         self.assertEqual(len(data), 1)
 
     def test_get_empty_contract_fetch(self):
+        """
+        Test fetching contracts when no contracts exist.
+
+        This method checks that an empty list is returned when the user has no contracts.
+        """
         url = reverse('get-user-contracts')
         self.smart_contract.delete()
         response = self.client.get(url)
@@ -160,12 +236,27 @@ class TestFetchContractsView(ViewTestCase):
 
 
 class TestCheckSumAddressView(ViewTestCase):
+    """
+    Test case for the CheckSumAddressView.
+    Ensures that Ethereum address checksumming works correctly.
+    """
+
     def test_post_successful_checksum_address(self):
+        """
+        Test successful Ethereum address checksumming.
+
+        This method checks that a valid Ethereum address is correctly checksummed.
+        """
         url = reverse('get-valid-checksum-address', args=['0x618dd342BcbF099cBa4d200CBdadfbd2c94258F3'])
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_post_failure_checksum_address(self):
+        """
+        Test failure to checksum an invalid Ethereum address.
+
+        This method verifies that an appropriate error is returned for an invalid Ethereum address
+        """
         url = reverse('get-valid-checksum-address', args=['0xInvalid'])
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
