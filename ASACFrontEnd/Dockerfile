@@ -1,3 +1,5 @@
+# MAKE SURE TO LOGIN TO EXPO BEFORE BUILDING THE DOCKER IMAGE
+
 # Use the official Node.js image
 FROM node:18-alpine
 
