@@ -9,12 +9,21 @@ import getLocallySharedStylesPreLoginScreens from '../../styles/LocallySharedSty
 import getGloballySharedStyles from '../../styles/GloballySharedStyles';
 
 
+/**
+ * SignUpScreen component allows users to sign up for an account by providing their details.
+ * It manages the input fields for username, first name, last name, email, password, and password confirmation.
+ * Additionally, it handles error display using a modal.
+ * 
+ * @param {object} navigation - React Navigation object for navigating between screens.
+ * @returns {JSX.Element} - Rendered component for the sign-up screen.
+ */
 const SignUpScreen = ({ navigation }) => {
-  
+    // Access the current theme from the ThemeContext
     const { theme } = useContext(ThemeContext);
     const sharedStyles = getGloballySharedStyles(theme);
     const localStyles = getLocallySharedStylesPreLoginScreens(theme);
 
+    // Fields to capture user input
     const [username, setUsername] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -24,11 +33,17 @@ const SignUpScreen = ({ navigation }) => {
     const [errors, setErrors] = useState({});
     const [showErrorDetails, setShowErrorDetails] = useState(false);
 
+    // Access the sign-up handler from the AuthContext
     const { handleSignUp } = useContext(AuthContext);
 
+    // Reference to the ScrollView component (used to focus on input fields)
     const scrollViewRef = useRef(null);
+    // Custom hook to manage keyboard state
     const { keyboardHeight, registerScrollViewRef, unregisterScrollViewRef } = useKeyboard();
 
+    /**
+     * Registers and unregisters the ScrollView reference when the screen is focused or unfocused.
+     */
     useFocusEffect(
         useCallback(() => {
             const id = "SignUpScreen";

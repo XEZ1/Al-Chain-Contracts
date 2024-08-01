@@ -5,7 +5,14 @@ import getGloballySharedStyles from '../../styles/GloballySharedStyles';
 import getLocallySharedStylesPreLoginScreens from '../../styles/LocallySharedStylesPreLoginScreens';
 
 
+/**
+ * PreLoginScreen component renders the initial screen with options to navigate to Login, Sign Up, or About Us.
+ *
+ * @param {object} navigation - React Navigation object for navigating between screens.
+ * @returns {JSX.Element} - Rendered component for the pre-login screen.
+ */
 const PreLoginScreen = ({ navigation }) => {
+    // Access the current theme from the ThemeContext
     const { theme } = useContext(ThemeContext);
     const sharedStyles = getGloballySharedStyles(theme);
     const localStyles = getLocallySharedStylesPreLoginScreens(theme);

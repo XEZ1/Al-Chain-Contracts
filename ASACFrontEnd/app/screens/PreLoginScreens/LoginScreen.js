@@ -8,18 +8,31 @@ import getGloballySharedStyles from '../../styles/GloballySharedStyles';
 import getLocallySharedStylesPreLoginScreens from '../../styles/LocallySharedStylesPreLoginScreens';
 
 
+/**
+ * LoginScreen component renders the login form and handles user authentication.
+ *
+ * @param {object} navigation - React Navigation object for navigating between screens.
+ * @returns {JSX.Element} - Rendered component for the login screen.
+ */
 const LoginScreen = ({ navigation }) => {
+    // Access the current theme from the ThemeContext
     const { theme } = useContext(ThemeContext);
     const sharedStyles = getGloballySharedStyles(theme);
     const localStyles = getLocallySharedStylesPreLoginScreens(theme);
 
+    // Access the login handler from the AuthContext
     const { handleLogin } = useContext(AuthContext);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+    // Reference to the ScrollView component (used to focus on input fields)
     const scrollViewRef = useRef(null);
+    // Custom hook to manage keyboard state
     const { keyboardHeight, registerScrollViewRef, unregisterScrollViewRef } = useKeyboard();
 
+    /**
+     * Registers and unregisters the ScrollView reference when the screen is focused or unfocused.
+     */
     useFocusEffect(
         useCallback(() => {
             const id = "LoginScreen";
