@@ -13,7 +13,7 @@ COPY package*.json ./
 RUN npm install -g expo-cli
 
 # Install dependencies
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 # Copy the rest of the project files
 COPY . .
