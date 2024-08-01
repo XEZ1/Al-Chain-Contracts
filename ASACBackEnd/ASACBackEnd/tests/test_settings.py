@@ -120,10 +120,14 @@ class TestSecuritySettings(SimpleTestCase):
         """
         Test CORS headers configuration.
 
-        This checks that the CORS settings allow all origins. In a production
-        environment, this setting should typically be more restrictive.
+        This checks that the CORS settings allow the specified origins.
         """
-        self.assertTrue(settings.CORS_ALLOW_ALL_ORIGINS)
+        expected_origins = [
+            'http://localhost:8000',
+            'www.alsalibiaicontracts.co.uk',
+            'alsalibiaicontracts.co.uk',
+        ]
+        self.assertEqual(settings.CORS_ALLOWED_ORIGINS, expected_origins)
 
 
 class TestStaticAndMediaFiles(SimpleTestCase):
