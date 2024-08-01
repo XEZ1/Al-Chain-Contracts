@@ -7,6 +7,13 @@ import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
 import getLocallySharedStylesSettingsScreens from '../../../styles/LocallySharedStylesSettingsScreens';
 
 
+/**
+ * SettingsScreen is a functional component that renders the settings screen where users can adjust their preferences such as dark mode and notifications.
+ * Also provides an option for the user to log out.
+ * @param {object} props - The props object for the component.
+ * @param {object} props.navigation - The navigation object for navigating between screens.
+ * @returns {JSX.Element} The SettingsScreen component.
+ */
 const SettingsScreen = ({ navigation }) => {
     const { theme, toggleTheme, isDarkMode } = useContext(ThemeContext);
     const sharedStyles = getGloballySharedStyles(theme);
@@ -14,7 +21,6 @@ const SettingsScreen = ({ navigation }) => {
 
     const { handleLogout } = useContext(AuthContext);
     const { notificationsEnabled, setNotificationsEnabled, toggleNotifications } = useSettingsScreen();
-
 
     return (
         <View style={sharedStyles.container}>

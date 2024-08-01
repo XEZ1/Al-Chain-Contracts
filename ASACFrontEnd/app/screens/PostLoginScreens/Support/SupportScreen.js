@@ -7,6 +7,15 @@ import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
 import getLocallySharedStylesSupportScreens from '../../../styles/LocallySharedStylesSupportScreens';
 
 
+/**
+ * SupportScreen Component
+ * This component renders the support chat interface.
+ * Users can view messages and send new messages to the support assistant.
+ * 
+ * @param {Object} props - Component props
+ * @param {Object} props.navigation - Navigation object for navigation actions
+ * @returns {React.Element} - The rendered component
+ */
 const SupportScreen = ({ navigation }) => {
     const { theme } = useContext(ThemeContext);
     const sharedStyles = getGloballySharedStyles(theme);
@@ -21,6 +30,10 @@ const SupportScreen = ({ navigation }) => {
         { id: '1', text: 'Hi! How can I help you today?', isAssistant: true },
     ]);
 
+    /**
+     * Handle sending a message
+     * Adds the new message to the messages state and clears the input field
+     */
     const handleSendMessage = () => {
         if (message.trim()) {
             const newMessage = { id: String(messages.length + 1), text: message, isAssistant: false };
@@ -29,6 +42,10 @@ const SupportScreen = ({ navigation }) => {
         }
     };
 
+    /**
+     * Register the scroll view ref when the screen is focused
+     * Unregister it when the screen is unfocused
+     */
     useFocusEffect(
         useCallback(() => {
             const id = "SupportScreen";
