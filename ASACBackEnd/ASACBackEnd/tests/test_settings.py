@@ -124,8 +124,8 @@ class TestSecuritySettings(SimpleTestCase):
         """
         expected_origins = [
             'http://localhost:8000',
-            'www.alsalibiaicontracts.co.uk',
-            'alsalibiaicontracts.co.uk',
+            'https://www.alsalibiaicontracts.co.uk',
+            'https://alsalibiaicontracts.co.uk',
         ]
         self.assertEqual(settings.CORS_ALLOWED_ORIGINS, expected_origins)
 

@@ -75,8 +75,8 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:8000',
 
     # Allow the production domains
-    'www.alsalibiaicontracts.co.uk',
-    'alsalibiaicontracts.co.uk',
+    'https://www.alsalibiaicontracts.co.uk',
+    'https://alsalibiaicontracts.co.uk',
 ]
 
 # Root URL configuration
