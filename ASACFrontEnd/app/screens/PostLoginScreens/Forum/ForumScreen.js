@@ -8,18 +8,29 @@ import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
 import getLocallySharedStylesForumScreens from '../../../styles/LocallySharedStylesForumScreens';
 
 
+/**
+ * ForumScreen component displays a list of posts in a community forum.
+ * It allows users to create new posts, like or delete existing posts, and navigate to the comment screen.
+ * 
+ * @param {object} navigation - React Navigation navigation object for navigating between screens.
+ * @returns {JSX.Element} - Rendered component for the forum screen.
+ */
 const ForumScreen = ({ navigation }) => {
+    // Access the current theme from the ThemeContext
     const { theme } = useContext(ThemeContext);
     const sharedStyles = getGloballySharedStyles(theme);
     const localStyles = getLocallySharedStylesForumScreens(theme);
 
+    // Custom hook to manage keyboard state
     const { keyboardHeight, registerScrollViewRef, unregisterScrollViewRef } = useKeyboard();
 
+    // Custom hooks to manage the forum screen logic
     const { posts, loading, createPost, handleLikePost, handleDeletePost,
         newPostTitle, setNewPostTitle,
         newPostDescription, setNewPostDescription
     } = useForumScreen();
 
+    // In case the posts are still loading, display an ActivityIndicator
     if (loading) {
         return (
             <View style={sharedStyles.container}>
@@ -28,6 +39,12 @@ const ForumScreen = ({ navigation }) => {
         );
     }
 
+    /**
+     * Renders a single post item.
+     * 
+     * @param {object} item - The post item to render.
+     * @returns {JSX.Element} - Rendered post item.
+     */
     const renderPost = ({ item }) => (
         <View style={[sharedStyles.container, localStyles.zeroPadding]}>
             <View style={sharedStyles.cardContainer}>
@@ -105,6 +122,5 @@ const ForumScreen = ({ navigation }) => {
 
     );
 };
-//keyboardHeight + 90
 
 export default ForumScreen;
