@@ -21,16 +21,13 @@ RUN npm install --legacy-peer-deps
 # Copy the rest of the project files
 COPY . .
 
-# Ensure bash is the default shell
-SHELL ["/bin/bash", "-c"]
-
 # Log in to Expo using the token
-ENV EXPO_TOKEN=${EXPO_TOKEN}
+ARG TOKEN
 ENV CI=1
 
 # Add EXPO_TOKEN to bashrc for all future sessions and source it for the current session
 # Build the Expo project and deploy it to the Expo servers
-RUN echo 'export EXPO_TOKEN=${EXPO_TOKEN}' >> /root/.bashrc && \
+RUN echo 'export EXPO_TOKEN=${TOKEN}' >> /root/.bashrc && \
     source /root/.bashrc && \
     echo "EXPO_TOKEN is $EXPO_TOKEN" && \
     npx eas-cli update:configure && \

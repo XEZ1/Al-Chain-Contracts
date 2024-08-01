@@ -66,12 +66,12 @@ services:
     build:
       context: ./ASACFrontEnd
       dockerfile: Dockerfile
+      args:
+        TOKEN: ${TOKEN} 
     volumes:
       - ./ASACFrontEnd:/ASACFrontEnd
     depends_on:
       - web
-    environment:
-    - EXPO_TOKEN=${EXPO_TOKEN}
 
 volumes:
   postgres_data:
