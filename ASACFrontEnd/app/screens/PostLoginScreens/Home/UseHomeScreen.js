@@ -8,6 +8,12 @@ import * as Clipboard from 'expo-clipboard';
 import { BACKEND_URL } from '@env';
 
 
+/**
+ * Custom hook to handle logic for the Home screen.
+ * 
+ * @param {Object} navigation - The navigation object provided by React Navigation.
+ * @returns {Object} - An object containing state and functions used in the Home screen component.
+ */
 export const useHomeScreen = (navigation) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [contractName, setContractName] = useState('');
@@ -22,9 +28,28 @@ export const useHomeScreen = (navigation) => {
     const [showErrorDetails, setShowErrorDetails] = useState(false);
     const [addressChecksum, setAddressChecksum] = useState('');
 
-
+    /**
+     * Helper function to validate an Ethereum address.
+     * 
+     * @param {string} address - The Ethereum address to validate.
+     * @returns {boolean} - True if the address is valid, false otherwise.
+     */
     const isValidEthereumAddress = (address) => /^0x[a-fA-F0-9]{40}$/.test(address);
+    
+    /**
+     * Helper function to validate a hexadecimal value.
+     * 
+     * @param {string} value - The value to validate.
+     * @returns {boolean} - True if the value is valid hexadecimal, false otherwise.
+     */
     const isValidHexadecimal = (value) => /^0x[a-fA-F0-9]+$/.test(value);
+    
+    /**
+     * Helper function to validate a contract name.
+     * 
+     * @param {string} name - The contract name to validate.
+     * @returns {boolean} - True if the name is valid, false otherwise.
+     */
     const isValidContractName = (name) => /^[a-zA-Z0-9\s]{3,100}$/.test(name);
 
     useEffect(() => {
@@ -35,6 +60,9 @@ export const useHomeScreen = (navigation) => {
         };
     }, []);
 
+    /**
+     * Handles file selection for the contract creation.
+     */
     const handleFileSelectDropZone = async () => {
         try {
             const result = await DocumentPicker.getDocumentAsync({
@@ -63,6 +91,9 @@ export const useHomeScreen = (navigation) => {
         }
     };
 
+    /**
+     * Uploads the contract data to the server.
+     */
     const uploadContractData = async () => {
         if (Object.values(errors).some(error => error)) {
             Alert.alert("Validation Errors", "Please fix the errors before proceeding.");
@@ -111,6 +142,12 @@ export const useHomeScreen = (navigation) => {
         }
     };
 
+    /**
+     * Saves the generated Solidity file locally.
+     * 
+     * @param {string} solidityCode - The Solidity code to save.
+     * @param {string} fileName - The name of the file to save.
+     */
     const saveSolidityFile = async (solidityCode, fileName) => {
         const fileInfo = await FileSystem.getInfoAsync(FileSystem.documentDirectory + fileName + '.sol');
         if (fileInfo.exists) {
@@ -129,6 +166,11 @@ export const useHomeScreen = (navigation) => {
         }
     };
 
+    /**
+     * Shares the contract file using the device's sharing options.
+     * 
+     * @param {string} contractName - The name of the contract to share.
+     */
     const shareContract = async (contractName) => {
         console.log(contractName);
         try {
@@ -147,6 +189,11 @@ export const useHomeScreen = (navigation) => {
         }
     };
 
+    /**
+     * Opens the contract file in the editor screen.
+     * 
+     * @param {string} contractName - The name of the contract to open.
+     */
     const openContract = (contractName) => {
         console.log(contractName);
         try {
@@ -159,6 +206,9 @@ export const useHomeScreen = (navigation) => {
         }
     };
 
+    /**
+     * Fetches and synchronises contracts from the server.
+     */
     const fetchAndSyncContracts = async () => {
         try {
             const token = await SecureStore.getItemAsync('authToken');
@@ -179,6 +229,11 @@ export const useHomeScreen = (navigation) => {
         }
     };
 
+    /**
+     * Synchronises the contracts with local storage.
+     * 
+     * @param {Array} contracts - The contracts to synchronise.
+     */
     const syncContracts = async (contracts) => {
         const documentDirectory = FileSystem.documentDirectory;
         const localFiles = await FileSystem.readDirectoryAsync(documentDirectory);
@@ -200,6 +255,11 @@ export const useHomeScreen = (navigation) => {
         setSavedContracts(updatedContracts);
     };
 
+    /**
+     * Handles the deletion of a contract.
+     * 
+     * @param {Object} contractToDelete - The contract object to delete.
+     */
     const handleDeleteContract = async (contractToDelete) => {
         if (!isComponentMounted) {
             return;
@@ -227,6 +287,9 @@ export const useHomeScreen = (navigation) => {
         }
     };
 
+    /**
+     * Cleans the Expo folder by deleting all files in the document directory.
+     */
     const cleanExpoFolder = async () => {
         const filesInDirectory = await FileSystem.readDirectoryAsync(FileSystem.documentDirectory);
         for (const fileName of filesInDirectory) {
@@ -237,6 +300,12 @@ export const useHomeScreen = (navigation) => {
         console.log('Succesfully deleted all file in the expo folder')
     }
 
+    /**
+     * Validates if a value is a valid JSON.
+     * 
+     * @param {string} value - The value to validate.
+     * @returns {boolean} - True if the value is valid JSON, false otherwise.
+     */
     const isValidJson = (value) => {
         try {
             JSON.parse(value);
@@ -246,25 +315,23 @@ export const useHomeScreen = (navigation) => {
         }
     };
 
+    /**
+     * Returns the appropriate validation error message for a given field and value.
+     * 
+     * @param {string} field - The field to validate.
+     * @param {string} value - The value to validate.
+     * @returns {string} - The validation error message.
+     */
     const getValidationErrorMessage = (field, value) => {
         switch (field) {
             case 'employerAddress':
                 return isValidEthereumAddress(value) ? '' : 'Invalid Ethereum address. Must start with 0x followed by 40 hexadecimal characters.';
-                //if (!isValidEthereumAddress(value)) return 'Invalid Ethereum address. Must start with 0x followed by 40 hexadecimal characters.' else return ''; 
-                //break;
             case 'authAppAddress':
                 return isValidEthereumAddress(value) ? '' : 'Invalid Ethereum address. Must start with 0x followed by 40 hexadecimal characters.';
-                //if (!isValidEthereumAddress(value)) return 'Invalid Ethereum address. Must start with 0x followed by 40 hexadecimal characters.';
-                //break;
             case 'contractName':
                 return isValidContractName(value) ? '' : 'Invalid contract name. Must be 3-100 characters long and contain only letters, numbers, and spaces.';
-                //if (!isValidContractName(value)) return 'Invalid contract name. Must be 3-100 characters long and contain only letters, numbers, and spaces.';
-                //break;
             case 'tokenContractInterface':
                 return isValidEthereumAddress(value) ? '' : 'Invalid token contract interface. Must be valid JSON.';
-                //if (!isValidJson(value)) return 'Invalid token contract interface. Must be valid JSON.';
-                //if (!isValidHexadecimal(value)) return 'Invalid hexadecimal value.';
-                //break;
             case 'hexidecimal':
                 return isValidHexadecimal(value) ? '' : 'Invalid Hexidecimal. Must start with 0x followed by some hexadecimal characters.';
             default:
@@ -272,11 +339,20 @@ export const useHomeScreen = (navigation) => {
         }
     };
 
+    /**
+     * Validates the input for a specific field.
+     * 
+     * @param {string} field - The field to validate.
+     * @param {string} value - The value to validate.
+     */
     const validateInput = (field, value) => {
         const errorMessage = getValidationErrorMessage(field, value);
         setErrors({ ...errors, [field]: errorMessage });
     };
 
+    /**
+     * Handles the checksum address validation.
+     */
     const handleChecksumAddress = async () => {
         try {
             if (!addressChecksum) {
@@ -305,6 +381,9 @@ export const useHomeScreen = (navigation) => {
         }
     };
 
+    /**
+     * Copies the validated address to the clipboard.
+     */
     const copyToClipboard = () => {
         Clipboard.setStringAsync(validatedAddress);
         Alert.alert('Copied to clipboard!');

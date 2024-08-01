@@ -10,15 +10,24 @@ import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
 import getLocallySharedStylesHomeScreens from '../../../styles/LocallySharedStylesHomeScreens';
 
 
+/**
+ * HomeScreen component for displaying the main user interface for contract management.
+ * @param {object} props - The props object for the component.
+ * @param {object} props.navigation - The navigation object for navigating between screens.
+ * @returns {JSX.Element} The HomeScreen component.
+ */
 const HomeScreen = ({ navigation }) => {
+    // Retrieve theme from the ThemeContext
     const { theme } = useContext(ThemeContext);
     const sharedStyles = getGloballySharedStyles(theme);
     const localStyles = getLocallySharedStylesHomeScreens(theme);
 
+    // Ref to handle ScrollView input focus
     const scrollViewRef = useRef(null);
-
+    // Custom hook to manage keyboard state
     const { keyboardHeight, registerScrollViewRef, unregisterScrollViewRef } = useKeyboard();
 
+    // Custom hooks to manage the home screen logic
     const {
         selectedFile, setSelectedFile,
         contractName, setContractName,
@@ -37,10 +46,16 @@ const HomeScreen = ({ navigation }) => {
         handleChecksumAddress, copyToClipboard,
     } = useHomeScreen(navigation);
 
+    /**
+     * Fetch and sync contracts on component mount
+     */
     useEffect(() => {
         fetchAndSyncContracts();
     }, []);
 
+    /**
+     * Register ScrollView ScrollView ref on focus
+     */
     useFocusEffect(
         useCallback(() => {
             const id = "HomeScreen";

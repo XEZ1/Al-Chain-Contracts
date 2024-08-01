@@ -5,16 +5,29 @@ import getGloballySharedStyles from '../../../styles/GloballySharedStyles';
 import getLocallySharedStylesHomeScreens from '../../../styles/LocallySharedStylesHomeScreens';
 
 
+/**
+ * ContractItem component to display and manage individual contract items.
+ * @param {object} contract - The contract data to display.
+ * @param {function} openContract - Function to open the contract.
+ * @param {function} openShareContract - Function to share the contract.
+ * @param {function} deleteContract - Function to delete the contract.
+ * @param {string} theme - The current theme (light or dark).
+ * @returns {JSX.Element} - The ContractItem component.
+ */
 export const ContractItem = ({ contract, openContract, openShareContract, deleteContract, theme }) => {
     const sharedStyles = getGloballySharedStyles(theme);
     const localStyles = getLocallySharedStylesHomeScreens(theme); 
 
+    // State to manage the expanded state of the contract item
     const [expanded, setExpanded] = useState(false);
     const animationController = useRef(new Animated.Value(0)).current;
     const opacityAnimation = useRef(new Animated.Value(1)).current; 
     const heightAnimation = useRef(new Animated.Value(1)).current;
     const isMounted = useRef(true);
 
+    /**
+     * Cleanup function to stop animations when the component unmounts.
+     */
     useEffect(() => {
         return () => {
             isMounted.current = false;
@@ -22,9 +35,10 @@ export const ContractItem = ({ contract, openContract, openShareContract, delete
         };
     }, []);
 
+    /**
+     * Toggle the expansion of the contract item.
+     */
     const toggleExpand = () => {
-        //if (!isMounted.current) return;
-
         setExpanded(!expanded);
 
         Animated.timing(animationController, {
@@ -38,6 +52,9 @@ export const ContractItem = ({ contract, openContract, openShareContract, delete
         });
     };
 
+    /**
+     * Initiate the deletion process of the contract with a confirmation alert.
+     */
     const initiateDeletion = () => {
         Alert.alert(
             "Delete Contract",
@@ -50,6 +67,9 @@ export const ContractItem = ({ contract, openContract, openShareContract, delete
         );
     };
 
+    /**
+     * Handle the deletion animation before actually deleting the contract.
+     */
     const handleDeletionAnimation = () => {
         Animated.parallel([
             Animated.timing(opacityAnimation, {
@@ -67,10 +87,12 @@ export const ContractItem = ({ contract, openContract, openShareContract, delete
                 opacityAnimation.stopAnimation();
                 heightAnimation.stopAnimation();
             }
+            // Call the deleteContract function passed as a prop
             deleteContract(contract)
         });
     };
 
+    // Interpolated height animation for the expanded view
     const animatedHeight = animationController.interpolate({
         inputRange: [0, 1],
         outputRange: [0, 180],

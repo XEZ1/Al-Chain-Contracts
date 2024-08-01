@@ -3,17 +3,32 @@ import { Alert } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 
 
+/**
+ * Custom hook to handle loading and displaying a file's content in a web view.
+ * 
+ * @param {string} filePath - The path to the file to be loaded.
+ * @param {string} theme - The current theme ('dark' or 'light') to style the content accordingly.
+ * @returns {Object} - An object containing the HTML code to display and the loading state.
+ */
 export const useEditorScreen = (filePath, theme) => {
+    // State to hold the content of the file
     const [fileContent, setFileContent] = useState('');
+    // State to hold the HTML code to be displayed in the WebView
     const [codeHtml, setCodeHtml] = useState('');
+    // State to handle the loading status
     const [isLoading, setIsLoading] = useState(true);
 
+    /**
+     * Load the content of the file when the filePath changes.
+     */
     useEffect(() => {
+        // Read the file content as a string
         const loadFileContent = async () => {
             try {
                 const content = await FileSystem.readAsStringAsync(filePath);
                 setFileContent(content);
             } catch (error) {
+                // Show an alert if there's an error reading the file
                 Alert.alert("Error", "Failed to load file content");
                 console.error(error);
             }
@@ -22,9 +37,15 @@ export const useEditorScreen = (filePath, theme) => {
         loadFileContent();
     }, [filePath]);
 
+    /**
+     * Update the HTML template with the file content and theme styles when the file content or theme changes.
+     */
     useEffect(() => {
+        // Set background and text colors based on the current theme
         const backgroundColor = theme === 'dark' ? '#1A1A1A' : 'white';
         const textColor = theme === 'dark' ? 'white' : 'black';
+        
+        // Escape HTML characters in the file content
         const escapedContent = fileContent
                     .replace(/&/g, '&amp;')
                     .replace(/</g, '&lt;')
@@ -32,6 +53,7 @@ export const useEditorScreen = (filePath, theme) => {
                     .replace(/"/g, '&quot;')
                     .replace(/'/g, '&#039;');
 
+        // HTML template to display the file content with syntax highlighting
         const htmlTemplate = `
         <html>
             <head>
