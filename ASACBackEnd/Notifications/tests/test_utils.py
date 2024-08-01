@@ -5,8 +5,14 @@ from Notifications.utils import send_push_notification
 
 @pytest.mark.django_db
 class TestPushNotification:
+    """
+    Test case for the send_push_notification utility function.
+    """
 
     def test_send_push_notification_success(self):
+        """
+        Test sending a push notification successfully.
+        """
         # Use create_autospec to ensure that mocks adhere to the specifications of real objects
         with patch('Notifications.utils.PushClient', autospec=True) as mock_push_client:
             # Configure the mock to simulate a successful publish
@@ -25,6 +31,9 @@ class TestPushNotification:
             assert message_sent.body == 'Test body'
 
     def test_send_push_notification_failure(self):
+        """
+        Test sending a push notification and handling failure.
+        """
         # Mock the PushClient to raise an exception
         with patch('Notifications.utils.PushClient', autospec=True) as mock_push_client, patch(
                 'builtins.print') as mock_print:

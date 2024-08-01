@@ -8,8 +8,13 @@ from channels.layers import get_channel_layer
 @pytest.mark.asyncio
 @pytest.mark.django_db(transaction=True)
 class TestNotificationConsumer:
-
+    """
+    Test case for the WebSocket consumer handling notifications.
+    """
     async def test_consumer_connects_to_group(self):
+        """
+        Test that the consumer connects to the WebSocket group and receives messages.
+        """
         communicator = WebsocketCommunicator(application, "/ws/notifications/")
         connected, subprotocol = await communicator.connect()
         assert connected
@@ -30,6 +35,9 @@ class TestNotificationConsumer:
             await communicator.disconnect()
 
     async def test_consumer_disconnects_properly(self):
+        """
+        Test that the consumer disconnects from the WebSocket group properly.
+        """
         communicator = WebsocketCommunicator(application, "/ws/notifications/")
         await communicator.connect()
         await communicator.disconnect()
@@ -50,6 +58,10 @@ class TestNotificationConsumer:
             assert True  # Expected timeout, pass the test
 
     async def test_consumer_receives_and_sends_message(self):
+        """
+        Test that the consumer can receive a message from the client and send a response.
+        """
+
         communicator = WebsocketCommunicator(application, "/ws/notifications/")
         await communicator.connect()
 
