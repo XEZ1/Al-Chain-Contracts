@@ -18,6 +18,9 @@ RUN npm install --legacy-peer-deps
 # Copy the rest of the project files
 COPY . .
 
+# Log in to Expo using the token
+RUN if [ -n "$EXPO_TOKEN" ]; then expo login --non-interactive --token $EXPO_TOKEN; fi
+
 # Build the Expo project and deploy it to the Expo servers
 RUN eas update:configure --non-interactive
 RUN eas build:configure --non-interactive

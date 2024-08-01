@@ -69,6 +69,8 @@ services:
       - ./ASACFrontEnd:/ASACFrontEnd
     depends_on:
       - web
+    environment:
+      - EXPO_TOKEN=${EXPO_TOKEN}
 
 volumes:
   postgres_data:
