@@ -5,8 +5,15 @@ import LoginScreen from '../screens/PreLoginScreens/LoginScreen';
 import SignUpScreen from '../screens/PreLoginScreens/SignUpScreen';
 
 
+// Create stack navigator for pre-login screens
 const Stack = createStackNavigator();
 
+/**
+ * PreLoginStack component to manage the stack navigation for the pre-login screens.
+ * This component contains the PreLogin, Login, and SignUp screens.
+ * @returns {ReactElement} - The PreLoginStack component
+ * @exports PreLoginStack
+ */
 const PreLoginStack = () => {
     return (
         <Stack.Navigator initialRouteName="PreLogin" screenOptions={{ headerShown: false }}>

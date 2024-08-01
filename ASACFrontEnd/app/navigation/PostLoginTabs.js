@@ -16,15 +16,28 @@ import themeStyles from '../styles/ThemeStyles';
 import getGloballySharedStyles from '../styles/GloballySharedStyles';
 
 
+// Create a bottom tab navigator for the post-login screens
 const Tab = createBottomTabNavigator();
 
+/**
+ * PostLoginTabs component to manage the bottom tab navigation for the post-login screens.
+ * This component contains the Home, Forum, Support, and Settings screens.
+ * @returns {ReactElement} - The PostLoginTabs component
+ * @exports PostLoginTabs
+ */
 const PostLoginTabs = () => {
+    // Retrieve the current theme from the ThemeContext
     const { theme } = useContext(ThemeContext);
     const sharedStyles = getGloballySharedStyles(theme);
 
+    // Create stack navigators for Home and Forum sections
     const HomeStack = createStackNavigator();
     const ForumStack = createStackNavigator();
 
+    /**
+     * Function to define the Home stack screens
+     * @returns {ReactElement} - The Home stack navigator
+     */
     function HomeStackScreen() {
         return (
             <HomeStack.Navigator initialRouteName="HomeScreen" screenOptions={{ headerShown: false }}>
@@ -34,6 +47,10 @@ const PostLoginTabs = () => {
         );
     }
 
+    /**
+     * Function to define the Forum stack screens
+     * @returns {ReactElement} - The Forum stack navigator
+     */
     function ForumStackScreen() {
         return (
             <PostProvider>
@@ -45,11 +62,17 @@ const PostLoginTabs = () => {
         );
     }
 
+    /**
+     * screenOptions function to define the screen options for the bottom tabs.
+     * @param {object} { route }    
+     * @returns {ReactElement} - The screen options for the bottom tabs + icons
+     */
     const screenOptions = ({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
             let iconName;
             let testId;
 
+            // Assign icon names and test IDs based on the route name
             switch (route.name) {
                 case 'Home':
                     iconName = focused ? 'home' : 'home-outline';
