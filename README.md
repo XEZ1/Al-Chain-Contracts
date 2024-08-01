@@ -11,7 +11,7 @@ To simply use the application scan this QR code:
 
 Use this link:
 ```
-https://expo.dev/preview/update?message=Unify%20the%20view%20across%20platforms&updateRuntimeVersion=1.0.0&createdAt=2024-07-31T02%3A45%3A02.169Z&slug=exp&projectId=032f6af8-bb36-47b5-80a0-f6f070705b75&group=c7a72e9e-3651-4f15-b8f0-4b4a83e6957c
+https://expo.dev/preview/update?message=Clean%20up%20the%20code%20base&updateRuntimeVersion=1.0.0&createdAt=2024-08-01T03%3A38%3A19.941Z&slug=exp&projectId=032f6af8-bb36-47b5-80a0-f6f070705b75&group=02c6358e-8e25-4ee0-a156-4c1b60dab11e
 ```
 
 # Personal Setup
@@ -187,4 +187,13 @@ docker-compose exec web python manage.py migrate
 docker-compose exec web python manage.py collectstatic
 docker-compose exec web ls /ASACBackEnd/staticfiles
 docker-compose exec web chmod -R 777 /ASACBackEnd/staticfiles
+```
+
+## Frontend deployment
+```
+eas update:configure
+eas branch:list
+eas branch:switch main
+eas build:configure
+eas update --message ""
 ```
