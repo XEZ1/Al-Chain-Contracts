@@ -10,7 +10,7 @@ WORKDIR /ASACFrontEnd
 COPY package*.json ./
 
 # Install Expo CLI globally
-RUN npm install -g expo-cli
+RUN npm install -g expo-cli eas-cli
 
 # Install dependencies
 RUN npm install --legacy-peer-deps
