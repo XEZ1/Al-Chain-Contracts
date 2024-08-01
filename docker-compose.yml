@@ -65,12 +65,12 @@ services:
   frontend:
     build:
       context: ./ASACFrontEnd
+      args:
+        - EXPO_TOKEN=${EXPO_TOKEN}
     volumes:
       - ./ASACFrontEnd:/ASACFrontEnd
     depends_on:
       - web
-    environment:
-      - EXPO_TOKEN=${EXPO_TOKEN}
 
 volumes:
   postgres_data:

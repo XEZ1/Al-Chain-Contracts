@@ -18,6 +18,10 @@ RUN npm install --legacy-peer-deps
 # Copy the rest of the project files
 COPY . .
 
+# Accept build argument and set it as an environment variable
+ARG EXPO_TOKEN
+ENV EXPO_TOKEN=${EXPO_TOKEN}
+
 # Log in to Expo using the token
 RUN if [ -n "$EXPO_TOKEN" ]; then expo login --non-interactive --token $EXPO_TOKEN; fi
 
