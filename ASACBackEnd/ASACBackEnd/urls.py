@@ -18,10 +18,26 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+# Define the URL patterns for the project
 urlpatterns = [
+                  # Route for the Django admin interface
+                  # Provides access to the admin panel for managing the site
                   path('admin/', admin.site.urls),
+
+                  # Route for the Accounts application
+                  # Provides access to the user account management functionality
                   path('', include('Accounts.urls')),
+
+                  # Route for the Notifications application
+                  # Provides access to the notifications functionality
                   path('notifications/', include('Notifications.urls')),
+
+                  # Route for the Contracts application
+                  # Provides access to the contracts functionality
                   path('contracts/', include('Contracts.urls')),
+
+                  # Route for the Forums application
+                  # Provides access to the forums functionality
                   path('forums/', include('Forums.urls')),
-              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) # Add the static files URL pattern
