@@ -10,7 +10,7 @@ RUN apk add --no-cache git bash
 WORKDIR /ASACFrontEnd
 
 # Copy the package.json and package-lock.json
-COPY package*.json ./
+COPY ASACFrontEnd/package*.json ./
 
 # Install Expo, Expo CLI and EAS CLI globally
 RUN npm install -g eas-cli
@@ -19,7 +19,10 @@ RUN npm install -g eas-cli
 RUN npm install --legacy-peer-deps
 
 # Copy the rest of the project files
-COPY . .
+COPY ASACFrontEnd/. .
+
+# Copy the GIT repository
+COPY .git .git
 
 # Log in to Expo using the token
 ARG TOKEN
@@ -32,7 +35,7 @@ RUN echo 'export EXPO_TOKEN=${TOKEN}' >> /root/.bashrc && \
     echo "EXPO_TOKEN is $EXPO_TOKEN" && \
     npx eas-cli update:configure && \
     echo "Configured EAS" && \
-    npx eas-cli build:configure && \
+    npx eas-cli build:configure --platform all && \
     echo "Configured build" && \
     npx eas-cli update --message "New deployment" --branch main && \
     echo "Deployment done"
