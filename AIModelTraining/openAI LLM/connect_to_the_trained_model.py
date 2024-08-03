@@ -2,7 +2,6 @@ import os
 from openai import OpenAI
 
 client = OpenAI(
-    # This is the default and can be omitted
     api_key="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",
 )
 

@@ -24,7 +24,6 @@ train_encodings = [tokenize_function(ex) for ex in training_data]
 test_encodings = [tokenize_function(ex) for ex in testing_data]
 
 
-# Assuming your dataset is a list of dictionaries with "legal_contract" keys
 train_encodings = list(map(tokenize_function, training_data))
 test_encodings = list(map(tokenize_function, testing_data))
 
@@ -34,7 +33,7 @@ class ContractDataset(torch.utils.data.Dataset):
 
     def __getitem__(self, idx):
         item = {key: torch.tensor(val[idx]) for key, val in self.encodings[idx].items()}
-        item['labels'] = item['input_ids'].clone()  # Assuming you want to use the input_ids as labels for a language modeling task
+        item['labels'] = item['input_ids'].clone()
         return item
 
     def __len__(self):

@@ -9,7 +9,7 @@ output_file = 'contracts_dataset.json'
 
 contracts_data = []
 
-for i in range(1, 101):  # Adjust range as needed
+for i in range(1, 101):
     smart_contract_path = os.path.join(smart_contracts_dir, f'smart_contract_{i}.sol')
     legal_contract_path = os.path.join(legal_contracts_dir, f'legal_employment_contract_{i}.docx')
     

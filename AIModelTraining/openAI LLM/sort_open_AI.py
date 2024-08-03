@@ -3,12 +3,12 @@ import os
 from docx import Document
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-batch_dir = os.path.join(current_dir, 'Batch 1')  # Assuming 'Batch 1' is the correct folder name
+batch_dir = os.path.join(current_dir, 'Batch 1')
 output_file = 'contracts_dataset_open_AI.jsonl'  # Use .jsonl for JSON Lines format
 
 contracts_data = []
 
-for i in range(1, 101):  # Loop through your files
+for i in range(1, 101):  # Loop through files
     smart_contract_path = os.path.join(batch_dir, f'smart_contract_{i}.sol')
     legal_contract_path = os.path.join(batch_dir, f'legal_employment_contract_{i}.docx')
     
