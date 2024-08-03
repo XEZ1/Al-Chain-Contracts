@@ -13,7 +13,7 @@ const getGloballySharedStyles = (theme = 'light') => {
             bottom: Platform.OS === 'android' ? 0 : '2.5%',
             left: '5%', 
             right: '5%',
-            height: '7%', 
+            height: 60, 
             paddingVertical: '2%', 
             paddingBottom: '2.5%',
             borderRadius: 30,  
