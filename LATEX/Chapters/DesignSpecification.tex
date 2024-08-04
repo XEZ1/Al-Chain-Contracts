@@ -132,13 +132,13 @@ The focus was shifted towards training a simpler AI model capable of producing m
 
 A more in-depth implementation of this design will be discussed during the implementation phase in the next chapter. The decision to prioritise these basic elements was influenced by practical considerations such as feasibility and resource availability, given the complexities and the need for a dependable, tamper-proof system. This focused approach aims to establish a strong foundation for secure and efficient employment management using blockchain technology. It also lays the groundwork for future improvements that could include advanced data integration and performance metric calculations.
 
-\section{Integration Strategy}
+\section{Integration and Deployment Strategy}
 
-The integration strategy of the platform involves the following key components:
+The integration strategy of the platform will involve the following key components:
 
 \begin{itemize}
-    \item \textbf{AI Model Integration:} The trained AI model is hosted on \texttt{OpenAI's} servers. The backend communicates with it through the API provided by \textit{OpenAI} using a unique secret key. This allows the backend to send contract data to the trained AI model and receive back the processed output.
+    \item \textbf{AI Model Integration:} The trained AI model will be hosted on \texttt{OpenAI's} servers. The backend will be communicating with it through the API provided by \textit{OpenAI} using a unique secret key. This will allow the backend to send contract data to the trained AI model and receive back the processed output.
     \item \textbf{Backend:} Initially, it was planned to deploy the backend on the \texttt{AWS} platform, as it is one of the best available options at the moment. However, the downside of it is that the cost might be high. Hence, it was decided to proceed with \texttt{Google Cloud}, as it offers low-cost subscriptions. To implement this, the \textit{Google Compute Engine} platform will be leveraged, which is essentially a ``serverful'' host.
-    \item \textbf{Database:} The backend also manages the \textit{PostgreSQL} database, which securely stores user profiles, various tokens for authentication / notifications handling, legal employment contracts, their smart contract transformations, and other pertinent data. The plan is to host it on \textit{Google Cloud Storage}, which is a reliable cloud-based storage solution.
+    \item \textbf{Database:} The backend also manages the \textit{PostgreSQL} database, which will securely store user profiles, various tokens for authentication / notifications handling, legal employment contracts, their smart contract transformations, and other pertinent data. The plan is to host it on \textit{Google Cloud Storage}, which is a reliable cloud-based storage solution.
     \item \textbf{Mobile Application:} The same problem was encountered with the frontend. Initially, it was intended to be deployed for both \textit{iOS} and \textit{Android} platforms on the \textit{Apple App Store} and \textit{Google Play Store}, respectively. However, the fees these platforms require are too high, and are justifiable for enterprise applications that generate revenue, not for academic projects. Hence, it was decided to proceed with \texttt{Expo's SDK}.
 \end{itemize}

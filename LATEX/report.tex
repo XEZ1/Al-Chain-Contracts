@@ -6,10 +6,13 @@
 \usepackage{color}
 \usepackage[square,sort,comma,numbers]{natbib} % References
 \usepackage{listings}
-\usepackage{xcolor} % For coloring code
+\usepackage{xcolor} % For additional colouring (code)
 \usepackage{geometry}
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
+\usepackage{lmodern} % Modern fonts
+\usepackage[T1]{fontenc} % Font encoding
+\usepackage[colorlinks=true, linkcolor=black, citecolor=black, urlcolor=blue]{hyperref}
 
 \setcounter{tocdepth}{2}
 
@@ -22,7 +25,7 @@
     bottom=25mm
 }
 
-% Configuring the appearance of the listing
+% Define Solidity language for listings
 \lstset{
     basicstyle=\ttfamily\small\linespread{1.1}\selectfont, % Code font, uses monospace
     commentstyle=\color{olive}, % Comment color
@@ -47,6 +50,40 @@
     morecomment=[l][\color{magenta}]{//}, % Single line comment style
     morecomment=[s][\color{magenta}]{/*}{*/}, % Multi-line comment style
     morestring=[b]" % Strings are in double quotes
+}
+
+% Define JSON language for listings
+\lstdefinelanguage{json}{
+    basicstyle=\ttfamily\small\linespread{1.1}\selectfont,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=5pt,
+    showstringspaces=false,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{white},
+    literate=
+     *{0}{{{\color{blue}0}}}{1}
+      {1}{{{\color{blue}1}}}{1}
+      {2}{{{\color{blue}2}}}{1}
+      {3}{{{\color{blue}3}}}{1}
+      {4}{{{\color{blue}4}}}{1}
+      {5}{{{\color{blue}5}}}{1}
+      {6}{{{\color{blue}6}}}{1}
+      {7}{{{\color{blue}7}}}{1}
+      {8}{{{\color{blue}8}}}{1}
+      {9}{{{\color{blue}9}}}{1}
+      {:}{{{\color{red}:}}}{1}
+      {,}{{{\color{red},}}}{1}
+      {\{}{{{\color{red}{\{}}}}{1}
+      {\}}{{{\color{red}{\}}}}}{1}
+      {[}{{{\color{red}[}}}{1}
+      {]}{{{\color{red}]}}}{1},
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    commentstyle=\color{green},
+    morekeywords={content, role, messages}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

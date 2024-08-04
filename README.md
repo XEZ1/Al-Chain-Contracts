@@ -15,9 +15,9 @@ https://expo.dev/preview/update?message=Clean%20up%20the%20code%20base&updateRun
 ```
 
 # Personal Setup
-Navigate to your project directory
+Connect to the VM
 ```
-cd D:\Users\XEZ1\Main\10.Projects-Code\Al-Slebi-AI-Contracts-Git\Al-Slebi-AI-Contracts\
+gcloud compute ssh --zone "europe-west1-d" "instance-asac-prj-kcl" --project "asac-pjr-at-kcl"
 ```
 
 ## Local Configuration Steps

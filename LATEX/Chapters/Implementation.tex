@@ -2,7 +2,7 @@
 
 \section{AI Model}
 
-As mentioned in Chapter 3, \texttt{ChatGPT-3.5 Turbo} was chosen as the main AI model for converting legal employment contracts into Solidity code. To train it, two datasets are required: one for training and the other for validation. One problem encountered was the absence of pre-existing datasets for this specific task, as no prior attempts to address this conversion process were found in existing literature or online resources. Consequently, the only solution was to create a custom dataset manually. This dataset should include pairs of documents:  each containing a legal employment contract alongside its corresponding smart contract. To grasp the structure of these contracts, an analysis of a general-purpose smart contract developed will be done first. % Or "To understand the structure of these contracts, we will first examine the general-purpose smart contract developed." %
+As mentioned in Chapter 3, \texttt{ChatGPT-3.5 Turbo} was chosen as the main AI model for converting legal employment contracts into Solidity code. To train it, two datasets are required: one for training and the other for validation. One problem encountered was the absence of pre-existing datasets for this specific task, as no prior attempts to address this conversion process were found in existing literature or online resources. Consequently, the only solution was to create a custom dataset manually. This dataset should include pairs of documents:  each containing a legal employment contract alongside its corresponding smart contract. To grasp the structure of these contracts, an analysis of a general-purpose smart contract developed will be done first.
 
 \subsection{General Purpose Smart Contract}
 
@@ -198,20 +198,30 @@ These functions collectively ensure that the \texttt{``EmploymentContract''} aut
 
 \subsection{Training and Testing the AI Model}
 
-After developing a general-purpose smart contract in the previous section, the next step is training the AI model. To achieve this, 100 smart contracts were created alongside their corresponding legal counterparts through fuzzing. While the \textit{Solidity} code was produced manually, generative AI was used to produce legal contracts in plain text format. These contracts include essential details like the employee's \textit{USDC} address, salary, start date, end date, and payment frequency. This dataset provided all the necessary inputs for our model, focusing on extracting key points from the legal contracts to convert them into smart contracts. While some may argue that a dataset of 100 entries is insufficient, results indicate this is more than adequate for \textit{ChatGPT-3.5 Turbo}. Each smart contract comprised approximately 200 lines of code, whereas each legal employment contract spanned about one page in a Word document. Despite the challenges of generating a large number of data entries, extensive data was not needed in view of the fact that the model trained and generalised well with the available dataset.
+After developing a general-purpose smart contract in the previous section, the next step is training the AI model. To achieve this, 100 smart contracts were created alongside their corresponding legal counterparts through fuzzing. These raw datasets can be found in the \textit{GitHub} repository under \textit{``AIModelTraining/data''}. While the \textit{Solidity} code was produced manually, generative AI was used to produce legal contracts in plain text format. These contracts include essential details like the employee's \textit{USDC} address, salary, start date, end date, and payment frequency. This dataset provided all the necessary inputs for our model, focusing on extracting key points from the legal contracts to convert them into smart contracts. While some may argue that a dataset of 100 entries is insufficient, results indicate this is more than adequate for \textit{ChatGPT-3.5 Turbo}. Each smart contract comprised approximately 200 lines of code, whereas each legal employment contract spanned about one page in a Word document. Despite the challenges of generating a large number of data entries, extensive data was not needed in view of the fact that the model trained and generalised well with the available dataset.
 
 As previously mentioned, tasks such as counting job performance metrics, setting performance thresholds, and calling various functions within the smart contract are delegated to the backend, alleviating concerns in this area. The data was partitioned into 80\% for training and 20\% for validation. The dataset was encoded into a \texttt{JSONL} file format with the following structure:
 
-\begin{verbatim}
-{"messages": [
-    {"role": "system", "content": "Convert the following legal employment contract 
-     into a Solidity smart contract. You shall pass back only code!"},
-    {"role": "user", "content": "<HERE WOULD GO OUR LEGAL EMPLOYMENT CONTRACT>"},
-    {"role": "assistant", "content": "<HERE WOULD GO OUR SOLIDITY CODE>"}
-]}
-\end{verbatim}
+\begin{lstlisting}[language=json, caption={Example JSON Configuration}]
+{
+  "messages": [
+    {
+      "role": "system",
+      "content": "Convert the following legal employment contract into a Solidity smart contract. You shall pass back only code!"
+    },
+    {
+      "role": "user",
+      "content": "<HERE WOULD GO OUR LEGAL EMPLOYMENT CONTRACT>"
+    },
+    {
+      "role": "assistant",
+      "content": "<HERE WOULD GO OUR SOLIDITY CODE>"
+    }
+  ]
+}
+\end{lstlisting}
 
-The training dataset can be accessed on the GitHub repository under \texttt{AI Model Training/openAI LLM/contracts\_dataset\_open\_AI.jsonl}, and the validation dataset is located in the same directory under \texttt{contracts\_dataset\_validation\_open\_AI.jsonl}. The model was trained using 3 epochs, a batch size of 1, and a learning rate multiplier of 2 over 519,231 tokens across 261 training steps. Below is the chart showing the training loss.
+The structured training dataset can be accessed on the GitHub repository under \texttt{AIModelTraining/openAI LLM/contracts\_dataset\_open\_AI.jsonl}, and the validation dataset is located in the same directory under \texttt{contracts\_dataset\_validation\_open\_AI.jsonl}. The model was trained using 3 epochs, a batch size of 1, and a learning rate multiplier of 2 over 519,231 tokens across 261 training steps. Below is the chart showing the training loss.
 
 \begin{figure}[!ht]
     \centering
@@ -229,26 +239,31 @@ The training process demonstrated a significant reduction in both training and v
     \label{fig:training_loss_table}
 \end{figure}
 
+\paragraph{Other Models}
+
+As mentioned in the previous chapter, attempts were made to fine-tune two other models from \textit{HuggingFace}, but no results were achieved. The training algorithms, along with the validated datasets, can be found in the GitHub repository under \textit{``AIModelTraining/other LLMs''}.
+
 \section{Backend}
 
 Since the training of the AI model for contract conversions has concluded, the next step is to proceed with the backend implementation. As mentioned in the previous chapter, this will be done using \texttt{Django REST API}. 
 
 \subsection{Project Structure}
 
-The backend of our mobile application, referred to as \texttt{ASACBackEnd}, consists of several Django apps that handle different functionalities of the application. In addition, the root directory contains a few files meant for  configuration and utility purposes:
+The backend of our mobile application, referred to as \texttt{ASACBackEnd}, consists of several \textit{Django apps} that handle different functionalities of the application. In addition, the root directory contains a few files meant for  configuration and utility purposes:
 
 \begin{itemize}
     \item \textbf{requirements.txt:} This file lists all the Python packages that the project depends on. It is used to install all necessary libraries when setting up the project in a new environment.
     \item \textbf{manage.py:} This is a command-line utility that allows interaction with the Django project. It acts as a thin wrapper around the \textit{django-admin} command-line tool for carrying out administrative tasks.
     \item \textbf{.coveragerc:} This file describes settings for code coverage reports, which help in tracking the amount of code tested as part of the quality control. 
     \item \textbf{pytest.ini:} This file configures various aspects of pytest, a framework for testing Python code. It includes settings that influence the discovery of test modules and their behaviour.
+    \item \textbf{Dockerfile:} The environment and commands necessary to set up and run the application for deployment are specified in this file, which contains instructions to build a Docker image for the backend.
 \end{itemize}
 
 Apart from that, the root directory includes the \texttt{``staticfiles''} folder, which contains the following:
 
 \begin{itemize}
     \item \textbf{admin folder:} Houses custom style-sheets, scripts, and images specifically for the Django admin interface, making it aesthetically pleasing.
-    \item \textbf{rest\_framework folder:} Accommodates static files for the Django REST Framework's browsable API. These files improve the interface's aesthetics.
+    \item \textbf{rest\_framework folder:} Accommodates static files for the \textit{Django REST} Framework's browsable API. These files improve the interface's aesthetics.
 \end{itemize}
 
 Additionally, every \textit{Django app} of the project includes a directory called \texttt{``tests''} containing test files corresponding to each module written.
@@ -259,26 +274,37 @@ The root application, \texttt{``ASACBackEnd''}, serves as the core of our backen
 
 \subsubsection{Django Application Settings}
 
-The \texttt{settings.py} includes the following key configurations:
+The \texttt{settings.py} includes the following key configurations and flags:
 \begin{itemize}
-    \item \textbf{SECRET\_KEY:} A key used for cryptographic signing, crucial for maintaining security in production.
-    \item \textbf{DEBUG:} A flag that turns on/off debug mode. It is enabled here for development purposes but will be disabled in a production environment later during deployment.
-    \item \textbf{DATABASES:} The development configuration uses SQLite, while the production uses PostgreSQL.
+    \item \textbf{SECRET\_KEY:} A key retrieved from the environmental variables, used for cryptographic signing and crucial for maintaining security in production.
+    \item \textbf{DEBUG:} A flag retrieved from the environmental variables that turns debug mode on or off.
+    \item \textbf{DATABASES:} The database configuration depends on the debug flag: it uses SQLite for non-production environments and tests, while PostgreSQL is used for production.
+    \item \textbf{ALLOWED\_HOSTS:} Specifies allowed hosts, which includes development and production addresses. For development, it is \textit{``localhost''} and the local IP address of the Virtual Machine (VM) instance used during development, and for production, it is the domains \textit{``alsalibiaicontracts.co.uk''} and \textit{``www.alsalibiaicontracts.co.uk''}.
+    \item \textbf{INSTALLED\_APPS:}  Specifies the apps used in the project, including custom modules.
+    \item \textbf{MIDDLEWARE:} Specifies the middleware components used in the project, which process requests and responses between the client and server.
+    \item \textbf{CORS\_ALLOW\_METHODS:} Specifies the HTTP / HTTPS methods allowed for Cross-Origin Resource Sharing (CORS). Only \textit{``PUT''}, \textit{``GET''}, \textit{``DELETE''}, and \textit{``POST''} are permitted, as these are the only methods needed for the project.
+    \item \textbf{CORS\_ALLOWED\_ORIGINS:} Specifies the domains that are allowed to make cross-origin requests. This includes \textit{``http://localhost:8000''} for local development, and \textit{``https://www.alsalibiaicontracts.co.uk''} / \textit{``https://alsalibiaicontracts.co.uk''} for the production environment.
+    \item \textbf{WSGI\_APPLICATION:} Specifies the Web Server Gateway Interface (WSGI) application path.
+    \item \textbf{ASGI\_APPLICATION:} Specifies the Asynchronous Server Gateway Interface (ASGI) application path.
+    \item \textbf{CHANNEL\_LAYERS:} Specifies the configuration for the channel layer, using \textit{Redis} for notifications. The configuration includes the backend and the host details, where the host is retrieved from the environment variable \textit{``REDIS\_HOST''} or defaults to \textit{``127.0.0.1''} with port \textit{6379}.
+    \item \textbf{REST\_FRAMEWORK:} Configuration settings for Django REST framework.
+    \item \textbf{AUTH\_USER\_MODEL:} User model for authentication, set to a custom implementation.
     \item \textbf{STATIC and MEDIA SETTINGS:} Define how static files and uploaded media are handled by the application. These are primarily used for the admin site. 
     \item \textbf{CORS SETTINGS:} Configured to allow cross-origin requests from predefined origins, essential for API interactions in a distributed environment.
+    \item \textbf{Security Settings:} \textit{``USE\_X\_FORWARDED\_HOST''} enables the use of the respective header. Another flag sets the header for secure \textit{SSL} proxy. Additionally, there are settings to ensure that session and CSRF cookies are only sent over HTTPS.
 \end{itemize}
 
-\subsubsection{Web Server Gateway Interface (\textit{WSGI}) Configuration}
+\subsubsection{WSGI Configuration}
 
 The \textit{Django} application is configured for \textit{WSGI} in the \texttt{wsgi.py} file. With the following in place, a web server is enabled to communicate and consequently handle web requests and responses.
 
-\subsubsection{Asynchronous Server Gateway Interface (asgi) and Channels Configuration}
+\subsubsection{ASGI and Channels Configuration}
 
 An instance of the \textit{ASGI} application is set up to receive \texttt{asynchronous} \textit{HTTP} and \textit{WebSocket} protocols in the \texttt{asgi.py} file. This is important for real-time features like notifications and live updates for the forums.
 
 \subsubsection{URL Routing}
 
-\texttt{urls.py} file manages URL patterns across the entire application, directing requests to appropriate views.
+\texttt{urls.py} file manages URL patterns across the entire application, directing requests to appropriate custom views. Additionally, it sets the URL pattern for serving static files during development.
 
 \subsection{Accounts Application}
 
@@ -330,7 +356,7 @@ The \textit{Accounts} application's views manage user interactions within the sy
 
 \subsection{Contracts Application}
 
-The entire contract handling process, including the creation, validation, and deletion of employment and smart contracts, is handled by the \texttt{``Contracts''} module of \texttt{ASACBackEnd}. Users can generate their contracts directly through our AI model, which we have fine-tuned earlier.
+The entire contract handling process, including the creation, validation, and deletion of employment and smart contracts, is handled by the \texttt{``Contracts''} module of \texttt{ASACBackEnd}. Users can generate their contracts directly through our AI model, which was fine-tuned earlier.
 
 \subsubsection{Admin} 
 
@@ -356,7 +382,7 @@ The URL configuration for the \textit{Contracts} application is designed to mana
     \item \textbf{generate-contract/} links to \texttt{GenerateContractView}, which is responsible for initiating the generation of new smart contracts.
     \item \textbf{delete-contract/<str:contract\_name>/} connects to \texttt{DeleteContractView}, allowing users to delete specific contracts by name.
     \item \textbf{get-user-contracts/} routes to \texttt{FetchContractsView}, providing a list of all contracts associated with a user.
-    \item \textbf{get-valid-checksum-address/} is managed by \texttt{CheckSumAddressView}, which validates Ethereum addresses.
+    \item \textbf{get-valid-checksum-address/<str:address>/} is managed by \texttt{CheckSumAddressView}, which validates Ethereum addresses.
 \end{itemize}
 
 \subsubsection{Validators}
@@ -373,7 +399,7 @@ Custom validators in \texttt{validators.py} improve data integrity:
 
 Functionalities of views defined in \texttt{views.py} are as follows:
 \begin{itemize}
-    \item \textbf{GenerateContractView:} Handles the \textit{POST} request to generate a new smart contract, transforming legal text into Solidity code. It verifies user input, communicates with our optimised AI model via the \textit{OpenAI API}, and stores the newly created smart contract in the database. Users receive notifications when their contracts are successfully generated.
+    \item \textbf{GenerateContractView:} Handles the \textit{POST} request to generate a new smart contract, transforming legal text into Solidity code. It verifies user input, communicates with our optimised AI model via the \textit{OpenAI API}, and stores the newly created smart contract in the database. The API key for communication is retrieved from the \textit{.env} file. Users receive notifications when their contracts are successfully generated.
     \item \textbf{DeleteContractView:} Offers users the ability to remove their contracts. After confirming the user's identity i.e. who owns the contract, it permits the contract to be deleted.
     \item \textbf{FetchContractsView:}  Allows users to retrieve a list of their contracts. It filters contracts by the authenticated user and serialises them for the response.
     \item \textbf{CheckSumAddressView:} Verifies user-provided Ethereum addresses to make sure they are accurate and suitable for blockchain transactions.
@@ -553,11 +579,11 @@ The database is configured as follows:
 
 \section{Frontend}
 
-Having developed the backend, we now shift our focus to the frontend implementation. As outlined in the design chapter, \texttt{ASACFrontEnd} utilises \texttt{React Native} with \texttt{JavaScript} to build the UI. 
+Having developed the backend, it is time now to shift our focus to the frontend implementation. As outlined in the design chapter, \texttt{ASACFrontEnd} utilises \texttt{React Native} with \texttt{JavaScript} to build the UI. 
 
 \subsection{Project Structure}
 
-In the root directory we have the following configuration files:
+The following configuration files are located in the root directory: 
 
 \begin{itemize}
     \item \textbf{App.js:} Serves as the root component of our application. It initialises the navigation container and global providers such as authentication, theme, and keyboard handling. Additionally, it configures platform-specific intensifications and notification settings.
@@ -566,6 +592,7 @@ In the root directory we have the following configuration files:
     \item \textbf{ErrorBoundary.js:} A higher-order component used to catch JavaScript errors anywhere in the child component tree, log those errors, and display a fallback UI instead of the component tree that crashed. This component was extensively used during the development phase for error tracking.
     \item \textbf{package.json:} Defines the project’s dependencies, scripts, and Jest configuration for testing.
     \item \textbf{package-lock.json:} This file is automatically generated when Node packages are installed (using npm) in the project. It serves to lock the versions of each package and its dependencies which were installed, ensuring that every npm install results in the exact same set of dependencies.
+    \item \textbf{Dockerfile:} This file contains instructions to build a Docker image for the frontend, pushing it to expo servers for deployment.
 \end{itemize}
 
 The components of the project are organised into a main directory called \texttt{``app''}. Inside of it, there are several sub-directories, each handling a different part of the application's functionality:
@@ -806,9 +833,8 @@ The \texttt{PreLoginScreen.js} uses the \textit{ImageBackground} component to ma
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.5\textwidth]
+    \includegraphics[width=0.43\textwidth]
     {LATEX/Appendices/Images/Software/Frontend/pre_login_screen.png}
-    \caption{Pre Login Screen Appearance}
     \label{fig:pre login screen}
 \end{figure}
 
@@ -818,7 +844,7 @@ The rendering of the login screen is handled by the \texttt{LoginScreen} functio
 
 \begin{itemize}
     \item A \textit{View} component that serves as the main container, with styles adjusted based on the keyboard height.
-    \item A \textit{StatusBar} component to manage the appearance of the status bar based on the current theme.
+    \item A \textit{StatusBar} component. It is important to note that this is globally defined in the root component of the post-login tabs, but not in the pre-login ones. On the pre-login screen, there is a background image with dark colours that would obscure its elements if the white theme were applied.
     \item A \textit{ScrollView} component, which is referenced to manage keyboard interactions, that allows for scrolling when the content exceeds the screen height.
     \item Inside of it, there is a nested \textit{View} component that contains:
     \begin{itemize}
@@ -830,9 +856,8 @@ The rendering of the login screen is handled by the \texttt{LoginScreen} functio
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=0.5\textwidth]
+    \includegraphics[width=0.43\textwidth]
     {LATEX/Appendices/Images/Software/Frontend/login_screen.png}
-    \caption{Login Screen Appearance}
     \label{fig:login screen}
 \end{figure}
 
@@ -857,62 +882,22 @@ The rendering of the sign-up screen is managed by the \texttt{SignUpScreen} func
 \begin{figure}[!ht]
     \centering
     % Begin the first minipage for the first image
-    \begin{minipage}{0.49\textwidth}
+    \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[scale=0.1]{LATEX/Appendices/Images/Software/Frontend/sign_up_screen_1.png}
-        \caption{Sign Up Screen 1 Appearance}
+        \includegraphics[scale=0.08]{LATEX/Appendices/Images/Software/Frontend/sign_up_screen_1.png}
         \label{fig:sign up screen 1}
     \end{minipage}\hfill % Insert a small horizontal space between the minipages
     % Begin the second minipage for the second image
-    \begin{minipage}{0.49\textwidth}
+    \begin{minipage}{0.5\textwidth}
          \centering
-        \includegraphics[scale=0.1]{LATEX/Appendices/Images/Software/Frontend/sign_up_screen_2.png}
-        \caption{Sign Up Screen 2 Appearance}
+        \includegraphics[scale=0.08]{LATEX/Appendices/Images/Software/Frontend/sign_up_screen_2.png}
         \label{fig:sign up screen 2}
         \end{minipage}
 \end{figure}
 
 \subsubsection{PostLoginScreens: HomeScreen.js}
 
-This screen includes sections for building smart contracts, displaying saved contracts, and performing address checksum conversions.
-
-\begin{figure}[!ht]
-    \centering
-    % Begin the first minipage for the first image
-    \begin{minipage}{0.49\textwidth}
-        \centering
-        \includegraphics[scale=0.07]{LATEX/Appendices/Images/Software/Frontend/home_screen_1.png}
-        \caption{Home Screen (Upper Part) Appearance}
-        \label{fig:home screen 1}
-    \end{minipage}\hfill % This inserts a small horizontal space between the minipages
-    % Begin the second minipage for the second image
-    \begin{minipage}{0.49\textwidth}
-        \centering
-        \includegraphics[scale=0.07]{LATEX/Appendices/Images/Software/Frontend/home_screen_2.png}
-        \caption{Home Screen (Bottom Part) Appearance}
-        \label{fig:home screen 2}
-    \end{minipage}
-\end{figure}
-
-\begin{figure}[!ht]
-    \centering
-    % Begin the first minipage for the first image
-    \begin{minipage}{0.49\textwidth}
-        \centering
-        \includegraphics[scale=0.07]{LATEX/Appendices/Images/Software/Frontend/home_screen_3.png}
-        \caption{Home Screen (Error Modal on Contract Update) Appearance}
-        \label{fig:home screen 3}
-    \end{minipage}\hfill % This inserts a small horizontal space between the minipages
-    % Begin the second minipage for the second image
-    \begin{minipage}{0.49\textwidth}
-        \centering
-        \includegraphics[scale=0.07]{LATEX/Appendices/Images/Software/Frontend/home_screen_4.png}
-        \caption{Home Screen (Modal on Address Checksum Conversion) Appearance}
-        \label{fig:home screen 4}
-    \end{minipage}
-\end{figure}
-
-The \texttt{HomeScreen} functional component handles the rendering of the home screen. Within this component:
+The \texttt{HomeScreen} functional component handles the rendering of the home screen, which includes sections for building smart contracts, displaying saved contracts, and performing address checksum conversions. Within this component:
 
 \begin{itemize}
     \item State variables and functions for managing contract data, user input validation, file selection, contract operations, errors, and modal visibility are retrieved from the \texttt{useHomeScreen} custom hook. This hook is responsible for the animations and all backend interactions on the home screen.
@@ -953,6 +938,39 @@ The component returns a view hierarchy structured as follows:
     \item A separator line at the bottom, with its position adjusted based on the keyboard height.
 \end{itemize}
 
+\begin{figure}[!ht]
+    \centering
+    % Begin the first minipage for the first image
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[scale=0.08]{LATEX/Appendices/Images/Software/Frontend/home_screen_1.png}
+        \label{fig:home screen 1}
+    \end{minipage}\hfill % This inserts a small horizontal space between the minipages
+    % Begin the second minipage for the second image
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[scale=0.08]{LATEX/Appendices/Images/Software/Frontend/home_screen_2.png}
+        \label{fig:home screen 2}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    % Begin the first minipage for the first image
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[scale=0.08]{LATEX/Appendices/Images/Software/Frontend/home_screen_3.png}
+        \label{fig:home screen 3}
+    \end{minipage}\hfill % This inserts a small horizontal space between the minipages
+    % Begin the second minipage for the second image
+    \begin{minipage}{0.5\textwidth}
+        \centering
+        \includegraphics[scale=0.08]{LATEX/Appendices/Images/Software/Frontend/home_screen_4.png}
+        \label{fig:home screen 4}
+    \end{minipage}
+\end{figure}
+
+\newpage
 \subsubsection{PostLoginScreens: UseHomeScreen.js}
 
 The file defines the \texttt{useHomeScreen} custom hook, which is used to control the \textit{HomeScreen} component's functionality and state.
@@ -1116,14 +1134,6 @@ Users can open, share, delete, and expand contract details through this componen
 
 \subsubsection{PostLoginScreens: EditorScreen.js}
 
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=0.5\textwidth]
-    {LATEX/Appendices/Images/Software/Frontend/editor_screen.png}
-    \caption{Editor Screen Appearance}
-    \label{fig:editor screen}
-\end{figure}
-
 The \texttt{EditorScreen} is a functional component that uses \textit{navigation} and \textit{route} as props.
 
 \begin{itemize}
@@ -1146,6 +1156,13 @@ The \texttt{EditorScreen} is a functional component that uses \textit{navigation
         \item A separator line is included at the bottom using the \textit{sharedStyles.separatorLine}.
     \end{itemize}
 \end{itemize}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.43\textwidth]
+    {LATEX/Appendices/Images/Software/Frontend/editor_screen.png}
+    \label{fig:editor screen}
+\end{figure}
 
 \subsubsection{PostLoginScreens: UseEditorScreen.js}
 
@@ -1191,14 +1208,6 @@ A customised hook that loads and formats contract file content for \textit{web v
 
 \subsubsection{PostLoginScreens: ForumScreen.js}
 
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=0.5\textwidth]
-    {LATEX/Appendices/Images/Software/Frontend/forum_screen.png}
-    \caption{Forum Screen Appearance}
-    \label{fig:forum screen}
-\end{figure} 
-
 The \textit{ForumScreen} is a functional component that takes \textit{navigation} as a prop. Post management features and state variables are provided by the \textit{useForumScreen} hook.
 
 \begin{itemize}
@@ -1240,6 +1249,14 @@ The \textit{ForumScreen} is a functional component that takes \textit{navigation
     \end{itemize}
 \end{itemize}
 
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.3\textwidth]
+    {LATEX/Appendices/Images/Software/Frontend/forum_screen_2.png}
+    \label{fig:forum screen}
+\end{figure} 
+
+\newpage
 \subsubsection{PostLoginScreens: UseForumScreen.js}
 
 The \texttt{UseForumScreen.js} file defines a custom hook, \textit{useForumScreen}, and a context provider, \textit{PostProvider}, which manage the state and functionality of the forum screen.
@@ -1319,14 +1336,6 @@ The \texttt{UseForumScreen.js} file defines a custom hook, \textit{useForumScree
 
 \subsubsection{PostLoginScreens: CommentScreen.js}
 
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=0.5\textwidth]
-    {LATEX/Appendices/Images/Software/Frontend/comment_screen.png}
-    \caption{Comment Screen Appearance}
-    \label{fig:comment screen}
-\end{figure}
-
 The \texttt{CommentScreen} component is defined as a functional component that takes \textit{route} and \textit{navigation} as props.
 
 \begin{itemize}
@@ -1356,6 +1365,13 @@ The \texttt{CommentScreen} component is defined as a functional component that t
         \end{itemize}
     \end{itemize}
 \end{itemize}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.43\textwidth]
+    {LATEX/Appendices/Images/Software/Frontend/comment_screen.png}
+    \label{fig:comment screen}
+\end{figure}
 
 \subsubsection{PostLoginScreens: UseCommentScreen.js}
 
@@ -1401,14 +1417,6 @@ The \texttt{UseCommentScreen.js} file defines a custom hook that manages the sta
 
 \subsubsection{PostLoginScreens: SupportScreen.js}
 
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=0.5\textwidth]
-    {LATEX/Appendices/Images/Software/Frontend/support_screen.png}
-    \caption{Support Screen Appearance}
-    \label{fig:support screen}
-\end{figure}
-
 The \texttt{SupportScreen.js} file defines a component responsible for providing a chat interface where users can interact with support agents.
 
 \begin{itemize}
@@ -1447,16 +1455,16 @@ The \texttt{SupportScreen.js} file defines a component responsible for providing
     \end{itemize}
 \end{itemize}
 
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.43\textwidth]
+    {LATEX/Appendices/Images/Software/Frontend/support_screen.png}
+    \label{fig:support screen}
+\end{figure}
+
 Initially, it was planned to fine-tune another AI model to answer queries related to Solidity, smart contracts, and blockchain. However, due to time constraints, the AI model for this functionality was not developed. Additionally, the backend is not implemented to respond to these queries, resulting in a partially empty implementation. This functionality can be easily extended in future work.
 
 \subsubsection{PostLoginScreens: SettingsScreen.js}
-
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=0.5\textwidth]{LATEX/Appendices/Images/Software/Frontend/settings_screen.png}
-    \caption{Settings Screen Appearance}
-    \label{fig:settings screen}
-\end{figure}
 
 The \texttt{SettingsScreen.js} file defines a component responsible for providing a UI for adjusting application settings.
 
@@ -1488,6 +1496,12 @@ The \texttt{SettingsScreen.js} file defines a component responsible for providin
         \end{itemize}
     \end{itemize}
 \end{itemize}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.43\textwidth]{LATEX/Appendices/Images/Software/Frontend/settings_screen.png}
+    \label{fig:settings screen}
+\end{figure}
 
 \subsubsection{PostLoginScreens: UseSettingsScreen.js}
 
@@ -1527,4 +1541,18 @@ The \texttt{UseSettingsScreen.js} file defines a custom hook that manages the st
 
 \subsection{Cross-Platform Fixes}
 
-To be written soon...
+Although React Native enables the use of a single codebase for both \textit{iOS} and \textit{Android} platforms, achieving a consistent appearance across these operating systems can be challenging. Native elements and behaviours are translated differently depending on the platform, which can lead to discrepancies in the app's appearance and functionality.
+
+To address these differences, several strategies were employed, including the use of ternary operators to conditionally render components and apply specific styles for each platform. The following adjustments were made to the codebase:
+
+\begin{itemize}
+    \item \textbf{Keyboard Handling:} Keyboard height calculations differ between platforms, and scrolling adjustments were implemented to ensure that the focused input remains visible when the keyboard is active. 
+    \item \textbf{Navigation Configuration:} The PostLoginTabs component employs platform-specific styling and behaviour. For example:
+    \begin{itemize}
+        \item The \textit{tabBarStyle} was adjusted using ternary operators to ensure that tab bar colors and shadows match the theme and look consistent across both platforms.
+        \item The \textit{tabBarHideOnKeyboard} property was set to true on \textit{Android} to hide the tab bar when the keyboard is visible, a behaviour that differs from \textit{iOS}.
+    \end{itemize}
+    \item \textbf{Component Styling:} Various visual elements, such as icons, backgrounds, shadows, and animations, were conditionally styled due to differences in their rendering between \textit{iOS} and \textit{Android} platforms.
+\end{itemize}
+
+Despite these efforts, it is important to note that the application was primarily developed and tested on \textit{iOS}. While significant efforts were made to ensure a similar appearance on \textit{Android}, there may still be platform-specific bugs or visual inconsistencies.

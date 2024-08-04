@@ -199,7 +199,7 @@ This section summarises the recurring elements used across all test suites. To a
         \item \textbf{Setup and Mocks:} Mocks \textit{Keyboard}, \textit{Dimensions}, and \textit{TextInput} to control keyboard and screen interactions.
         \item \textbf{Core Tests:}
         \begin{itemize}
-            \item \textbf{Keyboard Visibility:} Ensures that keyboard visibility state updates correctly in response to show and hide events.
+            \item \textbf{Keyboard Visibility:} Ensures that keyboard visibility state updates correctly in response to show and hide events, with implementations varying between \textit{iOS} and \textit{Android} platforms.
             \item \textbf{Reference Registration:} Tests the proper registration and unregistration of scroll view and text input references, assessing cleanup on component unmount.
             \item \textbf{Interaction with TextInput:} To make sure that input fields are not obscured by the keyboard, this test examines how the UI adjusts the view when a text input is focused.
         \end{itemize}
@@ -268,21 +268,21 @@ This section summarises the recurring elements used across all test suites. To a
 
 \subsubsection{Testing Styles Directory}
 
-All style sheets are subjected to unit testing under the \textit{``styles''} directory. The strategy involved rendering and asserting the styles for both light and dark themes. Objectively speaking, this was the simplest aspect of UI testing so far.
+All style sheets are subjected to unit testing under the \textit{``styles''} directory. The strategy involved rendering and asserting the styles for both light and dark themes, as well as for \textit{iOS} and \textit{Android}, since the stylings vary slightly due to differences in the rendering of some elements between the platforms. Objectively speaking, this was the simplest aspect of UI testing so far. The directory includes the following test files:
 
-\begin{itemize}
-    \item \textbf{ThemeStyles.test.js:} The file ensures that theme-related styles are applied correctly across the components below.
-    \item \textbf{GloballySharedStyles.test.js:} Tests global styles that are used across the application.
-    \item \textbf{LocallySharedStylesPreLoginScreens.test.js:} Tests styles for pre-login screens.
-    \item \textbf{LocallySharedStylesHomeScreens.test.js:} Ensures styles for home screens are accurate.
-    \item \textbf{LocallySharedStylesForumScreens.test.js:} Tests styles specific to forum screens.
-    \item \textbf{LocallySharedStylesSupportScreens.test.js:} This test file ensures the accuracy of the styles for the support screen.
-    \item \textbf{LocallySharedStylesSettingsScreens.test.js:} Verifies styles for the settings screen.
-\end{itemize}
+\begin{enumerate}
+    \item \textit{ThemeStyles.test.js}
+    \item \textit{GloballySharedStyles.test.js}
+    \item \textit{LocallySharedStylesPreLoginScreens.test.js}
+    \item \textit{LocallySharedStylesHomeScreens.test.js}
+    \item \textit{LocallySharedStylesForumScreens.test.js}
+    \item \textit{LocallySharedStylesSupportScreens.test.js}
+    \item \textit{LocallySharedStylesSettingsScreens.test.js}
+\end{enumerate}
 
 \subsubsection{Testing Screens Directory: UI Components}
 
-So far, we have discussed the testing for the files that were varying in their purpose and implementation significantly from one another, requiring different testing approaches. Within the screens directory, we encounter two types of files: those defining UI components and hooks named \textit{use<filename>}. Although the logical implementation of these UI and hook files is similar, the specific testing needs differ according to the libraries used in each component and the elements that require assertion. Additionally, the handling of API responses differs between these files.
+So far, the testing has been discussed for files that vary significantly in their purpose and implementation, requiring different testing approaches. Within the screens directory, two types of files are encountered: those defining UI components and hooks named \textit{use<filename>}. Although the logical implementation of these UI and hook files is similar, the specific testing needs differ according to the libraries used in each component and the elements that require assertion. Additionally, the handling of API responses differs between these files.
 
 The general structure of these tests involves:
 
@@ -345,7 +345,7 @@ Thorough testing is a key part of the stability of the frontend application. By 
 
 \subsection{Continuous Integration}
 
-Through Continuous Integration, tests get automatically executed on a regular basis, which in turn improves software quality. The support for this feature was added for the backend and frontend codebases using \texttt{GitHub Actions}. The \texttt{CI/CD} pipeline is defined in the \textit{.github/workflows} directory, which is triggered anytime a push or pull request is made to the main branch. It is composed of several jobs, each responsible for a different part of the testing and deployment process, including:
+Through Continuous Integration, tests get automatically executed on a regular basis, which in turn improves software quality. The support for this feature was added for the backend and frontend codebases using \texttt{GitHub Actions}. The \texttt{CI/CD} pipeline is defined in the \textit{.github/workflows} directory, which is triggered anytime a push or pull request is made to the main branch. It is composed of several jobs, each responsible for a different part of the testing and deployment process. For the \textit{CI} part, it includes:
 
 \begin{itemize}
     \item The pipeline uses the \textit{actions/checkout@v2} action to checkout the repository code to the runner.
@@ -367,7 +367,13 @@ Through Continuous Integration, tests get automatically executed on a regular ba
 
 \subsection{Continuous Deployment}
 
-To be written soon...
+In the project, continuous deployment was implemented to automatically reflect any updates to the codebase in the production environment if all tests pass. The deployment process is hosted on \texttt{Google Cloud}, utilising a VM instance that accepts only HTTPS connections. This secure configuration protects the application during data transmission.
+
+The project is containerised using \texttt{Docker}, allowing for consistent and fast deployment across different environments. The repository's structure reflects this, with \textit{Docker} configuration files for the \texttt{backend}, \texttt{frontend}, and \texttt{Nginx} server located in their respective directories. The main \textit{``docker-compose.yml''} file at the root of the repository handles the building and running of these services.
+
+The backend resides in the \textit{ASACBackEnd} directory, which includes a \textit{``Dockerfile''} that sets up the \textit{Python} environment, installs dependencies, collects static files, runs database migrations, and starts the \textit{Daphne} server. The frontend is located in the \textit{ASACFrontEnd} directory, where its respective \textit{``Dockerfile''} resides. It installs \textit{Node.js} dependencies, logs into \textit{Expo} using a token, and deploys the application to \texttt{Expo} servers. The \textit{nginx} directory contains the \textit{``Dockerfile''} and configuration for the respective server, which handles HTTPS termination and forwards requests to the backend. The setup also includes a \texttt{Redis} server, specified in the \textit{Docker} configuration, which is used for handling notifications. Additionally, \texttt{Certbot} is used to obtain \textit{SSL} certificates for the domain names acquired from \textit{Fasthosts}.
+
+After the \textit{CI} pipeline jobs finish, if all tests pass, the pipeline proceeds to the \textit{CD} stage. During deployment, the pipeline connects to the VM instance, stops the currently running \textit{Docker} containers, pulls the latest code from the repository, and rebuilds the \textit{Docker} images using the \textit{``docker-compose up --build''} command. This process updates the backend and frontend services with the latest changes. The backend is deployed on the same VM instance, configured to accept requests from anywhere, while the frontend is deployed to the \textit{Expo} servers. Users can access the frontend application via a QR code or a link that forwards to the \textit{Expo} app, making it accessible from any location.
 
 \section{Software Evaluation Strategy}
 
@@ -413,11 +419,11 @@ In the following analysis, the initial requirements will be compared with the ac
     \item \textbf{Performance:} Achieved. The system provides quick response times for user interactions, contract processing, and AI model predictions. Thorough optimisation was applied during each sprint cycle to enhance the efficiency of all algorithms and code. Moreover, the software was designed to avoid heavy computations, with the exception of document translation into \textit{Solidity} code, which is executed on \textit{OpenAI's} servers.
     \item \textbf{Usability:} Achieved. The mobile application interface is intuitive, providing a positive user experience. User feedback was collected from peer students and incorporated during the development process to improve usability. In addition, the application supports both \textit{iOS} and \textit{Android} platforms.
     \item \textbf{Compliance:} Achieved. The platform complies with relevant regulations regarding employment contracts and data protection, such as GDPR. This was achieved through data anonymisation techniques, obtaining user consent for data usage, and ensuring that all data processing activities are compliant with legal standards.
-    \item \textbf{Maintainability:} Partially achieved. While the codebase is modular, allowing for easy updates and maintenance, it sometimes lacks documentation. Even though the code is clean and self-explanatory, this could pose challenges for future developers who might need to understand the system.
+    \item \textbf{Maintainability:} Achieved. The codebase is modular, allowing for easy updates and maintenance. It is well-documented with \textit{README.md} files and inline comments explaining each class or function written, and the code itself is self-explanatory most of the time.
     \item \textbf{Portability:} Achieved. Containerisation technique was applied with the aid of \textit{Docker} to package the application and its dependencies. This makes it easy to migrate the system to different cloud providers or on-premises servers if needed.
 \end{itemize}
 
-In conclusion, despite some unimplemented features and partial achievements, the project successfully met most of its initial requirements and objectives, laying a foundation for future development.
+In conclusion, despite some unimplemented features and partial achievements, the project successfully met the vast majority of its initial requirements and objectives, laying a foundation for future development.
 
 \section{Learning Outcomes}
 
@@ -429,7 +435,7 @@ The primary lesson learned is the importance of adhering to Test-Driven Developm
 
 \paragraph{Continuous Integration and Continuous Deployment Practices}
 
-Implementing a CI/CD pipeline is a must-have practice. It helps in maintaining a high standard of code quality through automated tests and, more importantly, in identifying issues as development progresses. 
+Implementing a CI/CD pipeline is a must-have practice. It helps in maintaining a high standard of code quality through automated tests \& deployment and, more importantly, in identifying issues as development progresses. 
 
 \paragraph{Clear Definition of Requirements}
 
