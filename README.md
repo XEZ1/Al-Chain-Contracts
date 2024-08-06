@@ -1,199 +1,54 @@
 # AIChain Contracts
----
 
+## Project Description
 
+AI-Chain-Contracts is a platform developed in collaboration with IBM as a dissertation project at King's College London. It is experimental software designed to leverage Generative AI and smart contract technology to automate and secure employment interactions.
 
+## Software Description
 
+AI-Chain-Contracts uses a fine-tuned model of OpenAI's GPT-3.5 Turbo to convert traditional legal employment contracts into smart ones. The backend is built using the Django Rest Framework, providing a robust environment for handling data processing and interactions with the AI model. The user interface is developed with React Native for both iOS and Android devices.
 
+## Key Features
 
-To simply use the application scan this QR code:
+- **Contract Conversion:** Automatically transforms traditional employment contracts into smart contracts using AI.
+- **User Authentication:** Secure account creation and management for both employers and employees.
+- **Contract Management:** Allows users to create, view, update, and delete smart contracts.
+- **Salary Management:** Facilitates salary payments using USDC Coin.
+- **Notifications:** Keeps users informed about contract updates, salary payments, and other important events.
+- **Performance Metrics:** Supports the input and management of job-related performance metrics.
+- **Admin Panel:** Provides an efficient backend management interface for system administrators.
+- **Dispute Resolution:** Offers mechanisms to resolve disputes based on contract terms.
+- **Custom Theming:** Supports dark and light modes for the user interface.
+- **Scalability and Security:** Ensures the system can handle a growing number of users and contracts securely.
 
+## Technology Stack
 
-Use this link:
+- **Backend:** Django Rest Framework
+- **Frontend:** React Native + Expo
+- **AI Model:** OpenAI's GPT-3.5 Turbo
+- **Smart Contracts:** Solidity
+- **Database:** PostgreSQL
+- **Notifications:** Redis Server
+- **Encryption:** Nginx for HTTPS and WSS
+- **Deployment:** Google Cloud Platform and Expo SDK
+- **Containerisation:** Docker 
+
+## Objectives and Benefits
+
+AI-Chain-Contracts aims to offer a reliable, efficient, and secure platform for managing and enforcing employment contracts. By automating the conversion process and ensuring secure transactions through blockchain technology, the platform raises transparency and trust between employers and employees. The use of stable cryptocurrencies like USDC Coin for salary payments minimises financial risks, making it a practical solution for modern employment management.
+
+This project lays the groundwork for future advancements, including the integration of more complex job-specific performance metrics and the expansion of smart contract applications in various employment scenarios. The ultimate goal is to provide a comprehensive solution that addresses the current shortcomings in employment management and promotes fair and transparent interactions in the digital employment market.
+
+## Test Usage
+
+Scan the QR code to render the app:
+
+![QR Code](LATEX/Appendices/Images/Software/deployed-app-qr-code.png)
+
+Alternatively, you can use this link:
+
 ```
 https://expo.dev/preview/update?message=New%20update%3A%20unify%20the%20app%20across%20devices&updateRuntimeVersion=1.0.0&createdAt=2024-08-03T14%3A38%3A52.572Z&slug=exp&projectId=032f6af8-bb36-47b5-80a0-f6f070705b75&group=e0b07c3c-0576-44ea-be88-aef4dbfc942a
 ```
 
-# Personal Setup
-Connect to the VM
-```
-gcloud compute ssh --zone "europe-west1-d" "instance-asac-prj-kcl" --project "asac-pjr-at-kcl"
-```
-
-## Local Configuration Steps
-
-### Set Up the Virtual Environment
-```
-python -m venv venv
-venv\Scripts\activate
-```
-
-### Install Backend Dependencies
-```
-pip install -r "requirements.txt"
-```
-
-### Configure Notifications Server
-```
-sudo systemctl status redis-server
-sudo systemctl enable redis-server
-sudo systemctl start redis-server
-```
-
-### Deploy the Backend:
-```
-daphne ASACBackEnd.asgi:application --bind 0.0.0.0 --port 8000
-```
-
-### Connect Backend and Frontend
-Run `ipconfig` or `ifconfig` in bash, then create a `.env` file in the root directory of the frontend, with the IPv4 address inside.
-```
-BACKEND_URL=your IPv4 address:8000
-```
-
-### Install Frontend Dependencies
-```
-npm install
-```
-### Ngrok
-Use Ngrok to expose your locally deployed backend over an isolated WiFi connection:
-```
-Ngrok http <port>
-```
-
-### Deploy the Frontend
-```
-npx expo start
-```
-
-### Database Setup
-Connect to the database using:
-```
-psql -U postgres -d postgres
-psql -U xez1 -d asacbackenddb
-```
-
-## Testing the Application:
-
-### Backend Tests
-Navigate to the backend directory and run tests:
-```
-cd ASACBackEnd
-pytest
-```
-
-### Frontend Tests
-Navigate to the frontend directory and run tests:
-```
-cd ASACFrontEnd
-npm run test
-```
-
-----
-
-## VM Instance Configuration Steps
-
-### Update and Upgrade the System
-```
-sudo apt-get update
-sudo apt-get upgrade
-```
-
-### Install Docker and Docker Compose
-```
-sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-sudo apt-get update
-sudo apt-get install docker-ce
-
-sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-```
-
-### Start and Enable Docker
-```
-sudo systemctl status docker
-sudo systemctl start docker
-sudo systemctl enable docker
-sudo usermod -aG docker ${USER}
-newgrp docker
-```
-
-### Setup Git, SSH Keys, and Clone Repository
-```
-sudo apt-get update
-sudo apt-get install git
-
-ssh-keygen -t ed25519 -C "ezzat.alslaibi@kcl.ac.uk"
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_ed25519
-cat ~/.ssh/id_ed25519.pub
-
-git clone git@github.com:XEZ1/Al-Slebi-AI-Contracts.git
-```
-
-### Build and Run the Project with Docker
-```
-docker-compose build
-docker-compose up
-```
-
-### Optional Commands
-
-Use this command to run the build in the background:
-```
-docker-compose up -d
-```
-To rebuild run the following command:
-```
-docker-compose up --build 
-```
-To turn the docker-composed image off, run this command: 
-```
-docker-compose down
-```
-to delete the docker image:
-```
-docker-compose down -v
-```
-
-### Configure VM Firewall
-
-You must ensure the port the backend is using is open through the firewall:
-
-go to VPC network > Firewall.
-Click Create Firewall Rule.
-Set the targets to All instances in the network or specify specific targets using tags.
-Set the source IP ranges. If you want to allow access from any IP, use 0.0.0.0/0.
-Specify the protocols and ports (http and https).
-Give the rule a name, description, and link it to the VM instance in use, then click Create.
-
-### Setup Nginx and Domain
-```
-sudo certbot certonly --nginx --dry-run -d alsalibiaicontracts.co.uk -d www.alsalibiaicontracts.co.uk
-sudo certbot certonly --nginx -d alsalibiaicontracts.co.uk -d www.alsalibiaicontracts.co.uk
-```
-
-### CAUTION
-Even though docker is configured to run migrations, the build sometimes skips this step for some reason. In order to be safe, execute the following command:
-```
-docker-compose exec web python manage.py migrate
-```
-
-#### Useful commands
-```
-docker-compose exec web python manage.py migrate
-docker-compose exec web python manage.py collectstatic
-docker-compose exec web ls /ASACBackEnd/staticfiles
-docker-compose exec web chmod -R 777 /ASACBackEnd/staticfiles
-```
-
-## Frontend deployment
-```
-eas update:configure
-eas branch:list
-eas branch:switch main
-eas build:configure
-eas update --message ""
-```
+If you would like to deploy locally, globally, or redeploy the production server and frontend, please navigate to the backend and frontend folders. Their README files will guide you through the process.
