@@ -3,11 +3,11 @@ version: '3'
 services:
   web:
     build:
-      context: ./ASACBackEnd
+      context: ./backend
     command: daphne ASACBackEnd.asgi:application --bind 0.0.0.0 --port 8000
     volumes:
-      - ./ASACBackEnd:/ASACBackEnd
-      - static_volume:/ASACBackEnd/staticfiles
+      - ./backend:/backend
+      - static_volume:/backend/staticfiles
     ports:
       - "8000:8000"
     depends_on:
@@ -34,7 +34,7 @@ services:
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
       - ./nginx/certbot/www:/var/www/certbot
-      - static_volume:/ASACBackEnd/staticfiles
+      - static_volume:/backend/staticfiles
 
   certbot:
     image: certbot/certbot
@@ -65,11 +65,11 @@ services:
   frontend:
     build:
       context: ./
-      dockerfile: ASACFrontEnd/Dockerfile
+      dockerfile: frontend/Dockerfile
       args:
         TOKEN: ${TOKEN} 
     volumes:
-      - ./ASACFrontEnd:/ASACFrontEnd
+      - ./frontend:/frontend
     depends_on:
       - web
 
