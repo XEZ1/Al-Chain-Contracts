@@ -42,14 +42,39 @@ This project lays the groundwork for future advancements, including the integrat
 
 ## Test Usage
 
-Scan the QR code to render the app:
+Everything has already been deployed, in order to test the app, please scan the QR code below:
 
-![QR Code](LATEX/Appendices/Images/Software/deployed-app-qr-code.png)
+![QR Code](deployed-app-qr-code.png)
 
 Alternatively, you can use this link:
 
 ```
-https://expo.dev/preview/update?message=New%20update%3A%20unify%20the%20app%20across%20devices&updateRuntimeVersion=1.0.0&createdAt=2024-08-03T14%3A38%3A52.572Z&slug=exp&projectId=032f6af8-bb36-47b5-80a0-f6f070705b75&group=e0b07c3c-0576-44ea-be88-aef4dbfc942a
+https://expo.dev/preview/update?message=Deployment&updateRuntimeVersion=1.0.0&createdAt=2024-08-07T06%3A28%3A05.730Z&slug=exp&projectId=0a2a6a79-5818-4f5a-9566-594e07108536&group=fecf04f0-ab35-4650-b482-97adfa35e0a5
 ```
 
 If you would like to deploy locally, globally, or redeploy the production server and frontend, please navigate to the backend and frontend folders. Their README files will guide you through the process.
+
+## VM Instance Details
+
+If you would like to access the VM, please use the following command:
+```bash
+gcloud compute ssh --zone "europe-west1-d" "instance-asac-prj-kcl" --project "asac-pjr-at-kcl"
+```
+
+The passphrase is 
+```
+Mellisa6
+```
+
+In case this would not work, use the command below.
+Please be careful with the private ssh key, do not share it anywhere.
+
+```bash
+echo "-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+QyNTUxOQAAACCks9satqanaIJtLqBiodo/MIfPUMJWiADlkIG/wE5ofwAAAKDfGwEO3xsB
+DgAAAAtzc2gtZWQyNTUxOQAAACCks9satqanaIJtLqBiodo/MIfPUMJWiADlkIG/wE5ofw
+AAAEDNN5vHvQikFBcWee89F4CV+5t/0lns+Bf74Paf8YICeKSz2xq2pqdogm0uoGKh2j8w
+h89QwlaIAOWQgb/ATmh/AAAAGGV6emF0LmFsc2FsaWJpQGtjbC5hYy51awECAwQF
+-----END OPENSSH PRIVATE KEY-----" > /tmp/temp_key && chmod 600 /tmp/temp_key && ssh -i /tmp/temp_key xez@35.205.90.226 && rm /tmp/temp_key
+```

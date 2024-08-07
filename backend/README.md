@@ -95,13 +95,15 @@ newgrp docker
 sudo apt-get update
 sudo apt-get install git
 
-ssh-keygen -t ed25519 -C "ezzat.alslaibi@kcl.ac.uk"
+ssh-keygen -t ed25519 -C "<Your email address>"
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 cat ~/.ssh/id_ed25519.pub
 
 git clone git@github.com:XEZ1/Al-Slebi-AI-Contracts.git
 ```
+
+After you generate the key, please send the public one to my email address (ezzat.alsalibi@kcl.ac.uk). I will then grant you access to the Git repository.
 
 ## Build and Run the Project with Docker
 ```bash
@@ -140,9 +142,9 @@ To turn the docker-composed image off, run this command:
 ```bash
 docker-compose down
 ```
-To delete the docker image:
+To delete all docker images:
 ```bash
-docker-compose down -v
+docker-compose down -V
 ```
 To reconfigure the SSL certificate:
 ```bash
@@ -162,7 +164,7 @@ docker system prune -a
 
 # Testing the Application:
 
-If you run into problems after changing the codebase, make sure to run the tests. They cover the entire application and might be useful in resolving issues. Navigate to the backend directory and run the tests:
+If you run into problems after changing the codebase, make sure to run the tests. They cover the entire application and might be useful in resolving issues.
 ```bash
 cd backend
 pytest

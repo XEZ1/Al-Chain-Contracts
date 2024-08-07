@@ -3,7 +3,7 @@
 ## Connect Backend and Frontend
 Run `ipconfig` or `ifconfig` in bash, then create or modify the `.env` file in the root directory of the frontend, with the IPv4 address inside.
 ```bash
-BACKEND_URL=your IPv4 address:8000
+BACKEND_URL=<your IPv4 address:8000>
 ```
 
 ## Install Frontend Dependencies
@@ -46,8 +46,9 @@ docker-compose down
 ```bash
 docker-compose up --build
 ```
-This will rebuild the backend and send frontend updates to Expo SDK for deployemnt 
-alternatively, run the following commands if you don't want to rebuild the entire project:
+This will rebuild the backend and send frontend updates to Expo SDK for deployemnt. 
+Please bear in mind that if you decide to rebuild the entire project after making changes to the code, you will need to fetch a new QR code from EAS using the EXPO_TOKEN stored in the .env file in the root directory for these changes to be reflected.
+Alternatively, run the following commands if you don't want to rebuild the entire project:
 ```
 npx eas-cli update:configure
 npx eas-cli build:configure
@@ -90,13 +91,15 @@ newgrp docker
 sudo apt-get update
 sudo apt-get install git
 
-ssh-keygen -t ed25519 -C "ezzat.alslaibi@kcl.ac.uk"
+ssh-keygen -t ed25519 -C "<Your email address>"
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 cat ~/.ssh/id_ed25519.pub
 
 git clone git@github.com:XEZ1/Al-Slebi-AI-Contracts.git
 ```
+
+After you generate the key, please send the public one to my email address (ezzat.alsalibi@kcl.ac.uk). I will then grant you access to the Git repository.
 
 ## Build and Run the Project with Docker
 ```bash
@@ -157,8 +160,8 @@ docker system prune -a
 
 # Testing the Application:
 
-If you run into problems after changing the codebase, make sure to run the tests. They cover the entire application and might be useful in resolving issues. Navigate to the frontend directory and run the tests:
-```
+If you run into problems after changing the codebase, make sure to run the tests. They cover the entire application and might be useful in resolving issues.
+```bash
 cd frontend
 npm run test
 ```
