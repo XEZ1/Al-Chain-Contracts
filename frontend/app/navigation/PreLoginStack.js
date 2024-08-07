@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import PreLoginScreen from '../screens/PreLoginScreens/PreLoginScreen';
 import LoginScreen from '../screens/PreLoginScreens/LoginScreen';
 import SignUpScreen from '../screens/PreLoginScreens/SignUpScreen';
-import SignUpScreen from '../screens/PreLoginScreens/SignUpScreen';
+import AboutUsScreen from '../screens/PreLoginScreens/AboutUsScreen';
 
 
 // Create stack navigator for pre-login screens
