@@ -15,7 +15,7 @@ const AboutUsScreen = () => {
     return (
         <SafeAreaView style={[{ backgroundColor: 'rgba(1, 193, 219, 1)' }]} >
             <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
-            <ScrollView style={localStyles.containerWithPadding} contentContainerStyle={[{ paddingBottom: 30 }]}>
+            <ScrollView style={localStyles.containerWithPadding} contentContainerStyle={[{ paddingBottom: 30 }]} showsVerticalScrollIndicator={false}>
                 <Image
                     source={require('../../../assets/logo-2.png')}
                     style={localStyles.logo}
