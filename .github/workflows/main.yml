@@ -72,5 +72,5 @@ jobs:
             cd Al-Slebi-AI-Contracts
             docker-compose down
             git pull
-            docker-compose up --build
+            docker-compose up --build -d
 
