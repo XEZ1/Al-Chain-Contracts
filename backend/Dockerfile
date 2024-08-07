@@ -1,14 +1,8 @@
 # Use the official Python image
 FROM python:3.11.2
 
-# Install Dockerise
-ENV DOCKERIZE_VERSION v0.6.1
-RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-
 # Set the working directory
-WORKDIR /ASACBackEnd
+WORKDIR /backend
 
 # Copy requirements.txt first to leverage Docker cache
 COPY requirements.txt .
