@@ -7,10 +7,10 @@ FROM node:18-alpine
 RUN apk add --no-cache git bash
 
 # Set the working directory
-WORKDIR /ASACFrontEnd
+WORKDIR /frontend
 
 # Copy the package.json and package-lock.json
-COPY ASACFrontEnd/package*.json ./
+COPY frontend/package*.json ./
 
 # Install Expo, Expo CLI and EAS CLI globally
 RUN npm install -g eas-cli
@@ -19,7 +19,7 @@ RUN npm install -g eas-cli
 RUN npm install --legacy-peer-deps
 
 # Copy the rest of the project files
-COPY ASACFrontEnd/. .
+COPY frontend/. .
 
 # Copy the GIT repository
 COPY .git .git
