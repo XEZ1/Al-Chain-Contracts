@@ -11,8 +11,4 @@ urlpatterns = [
     # Define the URL pattern for the DeleteTokenView
     # This view is used to delete a push notification token for a user
     path('delete-token/', DeleteTokenView.as_view(), name='delete-token'),
-
-    # Define the URL pattern for the GetTokenView
-    # This view is used to get a push notification token for a user
-    path('get-token/', GetTokenView.as_view(), name='get-token')
 ]

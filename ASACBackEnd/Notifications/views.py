@@ -49,25 +49,3 @@ class DeleteTokenView(views.APIView):
         """
         NotificationPushToken.objects.filter(user=request.user).delete()
         return Response({'status': 'success'}, status=status.HTTP_204_NO_CONTENT)
-
-
-class GetTokenView(views.APIView):
-    """
-    API view to handle getting push notification tokens.
-    Requires the user to be authenticated.
-    """
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        """
-        Get the push notification token for the authenticated user.
-
-        @param request: The request object.
-        @return: A response containing the token if it exists, or None if it does
-        """
-        token = NotificationPushToken.objects.filter(user=request.user).first()
-        if token:
-            serialiser = NotificationPushTokenSerializer(token)
-            return Response(serialiser.data, status=status.HTTP_200_OK)
-        return Response({'token': None}, status=status.HTTP_200_OK)
