@@ -116,6 +116,7 @@ export const login = async (username, password) => {
 
         if (response.ok) {
             await SecureStore.setItemAsync('authToken', data.token);
+            await savePushToken();
             return { success: true, token: data.token };
         } else {
             return { success: false, error: data.error || 'An error occurred during login' };
