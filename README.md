@@ -30,6 +30,7 @@ AI-Chain-Contracts uses a fine-tuned model of OpenAI's GPT-3.5 Turbo to convert 
 - **Database:** PostgreSQL
 - **Notifications:** Redis Server
 - **Encryption:** Nginx for HTTPS and WSS
+- **Testing:** Pytest and Jest + GitHub Actions CI/CD pipeline
 - **Deployment:** Google Cloud Platform and Expo SDK
 - **Containerisation:** Docker 
 

@@ -159,6 +159,6 @@ docker system prune -a
 
 If you run into problems after changing the codebase, make sure to run the tests. They cover the entire application and might be useful in resolving issues. Navigate to the frontend directory and run the tests:
 ```
-cd ASACFrontEnd
+cd frontend
 npm run test
 ```

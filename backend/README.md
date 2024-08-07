@@ -26,14 +26,14 @@ python manage.py migrate
 
 ## Deploy the Backend:
 ```bash
-daphne ASACBackEnd.asgi:application --bind 0.0.0.0 --port 8000
+daphne AIChainContracts.asgi:application --bind 0.0.0.0 --port 8000
 ```
 
 ## Database Setup
 Connect to the database using:
 ```bash
 psql -U postgres -d postgres
-psql -U xez1 -d asacbackenddb
+psql -U xez1 -d aiccdb
 ```
 
 # Global Deployment
@@ -164,6 +164,6 @@ docker system prune -a
 
 If you run into problems after changing the codebase, make sure to run the tests. They cover the entire application and might be useful in resolving issues. Navigate to the backend directory and run the tests:
 ```bash
-cd ASACBackEnd
+cd backend
 pytest
 ```
