@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import PreLoginScreen from '../screens/PreLoginScreens/PreLoginScreen';
 import LoginScreen from '../screens/PreLoginScreens/LoginScreen';
 import SignUpScreen from '../screens/PreLoginScreens/SignUpScreen';
+import SignUpScreen from '../screens/PreLoginScreens/SignUpScreen';
 
 
 // Create stack navigator for pre-login screens
@@ -20,6 +21,7 @@ const PreLoginStack = () => {
             <Stack.Screen name="PreLogin" component={PreLoginScreen}/>
             <Stack.Screen name="Login" component={LoginScreen}/>
             <Stack.Screen name="SignUp" component={SignUpScreen}/>
+            <Stack.Screen name="AboutUs" component={AboutUsScreen}/>
         </Stack.Navigator>
     );
 };
