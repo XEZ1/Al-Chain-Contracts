@@ -49,7 +49,7 @@ Scan the QR code to render the app:
 Alternatively, you can use this link:
 
 ```
-https://expo.dev/preview/update?message=New%20update%3A%20unify%20the%20app%20across%20devices&updateRuntimeVersion=1.0.0&createdAt=2024-08-03T14%3A38%3A52.572Z&slug=exp&projectId=032f6af8-bb36-47b5-80a0-f6f070705b75&group=e0b07c3c-0576-44ea-be88-aef4dbfc942a
+https://expo.dev/preview/update?message=Deployment&updateRuntimeVersion=1.0.0&createdAt=2024-08-07T06%3A28%3A05.730Z&slug=exp&projectId=0a2a6a79-5818-4f5a-9566-594e07108536&group=fecf04f0-ab35-4650-b482-97adfa35e0a5
 ```
 
 If you would like to deploy locally, globally, or redeploy the production server and frontend, please navigate to the backend and frontend folders. Their README files will guide you through the process.
