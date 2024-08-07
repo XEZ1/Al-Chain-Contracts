@@ -31,7 +31,7 @@ const PreLoginScreen = ({ navigation }) => {
                 <TouchableOpacity style={[sharedStyles.button, localStyles.localButtonContainer]} onPress={() => navigation.navigate('SignUp')}>
                     <Text style={[sharedStyles.boldMediumText, { color: 'rgb(57, 63, 67)' }]}>Sign Up</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[sharedStyles.button, localStyles.localButtonContainer]}>
+                <TouchableOpacity style={[sharedStyles.button, localStyles.localButtonContainer]} onPress={() => navigation.navigate('AboutUs')}>
                     <Text style={[sharedStyles.boldMediumText, { color: 'rgb(57, 63, 67)' }]}>About Us</Text>
                 </TouchableOpacity>
             </View>
