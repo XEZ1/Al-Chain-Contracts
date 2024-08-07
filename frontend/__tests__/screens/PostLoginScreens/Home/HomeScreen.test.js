@@ -141,7 +141,7 @@ describe('HomeScreen', () => {
         expect(getByText('No saved contracts yet')).toBeTruthy();
         expect(getByText('Address Checksum Conversion')).toBeTruthy();
         expect(getByText('Validate Address')).toBeTruthy();
-        expect(getByText('All rights reserved © Al-Slebi AI-Contracts')).toBeTruthy();
+        expect(getByText('All rights reserved © AI-Chain-Contracts')).toBeTruthy();
     });
 
     it('applies styles correctly on Android with keyboard visible', () => {

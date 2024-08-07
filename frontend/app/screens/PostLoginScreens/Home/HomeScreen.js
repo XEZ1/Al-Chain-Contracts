@@ -249,7 +249,7 @@ const HomeScreen = ({ navigation }) => {
 
                     {/* Footer Section */}
                     <View style={localStyles.footer}>
-                        <Text style={sharedStyles.generalText}>All rights reserved © Al-Slebi AI-Contracts</Text>
+                        <Text style={sharedStyles.generalText}>All rights reserved © AI-Chain-Contracts</Text>
                     </View>
 
                 </View>

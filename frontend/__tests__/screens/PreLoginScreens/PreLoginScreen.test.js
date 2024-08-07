@@ -54,10 +54,10 @@ describe('PreLoginScreen', () => {
         expect(mockNavigate).toHaveBeenCalledWith('SignUp');
     });
 
-    it('About Us button press does nothing', () => {
+    it('navigates to AboutUs on button press', () => {
         const { getByText } = renderPreLoginScreen();
 
         fireEvent.press(getByText('About Us'));
-        expect(mockNavigate).not.toHaveBeenCalled();
+        expect(mockNavigate).toHaveBeenCalledWith('AboutUs');
     });
 });

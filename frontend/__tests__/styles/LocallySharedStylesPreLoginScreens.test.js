@@ -65,6 +65,36 @@ describe('getLocallySharedStylesPreLoginScreens', () => {
             zeroMargin: {
                 margin: 0,
             },
+            containerWithPadding: {
+                padding: 20,
+                backgroundColor: 'white'
+            },
+            logo: {
+                width: 150,
+                height: 150,
+                alignSelf: 'center',
+                marginBottom: 20,
+            },
+            title: {
+                fontSize: 24,
+                fontWeight: 'bold',
+                textAlign: 'center',
+                marginBottom: 20,
+                color: 'rgb(57, 63, 67)',
+            },
+            sectionTitle: {
+                fontSize: 20,
+                fontWeight: 'bold',
+                marginTop: 20,
+                marginBottom: 10,
+                color: 'rgb(57, 63, 67)',
+            },
+            text: {
+                fontSize: 16,
+                lineHeight: 24,
+                marginBottom: 10,
+                color: 'rgb(57, 63, 67)',
+            },
         });
     });
 
@@ -119,6 +149,36 @@ describe('getLocallySharedStylesPreLoginScreens', () => {
             },
             zeroMargin: {
                 margin: 0,
+            },
+            containerWithPadding: {
+                padding: 20,
+                backgroundColor: 'rgb(28, 28, 30)'
+            },
+            logo: {
+                width: 150,
+                height: 150,
+                alignSelf: 'center',
+                marginBottom: 20,
+            },
+            title: {
+                fontSize: 24,
+                fontWeight: 'bold',
+                textAlign: 'center',
+                marginBottom: 20,
+                color: 'rgb(255, 255, 255)',
+            },
+            sectionTitle: {
+                fontSize: 20,
+                fontWeight: 'bold',
+                marginTop: 20,
+                marginBottom: 10,
+                color: 'rgb(255, 255, 255)',
+            },
+            text: {
+                fontSize: 16,
+                lineHeight: 24,
+                marginBottom: 10,
+                color: 'rgb(255, 255, 255)',
             },
         });
     });

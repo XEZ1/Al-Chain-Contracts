@@ -30,6 +30,7 @@ describe('PreLoginStack', () => {
         expect(getByTestId('PreLoginTestID')).toBeTruthy();
         expect(getByTestId('LoginTestID')).toBeTruthy();
         expect(getByTestId('SignUpTestID')).toBeTruthy();
+        expect(getByTestId('AboutUsTestID')).toBeTruthy();
     });
 });
 
