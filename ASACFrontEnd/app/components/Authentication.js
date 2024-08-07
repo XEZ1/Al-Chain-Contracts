@@ -3,6 +3,7 @@ import { LayoutAnimation, Alert } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import { BACKEND_URL } from '@env';
 import { WebSocketProvider } from './Notifications';
+import { savePushToken, deletePushToken } from './Notifications';
 
 
 // Create a context to manage authentication state and methods
@@ -115,6 +116,7 @@ export const login = async (username, password) => {
 
         if (response.ok) {
             await SecureStore.setItemAsync('authToken', data.token);
+            await savePushToken();
             return { success: true, token: data.token };
         } else {
             return { success: false, error: data.error || 'An error occurred during login' };
@@ -130,6 +132,7 @@ export const login = async (username, password) => {
  */
 export const logout = async () => {
     try {
+        await deletePushToken();
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         await SecureStore.deleteItemAsync('authToken');
     } catch (error) {

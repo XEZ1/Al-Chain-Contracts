@@ -2,6 +2,7 @@ import { useEffect, useState, createContext, useContext } from 'react';
 import * as Notifications from 'expo-notifications';
 import { BACKEND_URL } from '@env';
 import * as SecureStore from 'expo-secure-store';
+import Constants from 'expo-constants';
 
 
 // Create a context to manage WebSocket connection

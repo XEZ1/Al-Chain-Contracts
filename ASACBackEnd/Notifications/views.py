@@ -21,7 +21,10 @@ class SaveTokenView(views.APIView):
         @param request: The request object containing the token data.
         @return: A success response if the token is saved, or an error response if the data is invalid.
         """
-        serialiser = NotificationPushTokenSerialiser(data=request.data, context={'request': request})
+        data = request.data.copy()
+        data['user'] = request.user.id
+
+        serialiser = NotificationPushTokenSerialiser(data=data, context={'request': request})
         if serialiser.is_valid():
             serialiser.save()
             return Response({'status': 'success'}, status=status.HTTP_201_CREATED)

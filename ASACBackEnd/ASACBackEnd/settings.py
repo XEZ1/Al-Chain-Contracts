@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-sd*6c$qhzhfw7k#ncii@3nnzxc
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 # Allowed hosts for the application
-ALLOWED_HOSTS = ['localhost', '35.205.90.226', '192.168.0.18', 'alsalibiaicontracts.co.uk',
+ALLOWED_HOSTS = ['localhost', '35.205.90.226', '192.168.0.18', '127.0.0.1', 'alsalibiaicontracts.co.uk',
                  'www.alsalibiaicontracts.co.uk']
 
 # Application definition
