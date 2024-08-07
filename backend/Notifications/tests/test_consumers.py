@@ -2,7 +2,7 @@ import pytest
 import json
 import asyncio
 from channels.testing import WebsocketCommunicator
-from ASACBackEnd.asgi import application
+from AIChainContracts.asgi import application
 from channels.layers import get_channel_layer
 
 @pytest.mark.asyncio

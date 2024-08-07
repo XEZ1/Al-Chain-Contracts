@@ -4,7 +4,7 @@ services:
   web:
     build:
       context: ./backend
-    command: daphne ASACBackEnd.asgi:application --bind 0.0.0.0 --port 8000
+    command: daphne AIChainContracts.asgi:application --bind 0.0.0.0 --port 8000
     volumes:
       - ./backend:/backend
       - static_volume:/backend/staticfiles
@@ -16,7 +16,7 @@ services:
     environment:
       - REDIS_HOST=redis
       - DB_HOST=db
-      - DB_NAME=asacbackenddb
+      - DB_NAME=aiccdb
       - DB_USER=admin
       - DB_PASS=admin123!!!
       - DB_PORT=5432
@@ -56,7 +56,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=asacbackenddb
+      - POSTGRES_DB=aiccdb
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin123!!!
     ports:

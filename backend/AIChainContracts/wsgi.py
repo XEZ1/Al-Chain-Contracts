@@ -1,5 +1,5 @@
 """
-WSGI config for ASACBackEnd project.
+WSGI config for AIChainContracts project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -10,9 +10,9 @@ import os
 from django.core.wsgi import get_wsgi_application
 
 
-# Set the default Django settings module for the 'ASACBackEnd' project
+# Set the default Django settings module for the 'AIChainContracts' project
 # This tells Django which settings file to use for the project configuration
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ASACBackEnd.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'AIChainContracts.settings')
 
 # Get the WSGI application for the project
 # This callable serves as the entry point for WSGI-compatible web servers to serve your project

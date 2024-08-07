@@ -25,7 +25,7 @@ class TestEnvironmentSettings(SimpleTestCase):
         else:
             # In production, ensure the database engine is PostgreSQL and uses the specified database name
             self.assertEqual(settings.DATABASES['default']['ENGINE'], 'django.db.backends.postgresql')
-            self.assertTrue("asacbackenddb" in str(settings.DATABASES['default']['NAME']))
+            self.assertTrue("aiccdb" in str(settings.DATABASES['default']['NAME']))
 
     def test_database_config(self):
         """

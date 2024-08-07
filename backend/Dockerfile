@@ -23,4 +23,4 @@ RUN python manage.py migrate
 EXPOSE 8000
 
 # Run Daphne server
-CMD ["daphne", "ASACBackEnd.asgi:application", "--bind", "0.0.0.0", "--port", "8000"]
+CMD ["daphne", "AIChainContracts.asgi:application", "--bind", "0.0.0.0", "--port", "8000"]

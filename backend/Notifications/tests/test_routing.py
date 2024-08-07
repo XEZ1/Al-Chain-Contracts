@@ -1,6 +1,6 @@
 import pytest
 from channels.testing import WebsocketCommunicator
-from ASACBackEnd.asgi import application
+from AIChainContracts.asgi import application
 
 @pytest.mark.django_db
 @pytest.mark.asyncio

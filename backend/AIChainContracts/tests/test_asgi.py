@@ -1,6 +1,6 @@
 from django.test import SimpleTestCase
 from channels.routing import ProtocolTypeRouter
-from ASACBackEnd.asgi import application as asgi_application
+from AIChainContracts.asgi import application as asgi_application
 
 
 class TestASGI(SimpleTestCase):

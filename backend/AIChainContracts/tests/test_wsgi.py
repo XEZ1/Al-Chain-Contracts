@@ -1,6 +1,6 @@
 from django.test import SimpleTestCase
 from django.core.wsgi import get_wsgi_application
-from ASACBackEnd.wsgi import application as wsgi_application
+from AIChainContracts.wsgi import application as wsgi_application
 
 
 class TestWSGI(SimpleTestCase):
