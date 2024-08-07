@@ -5,8 +5,15 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import { WebSocketContext, WebSocketProvider, useWebSocket } from '../../app/components/Notifications';
 import * as SecureStore from 'expo-secure-store';
 import { Alert, Text } from 'react-native';
+import * as Notifications from 'expo-notifications';
 
 jest.mock('expo-secure-store');
+
+jest.mock('expo-notifications', () => ({
+    getExpoPushTokenAsync: jest.fn().mockResolvedValue({ data: 'expo-push-token' }),
+    scheduleNotificationAsync: jest.fn(),
+    requestPermissionsAsync: jest.fn().mockResolvedValue({ status: 'granted' }),
+}));
 
 global.fetch = jest.fn();
 
@@ -139,6 +146,8 @@ describe('Authentication', () => {
     });
 
     it('handles successful login and stores token', async () => {
+        const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+
         fetch.mockResolvedValueOnce({
             ok: true,
             json: () => Promise.resolve({ token: 'valid-token' }),
@@ -147,6 +156,8 @@ describe('Authentication', () => {
         const result = await login('username', 'password');
         expect(result).toEqual({ success: true, token: 'valid-token' });
         expect(SecureStore.setItemAsync).toHaveBeenCalledWith('authToken', 'valid-token');
+
+        consoleLogSpy.mockRestore();
     });
 
     it('handles unsuccessful login with server error message', async () => {
@@ -182,8 +193,12 @@ describe('Authentication', () => {
     });
 
     it('logs out successfully', async () => {
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+
         await logout();
         expect(SecureStore.deleteItemAsync).toHaveBeenCalledWith('authToken');
+
+        consoleLogSpy.mockRestore();
     });
 
     it('handles errors during logout', async () => {
@@ -228,6 +243,8 @@ describe('Authentication', () => {
     });
 
     it('handleLogin calls login and updates isLoggedIn', async () => {
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+
         fetch.mockResolvedValueOnce({
             ok: true,
             json: () => Promise.resolve({ token_valid: true }),
@@ -244,6 +261,8 @@ describe('Authentication', () => {
 
         expect(result.current.isLoggedIn).toBeTruthy();
         expect(SecureStore.setItemAsync).toHaveBeenCalled();
+
+        consoleLogSpy.mockRestore();
     });
 
     it('handleLogin error on login', async () => {
@@ -269,6 +288,8 @@ describe('Authentication', () => {
     });
 
     it('handleSignUp calls signUp properly', async () => {
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+
         const wrapper = ({ children }) => <AuthProvider>{children}</AuthProvider>;
         const { result, waitForNextUpdate } = renderHook(() => useContext(AuthContext), { wrapper });
 
@@ -285,6 +306,8 @@ describe('Authentication', () => {
         await waitForNextUpdate();
 
         expect(Alert.alert).toHaveBeenCalledWith('Success', 'Account created successfully');
+
+        consoleLogSpy.mockRestore();
     });
 
     it('handleSignUp errors on sign up', async () => {
@@ -311,6 +334,8 @@ describe('Authentication', () => {
     });
 
     it('handleLogout calls logout properly', async () => {
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+
         const wrapper = ({ children }) => <AuthProvider>{children}</AuthProvider>;
         const { result, waitForNextUpdate } = renderHook(() => useContext(AuthContext), { wrapper });
 
@@ -321,6 +346,8 @@ describe('Authentication', () => {
         await waitForNextUpdate();
 
         expect(SecureStore.deleteItemAsync).toHaveBeenCalled();
+
+        consoleLogSpy.mockRestore();
     });
 
     it('sends a request with the correct headers and method', async () => {
