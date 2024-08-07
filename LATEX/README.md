@@ -1,5 +1,3 @@
-# Informatics UG Individual Projects
-
 This directory contains the LaTeX source files and related documents for the dissertation project.
 
 ## Directory Structure

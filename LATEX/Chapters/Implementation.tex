@@ -249,7 +249,7 @@ Since the training of the AI model for contract conversions has concluded, the n
 
 \subsection{Project Structure}
 
-The backend of our mobile application, referred to as \texttt{ASACBackEnd}, consists of several \textit{Django apps} that handle different functionalities of the application. In addition, the root directory contains a few files meant for  configuration and utility purposes:
+The backend of our mobile application consists of several \textit{Django apps} that handle different functionalities of the application. In addition, the root directory contains a few files meant for configuration and utility purposes:
 
 \begin{itemize}
     \item \textbf{requirements.txt:} This file lists all the Python packages that the project depends on. It is used to install all necessary libraries when setting up the project in a new environment.
@@ -268,9 +268,9 @@ Apart from that, the root directory includes the \texttt{``staticfiles''} folder
 
 Additionally, every \textit{Django app} of the project includes a directory called \texttt{``tests''} containing test files corresponding to each module written.
 
-\subsection{Root Application}
+\subsection{AIChainContracts Application}
 
-The root application, \texttt{``ASACBackEnd''}, serves as the core of our backend architecture and includes several key configuration files that define the operational settings and the application's entry points. The naming similarity with the Django project's root follows from the adherence to Django naming conventions.
+The root application, \texttt{``AIChainContracts''}, serves as the core of our backend architecture and includes several key configuration files that define the operational settings and the application's entry points.
 
 \subsubsection{Django Application Settings}
 
@@ -308,7 +308,7 @@ An instance of the \textit{ASGI} application is set up to receive \texttt{asynch
 
 \subsection{Accounts Application}
 
-The \texttt{``Accounts''} module within \texttt{ASACBackEnd} handles all functionalities related to user management, including registration, authentication, and the management of authentication tokens.
+The \texttt{``Accounts''} module within the root folder named \texttt{``backend''} handles all functionalities related to user management, including registration, authentication, and the management of authentication tokens.
 
 \subsubsection{Admin} 
 
@@ -356,7 +356,7 @@ The \textit{Accounts} application's views manage user interactions within the sy
 
 \subsection{Contracts Application}
 
-The entire contract handling process, including the creation, validation, and deletion of employment and smart contracts, is handled by the \texttt{``Contracts''} module of \texttt{ASACBackEnd}. Users can generate their contracts directly through our AI model, which was fine-tuned earlier.
+The entire contract handling process, including the creation, validation, and deletion of employment and smart contracts, is handled by the \texttt{``Contracts''} module of the backend. Users can generate their contracts directly through our AI model, which was fine-tuned earlier.
 
 \subsubsection{Admin} 
 
@@ -407,7 +407,7 @@ Functionalities of views defined in \texttt{views.py} are as follows:
 
 \subsection{Forums Application}
 
-The \texttt{``Forums''} module within \texttt{ASACBackEnd} manages community interactions such as posts, comments, and likes. This application allows users to engage with each other, fostering a community environment within the app.
+The \texttt{``Forums''} module manages community interactions such as posts, comments, and likes. This application allows users to engage with each other, fostering a community environment within the app.
 
 \subsubsection{Admin}
 
@@ -480,7 +480,7 @@ The views within the \texttt{Forums} module are designed to use \texttt{IsAuthen
 
 \subsection{Notifications Application}
 
-The \texttt{``Notifications''} module within \texttt{ASACBackEnd} manages everything related to notifications. This includes the registration and deletion of push tokens and the real-time delivery of notifications.
+The \texttt{``Notifications''} module of the backend manages everything related to notifications. This includes the registration and deletion of push tokens and the real-time delivery of notifications.
 
 \subsubsection{Admin} 
 
@@ -569,8 +569,8 @@ Views in the \textit{Notifications} module handle API requests related to notifi
 The database is configured as follows:
 
 \begin{itemize}
-    \item \textbf{Database Engine:} As previously outlined, \textit{PostgreSQL} was selected as the main database system for the \textit{ASACBackEnd} project because of its capabilities for complex queries and data integrity.
-    \item \textbf{Database Name:} The database for the production environment is named \textit{``asacbackenddb''}.
+    \item \textbf{Database Engine:} As previously outlined, \textit{PostgreSQL} was selected as the main database system for the \textit{AI-Chain-Contracts} project because of its capabilities for complex queries and data integrity.
+    \item \textbf{Database Name:} The database for the production environment is named \textit{``aiccdb''}.
     \item \textbf{Credentials:} Access to the database is secured with a username and password.
     \item \textbf{Host and Port:} The database is hosted locally on the deployment server with the default PostgreSQL port. With this configuration, database operations have quick access and reduced latency within the internal network.
     \item \textbf{Connection Settings:} By limiting access to trusted, secure sources, the database is configured to accept connections from specific IP addresses across the United Kingdom, hence enhancing security. This might be subject to change in the future.
@@ -579,7 +579,7 @@ The database is configured as follows:
 
 \section{Frontend}
 
-Having developed the backend, it is time now to shift our focus to the frontend implementation. As outlined in the design chapter, \texttt{ASACFrontEnd} utilises \texttt{React Native} with \texttt{JavaScript} to build the UI. 
+Having developed the backend, it is time now to shift our focus to the frontend implementation. As outlined in the design chapter, \texttt{AI-Chain-Contracts} utilises \texttt{React Native} with \texttt{JavaScript} to build the UI. 
 
 \subsection{Project Structure}
 
@@ -708,7 +708,7 @@ The \texttt{AppNavigator} component acts as the primary navigation controller, d
 This stack navigator guides users through the initial authentication process with a structured sequence of screens. The component is comprised of the following features:
 
 \begin{itemize}
-    \item \textbf{Stack Navigator:} Utilises the \textit{createStackNavigator} from \textit{@react-navigation/stack} to arrange a series of screens. The stack includes \textit{PreLoginScreen}, which is configured as the initial route, \textit{LoginScreen}, and \textit{SignUpScreen}. This navigator is ideal for managing a sequence of screens where each new screen is placed on top of a stack and where the back action would pop the current screen off the stack to reveal the previous one.    
+    \item \textbf{Stack Navigator:} Utilises the \textit{createStackNavigator} from \textit{@react-navigation/stack} to arrange a series of screens. The stack includes \textit{PreLoginScreen}, which is configured as the initial route, \textit{LoginScreen}, \textit{SignUpScreen}, and \textit{AboutUsScreen}. This navigator is ideal for managing a sequence of screens where each new screen is placed on top of a stack and where the back action would pop the current screen off the stack to reveal the previous one.    
     \item \textbf{Screen Options:} The \textit{screenOptions} prop is set to \textit{ {\tt {\char '173}} headerShown: false {\tt {\char '175}} }, providing a cleaner user interface that maximises screen space and minimises distraction.
 \end{itemize}
 
@@ -776,6 +776,7 @@ The \texttt{Screens} directory is divided into two main subdirectories in order 
     \item \texttt{PreLoginScreen.js} - Provides introductory page functionalities.
     \item \texttt{LoginScreen.js} - Manages the user login interface.
     \item \texttt{SignUpScreen.js} - Handles user registration interface.
+    \item \texttt{AboutUsScreen.js} - Contains valuable information on the scope and purpose of the application.
 \end{itemize}
 
 Users interact with screens arranged under the \texttt{PostLoginScreens} subdirectory after successfully logging in. This folder is further divided into four directories, each of which stands for a different functional area of the application:
@@ -838,6 +839,7 @@ The \texttt{PreLoginScreen.js} uses the \textit{ImageBackground} component to ma
     \label{fig:pre login screen}
 \end{figure}
 
+\newpage
 \subsubsection{PreLoginScreens: LoginScreen.js}
 
 The rendering of the login screen is handled by the \texttt{LoginScreen} functional component. To control the login procedure, this component retrieves the \textit{handleLogin} method from the \textit{AuthContext}. The component returns a view hierarchy structured as follows:
@@ -893,6 +895,29 @@ The rendering of the sign-up screen is managed by the \texttt{SignUpScreen} func
         \includegraphics[scale=0.08]{LATEX/Appendices/Images/Software/Frontend/sign_up_screen_2.png}
         \label{fig:sign up screen 2}
         \end{minipage}
+\end{figure}
+
+\subsubsection{PreLoginScreens: AboutUsScreen.js}
+
+Within the \textit{AboutUsScreen} functional component, the current theme is retrieved using the \textit{ThemeContext}, with globally and locally shared styles applied accordingly. The screen structure includes:
+
+\begin{itemize}
+    \item A \textit{SafeAreaView} component with a custom background colour.
+    \item A \textit{StatusBar} component that adjusts its style based on the current theme.
+    \item A \textit{ScrollView} component styled with padding and additional spacing at the bottom.
+    \item An \textit{Image} component displaying the logo.
+    \item Several \textit{Text} components, including:
+    \begin{itemize}
+        \item A title introducing "About AI-Chain-Contracts".
+        \item Section titles for different segments such as ``Project Description'', ``Software Description'', ``Key Features'', ``Technology Stack'', and ``Objectives and Benefits''.
+        \item Descriptive text providing information about the platform, its functionalities, and the technology stack used.
+    \end{itemize}
+\end{itemize}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.43\textwidth]{LATEX/Appendices/Images/Software/Frontend/about_us_screen.PNG}
+    \label{fig:about us screen}
 \end{figure}
 
 \subsubsection{PostLoginScreens: HomeScreen.js}
@@ -1256,7 +1281,6 @@ The \textit{ForumScreen} is a functional component that takes \textit{navigation
     \label{fig:forum screen}
 \end{figure} 
 
-\newpage
 \subsubsection{PostLoginScreens: UseForumScreen.js}
 
 The \texttt{UseForumScreen.js} file defines a custom hook, \textit{useForumScreen}, and a context provider, \textit{PostProvider}, which manage the state and functionality of the forum screen.
