@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import SaveTokenView, DeleteTokenView, GetTokenView
+from .views import SaveTokenView, DeleteTokenView
 
 
 # Define URL patterns for the notifications application
