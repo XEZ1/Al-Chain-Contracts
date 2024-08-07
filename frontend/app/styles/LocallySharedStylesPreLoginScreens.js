@@ -51,6 +51,36 @@ const getLocallySharedStylesPreLoginScreens = (theme = 'light') => {
         zeroMargin: {
             margin: 0,
         },
+        containerWithPadding: {
+            padding: 20,
+            backgroundColor: themeStyles[theme].inputBackground
+        },
+        logo: {
+            width: 150,
+            height: 150,
+            alignSelf: 'center',
+            marginBottom: 20,
+        },
+        title: {
+            fontSize: 24,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            marginBottom: 20,
+            color: themeStyles[theme].textColor,
+        },
+        sectionTitle: {
+            fontSize: 20,
+            fontWeight: 'bold',
+            marginTop: 20,
+            marginBottom: 10,
+            color: themeStyles[theme].textColor,
+        },
+        text: {
+            fontSize: 16,
+            lineHeight: 24,
+            marginBottom: 10,
+            color: themeStyles[theme].textColor,
+        },
     });
 };
 
