@@ -341,6 +341,7 @@ Thorough testing is a key part of the stability of the frontend application. By 
     \label{fig:frontend_testing}
 \end{figure}
 
+\newpage
 \section{CI/CD Pipeline}
 
 \subsection{Continuous Integration}
@@ -360,9 +361,9 @@ Through Continuous Integration, tests get automatically executed on a regular ba
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=1\linewidth]{LATEX/Appendices/Images/Pipeline_CI_CD/github_actions_CI_CD_pipeline.png}
-    \caption{CI/CD Pipeline}
-    \label{fig:CI/CD-Pipeline}
+    \includegraphics[width=1\linewidth]{LATEX/Appendices/Images/Pipeline_CI_CD/github_actions_CI_CD_pipeline_testing.png}
+    \caption{CI/CD Pipeline: Testing}
+    \label{fig:CI/CD-Pipeline-testing}
 \end{figure}
 
 \subsection{Continuous Deployment}
@@ -374,6 +375,13 @@ The project is containerised using \texttt{Docker}, allowing for consistent and 
 The server-side code resides in the \textit{``backend''} directory, which includes a \textit{``Dockerfile''} that sets up the \textit{Python} environment, installs dependencies, collects static files, runs database migrations, and starts the \textit{Daphne} server. The client-side code is located in the \textit{``frontend''} directory, where its respective \textit{``Dockerfile''} resides. It installs \textit{Node.js} dependencies, logs into \textit{Expo} using a token, and deploys the application to \texttt{Expo} servers. The \textit{nginx} directory contains the \textit{``Dockerfile''} and configuration for the respective server, which handles HTTPS termination and forwards requests to the backend. The setup also includes a \texttt{Redis} server, specified in the \textit{Docker} configuration, which is used for handling notifications. Additionally, \texttt{Certbot} is used to obtain \textit{SSL} certificates for the domain names acquired from \textit{Fasthosts}.
 
 After the \textit{CI} pipeline jobs finish, if all tests pass, the pipeline proceeds to the \textit{CD} stage. During deployment, the pipeline connects to the VM instance, stops the currently running \textit{Docker} containers, pulls the latest code from the repository, and rebuilds the \textit{Docker} images using the \textit{``docker-compose up --build''} command. This process updates the backend and frontend services with the latest changes. The backend is deployed on the same VM instance, configured to accept requests from anywhere, while the frontend is deployed to the \textit{Expo} servers. Users can access the frontend application via a QR code or a link that forwards to the \textit{Expo} app, making it accessible from any location.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=1\linewidth]{LATEX/Appendices/Images/Pipeline_CI_CD/github_actions_CI_CD_pipeline_deployment.png}
+    \caption{CI/CD Pipeline: Deployment}
+    \label{fig:CI/CD-Pipeline-deployment}
+\end{figure}
 
 \section{Software Evaluation Strategy}
 

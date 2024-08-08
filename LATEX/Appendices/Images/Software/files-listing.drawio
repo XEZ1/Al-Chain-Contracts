@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 OPR/112.0.0.0" version="24.7.6">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="2689" dy="1456" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="2336" math="0" shadow="0">
+    <mxGraphModel dx="1632" dy="575" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="2336" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -76,7 +76,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="WIyWlLk6GJQsqaUBKTNV-3" target="Cc0DHpnn1HFMdUvL79Tt-11">
+        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="WIyWlLk6GJQsqaUBKTNV-3" target="Cc0DHpnn1HFMdUvL79Tt-11" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="180" y="1409.9999999999998" as="targetPoint" />
             <Array as="points">
@@ -85,7 +85,23 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="WIyWlLk6GJQsqaUBKTNV-3" value="Al-Slebi-AI-Contracts" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+        <mxCell id="VAyY-wMOWxS_2Sd0mxQ1-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="WIyWlLk6GJQsqaUBKTNV-3" target="VAyY-wMOWxS_2Sd0mxQ1-0">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="150" y="800" />
+              <mxPoint x="150" y="2315" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VAyY-wMOWxS_2Sd0mxQ1-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="WIyWlLk6GJQsqaUBKTNV-3" target="VAyY-wMOWxS_2Sd0mxQ1-8">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="150" y="800" />
+              <mxPoint x="150" y="78" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-3" value="AI-Chain-Contracts" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="20" y="780" width="120" height="40" as="geometry" />
         </mxCell>
         <mxCell id="57jWBeFHBhkDvzAPvay--4" value="&lt;font style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 6px;&quot;&gt;workflows&lt;/span&gt;&lt;br&gt;&lt;font style=&quot;font-size: 5px;&quot;&gt;Directory containing setup for GitHub Actions&lt;/font&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;gradientColor=#7ea6e0;strokeColor=#6c8ebf;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
@@ -106,7 +122,7 @@
         <mxCell id="57jWBeFHBhkDvzAPvay--757" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="57jWBeFHBhkDvzAPvay--10" target="57jWBeFHBhkDvzAPvay--12" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="57jWBeFHBhkDvzAPvay--10" target="Cc0DHpnn1HFMdUvL79Tt-0">
+        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="57jWBeFHBhkDvzAPvay--10" target="Cc0DHpnn1HFMdUvL79Tt-0" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="57jWBeFHBhkDvzAPvay--10" value="&lt;font style=&quot;font-size: 5px;&quot;&gt;nginx&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 5px;&quot;&gt;Directory containing for Nginx server&lt;br&gt;&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;gradientColor=#97d077;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
@@ -172,12 +188,12 @@
         <mxCell id="57jWBeFHBhkDvzAPvay--758" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="57jWBeFHBhkDvzAPvay--33" target="57jWBeFHBhkDvzAPvay--4" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="290" y="117" />
-              <mxPoint x="290" y="28" />
+              <mxPoint x="310" y="117" />
+              <mxPoint x="310" y="27" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="57jWBeFHBhkDvzAPvay--33" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;.github&lt;/font&gt;&lt;div style=&quot;font-size: 5px;&quot;&gt;&lt;font style=&quot;font-size: 5px;&quot;&gt;Directory containing Git version control metadata.&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;gradientColor=#97d077;strokeColor=#82b366;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+        <mxCell id="57jWBeFHBhkDvzAPvay--33" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;.github&lt;br&gt;&lt;/font&gt;&lt;div&gt;&lt;div style=&quot;font-size: 5px;&quot;&gt;&lt;font style=&quot;font-size: 5px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 5px;&quot;&gt;&lt;font style=&quot;font-size: 5px;&quot;&gt;Directory with Git CI/CD pipeline configuration&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;gradientColor=#97d077;strokeColor=#82b366;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="190" y="101.5" width="110" height="30" as="geometry" />
         </mxCell>
         <mxCell id="57jWBeFHBhkDvzAPvay--37" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;.&lt;font style=&quot;font-size: 6px;&quot;&gt;dockerignore&lt;/font&gt;&lt;/font&gt;&lt;div style=&quot;font-size: 6px;&quot;&gt;&lt;font style=&quot;font-size: 6px;&quot;&gt;&lt;font style=&quot;font-size: 5px;&quot;&gt;Specifies files to be excluded from the Docker build context&lt;br&gt;&lt;/font&gt;&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;gradientColor=#97d077;strokeColor=#82b366;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
@@ -225,7 +241,7 @@
         <mxCell id="57jWBeFHBhkDvzAPvay--546" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="57jWBeFHBhkDvzAPvay--45" target="57jWBeFHBhkDvzAPvay--56" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="57jWBeFHBhkDvzAPvay--45" target="Cc0DHpnn1HFMdUvL79Tt-2">
+        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="57jWBeFHBhkDvzAPvay--45" target="Cc0DHpnn1HFMdUvL79Tt-2" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="57jWBeFHBhkDvzAPvay--45" value="&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 6px;&quot;&gt;backend&lt;/font&gt;&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 5px;&quot;&gt;Directory containing the backend source code&lt;/font&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;gradientColor=#97d077;strokeColor=#82b366;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
@@ -949,7 +965,7 @@
         <mxCell id="57jWBeFHBhkDvzAPvay--651" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="57jWBeFHBhkDvzAPvay--281" target="57jWBeFHBhkDvzAPvay--285" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="57jWBeFHBhkDvzAPvay--281" target="Cc0DHpnn1HFMdUvL79Tt-4">
+        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="57jWBeFHBhkDvzAPvay--281" target="Cc0DHpnn1HFMdUvL79Tt-4" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="57jWBeFHBhkDvzAPvay--281" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;frontend&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 5px;&quot;&gt;Directory containing the frontend source code&lt;/font&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;gradientColor=#97d077;strokeColor=#82b366;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
@@ -1326,7 +1342,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="57jWBeFHBhkDvzAPvay--375" target="Cc0DHpnn1HFMdUvL79Tt-6">
+        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="57jWBeFHBhkDvzAPvay--375" target="Cc0DHpnn1HFMdUvL79Tt-6" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="830" y="1212" />
@@ -1981,10 +1997,10 @@
         <mxCell id="57jWBeFHBhkDvzAPvay--783" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="57jWBeFHBhkDvzAPvay--766" target="57jWBeFHBhkDvzAPvay--778" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="57jWBeFHBhkDvzAPvay--766" target="Cc0DHpnn1HFMdUvL79Tt-8">
+        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="57jWBeFHBhkDvzAPvay--766" target="Cc0DHpnn1HFMdUvL79Tt-8" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="57jWBeFHBhkDvzAPvay--766" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;AIModelTraining&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 5px;&quot;&gt;Directory containing the backend source code&lt;/font&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;gradientColor=#97d077;strokeColor=#82b366;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+        <mxCell id="57jWBeFHBhkDvzAPvay--766" value="&lt;div&gt;&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 6px;&quot;&gt;AI-Models&lt;/font&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 5px;&quot;&gt;Directory containing the backend source code&lt;/font&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;gradientColor=#97d077;strokeColor=#82b366;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="190" y="1930" width="110" height="30" as="geometry" />
         </mxCell>
         <mxCell id="57jWBeFHBhkDvzAPvay--770" value="&lt;font style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 6px;&quot;&gt;data&lt;/span&gt;&lt;br&gt;&lt;font style=&quot;font-size: 5px;&quot;&gt;Directory for unsorted training datasets&lt;/font&gt;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;gradientColor=#7ea6e0;strokeColor=#6c8ebf;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
@@ -2105,23 +2121,55 @@
         <mxCell id="57jWBeFHBhkDvzAPvay--806" value="&lt;p style=&quot;line-height: 120%;&quot;&gt;&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 5.5px;&quot;&gt;contracts_dataset_testing.json&lt;/font&gt;&lt;br&gt;&lt;/font&gt;&lt;/font&gt;&lt;span style=&quot;font-size: 5px;&quot;&gt;Sorted validation dataset&lt;/span&gt;&lt;br&gt;&lt;/p&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffcd28;gradientColor=#ffa500;strokeColor=#d79b00;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="530" y="2130" width="110" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-0" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;README.md&lt;/font&gt;&lt;div&gt;&lt;span style=&quot;font-size: 5px; background-color: initial;&quot;&gt;Markdown file with an overview of the directory&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;gradientColor=#7ea6e0;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-0" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;README.md&lt;/font&gt;&lt;div&gt;&lt;span style=&quot;font-size: 5px; background-color: initial;&quot;&gt;Markdown file with an overview of the directory&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;gradientColor=#7ea6e0;strokeColor=#6c8ebf;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="360" y="172.5" width="110" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-2" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;README.md&lt;/font&gt;&lt;div&gt;&lt;span style=&quot;font-size: 5px; background-color: initial;&quot;&gt;Markdown file with an overview of the directory&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;gradientColor=#7ea6e0;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-2" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;README.md&lt;/font&gt;&lt;div&gt;&lt;span style=&quot;font-size: 5px; background-color: initial;&quot;&gt;Markdown file with an overview of the directory&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;gradientColor=#7ea6e0;strokeColor=#6c8ebf;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="360" y="878.75" width="110" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-4" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;README.md&lt;/font&gt;&lt;div&gt;&lt;span style=&quot;font-size: 5px; background-color: initial;&quot;&gt;Markdown file with an overview of the directory&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;gradientColor=#7ea6e0;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-4" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;README.md&lt;/font&gt;&lt;div&gt;&lt;span style=&quot;font-size: 5px; background-color: initial;&quot;&gt;Markdown file with an overview of the directory&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;gradientColor=#7ea6e0;strokeColor=#6c8ebf;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="360" y="1670" width="110" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-6" value="&lt;font style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 6px;&quot;&gt;AboutUsScreen.js&lt;/span&gt;&lt;br&gt;&lt;font style=&quot;font-size: 5px;&quot;&gt;Screen that tells users more about the app&lt;/font&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;gradientColor=#ffd966;strokeColor=#d6b656;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-6" value="&lt;font style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 6px;&quot;&gt;AboutUsScreen.js&lt;/span&gt;&lt;br&gt;&lt;font style=&quot;font-size: 5px;&quot;&gt;Screen that tells users more about the app&lt;/font&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;gradientColor=#ffd966;strokeColor=#d6b656;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="870" y="930" width="110" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-8" value="&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;font style=&quot;font-size: 6px;&quot;&gt;README.md&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 5px;&quot;&gt;Markdown file with an overview of the directory&lt;/span&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;gradientColor=#7ea6e0;strokeColor=#6c8ebf;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-8" value="&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;font style=&quot;font-size: 6px;&quot;&gt;README.md&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 5px;&quot;&gt;Markdown file with an overview of the directory&lt;/span&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;gradientColor=#7ea6e0;strokeColor=#6c8ebf;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="360" y="2140" width="110" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-11" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;.env&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 5px;&quot;&gt;Environmental var. storing expo token for CD&lt;/font&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;gradientColor=#97d077;strokeColor=#82b366;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="Cc0DHpnn1HFMdUvL79Tt-11" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;.env&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 5px;&quot;&gt;Environmental var. storing expo token for CD&lt;/font&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;gradientColor=#97d077;strokeColor=#82b366;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="190" y="1387.5" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="VAyY-wMOWxS_2Sd0mxQ1-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="VAyY-wMOWxS_2Sd0mxQ1-0" target="VAyY-wMOWxS_2Sd0mxQ1-4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="2315" />
+              <mxPoint x="400" y="2330" />
+              <mxPoint x="680" y="2330" />
+              <mxPoint x="680" y="2225" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VAyY-wMOWxS_2Sd0mxQ1-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="VAyY-wMOWxS_2Sd0mxQ1-0" target="VAyY-wMOWxS_2Sd0mxQ1-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="2315" />
+              <mxPoint x="400" y="2330" />
+              <mxPoint x="680" y="2330" />
+              <mxPoint x="680" y="2265" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="VAyY-wMOWxS_2Sd0mxQ1-0" value="&lt;div&gt;&lt;span style=&quot;background-color: initial; font-size: 6px;&quot;&gt;usage-files&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;font-size: 5px; background-color: initial;&quot;&gt;Directory containing&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-size: 5px; background-color: initial;&quot;&gt;AI model&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial; font-size: 5px;&quot;&gt;input files&amp;nbsp;&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;gradientColor=#97d077;strokeColor=#82b366;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="190" y="2300" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="VAyY-wMOWxS_2Sd0mxQ1-3" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;legal employment contract 2.txt&lt;br&gt;&lt;/font&gt;&lt;div style=&quot;&quot;&gt;&lt;font style=&quot;font-size: 5px;&quot;&gt;File that can be used as input for the AI model&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffcd28;gradientColor=#ffa500;strokeColor=#d79b00;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="700" y="2250" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="VAyY-wMOWxS_2Sd0mxQ1-4" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;legal employment contract 1.txt&lt;/font&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;font style=&quot;font-size: 5px;&quot;&gt;File that can be used as input for the AI model&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffcd28;gradientColor=#ffa500;strokeColor=#d79b00;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="700" y="2210" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="VAyY-wMOWxS_2Sd0mxQ1-8" value="&lt;font style=&quot;font-size: 6px;&quot;&gt;.git&lt;br&gt;&lt;/font&gt;&lt;div&gt;&lt;div style=&quot;font-size: 5px;&quot;&gt;&lt;font style=&quot;font-size: 5px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 5px;&quot;&gt;&lt;font style=&quot;font-size: 5px;&quot;&gt;Directory with Git version control metadata&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;gradientColor=#97d077;strokeColor=#82b366;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="190" y="62.5" width="110" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
